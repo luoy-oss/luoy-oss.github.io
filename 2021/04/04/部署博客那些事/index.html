@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>部署博客那些事 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="为了把班里的截图导到网站上，就用gitee搞个非公开的博客，用的hexo。  在一开始没啥问题，但是在部署的时候遇到 ERROR Deployer not found: git  的错误经过调查之后 才知道 需要运行下这个指令才行  npm install hexo-deployer-git --save 然后就可以部署了 1hexo cl &amp;&amp; hexo g &amp;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="部署博客那些事">
+<meta property="og:url" content="https://luoy-oss.github.io/2021/04/04/%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="为了把班里的截图导到网站上，就用gitee搞个非公开的博客，用的hexo。  在一开始没啥问题，但是在部署的时候遇到 ERROR Deployer not found: git  的错误经过调查之后 才知道 需要运行下这个指令才行  npm install hexo-deployer-git --save 然后就可以部署了 1hexo cl &amp;&amp; hexo g &amp;&amp;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-03T23:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-04T00:21:48.529Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="杂谈">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://luoy-oss.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-部署博客那些事" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/04/04/%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E9%82%A3%E4%BA%9B%E4%BA%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-04-03T23:00:00.000Z" itemprop="datePublished">2021-04-04 07时00分00秒</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      部署博客那些事
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>为了把班里的截图导到网站上，就用gitee搞个非公开的博客，用的hexo。</p>
+<hr>
+<h4 id="在一开始没啥问题，但是在部署的时候遇到-ERROR-Deployer-not-found-git-的错误"><a href="#在一开始没啥问题，但是在部署的时候遇到-ERROR-Deployer-not-found-git-的错误" class="headerlink" title="在一开始没啥问题，但是在部署的时候遇到 ERROR Deployer not found: git  的错误"></a>在一开始没啥问题，但是在部署的时候遇到 ERROR Deployer not found: git  的错误</h4><p>经过调查之后 才知道 需要运行下这个指令才行 </p>
+<p><code>npm install hexo-deployer-git --save</code></p>
+<p>然后就可以部署了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="访问但无法加载css文件"><a href="#访问但无法加载css文件" class="headerlink" title="访问但无法加载css文件"></a>访问但无法加载css文件</h4><p>再次研究，发现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url: https://drluo.gitee.io/grade2019class22/</span><br><span class="line">root: /</span><br></pre></td></tr></table></figure>
+
+<p><code>root: /</code>   后面应该加上<code>grade2019class22/</code></p>
+<p>即：<code>root: /grade2019class22/</code></p>
+<p>修改后，恢复正常。</p>
+<hr>
+<h4 id="访问但是无法加载文章图片"><a href="#访问但是无法加载文章图片" class="headerlink" title="访问但是无法加载文章图片"></a>访问但是无法加载文章图片</h4><p>这里我不怎么想改了，F12查看图片获取路径为<br><code>https://drluo.gitee.io/images/cover/Dailysummary.png</code><br>这波我直接选择在图片路径前加上<code>/grade2019class22</code><br>顺便把所用theme的<code>_config.yml</code>中的<code>favicon</code>也改为了<br><code>favicon: /grade2019class22/favicon.ico</code></p>
+<hr>
+<h5 id="获取dplayer插件"><a href="#获取dplayer插件" class="headerlink" title="获取dplayer插件"></a>获取dplayer插件</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install dplayer --save</span><br></pre></td></tr></table></figure>
+
+<h5 id="取waterfall插件"><a href="#取waterfall插件" class="headerlink" title="取waterfall插件"></a>取waterfall插件</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install waterfall --save</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://luoy-oss.github.io/2021/04/04/%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E9%82%A3%E4%BA%9B%E4%BA%8B/" data-id="cl273tgdn0008iktkemplbbsj" data-title="部署博客那些事" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/09/19/CSP-S%202021%E6%B8%B8%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CSP-S 2021游记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/04/NOIonline/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">NOIonline</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E8%AF%B4/">小说</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/C-%E9%80%92%E5%BD%92/" rel="tag">C++ 递归</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%B8%E7%88%B6%E8%AE%A1%E5%88%92/" rel="tag">夸父计划</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82%E8%B0%88/" rel="tag">杂谈</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/C-%E9%80%92%E5%BD%92/" style="font-size: 10px;">C++ 递归</a> <a href="/tags/%E5%A4%B8%E7%88%B6%E8%AE%A1%E5%88%92/" style="font-size: 10px;">夸父计划</a> <a href="/tags/%E6%9D%82%E8%B0%88/" style="font-size: 10px;">杂谈</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/04/20/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/27/%E7%99%BE%E5%A4%A9%E5%86%B2%E9%B8%AD%EF%BC%81/">百天冲鸭！</a>
+          </li>
+        
+          <li>
+            <a href="/2022/01/12/%E5%A4%B8%E7%88%B6%E8%AE%A1%E5%88%92--%E6%BA%90%E7%A9%BA%E9%97%B4/">夸父计划--源空间</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/%E9%80%92%E5%BD%92-%E6%9C%80%E9%95%BF%E4%B8%A5%E6%A0%BC%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97/">递归-最长严格递增子序列</a>
+          </li>
+        
+          <li>
+            <a href="/2021/09/19/CSP-S%202021%E6%B8%B8%E8%AE%B0/">CSP-S 2021游记</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
