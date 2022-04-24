@@ -22,7 +22,7 @@
 
   
 
-  <title>部署博客那些事 | 洛屿SAMA</title>
+  <title>杂谈 | 洛屿SAMA</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/img/cover/City.jpg)"></div>
+    <div class="post-image" style="background-image: url(/img/page/杂谈.png)"></div>
   
 
   <!-- navbar -->
@@ -96,18 +96,16 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">部署博客那些事</h1>
+          <h1 class="title-wrap">杂谈</h1>
           <h2 class="title-sub-wrap">
             <strong>drluo</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-04-03T23:00:00.000Z" itemprop="datePublished">2021-04-04 07时00分00秒</time>
+            <time  class="article-date" datetime="2022-02-27T14:42:00.000Z" itemprop="datePublished">2022-02-27 22时42分00秒</time>
           </h2>
           <ul class="wrap-list dark">
   
 </ul>
           <ul class="wrap-list dark">
-  
-    <li><a href="/tags/%E6%9D%82%E8%B0%88/">🏷️ 杂谈</a></li>
   
 </ul>
         </div>
@@ -131,30 +129,14 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>为了把班里的截图导到网站上，就用gitee搞个非公开的博客，用的hexo。</p>
-<hr>
-<h4 id="在一开始没啥问题，但是在部署的时候遇到-ERROR-Deployer-not-found-git-的错误"><a href="#在一开始没啥问题，但是在部署的时候遇到-ERROR-Deployer-not-found-git-的错误" class="headerlink" title="在一开始没啥问题，但是在部署的时候遇到 ERROR Deployer not found: git  的错误"></a>在一开始没啥问题，但是在部署的时候遇到 ERROR Deployer not found: git  的错误</h4><p>经过调查之后 才知道 需要运行下这个指令才行 </p>
-<p><code>npm install hexo-deployer-git --save</code></p>
-<p>然后就可以部署了</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo cl &amp;&amp; hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h4 id="访问但无法加载css文件"><a href="#访问但无法加载css文件" class="headerlink" title="访问但无法加载css文件"></a>访问但无法加载css文件</h4><p>再次研究，发现</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url: https://drluo.gitee.io/grade2019class22/</span><br><span class="line">root: /</span><br></pre></td></tr></table></figure>
-
-<p><code>root: /</code>   后面应该加上<code>grade2019class22/</code></p>
-<p>即：<code>root: /grade2019class22/</code></p>
-<p>修改后，恢复正常。</p>
-<hr>
-<h4 id="访问但是无法加载文章图片"><a href="#访问但是无法加载文章图片" class="headerlink" title="访问但是无法加载文章图片"></a>访问但是无法加载文章图片</h4><p>这里我不怎么想改了，F12查看图片获取路径为<br><code>https://drluo.gitee.io/images/cover/Dailysummary.png</code><br>这波我直接选择在图片路径前加上<code>/grade2019class22</code><br>顺便把所用theme的<code>_config.yml</code>中的<code>favicon</code>也改为了<br><code>favicon: /grade2019class22/favicon.ico</code></p>
-<hr>
-<h5 id="获取dplayer插件"><a href="#获取dplayer插件" class="headerlink" title="获取dplayer插件"></a>获取dplayer插件</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install dplayer --save</span><br></pre></td></tr></table></figure>
-
-<h5 id="取waterfall插件"><a href="#取waterfall插件" class="headerlink" title="取waterfall插件"></a>取waterfall插件</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install waterfall --save</span><br></pre></td></tr></table></figure>
-
-
-
-
+        <h1 id="开始于2022年4月24日"><a href="#开始于2022年4月24日" class="headerlink" title="开始于2022年4月24日"></a>开始于2022年4月24日</h1><blockquote>
+<p>2022年4月24日，一个比较特殊的日子</p>
+</blockquote>
+<p>虽然走读生可以选择早晚走读，中午在教室里睡。</p>
+<p>但是我被老妈的话语说服了，诚然，走读是我希望的，但是当下疫情特殊时期，难说有人会瞒着县里偷偷从疫情高风险地区返回</p>
+<p>所以，我选择了继续住校。</p>
+<p>距离2022年高考还有42天，其实住校对我来说没什么不妥，也没什么反感，本身想回家，就是盼着能<img src="/img/eomji/%E5%93%8E%E5%98%BF.jpg" alt="哎嘿"></p>
+<p>总之，剩下的42天，加油！</p>
 
       </section>
 
@@ -162,32 +144,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="http://www.dmoe.cc/random.php"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2021/09/19/CSP-S%202021%E6%B8%B8%E8%AE%B0/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">CSP-S 2021游记</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="http://www.dmoe.cc/random.php"></div>
+      <div class="card-cover" background-image-lazy data-img="/img/cover/高考冲鸭！.png"></div>
     
     <div class="card-text">
       
-        <a href="/2021/04/04/NOIonline/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">NOIonline</h2>
+        <a href="/2022/02/27/%E7%99%BE%E5%A4%A9%E5%86%B2%E9%B8%AD%EF%BC%81/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">百天冲鸭！</h2>
         </a>
       
       <div class="card-text--row">Older</div>
