@@ -22,7 +22,7 @@
 
   
 
-  <title>Hello World | 洛屿的小站</title>
+  <title>模拟与高精度 | 洛屿的小站</title>
 
   
 
@@ -45,7 +45,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/img/cover/HelloWorld.jpg)"></div>
+    <div class="post-image" style="background-image: url(/img/cover/七七.jpg)"></div>
   
 
   <!-- navbar -->
@@ -96,16 +96,18 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Hello World</h1>
+          <h1 class="title-wrap">模拟与高精度</h1>
           <h2 class="title-sub-wrap">
             <strong>drluo</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-04-03T14:02:02.000Z" itemprop="datePublished">2021-04-03 22时02分02秒</time>
+            <time  class="article-date" datetime="2022-10-24T04:59:23.000Z" itemprop="datePublished">2022-10-24 12时59分23秒</time>
           </h2>
           <ul class="wrap-list dark">
   
 </ul>
           <ul class="wrap-list dark">
+  
+    <li><a href="/tags/%E6%B4%9B%E8%B0%B7/">🏷️ 洛谷</a></li>
   
 </ul>
         </div>
@@ -129,19 +131,87 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <h2 id="P1042-NOIP2003-普及组-乒乓球"><a href="#P1042-NOIP2003-普及组-乒乓球" class="headerlink" title="P1042 [NOIP2003 普及组] 乒乓球"></a>P1042 [NOIP2003 普及组] 乒乓球</h2><h3 id="题目背景"><a href="#题目背景" class="headerlink" title="题目背景"></a>题目背景</h3><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>华华通过以下方式进行分析，首先将比赛每个球的胜负列成一张表，然后分别计算在 11分制和 21 分制下，双方的比赛结果（截至记录末尾）。</p>
+<p>比如现在有这么一份记录，（其中 W 表示华华获得一分， L表示华华对手获得一分）：</p>
+<blockquote>
+<p> WWWWWWWWWWWWWWWWWWWWWWLW</p>
+</blockquote>
+<p>在 11分制下，此时比赛的结果是华华第一局 11比 0 获胜，第二局 11比 0 获胜，正在进行第三局，当前比分 1 比 1。而在 21 分制下，此时比赛结果是华华第一局 21 比 0 获胜，正在进行第二局，比分 2 比 1。如果一局比赛刚开始，则此时比分为 0 比 0。</p>
+<p>到达11分（21分）后，分差大于或者等于 2，才一局结束。</p>
+<p>你的程序就是要对于一系列比赛信息的输入（W L 形式），输出正确的结果。</p>
+<h3 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h3><p>每个输入文件包含若干行字符串，字符串有大写的  W 、  L 和  E 组成。其中  E 表示比赛信息结束，程序应该忽略  E 之后的所有内容。</p>
+<h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>输出由两部分组成，每部分有若干行，每一行对应一局比赛的比分（按比赛信息输入顺序）。其中第一部分是 11分制下的结果，第二部分是 21 分制下的结果，两部分之间由一个空行分隔。</p>
+<h3 id="样例-1"><a href="#样例-1" class="headerlink" title="样例 #1"></a>样例 #1</h3><h4 id="样例输入-1"><a href="#样例输入-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WWWWWWWWWWWWWWWWWWWW</span><br><span class="line">WWLWE</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h4 id="样例输出-1"><a href="#样例输出-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">11:0</span><br><span class="line">11:0</span><br><span class="line">1:1</span><br><span class="line"></span><br><span class="line">21:0</span><br><span class="line">2:1</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h3 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h3><p>每行至多 25 个字母，最多有 2500 行。</p>
+<p>（注：事实上有一个测试点有 2501 行数据。）</p>
+<details>
+    <summary><font color=FFAC68>展开查看代码</font></summary>
+<pre><code>
+#include <iostream>
+#include <string>
+using namespace std;
+<br>
+int _abs(int x) &#123;
+    return x > 0 ? x : -x;
+&#125;
+<br>
+void score(int fdif,string& str) &#123;
+    int W = 0, L = 0;//W 华华  L对手
+    bool wait2 = false;//21:20时等候2分分差
+    for (int i = 0; i < str.size() - 1; i++) &#123;
+        if (str[i] == 'W')W++;
+        if (str[i] == 'L')L++;
+        <br>
+        if (W == fdif - 1 && L == fdif - 1)wait2 = true;
+        <br>
+        if (!wait2) &#123;
+            if (W == fdif) &#123;
+                cout << W << ":" << L << endl;
+                W = L = 0;
+            &#125;
+            else if (L == fdif) &#123;
+                cout << W << ":" << L << endl;
+                W = L = 0;
+            &#125;
+        &#125;
+        else &#123;
+            //等候两分分差
+            if (_abs(W - L) == 2) &#123;
+                cout << W << ":" << L << endl;
+                W = L = wait2 = 0;
+            &#125;
+        &#125;
+        <br>
+    &#125;
+    cout << W << ":" << L;
+&#125;
+<br>
+int main() &#123;
+    string str = "";
+    char temp;
+    <br>
+    do &#123;
+        cin >> temp;
+        str += temp;
+    &#125; while (temp != 'E');
+    if (str == "E") &#123;
+        cout << "0:0\n\n0:0";
+        goto end;
+    &#125;
+    score(11,str);
+    cout << endl << endl;
+    score(21,str);
+    <br>
+end:;
+    <br>
+    return 0;
+&#125;
+</code></pre>
+</details>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 
       </section>
 
@@ -149,22 +219,22 @@
       
         <nav class="article-nav">
           
+          
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/img/cover/NOIOnline.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="/img/cover/e.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2021/04/04/NOIonline/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">NOIonline</h2>
+        <a href="/2022/08/02/%E6%98%93%E8%AF%AD%E8%A8%80json%E6%93%8D%E4%BD%9C/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">易语言json操作</h2>
         </a>
       
-      <div class="card-text--row">Newer</div>
+      <div class="card-text--row">Older</div>
     </div>
   </article>
 </div>
-          
           
         </nav>
       
