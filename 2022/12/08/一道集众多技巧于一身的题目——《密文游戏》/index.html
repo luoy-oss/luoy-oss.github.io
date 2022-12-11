@@ -160,15 +160,24 @@
 <h3 id="样例说明"><a href="#样例说明" class="headerlink" title="样例说明"></a>样例说明</h3><p>样例中3种补全方案如下。（）中代表所补的密文。<br>BE(BE)</p>
 <p>B(EB)E</p>
 <p>(BE)BE</p>
-<blockquote>
-<p>代码长度限制		 16 KB</p>
-<p>时间限制				1000 ms</p>
-<p>内存限制				2 MB</p>
-</blockquote>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>在将源码转成译码之后，本题就是一道方案统计的问题。</p>
+<table>
+<thead>
+<tr>
+<th>代码长度限制</th>
+<th>时间限制</th>
+<th>内存限制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>16KB</td>
+<td>1000ms</td>
+<td>2MB</td>
+</tr>
+</tbody></table>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>可以看出，本题就是一道方案统计的问题。</p>
 <p>一般来说，方案统计的问题也需要借助状态之间的转移，所以我们也总是将这种<strong>方案统计的问题</strong>与<strong>动态规划问题</strong>统称为<strong>DP</strong>，尽管这类问题不涉及最优解。</p>
 <p>所以，这个问题我们依旧可以使用之前用来解决动态规划问题的思想，在状态转移的过程中完成对结果方案的统计，即：<strong>定状态，找转移，初始化</strong></p>
-<p>定状态<br>对于这个问题，我们可以定义状态：<br>$$<br>dp[i]<a href="j%E2%89%A4i,0%E2%89%A4i%E2%89%A4n,0%E2%89%A4j%E2%89%A4m">j</a>\<br>n&#x3D;len(A)\<br>m&#x3D;len(B)<br>$$<br>表示$a_1 a_2…a_i与b_1 b_2 … b_j补全匹配的方案数$</p>
+<h3 id="定状态"><a href="#定状态" class="headerlink" title="定状态"></a>定状态</h3><p>对于这个问题，我们可以定义状态：<br>$$<br>dp[i]<a href="j%E2%89%A4i,0%E2%89%A4i%E2%89%A4n,0%E2%89%A4j%E2%89%A4m">j</a>\<br>n&#x3D;len(A)\<br>m&#x3D;len(B)<br>$$<br>表示$a_1…a_i与b_1… b_j补全匹配的方案数$</p>
 <h3 id="找转移"><a href="#找转移" class="headerlink" title="找转移"></a>找转移</h3><p>定义好了状态，来处理状态间的转移。</p>
 <p>可以分成两种情况：<br>$$<br>dp[i][j]&#x3D;\left{<br>\begin{matrix}<br> dp[i−1][j]　　　　　　　　　　　a_i \not&#x3D; b_j<br> \<br> dp[i−1][j−1]+dp[i−1][j] 　　　　　a_i &#x3D; b_j　　　<br>\end{matrix}<br>\right.<br>$$<br>转换成代码即为：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//遍历从1开始，0的部分交给初始化</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>;i &lt;= n;i++)&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>;j &lt;= m;j++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(a[i] != b[j])&#123;</span><br><span class="line">			dp[i][j] = dp[i - <span class="number">1</span>][j];</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			dp[i][j] = dp[i - <span class="number">1</span>][j] + dp[i - <span class="number">1</span>][j - <span class="number">1</span>];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -213,9 +222,9 @@
 <h3 id="滚动数组优化"><a href="#滚动数组优化" class="headerlink" title="滚动数组优化"></a>滚动数组优化</h3><p>让我们将目光聚焦到占据最大空间的dp数组上，再次观察一下转移方程式：<br>$$<br>dp[i][j]&#x3D;\left{<br>\begin{matrix}<br> dp[i−1][j]　　　　　　　　　　　a_i \not&#x3D; b_j<br> \<br> dp[i−1][j−1]+dp[i−1][j] 　　　　　a_i &#x3D; b_j　　　<br>\end{matrix}<br>\right.<br>$$<br>经过观察，可以发现，在转移的过程中，本行的数据仅由前一行的数据转移而来！。</p>
 <p>也就是说，如果我们想要的答案在最后一行，那么：仅需要保留正在计算的一行和前一行的数据！</p>
 <p>因此这个结论，对于空间优化就存在巨大利好，可以知道：dp数组仅需要开2行</p>
-<p>这样以来，我们就将空间复杂度从O ( n 2 ) O(n^2)O(n<br>2<br> )降到了O ( n ) O(n)O(n)了，肯定可以满足题目的空间需求。</p>
+<p>这样以来，我们就将空间复杂度从$ O(n^2)$降到了$ O(n)$了，肯定可以满足题目的空间需求。</p>
 <p>接下来的问题就是：如何使用这两行数组呢？</p>
-<p>一个可行方法是每次在第1行计算完值后，将这行值复制到第0行，循环往复。。。</p>
+<p>一个可行方法是每次在第1行计算完值后，将这行值复制到第0行，循环往复。</p>
 <p>但是还有一种思路是交替使用两行，每次使用完不需要复制，下次切换到另一行进行求解。</p>
 <p>实现也非常简单，可以根据奇偶判断当前使用哪一行</p>
 <ul>
@@ -247,12 +256,40 @@
 </li>
 </ul>
 <p>好的，让我们来动手实现一下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">BigInteger</span>&#123;</span><br><span class="line">	<span class="type">int</span> num[<span class="number">300</span>];<span class="comment">//10进制下各位的值（倒序存放，便于进位）</span></span><br><span class="line">	<span class="type">int</span> len;	<span class="comment">//数字长度</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">BigInteger</span>()&#123;<span class="comment">//长度置零，内容置零 </span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">auto</span>&amp; i:num) i = <span class="number">0</span>;</span><br><span class="line">		len = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> &amp; <span class="keyword">operator</span>[] (<span class="type">int</span> idx)&#123;<span class="comment">//重载[]，便于区取数 </span></span><br><span class="line">		<span class="keyword">return</span> num[idx];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	BigInteger <span class="keyword">operator</span>+(BigInteger &amp; o)&#123;</span><br><span class="line">		BigInteger ans;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//两个序列叠加 </span></span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i &lt; len;i++)&#123;</span><br><span class="line">			ans[i] = num[i];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i &lt; o.len;i++)&#123;</span><br><span class="line">			ans[i] += o[i];</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//整理答案进位 </span></span><br><span class="line">		ans.len = <span class="built_in">max</span>(o.len,len);</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i &lt; ans.len;i++)&#123;</span><br><span class="line">			ans[i + <span class="number">1</span>] += ans[i] / <span class="number">10</span>;</span><br><span class="line">			ans[i] %= <span class="number">10</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//整理最高位进位 </span></span><br><span class="line">		<span class="keyword">if</span>(ans[ans.len])&#123;</span><br><span class="line">			ans.len++;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125; </span><br><span class="line">	</span><br><span class="line">	BigInteger &amp;<span class="keyword">operator</span>=(<span class="type">int</span> k)&#123;</span><br><span class="line">		<span class="comment">//倒序拆开赋值 </span></span><br><span class="line">		len = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">while</span>(k)&#123;</span><br><span class="line">			num[len++] = k % <span class="number">10</span>;</span><br><span class="line">			k /= <span class="number">10</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;<span class="comment">//倒序打印 </span></span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = len - <span class="number">1</span>;i &gt;= <span class="number">0</span>;i--)&#123;</span><br><span class="line">			cout &lt;&lt; num[i];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="高精度压位"><a href="#高精度压位" class="headerlink" title="高精度压位"></a>高精度压位</h3><p>虽然我们使用高精度模拟大数加减解决了精度问题。但是到了上一步还是不能保证题目能够完美通过。</p>
+<p>从时间上说，每次大数运算最长可能达到了数百位的运算，这个常数非常大，在$O(n^2)$的算法复杂度下很有可能超时。</p>
+<p>从空间上说，每个dp数组元素都有长达500的高精度数位，其实相当于开了一个2000*500的数组，非常有可能爆空间。</p>
+<p>所以我们还要进一步优化（相信我铁汁，这是最后一次！！）</p>
+<p>考虑到int能表示的数据范围非常大，而只用它来表示0-9确实有很大浪费。所以我们可以采取<strong>高精度压位</strong>的操作。</p>
+<p>简单来说，就是让高精度数列中的一位表示更多的位数。一位可以表示<code>0-9</code>，也可以表示<code>0-99</code>，也可以表示<code>0-999</code>。区别仅仅是进位时<code>%10</code>，<code>%100</code>，<code>%1000</code>。于是可以将10换成一个基底变量<code>BASE</code>，这个变量是10的幂，几次幂就是表示了几位。</p>
+<p>那么这个<code>BASE</code>选多少合适呢？在int下，最大可以选<code>1000000000</code>（10^9）。因为int最大上限为<code>2.1 * 10 ^ 9</code>。所以选择<code>10 ^ 9 </code>刚好可以保证两个数位相加不会溢出！</p>
+<p>对于实现，简单修改下之前的代码即可：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">BigInteger</span>&#123;</span><br><span class="line">	<span class="type">static</span> <span class="type">const</span> <span class="type">int</span> BASE = <span class="number">1000000000</span>;<span class="comment">//基底</span></span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> num[<span class="number">80</span>];<span class="comment">//1位表示9位了，80位可以表示720位数</span></span><br><span class="line">	<span class="type">int</span> len;	<span class="comment">//数字长度</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">BigInteger</span>() &#123;<span class="comment">//默认构造函数，长度置零，内容置零 </span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span>&amp; i:num) i = <span class="number">0</span>;</span><br><span class="line">		len = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> &amp; <span class="keyword">operator</span>[] (<span class="type">int</span> idx) &#123;<span class="comment">//重载[]，便于区取数 </span></span><br><span class="line">		<span class="keyword">return</span> num[idx];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	BigInteger <span class="keyword">operator</span>+(BigInteger &amp; o) &#123;</span><br><span class="line">		BigInteger ans;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//两个序列叠加 </span></span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i &lt; len;i++) &#123;</span><br><span class="line">			ans[i] = num[i];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i &lt; o.len;i++) &#123;</span><br><span class="line">			ans[i] += o[i];</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//整理答案进位 </span></span><br><span class="line">		ans.len = <span class="built_in">max</span>(o.len,len);</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i &lt; ans.len;i++) &#123;</span><br><span class="line">			ans[i + <span class="number">1</span>] += ans[i] / BASE ;</span><br><span class="line">			ans[i] %= BASE ;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//整理最高位进位 </span></span><br><span class="line">		<span class="keyword">if</span>(ans[ans.len]) &#123;</span><br><span class="line">			ans.len++;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> ans;</span><br><span class="line">	&#125; </span><br><span class="line">	</span><br><span class="line">	BigInteger &amp;<span class="keyword">operator</span>=(<span class="type">int</span> k) &#123;</span><br><span class="line">		<span class="comment">//倒序拆开赋值 </span></span><br><span class="line">		len = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">while</span>(k)&#123;</span><br><span class="line">			num[len++] = k % BASE ;</span><br><span class="line">			k /= BASE ;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="type">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;<span class="comment">//倒序打印 </span></span><br><span class="line">		<span class="comment">//第一位直接输出，后续位需要补0够9位</span></span><br><span class="line">        cout &lt;&lt; num[len<span class="number">-1</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> i = len - <span class="number">2</span>;i &gt;= <span class="number">0</span>;i--) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="built_in">setw</span>(<span class="number">9</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; num[i]; <span class="comment">// #include &lt;iomanip&gt;</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       </section>
 
       
       
         <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="/img/cover/七七.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/12/08/C++%20%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%EF%BC%88%E5%89%8D%E7%BD%AE%E8%A1%A50%EF%BC%8C%E6%9C%89%E6%95%88%E4%BD%8D%E6%95%B0%EF%BC%8C%E4%BF%9D%E7%95%99%E5%B0%8F%E6%95%B0%EF%BC%89/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">C++ 格式化输出（前置补0，有效位数，保留小数）</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
           
           
             <div class="article-nav-item layout-padding">
@@ -323,7 +360,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>13</span>
+        <span>14</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -335,7 +372,7 @@
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
 </svg>
-        11
+        12
       </div>
     </div>
   </div>
@@ -369,7 +406,7 @@
       
         <li class="categorys-list-item">
           <a href="/categories/C/">
-            C++ (3)
+            C++ (4)
           </a>
         </li>
       
@@ -416,7 +453,7 @@
   </div>
   <div class="widget-body">
     <div class="tags-cloud">
-      <a href="/tags/STL/" style="font-size: 10px;" class="tags-cloud-0">STL</a> <a href="/tags/gitee/" style="font-size: 10px;" class="tags-cloud-0">gitee</a> <a href="/tags/pta/" style="font-size: 20px;" class="tags-cloud-10">pta</a> <a href="/tags/%E4%B8%8E%E6%88%91%E6%9C%89%E5%85%B3/" style="font-size: 10px;" class="tags-cloud-0">与我有关</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 10px;" class="tags-cloud-0">优化</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;" class="tags-cloud-0">动态规划</a> <a href="/tags/%E5%9B%9E%E6%BA%AF/" style="font-size: 10px;" class="tags-cloud-0">回溯</a> <a href="/tags/%E5%A4%B8%E7%88%B6%E8%AE%A1%E5%88%92/" style="font-size: 10px;" class="tags-cloud-0">夸父计划</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 10px;" class="tags-cloud-0">洛谷</a> <a href="/tags/%E6%BB%9A%E5%8A%A8%E6%95%B0%E7%BB%84/" style="font-size: 10px;" class="tags-cloud-0">滚动数组</a> <a href="/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6/" style="font-size: 10px;" class="tags-cloud-0">高精度</a>
+      <a href="/tags/STL/" style="font-size: 10px;" class="tags-cloud-0">STL</a> <a href="/tags/gitee/" style="font-size: 10px;" class="tags-cloud-0">gitee</a> <a href="/tags/pta/" style="font-size: 20px;" class="tags-cloud-10">pta</a> <a href="/tags/%E4%B8%8E%E6%88%91%E6%9C%89%E5%85%B3/" style="font-size: 10px;" class="tags-cloud-0">与我有关</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 10px;" class="tags-cloud-0">优化</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;" class="tags-cloud-0">动态规划</a> <a href="/tags/%E5%9B%9E%E6%BA%AF/" style="font-size: 10px;" class="tags-cloud-0">回溯</a> <a href="/tags/%E5%A4%B8%E7%88%B6%E8%AE%A1%E5%88%92/" style="font-size: 10px;" class="tags-cloud-0">夸父计划</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA/" style="font-size: 10px;" class="tags-cloud-0">格式化输出</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 10px;" class="tags-cloud-0">洛谷</a> <a href="/tags/%E6%BB%9A%E5%8A%A8%E6%95%B0%E7%BB%84/" style="font-size: 10px;" class="tags-cloud-0">滚动数组</a> <a href="/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6/" style="font-size: 10px;" class="tags-cloud-0">高精度</a>
     </div>
   </div>
 </section>

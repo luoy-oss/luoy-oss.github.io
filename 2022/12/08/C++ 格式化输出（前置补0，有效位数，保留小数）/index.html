@@ -24,7 +24,7 @@
 
   
 
-  <title>C++ STL | 洛屿的小站</title>
+  <title>C++ 格式化输出（前置补0，有效位数，保留小数） | 洛屿的小站</title>
 
   
 
@@ -100,11 +100,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">C++ STL</h1>
+          <h1 class="title-wrap">C++ 格式化输出（前置补0，有效位数，保留小数）</h1>
           <h2 class="title-sub-wrap">
             <strong>drluo</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-12-08T02:58:32.000Z" itemprop="datePublished">2022-12-08 10时58分32秒</time>
+            <time  class="article-date" datetime="2022-12-08T03:53:23.000Z" itemprop="datePublished">2022-12-08 11时53分23秒</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -113,7 +113,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/STL/">🏷️ STL</a></li>
+    <li><a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA/">🏷️ 格式化输出</a></li>
   
 </ul>
         </div>
@@ -137,17 +137,51 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <blockquote>
-<p> #include  <algorithm></p>
-<p>求交集：</p>
-<p> set_intersection(first1,last1,first2,last2, result)</p>
-<p>求集合差：set_difference(first1,last1,first2,last2, result)</p>
-<p>合并两个集合：set_union(first1,last1,first2,last2, result)</p>
-</blockquote>
-<p><strong>上述所传递的容器必须是排序的</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sort</span>(vm.<span class="built_in">begin</span>(), vm.<span class="built_in">end</span>());</span><br><span class="line"><span class="built_in">sort</span>(vn.<span class="built_in">begin</span>(), vn.<span class="built_in">end</span>());</span><br><span class="line">   vector&lt;<span class="type">int</span>&gt; result;</span><br><span class="line">   <span class="built_in">set_intersection</span>(vm.<span class="built_in">begin</span>(), vm.<span class="built_in">end</span>(), vn.<span class="built_in">begin</span>(), vn.<span class="built_in">end</span>(), <span class="built_in">inserter</span>(result, result.<span class="built_in">begin</span>()));</span><br><span class="line">result.<span class="built_in">erase</span>(<span class="built_in">unique</span>(result.<span class="built_in">begin</span>(), result.<span class="built_in">end</span>()), result.<span class="built_in">end</span>());<span class="comment">//这是由于vector元素可能存在重复，需要去重</span></span><br></pre></td></tr></table></figure>
+        <h2 id="1-默认情况"><a href="#1-默认情况" class="headerlink" title="1. 默认情况"></a>1. 默认情况</h2><p>C++默认的浮点数输出</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	cout &lt;&lt; <span class="number">0.123456789</span> &lt;&lt; endl;<span class="comment">//0.123457</span></span><br><span class="line">	cout &lt;&lt; <span class="number">1.123456789</span> &lt;&lt; endl;<span class="comment">//1.12346</span></span><br><span class="line">	cout &lt;&lt; <span class="number">1.23456789</span> &lt;&lt; endl;<span class="comment">//1.2346</span></span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h3 id="set-intersection实现"><a href="#set-intersection实现" class="headerlink" title="set_intersection实现"></a>set_intersection实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> <span class="title class_">InputIterator1</span>, <span class="keyword">class</span> <span class="title class_">InputIterator2</span>, <span class="keyword">class</span> <span class="title class_">OutputIterator</span>&gt;</span><br><span class="line"><span class="function">OutputIterator <span class="title">set_intersection</span> <span class="params">(InputIterator1 first1, InputIterator1 last1,</span></span></span><br><span class="line"><span class="params"><span class="function">                                 InputIterator2 first2, InputIterator2 last2,</span></span></span><br><span class="line"><span class="params"><span class="function">                                 OutputIterator result)</span></span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (first1!=last1 &amp;&amp; first2!=last2)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> (*first1&lt;*first2) ++first1;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (*first2&lt;*first1) ++first2;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      *result = *first1;</span><br><span class="line">      ++result; ++first1; ++first2;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
+<h2 id="2-前置补0"><a href="#2-前置补0" class="headerlink" title="2. 前置补0"></a>2. 前置补0</h2><p>E.g:格式化输出时间<code>HH:mm:ss</code>。倘若时间不够10，则需要在前面补0。</p>
+<ul>
+<li><p>头文件<code>iomanip</code></p>
+</li>
+<li><p>输出控制符<code>setw</code><br> - 理解：set width设置输出宽度。</p>
+<ul>
+<li>作用范围：仅对后续的&lt;&lt;生效一次。所以输出一次用一次。</li>
+</ul>
+</li>
+<li><p>输出控制符<code>setfill</code></p>
+<ul>
+<li>理解：set fill character 设置填充的字符，不写参数的话默认是空格。</li>
+<li>作用范围：自设置之后的所有&lt;&lt;，直到下一个<code>setfill</code>才更改。所以用一次就好啦。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iomanip&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="type">int</span> hour = <span class="number">2</span>;</span><br><span class="line">	<span class="type">int</span> minute = <span class="number">33</span>;</span><br><span class="line">	<span class="type">int</span> second = <span class="number">0</span>;	</span><br><span class="line">	cout &lt;&lt; <span class="built_in">setw</span>(<span class="number">2</span>) &lt;&lt; <span class="built_in">setfill</span>(<span class="string">&#x27;0&#x27;</span>) &lt;&lt; hour &lt;&lt;<span class="string">&quot;:&quot;</span> </span><br><span class="line">		 &lt;&lt; <span class="built_in">setw</span>(<span class="number">2</span>) &lt;&lt; minute &lt;&lt;<span class="string">&quot;:&quot;</span></span><br><span class="line">		 &lt;&lt; <span class="built_in">setw</span>(<span class="number">2</span>) &lt;&lt; second &lt;&lt; endl;  <span class="comment">//02:33:00</span></span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h2 id="3-保留有效位数"><a href="#3-保留有效位数" class="headerlink" title="3. 保留有效位数"></a>3. 保留有效位数</h2><ul>
+<li><p>头文件<code>iomanip</code>，</p>
+</li>
+<li><p>输出控制符<code> setprecision</code></p>
+<ul>
+<li>理解：可以设置输出精度。（总有效位数，包括整数部分）</li>
+<li>作用范围：同<code>setfill</code>，可以对后续的输出产生影响。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/////////////////////////测试示例都是分开测试。///////////////////////////</span></span><br><span class="line"><span class="type">float</span> t1 = <span class="number">12345</span>;												<span class="comment">//</span></span><br><span class="line">cout &lt;&lt; t1 &lt;&lt;<span class="string">&quot; &quot;</span> &lt;&lt; <span class="built_in">setprecision</span>(<span class="number">4</span>) &lt;&lt; t1 &lt;&lt; endl;				   <span class="comment">//</span></span><br><span class="line"><span class="comment">//12345 1.234e+04												//</span></span><br><span class="line"><span class="comment">///////////////////////////////////////////////////////////////////////</span></span><br><span class="line"><span class="type">float</span> t2 = <span class="number">1.2345</span>;												<span class="comment">//</span></span><br><span class="line">cout &lt;&lt; t2 &lt;&lt;<span class="string">&quot; &quot;</span> &lt;&lt; <span class="built_in">setprecision</span>(<span class="number">4</span>) &lt;&lt; t2 &lt;&lt; endl;				   <span class="comment">//</span></span><br><span class="line"><span class="comment">//1.2345 1.235													//</span></span><br><span class="line"><span class="comment">///////////////////////////////////////////////////////////////////////</span></span><br><span class="line"><span class="type">float</span> t3 = <span class="number">0.12345</span>;												<span class="comment">//</span></span><br><span class="line">cout &lt;&lt; t3 &lt;&lt;<span class="string">&quot; &quot;</span> &lt;&lt; <span class="built_in">setprecision</span>(<span class="number">4</span>) &lt;&lt; t3 &lt;&lt; endl;				   <span class="comment">//</span></span><br><span class="line"><span class="comment">//0.12345 0.1235												//</span></span><br><span class="line"><span class="comment">///////////////////////////////////////////////////////////////////////</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-保留小数"><a href="#4-保留小数" class="headerlink" title="4. 保留小数"></a>4. 保留小数</h2><ul>
+<li>头文件<code>iomanip</code></li>
+<li>流操作符<code>fixed</code><ul>
+<li>理解：它表示浮点输出应该以固定点或小数点表示法显示。</li>
+<li>作用范围：之后所有。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>fixed 操作符可能最重要的还是当它与 <code>setprecision</code> 操作符一起使用时，<code>setprecision</code> 即可以以一种新的方式显示。它将指定浮点数字的小数点后要显示的位数，而不是要显示的总有效数位数。而这通常正是我们想要的。<br>——摘自C语言中文网</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cout &lt;&lt; fixed &lt;&lt; <span class="built_in">setprecision</span>(<span class="number">4</span>);	</span><br><span class="line"><span class="type">float</span> big = <span class="number">12345</span>;</span><br><span class="line">cout  &lt;&lt; big &lt;&lt; endl;<span class="comment">// 12345.0000</span></span><br><span class="line"><span class="type">float</span> middle = <span class="number">1.2345</span>;	</span><br><span class="line">cout &lt;&lt; middle &lt;&lt; endl;<span class="comment">// 1.2345</span></span><br><span class="line"><span class="type">float</span> mini = <span class="number">0.12345</span>;</span><br><span class="line">cout &lt;&lt; mini &lt;&lt; endl;<span class="comment">//0.1235</span></span><br></pre></td></tr></table></figure>
 
 
       </section>
@@ -156,22 +190,6 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/img/cover/七七.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2022/12/08/%E5%9B%9E%E6%BA%AF/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">回溯</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
@@ -180,8 +198,8 @@
     
     <div class="card-text">
       
-        <a href="/2022/10/24/%E6%A8%A1%E6%8B%9F%E4%B8%8E%E9%AB%98%E7%B2%BE%E5%BA%A6/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">模拟与高精度</h2>
+        <a href="/2022/12/08/%E4%B8%80%E9%81%93%E9%9B%86%E4%BC%97%E5%A4%9A%E6%8A%80%E5%B7%A7%E4%BA%8E%E4%B8%80%E8%BA%AB%E7%9A%84%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E3%80%8A%E5%AF%86%E6%96%87%E6%B8%B8%E6%88%8F%E3%80%8B/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">一道集众多技巧于一身的题目——《密文游戏》</h2>
         </a>
       
       <div class="card-text--row">Older</div>
