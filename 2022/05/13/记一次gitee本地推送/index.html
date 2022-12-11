@@ -36,7 +36,7 @@
 
   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@1.1.3/index.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/monokai.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs@9.16.2/styles/androidstudio.css">
   
 
   
@@ -140,35 +140,35 @@
         <h1 id="序言"><a href="#序言" class="headerlink" title="序言"></a>序言</h1><p>  上传项目到gitee的时候，遇到了一些奇奇怪怪的BUG，导致最终无法正确上传项目<br>  此文章旨在利用Git命令行(用cmd也可以)的方式将代码从本地仓库上传到远程仓库</p>
 <h1 id="第一步-本地目录进入git"><a href="#第一步-本地目录进入git" class="headerlink" title="第一步 本地目录进入git"></a>第一步 本地目录进入git</h1><p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/1.png"></p>
 <p>然后用下方代码初始化git，输入完以后就可以看到该目录下多了一个*.git*的隐藏文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">git init<br></code></pre></td></tr></table></figure>
 
 <h1 id="第二步-将本地项目工作区的所有文件添加到暂存区"><a href="#第二步-将本地项目工作区的所有文件添加到暂存区" class="headerlink" title="第二步 将本地项目工作区的所有文件添加到暂存区"></a>第二步 将本地项目工作区的所有文件添加到暂存区</h1><p>小数点 <strong>.</strong> ，意为添加文件夹下的所有文件<br>把 <strong>.</strong> 改为指定文件名即可添加项目中的指定文件</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">git add .<br></code></pre></td></tr></table></figure>
 
 <h1 id="第三步-将暂存区的文件提交到本地仓库"><a href="#第三步-将暂存区的文件提交到本地仓库" class="headerlink" title="第三步 将暂存区的文件提交到本地仓库"></a>第三步 将暂存区的文件提交到本地仓库</h1><p>这里的注释一般用作  <strong>提醒用户此次代码提交做的更改</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">&quot;此次提交的注释&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">git commit -m <span class="hljs-string">&quot;此次提交的注释&quot;</span><br></code></pre></td></tr></table></figure>
 
 <h1 id="创建gitee仓库"><a href="#创建gitee仓库" class="headerlink" title="创建gitee仓库"></a>创建gitee仓库</h1><p>此步骤可以先做好</p>
-<h1 id="第五步-将本地代码仓库关联到-gitee-上"><a href="#第五步-将本地代码仓库关联到-gitee-上" class="headerlink" title="第五步 将本地代码仓库关联到 gitee 上"></a>第五步 将本地代码仓库关联到 gitee 上</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin 仓库地址</span><br></pre></td></tr></table></figure>
+<h1 id="第五步-将本地代码仓库关联到-gitee-上"><a href="#第五步-将本地代码仓库关联到-gitee-上" class="headerlink" title="第五步 将本地代码仓库关联到 gitee 上"></a>第五步 将本地代码仓库关联到 gitee 上</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">git remote add origin 仓库地址<br></code></pre></td></tr></table></figure>
 
 <p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/2.png" alt="仓库地址"></p>
 <p>这此处的地址即为仓库地址</p>
 <p>在这一步时如果出现错误<code>error:remote origin already exists</code></p>
 <p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/3.png" alt="仓库地址"></p>
 <p>输入：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote rm origin</span><br><span class="line">git remote add origin 仓库地址</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs javascript">git remote rm origin<br>git remote add origin 仓库地址<br></code></pre></td></tr></table></figure>
 
 <p>即可解决</p>
 <h1 id="第六步-将代码由本地仓库上传到-gitee远程仓库"><a href="#第六步-将代码由本地仓库上传到-gitee远程仓库" class="headerlink" title="第六步 将代码由本地仓库上传到 gitee远程仓库"></a>第六步 将代码由本地仓库上传到 gitee远程仓库</h1><h2 id="6-1-获取远程库与本地同步合并"><a href="#6-1-获取远程库与本地同步合并" class="headerlink" title="6.1 获取远程库与本地同步合并"></a>6.1 获取远程库与本地同步合并</h2><p>  如果远程库不为空必须做这一步，否则后面的提交可能会失败</p>
 <p>  原因是  gitee 中的 README.md 文件不在本地仓库中，可以通过该命令进行代码合并</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull --rebase origin master  </span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">git pull --rebase origin master  <br></code></pre></td></tr></table></figure>
 
 <p>可能会遇到：</p>
 <p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/4.png" alt="仓库地址"></p>
 <p>这时输入<code>git rebase --continue</code>后再输入<code>git pull --rebase origin master  </code>即可</p>
 <p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/5.png" alt="仓库地址"></p>
 <h2 id="6-2-把当前分支-master-推送到远程"><a href="#6-2-把当前分支-master-推送到远程" class="headerlink" title="6.2 把当前分支 master 推送到远程"></a>6.2 把当前分支 master 推送到远程</h2><p>  执行此命令后有可能会让输入用户名、密码</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript">git push -u origin master<br></code></pre></td></tr></table></figure>
 
 <p>  执行完之后如果无错误就上传成功了（这里的 master 是 gitee 默认的分支</p>
 <blockquote>
@@ -178,7 +178,7 @@
 <p>如果想用本地当前分支上传代码，就用<code>git checkout 当前分支名称</code>切换成当前分支名即可</p>
 </blockquote>
 <h1 id="第七步-完成"><a href="#第七步-完成" class="headerlink" title="第七步 完成"></a>第七步 完成</h1><h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>如果后续仓库内容做了更新，就只需：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;此次提交的注释&quot;</span></span><br><span class="line">git remote rm origin</span><br><span class="line">git remote add origin 仓库地址</span><br><span class="line">git pull --rebase origin master  </span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript">git add .<br>git commit -m <span class="hljs-string">&quot;此次提交的注释&quot;</span><br>git remote rm origin<br>git remote add origin 仓库地址<br>git pull --rebase origin master  <br>git push -u origin master<br></code></pre></td></tr></table></figure>
 
 
       </section>
@@ -435,6 +435,7 @@
     </p>
   </div>
 </footer>
+
   </div>
 
   <div class="back-to-top-fixed soft-size--round soft-style--box">
