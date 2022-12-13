@@ -40,7 +40,11 @@
   
 <link rel="stylesheet" href="/css/style.css">
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 <body>
   <div class="root-container">
     
@@ -124,7 +128,11 @@
   
   
   
+  <link href="https://cdn.bootcss.com/KaTeX/0.7.1/katex.min.css" rel="stylesheet">
+  
 </header>
+
+
 
     <!-- 文章 -->
 
@@ -138,17 +146,16 @@
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <blockquote>
-<p> #include  <algorithm></p>
+<p>#include  <algorithm></p>
 <p>求交集：</p>
-<p> set_intersection(first1,last1,first2,last2, result)</p>
+<p>set_intersection(first1,last1,first2,last2, result)</p>
 <p>求集合差：set_difference(first1,last1,first2,last2, result)</p>
 <p>合并两个集合：set_union(first1,last1,first2,last2, result)</p>
 </blockquote>
 <p><strong>上述所传递的容器必须是排序的</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">sort</span>(vm.<span class="hljs-built_in">begin</span>(), vm.<span class="hljs-built_in">end</span>());<br><span class="hljs-built_in">sort</span>(vn.<span class="hljs-built_in">begin</span>(), vn.<span class="hljs-built_in">end</span>());<br>   vector&lt;<span class="hljs-type">int</span>&gt; result;<br>   <span class="hljs-built_in">set_intersection</span>(vm.<span class="hljs-built_in">begin</span>(), vm.<span class="hljs-built_in">end</span>(), vn.<span class="hljs-built_in">begin</span>(), vn.<span class="hljs-built_in">end</span>(), <span class="hljs-built_in">inserter</span>(result, result.<span class="hljs-built_in">begin</span>()));<br>result.<span class="hljs-built_in">erase</span>(<span class="hljs-built_in">unique</span>(result.<span class="hljs-built_in">begin</span>(), result.<span class="hljs-built_in">end</span>()), result.<span class="hljs-built_in">end</span>());<span class="hljs-comment">//这是由于vector元素可能存在重复，需要去重</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="set-intersection实现"><a href="#set-intersection实现" class="headerlink" title="set_intersection实现"></a>set_intersection实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">InputIterator1</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">InputIterator2</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">OutputIterator</span>&gt;<br><span class="hljs-function">OutputIterator <span class="hljs-title">set_intersection</span> <span class="hljs-params">(InputIterator1 first1, InputIterator1 last1,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 InputIterator2 first2, InputIterator2 last2,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 OutputIterator result)</span></span>&#123;<br>  <span class="hljs-keyword">while</span> (first1!=last1 &amp;&amp; first2!=last2)<br>  &#123;<br>    <span class="hljs-keyword">if</span> (*first1&lt;*first2) ++first1;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (*first2&lt;*first1) ++first2;<br>    <span class="hljs-keyword">else</span> &#123;<br>      *result = *first1;<br>      ++result; ++first1; ++first2;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> result;<br></code></pre></td></tr></table></figure>
-
+<h3 id="set_intersection实现"><a class="markdownIt-Anchor" href="#set_intersection实现"></a> set_intersection实现</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">InputIterator1</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">InputIterator2</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">OutputIterator</span>&gt;<br><span class="hljs-function">OutputIterator <span class="hljs-title">set_intersection</span> <span class="hljs-params">(InputIterator1 first1, InputIterator1 last1,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 InputIterator2 first2, InputIterator2 last2,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 OutputIterator result)</span></span>&#123;<br>  <span class="hljs-keyword">while</span> (first1!=last1 &amp;&amp; first2!=last2)<br>  &#123;<br>    <span class="hljs-keyword">if</span> (*first1&lt;*first2) ++first1;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (*first2&lt;*first1) ++first2;<br>    <span class="hljs-keyword">else</span> &#123;<br>      *result = *first1;<br>      ++result; ++first1; ++first2;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> result;<br></code></pre></td></tr></table></figure>
 
       </section>
 
@@ -163,8 +170,8 @@
     
     <div class="card-text">
       
-        <a href="/2022/12/08/%E5%9B%9E%E6%BA%AF/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">回溯</h2>
+        <a href="/2022/12/08/%E4%B8%80%E9%81%93%E9%9B%86%E4%BC%97%E5%A4%9A%E6%8A%80%E5%B7%A7%E4%BA%8E%E4%B8%80%E8%BA%AB%E7%9A%84%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E3%80%8A%E5%AF%86%E6%96%87%E6%B8%B8%E6%88%8F%E3%80%8B/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">一道集众多技巧于一身的题目——《密文游戏》</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -288,6 +295,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E9%A2%98%E7%9B%AE/">
+            题目 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E6%9D%82%E8%B0%88/">
             杂谈 (4)
           </a>
@@ -302,12 +315,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E6%98%93%E8%AF%AD%E8%A8%80/">
             易语言 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%A2%98%E7%9B%AE/">
-            题目 (2)
           </a>
         </li>
       

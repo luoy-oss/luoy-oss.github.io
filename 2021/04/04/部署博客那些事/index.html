@@ -40,7 +40,11 @@
   
 <link rel="stylesheet" href="/css/style.css">
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 <body>
   <div class="root-container">
     
@@ -122,7 +126,11 @@
   
   
   
+  <link href="https://cdn.bootcss.com/KaTeX/0.7.1/katex.min.css" rel="stylesheet">
+  
 </header>
+
+
 
     <!-- 文章 -->
 
@@ -136,30 +144,38 @@
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
         <p>为了把班里的截图导到网站上，就用gitee搞个非公开的博客，用的hexo。</p>
-<hr>
-<h4 id="在一开始没啥问题，但是在部署的时候遇到-ERROR-Deployer-not-found-git-的错误"><a href="#在一开始没啥问题，但是在部署的时候遇到-ERROR-Deployer-not-found-git-的错误" class="headerlink" title="在一开始没啥问题，但是在部署的时候遇到 ERROR Deployer not found: git  的错误"></a>在一开始没啥问题，但是在部署的时候遇到 ERROR Deployer not found: git  的错误</h4><p>经过调查之后 才知道 需要运行下这个指令才行 </p>
+<hr />
+<h4 id="在一开始没啥问题但是在部署的时候遇到-error-deployer-not-found-git-的错误"><a class="markdownIt-Anchor" href="#在一开始没啥问题但是在部署的时候遇到-error-deployer-not-found-git-的错误"></a> 在一开始没啥问题，但是在部署的时候遇到 ERROR Deployer not found: git  的错误</h4>
+<p>经过调查之后 才知道 需要运行下这个指令才行</p>
 <p><code>npm install hexo-deployer-git --save</code></p>
 <p>然后就可以部署了</p>
 <figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sas">hexo cl <span class="hljs-variable">&amp;&amp;</span> hexo g <span class="hljs-variable">&amp;&amp;</span> hexo d<br></code></pre></td></tr></table></figure>
-
-<hr>
-<h4 id="访问但无法加载css文件"><a href="#访问但无法加载css文件" class="headerlink" title="访问但无法加载css文件"></a>访问但无法加载css文件</h4><p>再次研究，发现</p>
+<hr />
+<h4 id="访问但无法加载css文件"><a class="markdownIt-Anchor" href="#访问但无法加载css文件"></a> 访问但无法加载css文件</h4>
+<p>再次研究，发现</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">url: https:<span class="hljs-regexp">//</span>drluo.gitee.io<span class="hljs-regexp">/grade2019class22/</span><br>root: /<br></code></pre></td></tr></table></figure>
-
 <p><code>root: /</code>   后面应该加上<code>grade2019class22/</code></p>
 <p>即：<code>root: /grade2019class22/</code></p>
 <p>修改后，恢复正常。</p>
-<hr>
-<h4 id="访问但是无法加载文章图片"><a href="#访问但是无法加载文章图片" class="headerlink" title="访问但是无法加载文章图片"></a>访问但是无法加载文章图片</h4><p>这里我不怎么想改了，F12查看图片获取路径为<br><code>https://drluo.gitee.io/images/cover/Dailysummary.png</code><br>这波我直接选择在图片路径前加上<code>/grade2019class22</code><br>顺便把所用theme的<code>_config.yml</code>中的<code>favicon</code>也改为了<br><code>favicon: /grade2019class22/favicon.ico</code></p>
-<hr>
-<h5 id="获取dplayer插件"><a href="#获取dplayer插件" class="headerlink" title="获取dplayer插件"></a>获取dplayer插件</h5><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">npm install dplayer <span class="hljs-comment">--save</span><br></code></pre></td></tr></table></figure>
-
-<h5 id="取waterfall插件"><a href="#取waterfall插件" class="headerlink" title="取waterfall插件"></a>取waterfall插件</h5><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">npm install waterfall <span class="hljs-comment">--save</span><br></code></pre></td></tr></table></figure>
-
-<h1 id="flex-block主题相关设置"><a href="#flex-block主题相关设置" class="headerlink" title="flex-block主题相关设置"></a>flex-block主题相关设置</h1><h1 id="变动"><a href="#变动" class="headerlink" title="变动"></a>变动</h1><p>关于 <strong><a href="#waterfall-%E7%80%91%E5%B8%83%E6%B5%81">waterfall</a></strong> 标签，在更新主题后，会导致以前的视频不能正常播放，需要进行如下修改:</p>
+<hr />
+<h4 id="访问但是无法加载文章图片"><a class="markdownIt-Anchor" href="#访问但是无法加载文章图片"></a> 访问但是无法加载文章图片</h4>
+<p>这里我不怎么想改了，F12查看图片获取路径为<br />
+<code>https://drluo.gitee.io/images/cover/Dailysummary.png</code><br />
+这波我直接选择在图片路径前加上<code>/grade2019class22</code><br />
+顺便把所用theme的<code>_config.yml</code>中的<code>favicon</code>也改为了<br />
+<code>favicon: /grade2019class22/favicon.ico</code></p>
+<hr />
+<h5 id="获取dplayer插件"><a class="markdownIt-Anchor" href="#获取dplayer插件"></a> 获取dplayer插件</h5>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">npm install dplayer <span class="hljs-comment">--save</span><br></code></pre></td></tr></table></figure>
+<h5 id="取waterfall插件"><a class="markdownIt-Anchor" href="#取waterfall插件"></a> 取waterfall插件</h5>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">npm install waterfall <span class="hljs-comment">--save</span><br></code></pre></td></tr></table></figure>
+<h1 id="flex-block主题相关设置"><a class="markdownIt-Anchor" href="#flex-block主题相关设置"></a> flex-block主题相关设置</h1>
+<h1 id="变动"><a class="markdownIt-Anchor" href="#变动"></a> 变动</h1>
+<p>关于 <strong><a href="#waterfall-%E7%80%91%E5%B8%83%E6%B5%81">waterfall</a></strong> 标签，在更新主题后，会导致以前的视频不能正常播放，需要进行如下修改:</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&lt;!-- 旧版写法 --&gt;<br>&#123;% dplayer https://qiniu.miiiku.xyz/video/%E7%BE%8E.mp4 https://qiniu.miiiku.xyz/video/%E7%BE%8E.mp4?vframe/jpg/offset/10 %&#125; <br><br>&lt;!-- 新版写法 需要指定属性名 --&gt;<br>&#123;% dplayer url=&quot;https://qiniu.miiiku.xyz/video/%E7%BE%8E.mp4&quot; cover=&quot;https://qiniu.miiiku.xyz/video/%E7%BE%8E.mp4?vframe/jpg/offset/10&quot; %&#125; <br></code></pre></td></tr></table></figure>
-
-<h1 id="可自定义的相关页面"><a href="#可自定义的相关页面" class="headerlink" title="可自定义的相关页面"></a>可自定义的相关页面</h1><h2 id="目前可以扩展的页面菜单有"><a href="#目前可以扩展的页面菜单有" class="headerlink" title="目前可以扩展的页面菜单有:"></a>目前可以扩展的页面菜单有:</h2><table>
+<h1 id="可自定义的相关页面"><a class="markdownIt-Anchor" href="#可自定义的相关页面"></a> 可自定义的相关页面</h1>
+<h2 id="目前可以扩展的页面菜单有"><a class="markdownIt-Anchor" href="#目前可以扩展的页面菜单有"></a> 目前可以扩展的页面菜单有:</h2>
+<table>
 <thead>
 <tr>
 <th>type</th>
@@ -167,39 +183,41 @@
 <th>name</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>categories</td>
-<td>&#x2F;categories</td>
+<td>/categories</td>
 <td>分类</td>
 </tr>
 <tr>
 <td>tags</td>
-<td>&#x2F;tags</td>
+<td>/tags</td>
 <td>标签</td>
 </tr>
 <tr>
 <td>links</td>
-<td>&#x2F;links</td>
+<td>/links</td>
 <td>友链</td>
 </tr>
 <tr>
 <td>messages</td>
-<td>&#x2F;messages</td>
+<td>/messages</td>
 <td>留言板</td>
 </tr>
-</tbody></table>
-<h2 id="如何添加"><a href="#如何添加" class="headerlink" title="如何添加:"></a>如何添加:</h2><p>🌰 添加友链页面</p>
+</tbody>
+</table>
+<h2 id="如何添加"><a class="markdownIt-Anchor" href="#如何添加"></a> 如何添加:</h2>
+<p>🌰 添加友链页面</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo new page links<br></code></pre></td></tr></table></figure>
-
 <p>找到新建的页面并修改<code>Front-matter</code>，添加如下内容</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">type: links<br></code></pre></td></tr></table></figure>
-
 <p>修改<code>_config.yml</code>配置菜单，找到<code>menu</code>选项添加如下内容</p>
 <figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs avrasm"><span class="hljs-symbol">links:</span> /links<br></code></pre></td></tr></table></figure>
-
-<h2 id="添加其他自定义页面，如关于页面"><a href="#添加其他自定义页面，如关于页面" class="headerlink" title="添加其他自定义页面，如关于页面"></a>添加其他自定义页面，如<code>关于</code>页面</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo new page about<br></code></pre></td></tr></table></figure>
-
-<h1 id="Front-matter相关"><a href="#Front-matter相关" class="headerlink" title="Front-matter相关"></a><code>Front-matter</code>相关</h1><h2 id="除开以有的字段，目前有效的相关属性"><a href="#除开以有的字段，目前有效的相关属性" class="headerlink" title="除开以有的字段，目前有效的相关属性"></a>除开以有的<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/front-matter">字段</a>，目前有效的相关属性</h2><table>
+<h2 id="添加其他自定义页面如关于页面"><a class="markdownIt-Anchor" href="#添加其他自定义页面如关于页面"></a> 添加其他自定义页面，如<code>关于</code>页面</h2>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo new page about<br></code></pre></td></tr></table></figure>
+<h1 id="front-matter相关"><a class="markdownIt-Anchor" href="#front-matter相关"></a> <code>Front-matter</code>相关</h1>
+<h2 id="除开以有的字段目前有效的相关属性"><a class="markdownIt-Anchor" href="#除开以有的字段目前有效的相关属性"></a> 除开以有的<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/front-matter">字段</a>，目前有效的相关属性</h2>
+<table>
 <thead>
 <tr>
 <th>key</th>
@@ -207,7 +225,8 @@
 <th>desc</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>subtitle</td>
 <td>post,page,draft</td>
 <td>小标题，文章或页面的小标题，文章缺省值为文章的发布时间</td>
@@ -227,106 +246,106 @@
 <td>page</td>
 <td>页面类型，取值详见<strong>可自定义的相关页面</strong></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>建议复制以下代码替换<code>scaffolds/</code>下默认的模版</p>
-<h3 id="post-md-draft-md"><a href="#post-md-draft-md" class="headerlink" title="post.md,draft.md"></a>post.md,draft.md</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs markdown">---<br>title: &#123;&#123; title &#125;&#125;<br>subtitle:<br>date: &#123;&#123; date &#125;&#125;<br>categories:<br>tags:<br><span class="hljs-section">cover:</span><br><span class="hljs-section">---</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="page-md"><a href="#page-md" class="headerlink" title="page.md"></a>page.md</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs markdown">---<br>title: &#123;&#123; title &#125;&#125;<br>subtitle:<br>date: &#123;&#123; date &#125;&#125;<br>cover:<br><span class="hljs-section">type:</span><br><span class="hljs-section">---</span><br></code></pre></td></tr></table></figure>
-
-<h1 id="自定义数据"><a href="#自定义数据" class="headerlink" title="自定义数据"></a>自定义数据</h1><h2 id="友链数据"><a href="#友链数据" class="headerlink" title="友链数据"></a>友链数据</h2><p>在目录的<code>source/_data</code>下新建一个<strong>links.yml</strong></p>
+<h3 id="postmd"><a class="markdownIt-Anchor" href="#postmd"></a> <a target="_blank" rel="noopener" href="http://post.md">post.md</a>,<a target="_blank" rel="noopener" href="http://draft.md">draft.md</a></h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs markdown">---<br>title: &#123;&#123; title &#125;&#125;<br>subtitle:<br>date: &#123;&#123; date &#125;&#125;<br>categories:<br>tags:<br><span class="hljs-section">cover:</span><br><span class="hljs-section">---</span><br></code></pre></td></tr></table></figure>
+<h3 id="pagemd"><a class="markdownIt-Anchor" href="#pagemd"></a> <a target="_blank" rel="noopener" href="http://page.md">page.md</a></h3>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs markdown">---<br>title: &#123;&#123; title &#125;&#125;<br>subtitle:<br>date: &#123;&#123; date &#125;&#125;<br>cover:<br><span class="hljs-section">type:</span><br><span class="hljs-section">---</span><br></code></pre></td></tr></table></figure>
+<h1 id="自定义数据"><a class="markdownIt-Anchor" href="#自定义数据"></a> 自定义数据</h1>
+<h2 id="友链数据"><a class="markdownIt-Anchor" href="#友链数据"></a> 友链数据</h2>
+<p>在目录的<code>source/_data</code>下新建一个<strong>links.yml</strong></p>
 <p>一行一条数据，格式如下:</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-bullet">-</span> &#123; <span class="hljs-string">&quot;name&quot;</span> <span class="hljs-string">:</span> <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;describe&quot;</span> <span class="hljs-string">:</span> <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;link&quot;</span> <span class="hljs-string">:</span> <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-string">&quot;cover&quot;</span> <span class="hljs-string">:</span> <span class="hljs-string">&quot;&quot;</span> &#125;<br></code></pre></td></tr></table></figure>
-
-
-<h1 id="SEO优化相关"><a href="#SEO优化相关" class="headerlink" title="SEO优化相关"></a>SEO优化相关</h1><p><strong>查找并修改<code>Hexo</code>下的<code>_config.yml</code></strong></p>
+<h1 id="seo优化相关"><a class="markdownIt-Anchor" href="#seo优化相关"></a> SEO优化相关</h1>
+<p><strong>查找并修改<code>Hexo</code>下的<code>_config.yml</code></strong></p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># Site</span><br><br><span class="hljs-comment"># &lt;meta name=&quot;description&quot; content=[config.description]&gt;</span><br><span class="hljs-attr">description:</span> <br><br><span class="hljs-comment"># &lt;meta name=&quot;keywords&quot; content=[config.keywords]&gt;</span><br><span class="hljs-attr">keywords:</span> <br><br><span class="hljs-comment"># &lt;meta name=&quot;author&quot; content=[config.author]&gt;</span><br><span class="hljs-attr">author:</span> <br><br><span class="hljs-comment"># &lt;meta name=&quot;copyright&quot; content=[config.copyright]&gt;</span><br><span class="hljs-attr">copyright:</span><br></code></pre></td></tr></table></figure>
-
-
-<h1 id="配置项"><a href="#配置项" class="headerlink" title="配置项:"></a>配置项:</h1><h2 id="代码高亮"><a href="#代码高亮" class="headerlink" title="代码高亮"></a>代码高亮</h2><p>hexo默认提供了highlightjs代码高亮，如何开启？</p>
+<h1 id="配置项"><a class="markdownIt-Anchor" href="#配置项"></a> 配置项:</h1>
+<h2 id="代码高亮"><a class="markdownIt-Anchor" href="#代码高亮"></a> 代码高亮</h2>
+<p>hexo默认提供了highlightjs代码高亮，如何开启？</p>
 <p><strong>查找并修改<code>Hexo</code>下的<code>_config.yml</code></strong></p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">highlight:</span><br>  <span class="hljs-attr">enable:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">line_number:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">auto_detect:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">tab_replace:</span><br>  <span class="hljs-attr">hljs:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">theme:</span> <span class="hljs-string">androidstudio</span><br></code></pre></td></tr></table></figure>
-
 <p>其中<code>enable</code>为开启代码高亮，<code>hljs</code>设置为hljs为class，<code>theme</code>为highlight代码高亮主题，不设置默认为default</p>
 <p>具体的主题可以在<a target="_blank" rel="noopener" href="https://highlightjs.org/">https://highlightjs.org/</a>查看</p>
-<h2 id="长标题"><a href="#长标题" class="headerlink" title="长标题"></a>长标题</h2><p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>large_legnth</code></p>
+<h2 id="长标题"><a class="markdownIt-Anchor" href="#长标题"></a> 长标题</h2>
+<p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>large_legnth</code></p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># large cover</span><br><span class="hljs-comment"># long: [article, link]</span><br><span class="hljs-comment"># short: [category, tag]</span><br><span class="hljs-attr">large_legnth:</span><br>  <span class="hljs-attr">long:</span> <span class="hljs-number">20</span><br>  <span class="hljs-attr">short:</span> <span class="hljs-number">5</span><br></code></pre></td></tr></table></figure>
-
 <p><strong>long:</strong> 作用于<code>文章</code>和<code>友链</code>卡片</p>
 <p><strong>short:</strong> 作用于<code>分类</code>和<code>标签</code>卡片</p>
 <p>设置Card封面的大小，如 <code>long: 20</code> 表示如果文章标题长度大于20，文章卡片显示为长文章</p>
 <p><em>如果启用了友链，则会判断<code>友链名称</code>和<code>友链描述</code>两个字段长度</em></p>
-<h2 id="aplayer"><a href="#aplayer" class="headerlink" title="aplayer"></a>aplayer</h2><p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>aplayer</code></p>
+<h2 id="aplayer"><a class="markdownIt-Anchor" href="#aplayer"></a> aplayer</h2>
+<p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>aplayer</code></p>
 <p><strong><code>aplayer</code>歌词模式默认使用第三种（文件格式）</strong></p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># aplayer 视频播放</span><br><span class="hljs-comment"># docs: https://aplayer.js.org/#/</span><br><span class="hljs-attr">aplayer:</span><br>  <span class="hljs-attr">enable:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">theme:</span> <span class="hljs-string">&quot;#b7daff&quot;</span><br>  <span class="hljs-attr">autoplay:</span> <span class="hljs-literal">false</span><br>  <span class="hljs-attr">loop:</span> <span class="hljs-literal">false</span><br>  <span class="hljs-attr">mutex:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">lrcType:</span> <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
-
 <p>详情查看<a target="_blank" rel="noopener" href="https://aplayer.js.org/">https://aplayer.js.org/</a></p>
-<h2 id="dplayer"><a href="#dplayer" class="headerlink" title="dplayer"></a>dplayer</h2><p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>dplayer</code></p>
+<h2 id="dplayer"><a class="markdownIt-Anchor" href="#dplayer"></a> dplayer</h2>
+<p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>dplayer</code></p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># dplayer 视频播放</span><br><span class="hljs-comment"># docs: http://dplayer.js.org/</span><br><span class="hljs-attr">dplayer:</span><br>  <span class="hljs-attr">enable:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">theme:</span> <span class="hljs-string">&quot;#b7daff&quot;</span><br>  <span class="hljs-attr">autoplay:</span> <span class="hljs-literal">false</span><br>  <span class="hljs-attr">loop:</span> <span class="hljs-literal">false</span><br>  <span class="hljs-attr">mutex:</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
-
 <p>详情查看<a target="_blank" rel="noopener" href="http://dplayer.js.org/">http://dplayer.js.org/</a></p>
-<h2 id="zoom-图片预览"><a href="#zoom-图片预览" class="headerlink" title="zoom 图片预览"></a>zoom 图片预览</h2><p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>zoom</code></p>
+<h2 id="zoom-图片预览"><a class="markdownIt-Anchor" href="#zoom-图片预览"></a> zoom 图片预览</h2>
+<p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>zoom</code></p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># zoom 图片预览</span><br><span class="hljs-comment"># docs: https://github.com/miiiku/zoom</span><br><span class="hljs-comment"># Specific configuration information go to `layout/plug-in/zoom.ejs`</span><br><span class="hljs-attr">zoom:</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
-
 <p>详情查看<a target="_blank" rel="noopener" href="https://github.com/miiiku/zoom">https://github.com/miiiku/zoom</a></p>
-<h2 id="waterfall-瀑布流"><a href="#waterfall-瀑布流" class="headerlink" title="waterfall 瀑布流"></a>waterfall 瀑布流</h2><p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>waterfall</code></p>
+<h2 id="waterfall-瀑布流"><a class="markdownIt-Anchor" href="#waterfall-瀑布流"></a> waterfall 瀑布流</h2>
+<p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>waterfall</code></p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># waterfall 瀑布流</span><br><span class="hljs-comment"># docs: https://github.com/miiiku/waterfall</span><br><span class="hljs-comment"># Specific configuration information go to `layout/plug-in/waterfall.ejs`</span><br><span class="hljs-attr">waterfall:</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
-
 <p>如果要进行详细的配置，请找到并编辑<code>layout/plug-in/waterfall.ejs</code></p>
 <p>详情查看<a target="_blank" rel="noopener" href="https://github.com/miiiku/waterfall">https://github.com/miiiku/waterfall</a></p>
-<h2 id="Valine评论"><a href="#Valine评论" class="headerlink" title="Valine评论"></a>Valine评论</h2><p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>valine</code></p>
+<h2 id="valine评论"><a class="markdownIt-Anchor" href="#valine评论"></a> Valine评论</h2>
+<p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>valine</code></p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># valine 评论</span><br><span class="hljs-comment"># docs: https://valine.js.org</span><br><span class="hljs-comment"># You can get your appid and appkey from https://leancloud.cn</span><br><span class="hljs-comment"># 这里appId和appKey一定一定要改成自己的，没有的话去https://leancloud.cn这个网站注册创建一个</span><br><span class="hljs-attr">valine:</span><br>  <span class="hljs-attr">enable:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">appId:</span> <span class="hljs-comment"># your appid</span><br>  <span class="hljs-attr">appKey:</span> <span class="hljs-comment"># your appkey</span><br>  <span class="hljs-attr">avatar:</span> <span class="hljs-string">mm</span><br>  <span class="hljs-attr">placeholder:</span> <span class="hljs-string">随便说点什么叭～</span><br>  <span class="hljs-attr">notify:</span> <span class="hljs-literal">false</span><br>  <span class="hljs-attr">visitor:</span> <span class="hljs-literal">false</span><br>  <span class="hljs-attr">pageSize:</span> <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
-
-<p>如果想给某一页面&#x2F;文章取消评论，在<code>md</code>文件的<code>front-matter</code>中增加<code>comments: false</code></p>
+<p>如果想给某一页面/文章取消评论，在<code>md</code>文件的<code>front-matter</code>中增加<code>comments: false</code></p>
 <p>详情查看<a target="_blank" rel="noopener" href="https://valine.js.org/configuration.html">https://valine.js.org/configuration.html</a></p>
-<h2 id="disqus评论"><a href="#disqus评论" class="headerlink" title="disqus评论"></a>disqus评论</h2><p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>disqus</code></p>
+<h2 id="disqus评论"><a class="markdownIt-Anchor" href="#disqus评论"></a> disqus评论</h2>
+<p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>disqus</code></p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># disqus 评论</span><br><span class="hljs-comment"># docs: https://disqus.com/</span><br><span class="hljs-comment"># website 网站到昵称</span><br><span class="hljs-comment"># error 加载失败的提示语</span><br><span class="hljs-attr">disqus:</span><br>  <span class="hljs-attr">enable:</span> <span class="hljs-literal">true</span><br>  <span class="hljs-attr">website:</span> <span class="hljs-comment"># your website</span><br>  <span class="hljs-attr">error:</span> <span class="hljs-string">如果你看不到评论，那么就真的看不到评论</span> <span class="hljs-string">w(゜Д゜)w</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="一言（当前版本好像弃用了）"><a href="#一言（当前版本好像弃用了）" class="headerlink" title="一言（当前版本好像弃用了）"></a>一言（当前版本好像弃用了）</h2><p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>hitokoto</code></p>
+<h2 id="一言当前版本好像弃用了"><a class="markdownIt-Anchor" href="#一言当前版本好像弃用了"></a> 一言（当前版本好像弃用了）</h2>
+<p>进入<code>flex-block</code>配置文件<code>_config.yml</code>找到<code>hitokoto</code></p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-comment"># 一言</span><br><span class="hljs-comment"># docs: https://hitokoto.cn/api</span><br><span class="hljs-comment"># type: [a, b, c, d, e, f, g]</span><br><span class="hljs-attr">hitokoto:</span><br>  <span class="hljs-attr">enable:</span> <span class="hljs-literal">false</span><br>  <span class="hljs-attr">type:</span> <span class="hljs-string">a</span><br></code></pre></td></tr></table></figure>
-
 <p>详情查看<a target="_blank" rel="noopener" href="https://hitokoto.cn/api">https://hitokoto.cn/api</a></p>
-<h1 id="内建标签"><a href="#内建标签" class="headerlink" title="内建标签"></a>内建标签</h1><h2 id="插入音频-aplayer"><a href="#插入音频-aplayer" class="headerlink" title="插入音频 aplayer"></a>插入音频 aplayer</h2><p><strong>更多参数可参考<a target="_blank" rel="noopener" href="https://aplayer.js.org/#/home?id=options">https://aplayer.js.org/#/home?id=options</a>中<code>audio</code>的属性</strong></p>
+<h1 id="内建标签"><a class="markdownIt-Anchor" href="#内建标签"></a> 内建标签</h1>
+<h2 id="插入音频-aplayer"><a class="markdownIt-Anchor" href="#插入音频-aplayer"></a> 插入音频 aplayer</h2>
+<p><strong>更多参数可参考<a target="_blank" rel="noopener" href="https://aplayer.js.org/#/home?id=options">https://aplayer.js.org/#/home?id=options</a>中<code>audio</code>的属性</strong></p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&lt;!-- url 必填  --&gt;<br>&#123;% aplayer name=&quot;アイロニ&quot; artist=&quot;鹿乃&quot; url=&quot;https://qiniu.miiiku.xyz/public/music/鹿乃 - アイロニ.mp3&quot; lrc=&quot;https://qiniu.miiiku.xyz/public/music/鹿乃 - アイロニ.lrc&quot; cover=&quot;https://qiniu.miiiku.xyz/public/music/鹿乃 - アイロニ.jpg&quot; %&#125;<br></code></pre></td></tr></table></figure>
-
 <p><strong>注意: 需要开启<code>aplayer</code>插件才能正常使用本内置标签</strong></p>
-<h2 id="插入视频-dplayer"><a href="#插入视频-dplayer" class="headerlink" title="插入视频 dplayer"></a>插入视频 dplayer</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&lt;!-- url 必填 cover(封面) 可选 subtitle(字幕) 可选 --&gt;<br>&#123;% dplayer url=&quot;https://qiniu.miiiku.xyz/video/%E7%BE%8E.mp4&quot; cover=&quot;https://qiniu.miiiku.xyz/video/%E7%BE%8E.mp4?vframe/jpg/offset/10&quot; %&#125; <br></code></pre></td></tr></table></figure>
-
+<h2 id="插入视频-dplayer"><a class="markdownIt-Anchor" href="#插入视频-dplayer"></a> 插入视频 dplayer</h2>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&lt;!-- url 必填 cover(封面) 可选 subtitle(字幕) 可选 --&gt;<br>&#123;% dplayer url=&quot;https://qiniu.miiiku.xyz/video/%E7%BE%8E.mp4&quot; cover=&quot;https://qiniu.miiiku.xyz/video/%E7%BE%8E.mp4?vframe/jpg/offset/10&quot; %&#125; <br></code></pre></td></tr></table></figure>
 <p><strong>注意: 需要开启<code>dplayer</code>插件才能正常使用本内置标签</strong></p>
-<h2 id="插入瀑布流-waterfall"><a href="#插入瀑布流-waterfall" class="headerlink" title="插入瀑布流 waterfall"></a>插入瀑布流 waterfall</h2><p>如需要修改大小 添加参数<code>size=&quot;max&quot;</code></p>
+<h2 id="插入瀑布流-waterfall"><a class="markdownIt-Anchor" href="#插入瀑布流-waterfall"></a> 插入瀑布流 waterfall</h2>
+<p>如需要修改大小 添加参数<code>size=&quot;max&quot;</code></p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&#123;% waterfall size=&quot;max&quot; %&#125;<br>![<span class="hljs-string">imgname</span>](<span class="hljs-link">imgsrc</span>)<br>...<br>&#123;% endwaterfall %&#125;<br></code></pre></td></tr></table></figure>
-
 <p><strong>更多参数可参考<a target="_blank" rel="noopener" href="https://github.com/miiiku/waterfall#options">https://github.com/miiiku/waterfall#options</a> 原参数的<code>驼峰命名</code>改为<code>横线连接</code></strong></p>
 <p>🌰: 如设置布局为<code>水平布局</code>，每个元素的类名为<code>item-image</code></p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&#123;% waterfall direction=h item-class=item-image %&#125;<br>![<span class="hljs-string">imgname</span>](<span class="hljs-link">imgsrc</span>)<br>...<br>&#123;% endwaterfall %&#125;<br></code></pre></td></tr></table></figure>
-
 <p><strong>注意: 需要开启<code>waterfall</code>插件才能正常使用本内置标签</strong></p>
-<h2 id="水平居中-center"><a href="#水平居中-center" class="headerlink" title="水平居中 center"></a>水平居中 center</h2><p>使center标签内的内容水平居中</p>
+<h2 id="水平居中-center"><a class="markdownIt-Anchor" href="#水平居中-center"></a> 水平居中 center</h2>
+<p>使center标签内的内容水平居中</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&#123;% center %&#125;<br>...<br>&#123;% endcenter %&#125;<br></code></pre></td></tr></table></figure>
-
-<h2 id="插入书签-bookmark"><a href="#插入书签-bookmark" class="headerlink" title="插入书签 bookmark"></a>插入书签 bookmark</h2><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&lt;!-- link 地址(必填) title? 标题 cover? 封面 --&gt;<br>&#123;% bookmark title=&quot;我在这里&quot; link=&quot;https://miiiku.xyz&quot; cover=&quot;https://qiniu.miiiku.xyz/attach/2019/03/15529735091219953<span class="hljs-emphasis">_175322076_</span>H800.jpg&quot; %&#125;<br></code></pre></td></tr></table></figure>
-
-<h2 id="插入图片-image"><a href="#插入图片-image" class="headerlink" title="插入图片 image"></a>插入图片 image</h2><p>如需要修改大小 添加参数<code>size=&quot;max&quot;</code></p>
+<h2 id="插入书签-bookmark"><a class="markdownIt-Anchor" href="#插入书签-bookmark"></a> 插入书签 bookmark</h2>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&lt;!-- link 地址(必填) title? 标题 cover? 封面 --&gt;<br>&#123;% bookmark title=&quot;我在这里&quot; link=&quot;https://miiiku.xyz&quot; cover=&quot;https://qiniu.miiiku.xyz/attach/2019/03/15529735091219953<span class="hljs-emphasis">_175322076_</span>H800.jpg&quot; %&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="插入图片-image"><a class="markdownIt-Anchor" href="#插入图片-image"></a> 插入图片 image</h2>
+<p>如需要修改大小 添加参数<code>size=&quot;max&quot;</code></p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&lt;!-- src 地址(必填) title? 描述 size? 大小 --&gt;<br>&#123;% image src=&quot;https://qiniu.miiiku.xyz/attach/2019/03/15529735091219953<span class="hljs-emphasis">_175322076_</span>H800.jpg&quot; title=&quot;hello world&quot; size=&quot;max&quot; %&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="favicon"><a href="#favicon" class="headerlink" title="favicon"></a>favicon</h2><p>替换掉主题文件下的<code>source/favicon.ico</code></p>
-<h2 id="logo"><a href="#logo" class="headerlink" title="logo"></a>logo</h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">logo:</span><br></code></pre></td></tr></table></figure>
-
+<h1 id="其他"><a class="markdownIt-Anchor" href="#其他"></a> 其他</h1>
+<h2 id="favicon"><a class="markdownIt-Anchor" href="#favicon"></a> favicon</h2>
+<p>替换掉主题文件下的<code>source/favicon.ico</code></p>
+<h2 id="logo"><a class="markdownIt-Anchor" href="#logo"></a> logo</h2>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">logo:</span><br></code></pre></td></tr></table></figure>
 <p>高度不超过50，宽度不超过200为最佳</p>
-<h2 id="banner"><a href="#banner" class="headerlink" title="banner"></a>banner</h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">banner:</span><br></code></pre></td></tr></table></figure>
-
+<h2 id="banner"><a class="markdownIt-Anchor" href="#banner"></a> banner</h2>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">banner:</span><br></code></pre></td></tr></table></figure>
 <p>宽图为最佳</p>
-<h2 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h2><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">google_analytics:</span> <br><br><span class="hljs-attr">gauges_analytics:</span> <br><br><span class="hljs-attr">baidu_analytics:</span> <br><br><span class="hljs-attr">tencent_analytics:</span> <br></code></pre></td></tr></table></figure>
-
+<h2 id="统计"><a class="markdownIt-Anchor" href="#统计"></a> 统计</h2>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">google_analytics:</span> <br><br><span class="hljs-attr">gauges_analytics:</span> <br><br><span class="hljs-attr">baidu_analytics:</span> <br><br><span class="hljs-attr">tencent_analytics:</span> <br></code></pre></td></tr></table></figure>
 <p>接入常用网站统计第三方</p>
-<h2 id="social-icon-社交图标"><a href="#social-icon-社交图标" class="headerlink" title="social icon 社交图标"></a>social icon 社交图标</h2><p>添加常用到一些社交图标</p>
+<h2 id="social-icon-社交图标"><a class="markdownIt-Anchor" href="#social-icon-社交图标"></a> social icon 社交图标</h2>
+<p>添加常用到一些社交图标</p>
 <p><code>header_enable</code> 首页导航栏是否显示社交图标</p>
 <p><code>footer_enable</code> 底部导航栏是否显示社交图标</p>
 <p>如需要修改图标显示顺序，只需要移动<code>icons</code>下的列表顺序即可</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">social_icon:</span><br>  <span class="hljs-attr">header_enable:</span> <span class="hljs-literal">false</span><br>  <span class="hljs-attr">footer_enable:</span> <span class="hljs-literal">false</span><br>  <span class="hljs-attr">icons:</span><br>    <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">type:</span> <span class="hljs-string">email</span>,      <span class="hljs-attr">value:</span> &#125;<br>    <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">type:</span> <span class="hljs-string">github</span>,     <span class="hljs-attr">value:</span> &#125;<br>    <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">type:</span> <span class="hljs-string">google+</span>,    <span class="hljs-attr">value:</span> &#125;<br>    <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">type:</span> <span class="hljs-string">ins</span>,        <span class="hljs-attr">value:</span> &#125;<br>    <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">type:</span> <span class="hljs-string">twitter</span>,    <span class="hljs-attr">value:</span> &#125;<br>    <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">type:</span> <span class="hljs-string">youtube</span>,    <span class="hljs-attr">value:</span> &#125;<br>    <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">type:</span> <span class="hljs-string">weibo</span>,      <span class="hljs-attr">value:</span> &#125;<br>    <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">type:</span> <span class="hljs-string">cloudmusic</span>, <span class="hljs-attr">value:</span> &#125;<br>    <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">type:</span> <span class="hljs-string">zhihu</span>,      <span class="hljs-attr">value:</span> &#125;<br></code></pre></td></tr></table></figure>
-
-
 
       </section>
 
@@ -466,6 +485,12 @@
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E9%A2%98%E7%9B%AE/">
+            题目 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E6%9D%82%E8%B0%88/">
             杂谈 (4)
           </a>
@@ -480,12 +505,6 @@
         <li class="categorys-list-item">
           <a href="/categories/%E6%98%93%E8%AF%AD%E8%A8%80/">
             易语言 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%A2%98%E7%9B%AE/">
-            题目 (2)
           </a>
         </li>
       

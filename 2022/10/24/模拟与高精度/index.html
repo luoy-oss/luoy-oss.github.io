@@ -40,7 +40,11 @@
   
 <link rel="stylesheet" href="/css/style.css">
 
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 <body>
   <div class="root-container">
     
@@ -124,7 +128,11 @@
   
   
   
+  <link href="https://cdn.bootcss.com/KaTeX/0.7.1/katex.min.css" rel="stylesheet">
+  
 </header>
+
+
 
     <!-- 文章 -->
 
@@ -137,21 +145,28 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="P1042-NOIP2003-普及组-乒乓球"><a href="#P1042-NOIP2003-普及组-乒乓球" class="headerlink" title="P1042 [NOIP2003 普及组] 乒乓球"></a>P1042 [NOIP2003 普及组] 乒乓球</h2><h3 id="题目背景"><a href="#题目背景" class="headerlink" title="题目背景"></a>题目背景</h3><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>华华通过以下方式进行分析，首先将比赛每个球的胜负列成一张表，然后分别计算在 11分制和 21 分制下，双方的比赛结果（截至记录末尾）。</p>
+        <h2 id="p1042-noip2003-普及组-乒乓球"><a class="markdownIt-Anchor" href="#p1042-noip2003-普及组-乒乓球"></a> P1042 [NOIP2003 普及组] 乒乓球</h2>
+<h3 id="题目背景"><a class="markdownIt-Anchor" href="#题目背景"></a> 题目背景</h3>
+<h3 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h3>
+<p>华华通过以下方式进行分析，首先将比赛每个球的胜负列成一张表，然后分别计算在 11分制和 21 分制下，双方的比赛结果（截至记录末尾）。</p>
 <p>比如现在有这么一份记录，（其中 W 表示华华获得一分， L表示华华对手获得一分）：</p>
 <blockquote>
-<p> WWWWWWWWWWWWWWWWWWWWWWLW</p>
+<p>WWWWWWWWWWWWWWWWWWWWWWLW</p>
 </blockquote>
 <p>在 11分制下，此时比赛的结果是华华第一局 11比 0 获胜，第二局 11比 0 获胜，正在进行第三局，当前比分 1 比 1。而在 21 分制下，此时比赛结果是华华第一局 21 比 0 获胜，正在进行第二局，比分 2 比 1。如果一局比赛刚开始，则此时比分为 0 比 0。</p>
 <p>到达11分（21分）后，分差大于或者等于 2，才一局结束。</p>
 <p>你的程序就是要对于一系列比赛信息的输入（W L 形式），输出正确的结果。</p>
-<h3 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h3><p>每个输入文件包含若干行字符串，字符串有大写的  W 、  L 和  E 组成。其中  E 表示比赛信息结束，程序应该忽略  E 之后的所有内容。</p>
-<h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>输出由两部分组成，每部分有若干行，每一行对应一局比赛的比分（按比赛信息输入顺序）。其中第一部分是 11分制下的结果，第二部分是 21 分制下的结果，两部分之间由一个空行分隔。</p>
-<h3 id="样例-1"><a href="#样例-1" class="headerlink" title="样例 #1"></a>样例 #1</h3><h4 id="样例输入-1"><a href="#样例输入-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">WWWWWWWWWWWWWWWWWWWW</span><br><span class="hljs-attribute">WWLWE</span><br></code></pre></td></tr></table></figure>
-
-<h4 id="样例输出-1"><a href="#样例输出-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">11</span>:<span class="hljs-number">0</span><br><span class="hljs-attribute">11</span>:<span class="hljs-number">0</span><br><span class="hljs-attribute">1</span>:<span class="hljs-number">1</span><br><br><span class="hljs-attribute">21</span>:<span class="hljs-number">0</span><br><span class="hljs-attribute">2</span>:<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h3><p>每行至多 25 个字母，最多有 2500 行。</p>
+<h3 id="输入格式"><a class="markdownIt-Anchor" href="#输入格式"></a> 输入格式</h3>
+<p>每个输入文件包含若干行字符串，字符串有大写的  W 、  L 和  E 组成。其中  E 表示比赛信息结束，程序应该忽略  E 之后的所有内容。</p>
+<h3 id="输出格式"><a class="markdownIt-Anchor" href="#输出格式"></a> 输出格式</h3>
+<p>输出由两部分组成，每部分有若干行，每一行对应一局比赛的比分（按比赛信息输入顺序）。其中第一部分是 11分制下的结果，第二部分是 21 分制下的结果，两部分之间由一个空行分隔。</p>
+<h3 id="样例-1"><a class="markdownIt-Anchor" href="#样例-1"></a> 样例 #1</h3>
+<h4 id="样例输入-1"><a class="markdownIt-Anchor" href="#样例输入-1"></a> 样例输入 #1</h4>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">WWWWWWWWWWWWWWWWWWWW</span><br><span class="hljs-attribute">WWLWE</span><br></code></pre></td></tr></table></figure>
+<h4 id="样例输出-1"><a class="markdownIt-Anchor" href="#样例输出-1"></a> 样例输出 #1</h4>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">11</span>:<span class="hljs-number">0</span><br><span class="hljs-attribute">11</span>:<span class="hljs-number">0</span><br><span class="hljs-attribute">1</span>:<span class="hljs-number">1</span><br><br><span class="hljs-attribute">21</span>:<span class="hljs-number">0</span><br><span class="hljs-attribute">2</span>:<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<h3 id="提示"><a class="markdownIt-Anchor" href="#提示"></a> 提示</h3>
+<p>每行至多 25 个字母，最多有 2500 行。</p>
 <p>（注：事实上有一个测试点有 2501 行数据。）</p>
 <details>
     <summary><font color=FFAC68>展开查看代码</font></summary>
@@ -161,79 +176,84 @@
 using namespace std;
 <br>
 int _abs(int x) &#123;
-    return x > 0 ? x : -x;
+	return x > 0 ? x : -x;
 &#125;
 <br>
 void score(int fdif,string& str) &#123;
-    int W = 0, L = 0;//W 华华  L对手
-    bool wait2 = false;//21:20时等候2分分差
-    for (int i = 0; i < str.size() - 1; i++) &#123;
-        if (str[i] == 'W')W++;
-        if (str[i] == 'L')L++;
-        <br>
-        if (W == fdif - 1 && L == fdif - 1)wait2 = true;
-        <br>
-        if (!wait2) &#123;
-            if (W == fdif) &#123;
-                cout << W << ":" << L << endl;
-                W = L = 0;
-            &#125;
-            else if (L == fdif) &#123;
-                cout << W << ":" << L << endl;
-                W = L = 0;
-            &#125;
-        &#125;
-        else &#123;
-            //等候两分分差
-            if (_abs(W - L) == 2) &#123;
-                cout << W << ":" << L << endl;
-                W = L = wait2 = 0;
-            &#125;
-        &#125;
-        <br>
-    &#125;
-    cout << W << ":" << L;
+	int W = 0, L = 0;//W 华华  L对手
+	bool wait2 = false;//21:20时等候2分分差
+	for (int i = 0; i < str.size() - 1; i++) &#123;
+		if (str[i] == 'W')W++;
+		if (str[i] == 'L')L++;
+		<br>
+		if (W == fdif - 1 && L == fdif - 1)wait2 = true;
+		<br>
+		if (!wait2) &#123;
+			if (W == fdif) &#123;
+				cout << W << ":" << L << endl;
+				W = L = 0;
+			&#125;
+			else if (L == fdif) &#123;
+				cout << W << ":" << L << endl;
+				W = L = 0;
+			&#125;
+		&#125;
+		else &#123;
+			//等候两分分差
+			if (_abs(W - L) == 2) &#123;
+				cout << W << ":" << L << endl;
+				W = L = wait2 = 0;
+			&#125;
+		&#125;
+		<br>
+	&#125;
+	cout << W << ":" << L;
 &#125;
 <br>
 int main() &#123;
-    string str = "";
-    char temp;
-    <br>
-    do &#123;
-        cin >> temp;
-        str += temp;
-    &#125; while (temp != 'E');
-    if (str == "E") &#123;
-        cout << "0:0\n\n0:0";
-        goto end;
-    &#125;
-    score(11,str);
-    cout << endl << endl;
-    score(21,str);
-    <br>
+	string str = "";
+	char temp;
+	<br>
+	do &#123;
+		cin >> temp;
+		str += temp;
+	&#125; while (temp != 'E');
+	if (str == "E") &#123;
+		cout << "0:0\n\n0:0";
+		goto end;
+	&#125;
+	score(11,str);
+	cout << endl << endl;
+	score(21,str);
+	<br>
 end:;
-    <br>
-    return 0;
+	<br>
+	return 0;
 &#125;
 </code></pre>
 </details>
-
-
-<h1 id="NOIP2015-普及组-扫雷游戏"><a href="#NOIP2015-普及组-扫雷游戏" class="headerlink" title="[NOIP2015 普及组] 扫雷游戏"></a>[NOIP2015 普及组] 扫雷游戏</h1><h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h2><p>扫雷游戏是一款十分经典的单机小游戏。在 n 行 m 列的雷区中有一些格子含有地雷（称之为地雷格），其他格子不含地雷（称之为非地雷格）。玩家翻开一个非地雷格时，该格将会出现一个数字——提示周围格子中有多少个是地雷格。游戏的目标是在不翻出任何地雷格的条件下，找出所有的非地雷格。</p>
+<h1 id="noip2015-普及组-扫雷游戏"><a class="markdownIt-Anchor" href="#noip2015-普及组-扫雷游戏"></a> [NOIP2015 普及组] 扫雷游戏</h1>
+<h2 id="题目描述-2"><a class="markdownIt-Anchor" href="#题目描述-2"></a> 题目描述</h2>
+<p>扫雷游戏是一款十分经典的单机小游戏。在 n 行 m 列的雷区中有一些格子含有地雷（称之为地雷格），其他格子不含地雷（称之为非地雷格）。玩家翻开一个非地雷格时，该格将会出现一个数字——提示周围格子中有多少个是地雷格。游戏的目标是在不翻出任何地雷格的条件下，找出所有的非地雷格。</p>
 <p>现在给出 n 行 m 列的雷区中的地雷分布，要求计算出每个非地雷格周围的地雷格数。</p>
 <p>注：一个格子的周围格子包括其上、下、左、右、左上、右上、左下、右下八个方向上与之直接相邻的格子。</p>
-<h2 id="输入格式-1"><a href="#输入格式-1" class="headerlink" title="输入格式"></a>输入格式</h2><p>第一行是用一个空格隔开的两个整数 n 和 m，分别表示雷区的行数和列数。</p>
+<h2 id="输入格式-2"><a class="markdownIt-Anchor" href="#输入格式-2"></a> 输入格式</h2>
+<p>第一行是用一个空格隔开的两个整数 n 和 m，分别表示雷区的行数和列数。</p>
 <p>接下来 n 行，每行 m 个字符，描述了雷区中的地雷分布情况。字符 *}表示相应格子是地雷格，字符 ? 表示相应格子是非地雷格。相邻字符之间无分隔符。</p>
-<h2 id="输出格式-1"><a href="#输出格式-1" class="headerlink" title="输出格式"></a>输出格式</h2><p>输出文件包含 n 行，每行 m 个字符，描述整个雷区。用 *表示地雷格，用周围的地雷个数表示非地雷格。相邻字符之间无分隔符。</p>
-<h2 id="样例-1-1"><a href="#样例-1-1" class="headerlink" title="样例 #1"></a>样例 #1</h2><h3 id="样例输入-1-1"><a href="#样例输入-1-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-number">3</span> <span class="hljs-number">3</span><br>*<span class="hljs-string">??</span><br><span class="hljs-string">??</span>?<br><span class="hljs-string">?*</span>?<br></code></pre></td></tr></table></figure>
-
-<h3 id="样例输出-1-1"><a href="#样例输出-1-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-number">*10</span><br>221<br>1<span class="hljs-number">*1</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="样例-2"><a href="#样例-2" class="headerlink" title="样例 #2"></a>样例 #2</h2><h3 id="样例输入-2"><a href="#样例输入-2" class="headerlink" title="样例输入 #2"></a>样例输入 #2</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-number">2</span> <span class="hljs-number">3</span><br><span class="hljs-string">?*</span>?<br>*<span class="hljs-string">??</span><br></code></pre></td></tr></table></figure>
-
-<h3 id="样例输出-2"><a href="#样例输出-2" class="headerlink" title="样例输出 #2"></a>样例输出 #2</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">2<span class="hljs-number">*1</span><br><span class="hljs-number">*21</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="提示-1"><a href="#提示-1" class="headerlink" title="提示"></a>提示</h2><p>对于 100%的数据，1≤n≤100, 1≤m≤100。</p>
+<h2 id="输出格式-2"><a class="markdownIt-Anchor" href="#输出格式-2"></a> 输出格式</h2>
+<p>输出文件包含 n 行，每行 m 个字符，描述整个雷区。用 *表示地雷格，用周围的地雷个数表示非地雷格。相邻字符之间无分隔符。</p>
+<h2 id="样例-1-2"><a class="markdownIt-Anchor" href="#样例-1-2"></a> 样例 #1</h2>
+<h3 id="样例输入-1-2"><a class="markdownIt-Anchor" href="#样例输入-1-2"></a> 样例输入 #1</h3>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-number">3</span> <span class="hljs-number">3</span><br>*<span class="hljs-string">??</span><br><span class="hljs-string">??</span>?<br><span class="hljs-string">?*</span>?<br></code></pre></td></tr></table></figure>
+<h3 id="样例输出-1-2"><a class="markdownIt-Anchor" href="#样例输出-1-2"></a> 样例输出 #1</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-number">*10</span><br>221<br>1<span class="hljs-number">*1</span><br></code></pre></td></tr></table></figure>
+<h2 id="样例-2"><a class="markdownIt-Anchor" href="#样例-2"></a> 样例 #2</h2>
+<h3 id="样例输入-2"><a class="markdownIt-Anchor" href="#样例输入-2"></a> 样例输入 #2</h3>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-number">2</span> <span class="hljs-number">3</span><br><span class="hljs-string">?*</span>?<br>*<span class="hljs-string">??</span><br></code></pre></td></tr></table></figure>
+<h3 id="样例输出-2"><a class="markdownIt-Anchor" href="#样例输出-2"></a> 样例输出 #2</h3>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">2<span class="hljs-number">*1</span><br><span class="hljs-number">*21</span><br></code></pre></td></tr></table></figure>
+<h2 id="提示-2"><a class="markdownIt-Anchor" href="#提示-2"></a> 提示</h2>
+<p>对于 100%的数据，1≤n≤100, 1≤m≤100。</p>
 <details>
     <summary><font color=FFAC68>展开查看代码</font></summary>
 <pre><code>
@@ -245,39 +265,38 @@ char _map[101][101];
 int dx[8] = &#123; -1,1,0,0,-1,-1,1,1 &#125;;
 int dy[8] = &#123; 0,0,-1,1,-1,1,-1,1 &#125;;
 int main() &#123;
-    int n, m;
-    cin >> n >> m;
-    <br>
-    for (int x = 1; x <= n; x++) &#123;
-        for (int y = 1; y <= m; y++) &#123;
-            cin >> _map[x][y];
-        &#125;
-    &#125;
-    <br>
-    for (int x = 1; x <= n; x++) &#123;
-        if (x != 1) &#123;
-            cout << endl;
-        &#125;
-        for (int y = 1; y <= m; y++) &#123;
-            if (_map[x][y] == '*') &#123;
-                cout << "*";
-                continue;
-            &#125;
-            <br>
-            int ans = 0;
-            for (int n = 0; n < 8; n++) &#123;
-                //x , y + 偏移量
-                if (_map[x + dx[n]][y + dy[n]] == '*') ans++;
-            &#125;
-            cout << ans;
-        &#125;
-    &#125;
-    <br>
-    return 0;
+	int n, m;
+	cin >> n >> m;
+	<br>
+	for (int x = 1; x <= n; x++) &#123;
+		for (int y = 1; y <= m; y++) &#123;
+			cin >> _map[x][y];
+		&#125;
+	&#125;
+	<br>
+	for (int x = 1; x <= n; x++) &#123;
+		if (x != 1) &#123;
+			cout << endl;
+		&#125;
+		for (int y = 1; y <= m; y++) &#123;
+			if (_map[x][y] == '*') &#123;
+				cout << "*";
+				continue;
+			&#125;
+			<br>
+			int ans = 0;
+			for (int n = 0; n < 8; n++) &#123;
+				//x , y + 偏移量
+				if (_map[x + dx[n]][y + dy[n]] == '*') ans++;
+			&#125;
+			cout << ans;
+		&#125;
+	&#125;
+	<br>
+	return 0;
 &#125;
 </code></pre>
 </details>
-
 
       </section>
 
@@ -417,6 +436,12 @@ int main() &#123;
         </li>
       
         <li class="categorys-list-item">
+          <a href="/categories/%E9%A2%98%E7%9B%AE/">
+            题目 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
           <a href="/categories/%E6%9D%82%E8%B0%88/">
             杂谈 (4)
           </a>
@@ -431,12 +456,6 @@ int main() &#123;
         <li class="categorys-list-item">
           <a href="/categories/%E6%98%93%E8%AF%AD%E8%A8%80/">
             易语言 (1)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/%E9%A2%98%E7%9B%AE/">
-            题目 (2)
           </a>
         </li>
       
