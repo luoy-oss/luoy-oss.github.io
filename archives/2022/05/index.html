@@ -125,37 +125,51 @@
   <div class="content-container layout-block article-list">
     
       <div class="article-item layout-padding">
-        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
-          
-            <div class="card-cover" background-image-lazy data-img="/img/cover/gitee.jpg"></div>
-          
-
-          <div class="card-text">
-            
-              <a href="/2022/05/13/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/" itemprop="url">
-                <h2 class="card-text--title">记一次gitee本地推送</h2>
-              </a>
-            
-            <div class="card-text--row">
-              <span>发布于</span>
-              <time  class="" datetime="2022-05-13T07:25:23.000Z" itemprop="datePublished">2022-05-13 15时25分23秒</time>
-            </div>
-            <ul class="wrap-list dark">
+		
+			<article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+			  
+				<div class="card-cover" background-image-lazy data-img="/img/cover/gitee.jpg"></div>
+			  
+				<div class="VLcard">
+				  <div class="card-text">
+					
+					  <a href="/2022/05/13/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/" itemprop="url">
+						<h2 class="card-text--title">记一次gitee本地推送</h2>
+					  </a>
+					
+					<div class="card-text--row">
+					  <span>发布于</span>
+					  <time  class="" datetime="2022-05-13T07:25:23.000Z" itemprop="datePublished">2022-05-13 15时25分23秒</time>
+					</div>
+					<ul class="wrap-list dark">
   
     <li><a href="/categories/git/">📒 git</a></li>
   
 </ul>
-            <ul class="wrap-list dark">
+					<ul class="wrap-list dark">
   
     <li><a href="/tags/gitee/">🏷️ gitee</a></li>
   
 </ul>
-          </div>
-        </article>
+				  </div>
+				</div>
+			</article>
+		
       </div>
     
   </div>
 </div>
+
+<script src="./drluo/js/vanilla-tilt.js"></script>
+<script>
+	// vanilla-tilt.js是一个平滑的3D倾斜JS库，具体参数配置度娘可查到
+	VanillaTilt.init(document.querySelectorAll(".VLcard"),{
+		max: 10,  //最大倾斜度数
+		speed: 10000,  //倾斜转换的速度
+		glare: false,  //是否开启眩光效果
+		"max-glare": 1  ///最大眩光不透明度（1=100%，0.5=50%）
+	})
+</script>
 
 <!-- page container -->
 
@@ -214,8 +228,8 @@
 
     
 
-    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
-
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a></p>
+	<h>The current theme is an optimized version based on the <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a> theme</h>
     <p>
       <a href="javascript:;" id="theme-light">🌞 浅色</a>
       <a href="javascript:;" id="theme-dark">🌛 深色</a>

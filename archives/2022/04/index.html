@@ -125,37 +125,51 @@
   <div class="content-container layout-block article-list">
     
       <div class="article-item layout-padding">
-        <article class="card-container article-card content-padding--large soft-size--large soft-style--box">
-          
-            <div class="card-cover" background-image-lazy data-img="/img/cover/杂谈.jpg"></div>
-          
-
-          <div class="card-text">
-            
-              <a href="/2022/04/24/%E6%9D%82%E8%B0%88/" itemprop="url">
-                <h2 class="card-text--title">杂谈</h2>
-              </a>
-            
-            <div class="card-text--row">
-              <span>发布于</span>
-              <time  class="" datetime="2022-04-24T14:02:23.000Z" itemprop="datePublished">2022-04-24 22时02分23秒</time>
-            </div>
-            <ul class="wrap-list dark">
+		
+			<article class="card-container article-card content-padding--large soft-size--large soft-style--box">
+			  
+				<div class="card-cover" background-image-lazy data-img="/img/cover/杂谈.jpg"></div>
+			  
+				<div class="VLcard">
+				  <div class="card-text">
+					
+					  <a href="/2022/04/24/%E6%9D%82%E8%B0%88/" itemprop="url">
+						<h2 class="card-text--title">杂谈</h2>
+					  </a>
+					
+					<div class="card-text--row">
+					  <span>发布于</span>
+					  <time  class="" datetime="2022-04-24T14:02:23.000Z" itemprop="datePublished">2022-04-24 22时02分23秒</time>
+					</div>
+					<ul class="wrap-list dark">
   
     <li><a href="/categories/%E6%9D%82%E8%B0%88/">📒 杂谈</a></li>
   
 </ul>
-            <ul class="wrap-list dark">
+					<ul class="wrap-list dark">
   
     <li><a href="/tags/%E4%B8%8E%E6%88%91%E6%9C%89%E5%85%B3/">🏷️ 与我有关</a></li>
   
 </ul>
-          </div>
-        </article>
+				  </div>
+				</div>
+			</article>
+		
       </div>
     
   </div>
 </div>
+
+<script src="./drluo/js/vanilla-tilt.js"></script>
+<script>
+	// vanilla-tilt.js是一个平滑的3D倾斜JS库，具体参数配置度娘可查到
+	VanillaTilt.init(document.querySelectorAll(".VLcard"),{
+		max: 10,  //最大倾斜度数
+		speed: 10000,  //倾斜转换的速度
+		glare: false,  //是否开启眩光效果
+		"max-glare": 1  ///最大眩光不透明度（1=100%，0.5=50%）
+	})
+</script>
 
 <!-- page container -->
 
@@ -214,8 +228,8 @@
 
     
 
-    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
-
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a></p>
+	<h>The current theme is an optimized version based on the <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a> theme</h>
     <p>
       <a href="javascript:;" id="theme-light">🌞 浅色</a>
       <a href="javascript:;" id="theme-dark">🌛 深色</a>
