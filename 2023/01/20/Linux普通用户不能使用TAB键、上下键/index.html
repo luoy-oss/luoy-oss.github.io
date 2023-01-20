@@ -22,7 +22,7 @@
 
   
 
-  <title>友链 | 洛屿的小站</title>
+  <title>Linux普通用户不能使用TAB键、上下键 | 洛屿的小站</title>
 
   
 
@@ -49,9 +49,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/img/bg.jpg)"></div>
+    <div class="post-image" style="background-image: url(/img/cover/七七.jpg)"></div>
   
 
   <!-- navbar -->
@@ -101,15 +101,29 @@
 
   
   
-
-  
-  
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">友链</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">Linux普通用户不能使用TAB键、上下键</h1>
+          <h2 class="title-sub-wrap">
+            <strong>drluo</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2023-01-20T02:50:32.000Z" itemprop="datePublished">2023-01-20 10时50分32秒</time>
+          </h2>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/Linux/">📒 Linux</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
   <link href="https://cdn.bootcss.com/KaTeX/0.7.1/katex.min.css" rel="stylesheet">
@@ -118,254 +132,58 @@
 
 
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="可爱又迷人的小伙伴们"><a class="markdownIt-Anchor" href="#可爱又迷人的小伙伴们"></a> 可爱又迷人的小伙伴们</h2>
-<h3 id="不来跟我交易一波吗"><a class="markdownIt-Anchor" href="#不来跟我交易一波吗"></a> 不来跟我交易一波吗♥</h3>
-<p>如果可以的话，需要交换友链的小伙伴们最好是可以在 <strong>[ <a target="_blank" rel="noopener" href="https://github.com/luoy-oss/blog-links">blog-links</a> ]</strong> Fork当前项目编辑<code>links.yml</code>在文件底部添加你的站点信息并推送(push)，然后建立一个新的合并申请（pull request）并描述改动。</p>
-<p>如果你不是GIT用户，可以直接在下方评论区以这样的格式进行回复～～。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-bullet">-</span> &#123; <span class="hljs-string">&quot;name&quot;</span> <span class="hljs-string">:</span> <span class="hljs-string">&quot;洛屿的小站&quot;</span>, <span class="hljs-string">&quot;describe&quot;</span> <span class="hljs-string">:</span> <span class="hljs-string">&quot;嗨，靓仔，今天也要有个好心情哦！&quot;</span>, <span class="hljs-string">&quot;link&quot;</span> <span class="hljs-string">:</span> <span class="hljs-string">&quot;https://www.drluo.top/&quot;</span>, <span class="hljs-string">&quot;cover&quot;</span> <span class="hljs-string">:</span> <span class="hljs-string">&quot;https://gravatar.loli.top/avatar/6fa57e21db3ba5961f18a8ae75d0a081?s=200&amp;r=g&amp;d=retro&quot;</span> &#125;<br></code></pre></td></tr></table></figure>
-<p>站点名称(name) | 洛屿的小站</p>
-<p>站点描述(describe) | 嗨，靓仔，今天也要有个好心情哦！</p>
-<p>站点地址(link) | <a target="_blank" rel="noopener" href="https://www.drluo.top/">https://www.drluo.top/</a></p>
-<p>站点图标(cover) | <a target="_blank" rel="noopener" href="https://gravatar.loli.top/avatar/6fa57e21db3ba5961f18a8ae75d0a081?s=200&amp;r=g&amp;d=retro">https://gravatar.loli.top/avatar/6fa57e21db3ba5961f18a8ae75d0a081?s=200&amp;r=g&amp;d=retro</a></p>
-<p>站点截图(可选，暂时没做显示，后续可能完善)(siteshot) | <a target="_blank" rel="noopener" href="https://www.drluo.top/img/websiteshot.jpg">https://www.drluo.top/img/websiteshot.jpg</a></p>
-<p>弱性要求如下:</p>
-<ul>
-<li><strong>博客类个人网站</strong></li>
-<li><strong>存活时间较长切<s>经常</s>偶尔发布过文章的最佳</strong></li>
-<li><strong>希望在提交友链申请时已在自己网站添加本站友链</strong></li>
-</ul>
-<p>呐呐呐，以上。</p>
+        <h3 id="出发点"><a class="markdownIt-Anchor" href="#出发点"></a> 出发点</h3>
+<blockquote>
+<p>通过shell远程连接linux的时候发现tab键命令不能补全<br />
+结合ubuntu,因默认ubuntu创建的普通帐号，默认shell为<code>/bin/sh</code>，而这不支持tab等键的，所以将「指定用户」帐号的shell改为<code>/bin/bash</code>就可以</p>
+</blockquote>
+<h3 id="操作"><a class="markdownIt-Anchor" href="#操作"></a> 操作</h3>
+<blockquote>
+<p>1.查看当前的shell：<br />
+<code># echo $SHELL</code><br />
+<code>/bin/sh</code><br />
+2.修改shell为<code>/bin/bash</code>：<br />
+(切换到root用户执行) <code># usermod -s /bin/bash 用户名</code></p>
+</blockquote>
 
       </section>
 
       
       
-        <section class="page-link-container">
+        <nav class="article-nav">
           
-            <div class="link-item layout-padding">
-              <a href="https://drluo.bk-free01.com/" title="是洛大人哟" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://saas.bk-cdn.com/t/768eee87-5c14-495f-9e54-e06848a5a937/u/1c0e9cd5-a83b-494f-bdd0-442dd367088e/drluoLogo1598224724428.png" alt="是洛大人哟" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">是洛大人哟</h4>
-                  
-                  <p class="text-ellipsis">emmm，或许，这个也是我的网站呢，嘿嘿</p>
-                  
-                </div>
-              </a>
-            </div>
           
-            <div class="link-item layout-padding">
-              <a href="https://kmar.top/" title="山岳库博" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://fastly.jsdelivr.net/npm/@kmar/fonts/avatar/own.png" alt="山岳库博" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">山岳库博</h4>
-                  
-                  <p class="text-ellipsis">开发学习启发性二刺螈。</p>
-                  
-                </div>
-              </a>
-            </div>
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="/img/cover/七七.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2022/12/11/C++%20%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%EF%BC%88%E5%89%8D%E7%BD%AE%E8%A1%A50%EF%BC%8C%E6%9C%89%E6%95%88%E4%BD%8D%E6%95%B0%EF%BC%8C%E4%BF%9D%E7%95%99%E5%B0%8F%E6%95%B0%EF%BC%89/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">C++ 格式化输出（前置补0，有效位数，保留小数）</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
           
-            <div class="link-item layout-padding">
-              <a href="https://www.linkeke.cn/" title="linkeke" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://www.linkeke.cn/wp-content/uploads/2022/11/a438d4ba3d1d788a67fc84.jpg" alt="linkeke" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">linkeke</h4>
-                  
-                  <p class="text-ellipsis">大家好，这里是林可可。</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="https://anzhiy.cn/" title="安知鱼" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://img02.anzhiy.cn/adminuploads/1/2022/09/15/63232b7d91d22.jpg" alt="安知鱼" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">安知鱼</h4>
-                  
-                  <p class="text-ellipsis">生活明朗，万物可爱。</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="https://yisous.xyz/" title="Ariasakaの小窝" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://bu.dusays.com/2022/12/01/638834c74239e.png" alt="Ariasakaの小窝" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">Ariasakaの小窝</h4>
-                  
-                  <p class="text-ellipsis">人有悲欢离合 月有阴晴圆缺。</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="https://rainxblog.top/" title="Rainx" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://rainxblog.top/wp-content/uploads/2022/11/head.jpg" alt="Rainx" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">Rainx</h4>
-                  
-                  <p class="text-ellipsis">幸与不幸都有尽头。</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="https://nano.vincent1230.top/" title="nano" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://nano.vincent1230.top/images/avatar.png" alt="nano" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">nano</h4>
-                  
-                  <p class="text-ellipsis">前天遇到了小鹿，昨天是小兔子，今天是你。</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="https://yunfog.com/" title="云雾" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://cdn.yunfog.com/images/yunfog.jpg" alt="云雾" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">云雾</h4>
-                  
-                  <p class="text-ellipsis">期待与更多的人相遇！</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="https://tenyding.cn/" title="细粒丁の小窝" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://tenyding.cn/image/avatar.jpg" alt="细粒丁の小窝" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">细粒丁の小窝</h4>
-                  
-                  <p class="text-ellipsis">认真的样子，才吸引人</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="https://www.kimtoli.com/" title="卿以君歌" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://cdn.kimtoli.com/img/hexoimg/blog_tx.png" alt="卿以君歌" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">卿以君歌</h4>
-                  
-                  <p class="text-ellipsis">永远年轻，永远热泪盈眶</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="https://inscc.cc/" title="一杯冰美式" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://inscc.cc/ins.png" alt="一杯冰美式" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">一杯冰美式</h4>
-                  
-                  <p class="text-ellipsis">物物而物不物于物</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="https://5ime.cn/" title="I Am I" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://cdn.jsdelivr.net/gh/5ime/img/avatar.jpg" alt="I Am I" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">I Am I</h4>
-                  
-                  <p class="text-ellipsis">永远相信美好的事情即将发生</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="https://im0o.top/" title="0o酱" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://image.im0o.top/files/202112021204213.jpg" alt="0o酱" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">0o酱</h4>
-                  
-                  <p class="text-ellipsis">Hello! I&#39;m 0o酱</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="http://blog.1think2program.cn/" title="盧瞳Blog" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://blog.1think2program.cn/images/head.jpg" alt="盧瞳Blog" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">盧瞳Blog</h4>
-                  
-                  <p class="text-ellipsis">先思考后编程</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-            <div class="link-item layout-padding">
-              <a href="http://www.hohoyun.cn/" title="hohoyun" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://movie-zsh.oss-cn-beijing.aliyuncs.com/blog/hohoH.jpg" alt="hohoyun" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">hohoyun</h4>
-                  
-                  <p class="text-ellipsis">Vue3 与 SpringBoot 的博客 模仿了hexo的butterfly</p>
-                  
-                </div>
-              </a>
-            </div>
-          
-        </section>
+        </nav>
       
 
-	  
-	  <section class="page-message-container layout-padding">
+      <section class="page-message-container layout-padding">
 		<div class="comment-text">
 			
 
@@ -392,10 +210,7 @@
 
 
 		</div>
-	  </section>
-
-      
-      
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -432,6 +247,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -513,7 +330,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">
