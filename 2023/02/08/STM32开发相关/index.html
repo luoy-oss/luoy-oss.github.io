@@ -221,6 +221,17 @@
 <p><img src="/img/page/stm32/define.png" alt="" /></p>
 <p>并<a href="#addheaderfilepath">添加</a>User  Library头文件路径</p>
 <p><strong><h2><center>这样基于库函数的工程就建好了</center></h2></strong></p>
+<blockquote>
+<h2>
+    新建工程步骤总结
+</h2>
+<p>建立工程文件夹，Keil中新建工程，选择型号</p>
+<p>工程文件夹里建立Start、Library、User等文件夹，复制固件库里面的文件到工程文件夹</p>
+<p>工程里对应建立Start、Library、User等同名称的分组，然后将文件夹内的文件添加到工程分组里</p>
+<p>工程选项，C/C++，Include Paths内声明所有包含头文件的文件夹</p>
+<p>工程选项，C/C++，Define内定义USE_STDPERIPH_DRIVER</p>
+<p>工程选项，Debug，下拉列表选择对应调试器，Settings，Flash Download里勾选Reset and Run</p>
+</blockquote>
 <h2 id="三-基于hal库"><a class="markdownIt-Anchor" href="#三-基于hal库"></a> 三、基于HAL库</h2>
 <p>该方式隐藏了底层逻辑，对于STM32不熟悉的人使用该方式，可能会停留在较浅水平</p>
 <p>建议学过标准库后再来了解。</p>
@@ -386,14 +397,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/STM32/">
-            STM32 (2)
+          <a href="/categories/Linux/">
+            Linux (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Linux/">
-            Linux (1)
+          <a href="/categories/STM32/">
+            STM32 (2)
           </a>
         </li>
       
