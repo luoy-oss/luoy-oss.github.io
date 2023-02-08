@@ -22,7 +22,7 @@
 
   
 
-  <title>Hello World | 洛屿的小站</title>
+  <title>STM32开发相关 | 洛屿的小站</title>
 
   
 
@@ -51,7 +51,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/img/cover/HelloWorld.jpg)"></div>
+    <div class="post-image" style="background-image: url(/img/cover/stm32.png)"></div>
   
 
   <!-- navbar -->
@@ -104,13 +104,15 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Hello World</h1>
+          <h1 class="title-wrap">STM32开发相关</h1>
           <h2 class="title-sub-wrap">
             <strong>drluo</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-04-03T14:02:02.000Z" itemprop="datePublished">2021-04-03 22时02分02秒</time>
+            <time  class="article-date" datetime="2023-02-08T12:03:12.000Z" itemprop="datePublished">2023-02-08 20时03分12秒</time>
           </h2>
           <ul class="wrap-list dark">
+  
+    <li><a href="/categories/STM32/">📒 STM32</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -141,20 +143,66 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="quick-start"><a class="markdownIt-Anchor" href="#quick-start"></a> Quick Start</h2>
-<h3 id="create-a-new-post"><a class="markdownIt-Anchor" href="#create-a-new-post"></a> Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="run-server"><a class="markdownIt-Anchor" href="#run-server"></a> Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="generate-static-files"><a class="markdownIt-Anchor" href="#generate-static-files"></a> Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="deploy-to-remote-sites"><a class="markdownIt-Anchor" href="#deploy-to-remote-sites"></a> Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <h1 id="开发准备"><a class="markdownIt-Anchor" href="#开发准备"></a> 开发准备</h1>
+<p><strong>固件库</strong></p>
+<p><img src="/img/page/stm32/STM32F10x_StdPeriph_Lib_V3.5.0.png" alt="" /></p>
+<blockquote>
+<p>_htmresc 无用</p>
+<p>Libraries 库函数文件</p>
+<p>Project 官方提供的工程示例和模板</p>
+<p>Utilities STM32官方<strong>评估板</strong>(官方的一个小电路板，用于测评STM32)的相关例程</p>
+<p>Release_Notes 库函数的发布文档</p>
+<p>stm32f10x_stdperiph_lib_um 使用手册</p>
+</blockquote>
+<p><strong>新建工程</strong></p>
+<p><img src="/img/page/stm32/NewProject.png" alt="" /></p>
+<p>下面弹出的这个窗口是Keil的工程助手，可以帮助新建工程，但是这里先用不到，关上即可</p>
+<p><img src="/img/page/stm32/%E5%B0%8F%E5%8A%A9%E6%89%8B.png" alt="" /></p>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B0.png" alt="" /></p>
+<p>随后，打开STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm</p>
+<p>其中的文件为STM32的启动文件，STM32的程序就是从这些启动文件执行的</p>
+<p>将其中的启动文件放到我们创建的项目中，记得分文件夹</p>
+<p>STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x</p>
+<p><img src="/img/page/stm32/stm32f10x.png" alt="" /></p>
+<p>目录下的stm32f10x.h是STM32的外设寄存器描述文件，用于描述STM32有哪些寄存器和它对应的地址，其余两个system文件主要是用于配置时钟</p>
+<p>STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\CoreSupport</p>
+<p><img src="/img/page/stm32/CoreSupport.png" alt="" /></p>
+<p>这两个cm3文件就是内核的寄存器描述，其中还有一些内核的配置函数（.c文件）</p>
+<blockquote>
+<p>以上就是工程的必要文件</p>
+</blockquote>
+<p>然后回到Keil，改组名，添加已有文件</p>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B2.png" alt="" /></p>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B3.png" alt="" /></p>
+<p>add时，加入的为startup_stm32f10x_md.s（这是启动文件中的一个，关于启动文件的选择，看这里），以及所有的.c .h文件</p>
+<p>此步，完成效果如下：</p>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B1.png" alt="" /></p>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B4.png" alt="" /></p>
+<p>！！记得<a href="#addheaderfilepath">添加头文件路径</a></p>
+<p>然后添加相应的main文件</p>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B-main.png" alt="" /></p>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B-main2.png" alt="" /></p>
+<p><strong><a href="#ac6">注意</a></strong></p>
+<h2 id="一-基于寄存器"><a class="markdownIt-Anchor" href="#一-基于寄存器"></a> 一、.基于寄存器</h2>
+<p>基于寄存器的开发方式更底层，更直接，程序效率会更高些，但是开发效率不高</p>
+<h2 id="二-基于库函数"><a class="markdownIt-Anchor" href="#二-基于库函数"></a> 二、基于库函数</h2>
+<p>通过调用ST官方设定好的函数，来间接的配置寄存器</p>
+<p>开发效率高</p>
+<h2 id="三-基于hal库"><a class="markdownIt-Anchor" href="#三-基于hal库"></a> 三、基于HAL库</h2>
+<p>该方式隐藏了底层逻辑，对于STM32不熟悉的人使用该方式，可能会停留在较浅水平</p>
+<p>建议学过标准库后再来了解。</p>
+<h1 id="杂项解析"><a class="markdownIt-Anchor" href="#杂项解析"></a> 杂项解析</h1>
+<p><a id='addheaderfilepath'></a></p>
+<h3 id="添加头文件路径"><a class="markdownIt-Anchor" href="#添加头文件路径"></a> 添加头文件路径</h3>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B5.png" alt="" /></p>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B6.png" alt="" /></p>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B7.png" alt="" /></p>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B8.png" alt="" /></p>
+<p><img src="/img/page/stm32/%E5%B7%A5%E7%A8%8B9.png" alt="" /></p>
+<p><a id='ac6'></a></p>
+<h3 id="ac6编译器对中文支持不好"><a class="markdownIt-Anchor" href="#ac6编译器对中文支持不好"></a> AC6编译器对中文支持不好</h3>
+<p>项目文件目录若有中文路径，头文件等都无法读取，项目内中文也会被报错</p>
+<p>可参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42378319/article/details/108796095">keil 使用AC6 中文警告解决办法</a></p>
 
       </section>
 
@@ -162,22 +210,22 @@
       
         <nav class="article-nav">
           
+          
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/img/cover/NOIOnline.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="/img/cover/七七.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2021/04/04/NOIonline/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">NOIonline</h2>
+        <a href="/2023/02/06/KEIL%E5%90%84%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F%E5%92%8CSTM%E7%9A%84KeilPACK%E5%8C%85%E4%B8%8B%E8%BD%BD/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">KEIL各版本镜像和STM的KeilPACK包下载</h2>
         </a>
       
-      <div class="card-text--row">Newer</div>
+      <div class="card-text--row">Older</div>
     </div>
   </article>
 </div>
-          
           
         </nav>
       
