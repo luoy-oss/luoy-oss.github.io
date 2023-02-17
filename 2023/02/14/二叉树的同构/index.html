@@ -22,7 +22,7 @@
 
   
 
-  <title>Linux普通用户不能使用TAB键、上下键 | 洛屿的小站</title>
+  <title>二叉树的同构 | 洛屿的小站</title>
 
   
 
@@ -51,7 +51,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/img/cover/七七.jpg)"></div>
+    <div class="post-image" style="background-image: url(/img/cover/BiTree.jpg)"></div>
   
 
   <!-- navbar -->
@@ -104,18 +104,22 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Linux普通用户不能使用TAB键、上下键</h1>
+          <h1 class="title-wrap">二叉树的同构</h1>
           <h2 class="title-sub-wrap">
             <strong>drluo</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2023-01-20T02:50:32.000Z" itemprop="datePublished">2023-01-20 10时50分32秒</time>
+            <time  class="article-date" datetime="2023-02-14T11:57:32.000Z" itemprop="datePublished">2023-02-14 19时57分32秒</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/Linux/">📒 Linux</a></li>
+    <li><a href="/categories/C/">📒 C++</a></li>
   
 </ul>
           <ul class="wrap-list dark">
+  
+    <li><a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">🏷️ 二叉树</a></li>
+  
+    <li><a href="/tags/%E6%A0%91/">🏷️ 树</a></li>
   
 </ul>
         </div>
@@ -143,19 +147,21 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h3 id="出发点"><a class="markdownIt-Anchor" href="#出发点"></a> 出发点</h3>
+        <h1 id="关于二叉树的同构"><a class="markdownIt-Anchor" href="#关于二叉树的同构"></a> 关于二叉树的同构</h1>
+<p><img src="/img/page/tree/Isomorphism.png" alt="" /></p>
+<hr />
 <blockquote>
-<p>通过shell远程连接linux的时候发现tab键命令不能补全<br />
-结合ubuntu,因默认ubuntu创建的普通帐号，默认shell为<code>/bin/sh</code>，而这不支持tab等键的，所以将「指定用户」帐号的shell改为<code>/bin/bash</code>就可以</p>
+<p><strong>一种可行的方法(基于数组的二叉树)</strong></p>
 </blockquote>
-<h3 id="操作"><a class="markdownIt-Anchor" href="#操作"></a> 操作</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">ArrTree</span> &#123;<br>	<span class="hljs-type">char</span> data;<br>	<span class="hljs-type">int</span> left;<br>	<span class="hljs-type">int</span> right;<br>&#125;A1T[<span class="hljs-number">100</span>], A2T[<span class="hljs-number">100</span>];<span class="hljs-comment">//</span><br><span class="hljs-type">bool</span> check[<span class="hljs-number">100</span>];<br><br><span class="hljs-comment">/////////////////////////////////////////////////////////////////</span><br><span class="hljs-comment">/////////////////构建函数，基于数组的二叉树/////////////////////////</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">构建输入的例子：</span><br><span class="hljs-comment">可以从根结点开始</span><br><span class="hljs-comment">8</span><br><span class="hljs-comment">A 1 2</span><br><span class="hljs-comment">B 3 4</span><br><span class="hljs-comment">C 5 -</span><br><span class="hljs-comment">D - -</span><br><span class="hljs-comment">E 6 -</span><br><span class="hljs-comment">G 7 -</span><br><span class="hljs-comment">F - -</span><br><span class="hljs-comment">H - -</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment">可以不从根结点开始</span><br><span class="hljs-comment">8</span><br><span class="hljs-comment">G - 4</span><br><span class="hljs-comment">B 7 6</span><br><span class="hljs-comment">F - -</span><br><span class="hljs-comment">A 5 1</span><br><span class="hljs-comment">H - -</span><br><span class="hljs-comment">C 0 -</span><br><span class="hljs-comment">D - -</span><br><span class="hljs-comment">E 2 -</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">*/</span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">AtBuild</span><span class="hljs-params">(ArrTree AT[])</span> </span>&#123;<br>	<span class="hljs-type">int</span> root = <span class="hljs-number">0</span>;<br><br>	<span class="hljs-type">int</span> n;<br>	cin &gt;&gt; n;<br><br>	<span class="hljs-type">char</span> left, right;<br>	<span class="hljs-keyword">if</span> (n) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)check[i] = <span class="hljs-literal">false</span>;<br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>			cin &gt;&gt; AT[i].data &gt;&gt; left &gt;&gt; right;<br>			<span class="hljs-keyword">if</span> (left != <span class="hljs-string">&#x27;-&#x27;</span>) &#123;<br>				AT[i].left = left - <span class="hljs-string">&#x27;0&#x27;</span>;<br>				check[AT[i].left] = <span class="hljs-number">1</span>;<br>			&#125;<br>			<span class="hljs-keyword">else</span> &#123;<br>				AT[i].left = <span class="hljs-number">-1</span>;<br>			&#125;<br><br>			<span class="hljs-keyword">if</span> (right != <span class="hljs-string">&#x27;-&#x27;</span>) &#123;<br>				AT[i].right = right - <span class="hljs-string">&#x27;0&#x27;</span>;<br>				check[AT[i].right] = <span class="hljs-number">1</span>;<br>			&#125;<br>			<span class="hljs-keyword">else</span> &#123;<br>				AT[i].right = <span class="hljs-number">-1</span>;<br>			&#125;<br>		&#125;<br>	<br>        <br>        <span class="hljs-comment">// 没有被任何结点指向的结点即为根节点</span><br>        <span class="hljs-comment">// 例子见下方图片</span><br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>			<span class="hljs-keyword">if</span> (!check[i]) &#123;<br>				root = i;<br>				<span class="hljs-keyword">break</span>;<br>			&#125;<br>		&#125;<br>        <br>	&#125;<br>	<br>	<span class="hljs-keyword">return</span> root;<br>&#125;<br><br><br><span class="hljs-comment">/////////////////////////////////////////////////////////////////</span><br><span class="hljs-comment">/////////////////////////////////////////////////////////////////</span><br><span class="hljs-comment">/////////////////////////////////////////////////////////////////</span><br><span class="hljs-comment">//////////////////////////同构检查函数/////////////////////////////</span><br><br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">Isomorphic</span><span class="hljs-params">(ArrTree* AT1, ArrTree* AT2, <span class="hljs-type">int</span> ATR1, <span class="hljs-type">int</span> ATR2)</span></span>&#123;<br>    <span class="hljs-comment">// 同构返回1，不同构返回2</span><br>    <br>    <br>	<span class="hljs-keyword">if</span> (ATR1 == <span class="hljs-number">-1</span> &amp;&amp; ATR2 == <span class="hljs-number">-1</span>)<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>	<span class="hljs-keyword">if</span> ((ATR1 == <span class="hljs-number">-1</span> &amp;&amp; ATR2 == <span class="hljs-number">-1</span>) || ATR1 != <span class="hljs-number">-1</span> &amp;&amp; ATR2 == <span class="hljs-number">-1</span>)<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>	<span class="hljs-keyword">if</span> (AT1[ATR1].left == <span class="hljs-number">-1</span> &amp;&amp; AT2[ATR2].left == <span class="hljs-number">-1</span>)<br>		<span class="hljs-keyword">return</span> <span class="hljs-built_in">Isomorphic</span>(AT1, AT2, AT1[ATR1].right, AT2[ATR2].right);<br>	<span class="hljs-keyword">if</span> ((AT1[ATR1].left != <span class="hljs-number">-1</span> &amp;&amp; AT2[ATR2].left != <span class="hljs-number">-1</span>) &amp;&amp; (AT1[AT1[ATR1].left].data == AT2[AT2[ATR2].left].data))<br>		<span class="hljs-keyword">return</span> (<span class="hljs-built_in">Isomorphic</span>(AT1, AT2, AT1[ATR1].left, AT2[ATR2].left)<br>			&amp;&amp; <span class="hljs-built_in">Isomorphic</span>(AT1, AT2, AT1[ATR1].right, AT2[ATR2].right));<br>	<span class="hljs-keyword">else</span><br>		<span class="hljs-built_in">return</span> (<span class="hljs-built_in">Isomorphic</span>(AT1, AT2, AT1[ATR1].left, AT2[ATR2].right)<br>			&amp;&amp; <span class="hljs-built_in">Isomorphic</span>(AT1, AT2, AT1[ATR1].right, AT2[ATR2].left));<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<hr />
 <blockquote>
-<p>1.查看当前的shell：<br />
-<code># echo $SHELL</code><br />
-<code>/bin/sh</code><br />
-2.修改shell为<code>/bin/bash</code>：<br />
-(切换到root用户执行) <code># usermod -s /bin/bash 用户名</code></p>
+<p><strong>没有被任何结点指向的结点即为根节点</strong> 示例</p>
 </blockquote>
+<p>存在的结点为0 1 3 4</p>
+<p>其中 0 3 4 有在数组中出现，而1没有出现，说明下标1的数组中存的即是根结点</p>
+<p><img src="/img/page/tree/eg1.png" alt="没有被任何结点指向的结点即为根节点" /></p>
+<hr />
 
       </section>
 
@@ -163,32 +169,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/img/cover/七七.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2023/02/06/KEIL%E5%90%84%E7%89%88%E6%9C%AC%E9%95%9C%E5%83%8F%E5%92%8CSTM%E7%9A%84KeilPACK%E5%8C%85%E4%B8%8B%E8%BD%BD/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">KEIL各版本镜像和STM的KeilPACK包下载</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/img/cover/七七.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="/img/cover/BiTree.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2022/12/11/C++%20%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%EF%BC%88%E5%89%8D%E7%BD%AE%E8%A1%A50%EF%BC%8C%E6%9C%89%E6%95%88%E4%BD%8D%E6%95%B0%EF%BC%8C%E4%BF%9D%E7%95%99%E5%B0%8F%E6%95%B0%EF%BC%89/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">C++ 格式化输出（前置补0，有效位数，保留小数）</h2>
+        <a href="/2023/02/14/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">二叉树的遍历</h2>
         </a>
       
       <div class="card-text--row">Older</div>

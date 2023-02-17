@@ -51,7 +51,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/img/cover/七七.jpg)"></div>
+    <div class="post-image" style="background-image: url(/img/cover/BiTree.jpg)"></div>
   
 
   <!-- navbar -->
@@ -117,7 +117,9 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/tree/">🏷️ tree</a></li>
+    <li><a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">🏷️ 二叉树</a></li>
+  
+    <li><a href="/tags/%E6%A0%91/">🏷️ 树</a></li>
   
 </ul>
         </div>
@@ -149,18 +151,45 @@
 <blockquote>
 <p>根-&gt;左子树-&gt;右子树</p>
 </blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::PreOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (B) &#123;<br>		cout &lt;&lt; B-&gt;data &lt;&lt; endl;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;left);<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;right);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h1 id="中序遍历"><a class="markdownIt-Anchor" href="#中序遍历"></a> 中序遍历</h1>
 <blockquote>
 <p>左子树-&gt;根-&gt;右子树</p>
 </blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::InOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (B) &#123;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;left);<br>		cout &lt;&lt; B-&gt;data &lt;&lt; endl;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;right);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h1 id="后序遍历"><a class="markdownIt-Anchor" href="#后序遍历"></a> 后序遍历</h1>
-<h1 id="层次遍历"><a class="markdownIt-Anchor" href="#层次遍历"></a> 层次遍历</h1>
-
+<blockquote>
+<p>左子树-&gt;右子树-&gt;根</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::PostOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (B) &#123;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;left);<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;right);<br>		cout &lt;&lt; B-&gt;data &lt;&lt; endl;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="层序遍历"><a class="markdownIt-Anchor" href="#层序遍历"></a> 层序遍历</h1>
+<blockquote>
+<p>第一层-&gt;第二层-&gt;…-&gt;最后一层</p>
+</blockquote>
+<p>通常的遍历，结点在访问后便被丢弃</p>
+<p>要想做到层序的效果，我们需要在访问一个结点时，要注意存下其左右结点（注意判空）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::LevelOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	BiNode* BQ[<span class="hljs-number">100</span>]; 	<span class="hljs-comment">//队列，用于存放结点</span><br>	BiNode* p;			<span class="hljs-comment">//取出的当前队列最前方结点</span><br>	<span class="hljs-type">int</span> l = <span class="hljs-number">0</span>, r = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">if</span>(B) BQ[r++] = B;	<span class="hljs-comment">//判空</span><br><br>	<span class="hljs-keyword">while</span> (l != r) &#123;	<span class="hljs-comment">//跳出循环的条件是队列为空（左右相遇即为空）</span><br>		p = BQ[l++];<br>		cout &lt;&lt; p-&gt;data &lt;&lt; endl;<br>		<span class="hljs-keyword">if</span> (p-&gt;left)BQ[r++] = p-&gt;left;		<span class="hljs-comment">//存入左结点</span><br>		<span class="hljs-keyword">if</span> (p-&gt;right)BQ[r++] = p-&gt;right;	<span class="hljs-comment">//存入右结点</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
       </section>
 
       
       
         <nav class="article-nav">
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="/img/cover/BiTree.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/02/14/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%90%8C%E6%9E%84/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">二叉树的同构</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
           
           
             <div class="article-nav-item layout-padding">
@@ -229,7 +258,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>21</span>
+        <span>22</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -241,7 +270,7 @@
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
 </svg>
-        13
+        15
       </div>
     </div>
   </div>
@@ -275,19 +304,13 @@
       
         <li class="categorys-list-item">
           <a href="/categories/C/">
-            C++ (9)
+            C++ (10)
           </a>
         </li>
       
         <li class="categorys-list-item">
           <a href="/categories/%E6%9D%82%E8%B0%88/">
             杂谈 (4)
-          </a>
-        </li>
-      
-        <li class="categorys-list-item">
-          <a href="/categories/KEIL/">
-            KEIL (1)
           </a>
         </li>
       
@@ -300,6 +323,12 @@
         <li class="categorys-list-item">
           <a href="/categories/STM32/">
             STM32 (2)
+          </a>
+        </li>
+      
+        <li class="categorys-list-item">
+          <a href="/categories/KEIL/">
+            KEIL (1)
           </a>
         </li>
       
@@ -334,7 +363,7 @@
   </div>
   <div class="widget-body">
     <div class="tags-cloud">
-      <a href="/tags/STL/" style="font-size: 10px;" class="tags-cloud-0">STL</a> <a href="/tags/gitee/" style="font-size: 10px;" class="tags-cloud-0">gitee</a> <a href="/tags/pta/" style="font-size: 15px;" class="tags-cloud-5">pta</a> <a href="/tags/tree/" style="font-size: 20px;" class="tags-cloud-10">tree</a> <a href="/tags/%E4%B8%8E%E6%88%91%E6%9C%89%E5%85%B3/" style="font-size: 10px;" class="tags-cloud-0">与我有关</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 10px;" class="tags-cloud-0">优化</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;" class="tags-cloud-0">动态规划</a> <a href="/tags/%E5%9B%9E%E6%BA%AF/" style="font-size: 10px;" class="tags-cloud-0">回溯</a> <a href="/tags/%E5%A4%B8%E7%88%B6%E8%AE%A1%E5%88%92/" style="font-size: 10px;" class="tags-cloud-0">夸父计划</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA/" style="font-size: 10px;" class="tags-cloud-0">格式化输出</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 10px;" class="tags-cloud-0">洛谷</a> <a href="/tags/%E6%BB%9A%E5%8A%A8%E6%95%B0%E7%BB%84/" style="font-size: 10px;" class="tags-cloud-0">滚动数组</a> <a href="/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6/" style="font-size: 10px;" class="tags-cloud-0">高精度</a>
+      <a href="/tags/STL/" style="font-size: 10px;" class="tags-cloud-0">STL</a> <a href="/tags/gitee/" style="font-size: 10px;" class="tags-cloud-0">gitee</a> <a href="/tags/pta/" style="font-size: 15px;" class="tags-cloud-5">pta</a> <a href="/tags/tree/" style="font-size: 10px;" class="tags-cloud-0">tree</a> <a href="/tags/%E4%B8%8E%E6%88%91%E6%9C%89%E5%85%B3/" style="font-size: 10px;" class="tags-cloud-0">与我有关</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 15px;" class="tags-cloud-5">二叉树</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 10px;" class="tags-cloud-0">优化</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;" class="tags-cloud-0">动态规划</a> <a href="/tags/%E5%9B%9E%E6%BA%AF/" style="font-size: 10px;" class="tags-cloud-0">回溯</a> <a href="/tags/%E5%A4%B8%E7%88%B6%E8%AE%A1%E5%88%92/" style="font-size: 10px;" class="tags-cloud-0">夸父计划</a> <a href="/tags/%E6%A0%91/" style="font-size: 20px;" class="tags-cloud-10">树</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA/" style="font-size: 10px;" class="tags-cloud-0">格式化输出</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 10px;" class="tags-cloud-0">洛谷</a> <a href="/tags/%E6%BB%9A%E5%8A%A8%E6%95%B0%E7%BB%84/" style="font-size: 10px;" class="tags-cloud-0">滚动数组</a> <a href="/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6/" style="font-size: 10px;" class="tags-cloud-0">高精度</a>
     </div>
   </div>
 </section>
