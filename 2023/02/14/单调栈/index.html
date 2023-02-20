@@ -22,7 +22,7 @@
 
   
 
-  <title>Hello World | 洛屿的小站</title>
+  <title>单调栈 | 洛屿的小站</title>
 
   
 
@@ -51,7 +51,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/img/cover/HelloWorld.jpg)"></div>
+    <div class="post-image" style="background-image: url(/img/cover/七七.jpg)"></div>
   
 
   <!-- navbar -->
@@ -104,16 +104,20 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Hello World</h1>
+          <h1 class="title-wrap">单调栈</h1>
           <h2 class="title-sub-wrap">
             <strong>drluo</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2021-04-03T14:02:02.000Z" itemprop="datePublished">2021-04-03 22时02分02秒</time>
+            <time  class="article-date" datetime="2023-02-14T07:27:59.000Z" itemprop="datePublished">2023-02-14 15时27分59秒</time>
           </h2>
           <ul class="wrap-list dark">
   
+    <li><a href="/categories/C/">📒 C++</a></li>
+  
 </ul>
           <ul class="wrap-list dark">
+  
+    <li><a href="/tags/%E6%A0%88/">🏷️ 栈</a></li>
   
 </ul>
         </div>
@@ -141,20 +145,54 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="quick-start"><a class="markdownIt-Anchor" href="#quick-start"></a> Quick Start</h2>
-<h3 id="create-a-new-post"><a class="markdownIt-Anchor" href="#create-a-new-post"></a> Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="run-server"><a class="markdownIt-Anchor" href="#run-server"></a> Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="generate-static-files"><a class="markdownIt-Anchor" href="#generate-static-files"></a> Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="deploy-to-remote-sites"><a class="markdownIt-Anchor" href="#deploy-to-remote-sites"></a> Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <blockquote>
+<p>帮助群友<s>♂♂</s>(AC)，就是帮助自己</p>
+</blockquote>
+<h1 id="单调栈"><a class="markdownIt-Anchor" href="#单调栈"></a> 单调栈</h1>
+<ul>
+<li>单调递增栈：单调递增栈就是从栈底到栈顶数据是从大到小</li>
+<li>单调递减栈：单调递减栈就是从栈底到栈顶数据是从小到大</li>
+</ul>
+<blockquote>
+<p>E.g: 单调递增栈加入数据：：：堆栈实现（<strong>栈顶为最大值</strong>）</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c++">stack&lt;<span class="hljs-type">int</span>&gt; st;<br><br><span class="hljs-comment">//栈顶为最大值</span><br><span class="hljs-type">void</span> _add(<span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp; x) &#123;<br>	<span class="hljs-keyword">if</span> (st.<span class="hljs-built_in">empty</span>() || st.<span class="hljs-built_in">top</span>() &gt; x)&#123;<br>		st.<span class="hljs-built_in">push</span>(x);<br>	&#125;<br>	<span class="hljs-keyword">else</span>&#123;<br>		stack&lt;<span class="hljs-type">int</span>&gt; tmp;<br>		<span class="hljs-keyword">while</span> (!st.<span class="hljs-built_in">empty</span>() &amp;&amp; st.<span class="hljs-built_in">top</span>() &lt; x) &#123;<br>			tmp.<span class="hljs-built_in">push</span>(st.<span class="hljs-built_in">top</span>()); st.<span class="hljs-built_in">pop</span>();<br>		&#125;<br>		st.<span class="hljs-built_in">push</span>(x);<br>		<br>		<span class="hljs-keyword">while</span> (!tmp.<span class="hljs-built_in">empty</span>()) &#123;<br>			st.<span class="hljs-built_in">push</span>(tmp.<span class="hljs-built_in">top</span>()); tmp.<span class="hljs-built_in">pop</span>();<br>		&#125;<br>	&#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>E.g: 单调递增栈加入数据：：：动态数组实现（<strong>(๑•̀ㅂ•́)و✧</strong>）用数组实现的真的还是单调栈吗</p>
+<p><s>可恶！已经完全不是堆栈的样子了</s></p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++">vector&lt;<span class="hljs-type">int</span>&gt; v;<br><br><span class="hljs-comment">//数组最后一项为最大值</span><br><span class="hljs-type">void</span> _add(<span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp; x) &#123;<br>    <span class="hljs-comment">//找小于等于</span><br>	v.<span class="hljs-built_in">insert</span>(<span class="hljs-built_in">lower_bound</span>(v.<span class="hljs-built_in">begin</span>(), v.<span class="hljs-built_in">end</span>(), x, greater&lt;&gt;()), x);<br>&#125;<br><br><span class="hljs-comment">//数组第一项为最大值</span><br><span class="hljs-type">void</span> _add(<span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp; x) &#123;<br>    <span class="hljs-comment">//找大于等于</span><br>	v.<span class="hljs-built_in">insert</span>(<span class="hljs-built_in">lower_bound</span>(v.<span class="hljs-built_in">begin</span>(), v.<span class="hljs-built_in">end</span>(), x), x);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>其实堆栈没必要一定是堆栈**(๑•̀ㅂ•́)و✧**</p>
+<hr />
+<p>然后对于洛谷的这一题 <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1823">[COI2007] Patrik 音乐会的等待</a></p>
+<h2 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h2>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span> 个人正在排队进入一个音乐会。人们等得很无聊，于是他们开始转来转去，想在队伍里寻找自己的熟人。</p>
+<p>队列中任意两个人 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">a</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">b</span></span></span></span>，如果他们是相邻或他们之间没有人比 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">a</span></span></span></span> 或 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">b</span></span></span></span> 高，那么他们是可以互相看得见的。</p>
+<p>写一个程序计算出有多少对人可以互相看见。</p>
+<h2 id="输入格式"><a class="markdownIt-Anchor" href="#输入格式"></a> 输入格式</h2>
+<p>输入的第一行包含一个整数 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span>，表示队伍中共有 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span> 个人。</p>
+<p>接下来的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span> 行中，每行包含一个整数，表示人的高度，以毫微米(等于 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>9</mn></mrow></msup></mrow><annotation encoding="application/x-tex">10^{-9}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8141079999999999em;"></span><span class="strut bottom" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mord"><span class="mord mathrm">0</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord">−</span><span class="mord mathrm">9</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span> 米)为单位，这些高度分别表示队伍中人的身高。</p>
+<h2 id="输出格式"><a class="markdownIt-Anchor" href="#输出格式"></a> 输出格式</h2>
+<p>输出仅有一行，包含一个数 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">s</span></span></span></span>，表示队伍中共有 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">s</span></span></span></span> 对人可以互相看见。</p>
+<h2 id="样例-1"><a class="markdownIt-Anchor" href="#样例-1"></a> 样例 #1</h2>
+<h3 id="样例输入-1"><a class="markdownIt-Anchor" href="#样例输入-1"></a> 样例输入 #1</h3>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">7 </span><br><span class="hljs-symbol">2 </span><br><span class="hljs-symbol">4 </span><br><span class="hljs-symbol">1 </span><br><span class="hljs-symbol">2 </span><br><span class="hljs-symbol">2 </span><br><span class="hljs-symbol">5 </span><br><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<h3 id="样例输出-1"><a class="markdownIt-Anchor" href="#样例输出-1"></a> 样例输出 #1</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">10<br></code></pre></td></tr></table></figure>
+<h2 id="提示"><a class="markdownIt-Anchor" href="#提示"></a> 提示</h2>
+<h4 id="数据规模与约定"><a class="markdownIt-Anchor" href="#数据规模与约定"></a> 数据规模与约定</h4>
+<p>对于全部的测试点，保证 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>≤</mo></mrow><annotation encoding="application/x-tex">1\le</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mrel">≤</span></span></span></span> 每个人的高度 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&lt;</mo><msup><mn>2</mn><mrow><mn>3</mn><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">&lt; 2^{31}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8141079999999999em;"></span><span class="strut bottom" style="height:0.853208em;vertical-align:-0.0391em;"></span><span class="base textstyle uncramped"><span class="mrel">&lt;</span><span class="mord"><span class="mord mathrm">2</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord scriptstyle uncramped"><span class="mord mathrm">3</span><span class="mord mathrm">1</span></span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>5</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">1 \le n \le 5\times 10^5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8141079999999999em;"></span><span class="strut bottom" style="height:0.950078em;vertical-align:-0.13597em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mrel">≤</span><span class="mord mathit">n</span><span class="mrel">≤</span><span class="mord mathrm">5</span><span class="mbin">×</span><span class="mord mathrm">1</span><span class="mord"><span class="mord mathrm">0</span><span class="vlist"><span style="top:-0.363em;margin-right:0.05em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle uncramped"><span class="mord mathrm">5</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span></span></span></span>。</p>
+<p>完全适合用单调栈(的概念)去做</p>
+<p>上代码解释</p>
+<blockquote>
+<p>注：这不是AC代码，它没有对大数据的情况进行处理，会卡TLE(代码运行超时)</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//请牢记，这是一个  单调递减栈</span><br><span class="hljs-comment">//下方的ac样例也是  单调递减栈</span><br>stack&lt;<span class="hljs-type">int</span>&gt; st;<br><span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br><br><span class="hljs-type">void</span> _add(<span class="hljs-type">const</span> <span class="hljs-type">int</span>&amp; x) &#123;<br>	<span class="hljs-type">int</span> lap = <span class="hljs-number">1</span>;<br>    <br>    <span class="hljs-comment">//栈非空 新值大于栈顶值（不符合我们单调递减栈的要求）</span><br>    <span class="hljs-keyword">while</span> (!st.<span class="hljs-built_in">empty</span>() &amp;&amp; x &gt;= st.<span class="hljs-built_in">top</span>()) &#123;<br>		<span class="hljs-keyword">if</span> (st.<span class="hljs-built_in">top</span>() == x)lap++;	  <span class="hljs-comment">//如果栈顶值()</span><br>		ans++;						<span class="hljs-comment">//</span><br>		st.<span class="hljs-built_in">pop</span>();					<span class="hljs-comment">//</span><br>	&#125;<br><br>	<span class="hljs-keyword">if</span> (!st.<span class="hljs-built_in">empty</span>())ans++;			 <span class="hljs-comment">//</span><br>	<br>    <span class="hljs-keyword">while</span> (lap--)st.<span class="hljs-built_in">push</span>(x);		 <span class="hljs-comment">//针对重复的元素，要重新填会到堆栈中</span><br>    <span class="hljs-comment">//也就是因为该操作，对于大数据的情况非常不友好</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> n;<br>	cin &gt;&gt; n;<br>	<span class="hljs-type">int</span> x;<br>	<span class="hljs-keyword">while</span> (n--) &#123;<br>		cin &gt;&gt; x;<br>		_add(x);<br>	&#125;<br>	cout &lt;&lt; ans;<br>    <br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>注：这是AC代码</p>
+<p>能过大数据的一大原因就在代码</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stack&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-comment">//pair:  first 高度   second 高度的出现次数</span><br>stack&lt; pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt; &gt; st;<br><br><span class="hljs-comment">//你需要铭记的是：</span><br><span class="hljs-comment">//		我们这里维护的是一个 单调递减 的堆栈，栈顶为最小值</span><br><span class="hljs-comment">//		针对新插入元素大于栈顶的情况，需要进行处理，并对答案进行更新(ans)</span><br><br><span class="hljs-comment">//n的数量级可以达到5 * 1e5 当这些人高度都一样时，结果为：124999750000</span><br><span class="hljs-comment">//爆int了！！！(っ °Д °;)っ</span><br><span class="hljs-type">long</span> <span class="hljs-type">long</span> ans = <span class="hljs-number">0</span>;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br><br>	<span class="hljs-type">int</span> n;<br>	cin &gt;&gt; n;<br>	<span class="hljs-type">int</span> x;<br>	<span class="hljs-keyword">while</span> (n--) &#123;<br>		cin &gt;&gt; x;<br>		<span class="hljs-function">pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt; <span class="hljs-title">pa</span><span class="hljs-params">(x, <span class="hljs-number">1ll</span>)</span></span>;<br>        <br>        <span class="hljs-comment">//栈非空 新值大于栈顶值（不符合我们单调递减栈的要求）</span><br>		<span class="hljs-keyword">while</span> (!st.<span class="hljs-built_in">empty</span>() &amp;&amp; x &gt;= st.<span class="hljs-built_in">top</span>().first) &#123;<br>			<span class="hljs-comment">/*新值和栈顶值相同（相邻且身高一样的情况）*/</span><br>			<span class="hljs-keyword">if</span> (st.<span class="hljs-built_in">top</span>().first == x)&#123;<br>                <br>			<span class="hljs-comment">//因为在while循环中，我们会通过循环依次pop出小于等于新值的栈顶元素</span><br>			<span class="hljs-comment">//所以这里是对相同元素的一个统计，这样的优化避免了上方的TLE(代码运行超时)情况</span><br>				pa.second += st.<span class="hljs-built_in">top</span>().second;<br>			&#125;<br>            <br>            <span class="hljs-comment">//新值是满足大于等于栈顶值的，更新答案(ans)</span><br>			ans += st.<span class="hljs-built_in">top</span>().second;<br><br>			st.<span class="hljs-built_in">pop</span>();<span class="hljs-comment">//通过循环依次pop出小于等于新值的栈顶元素(维护单调递减栈)</span><br>		&#125;<br><br>        <br>        <span class="hljs-comment">//当经过上方的</span><br>        <span class="hljs-comment">//		“循环依次pop出小于等于新值的栈顶元素” 操作之后</span><br>        <span class="hljs-comment">//如果堆栈中还有元素存在，此元素一定比插入的新值要大</span><br>        <span class="hljs-comment">//而且由于我们pop出小于等于新值元素的操作，此元素和新值是可以互相看见的</span><br>        <span class="hljs-comment">//↑↑↑这里即是：	“如果他们之间没有人比a或b高”</span><br>		<span class="hljs-keyword">if</span> (!st.<span class="hljs-built_in">empty</span>())ans++;<br><br>        <span class="hljs-comment">//将新值加入到堆栈中</span><br>		st.<span class="hljs-built_in">push</span>(pa);<br>	&#125;<br><br>	cout &lt;&lt; ans;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
       </section>
 
@@ -165,12 +203,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/img/cover/NOIOnline.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="/img/cover/七七.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2021/04/04/NOIonline/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">NOIonline</h2>
+        <a href="/2023/02/14/%E6%A0%91%E7%9A%84%E8%A1%A8%E7%A4%BA/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">树的表示</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -178,6 +216,22 @@
   </article>
 </div>
           
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="/img/cover/七七.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2023/02/14/%E3%80%8A%E6%A0%91%E3%80%8B/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">《树》</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
           
         </nav>
       
