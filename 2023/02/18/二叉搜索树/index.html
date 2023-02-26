@@ -51,7 +51,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/img/cover/BiTree.jpg)"></div>
+    <div class="post-image" style="background-image: url(/img/cover/BiTree.webp)"></div>
   
 
   <!-- navbar -->
@@ -121,6 +121,8 @@
   
     <li><a href="/tags/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">🏷️ 二叉搜索树</a></li>
   
+    <li><a href="/tags/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/">🏷️ 平衡二叉树</a></li>
+  
     <li><a href="/tags/%E6%A0%91/">🏷️ 树</a></li>
   
 </ul>
@@ -149,14 +151,15 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="性质"><a class="markdownIt-Anchor" href="#性质"></a> 性质</h2>
+        <p>[TOC]</p>
+<h1 id="性质"><a class="markdownIt-Anchor" href="#性质"></a> 性质</h1>
 <p>二叉搜索树本质上还是一棵二叉树，其满足以下性质（习惯性定义为）：</p>
 <ul>
 <li>非空<strong>左子树</strong>的所有<strong>键值小于其根结点</strong>的键值</li>
 <li>非空<strong>右子树</strong>的所有<strong>键值大于其根结点</strong>的键值</li>
 <li>左右子树都是二叉搜索树</li>
 </ul>
-<h3 id="基本函数"><a class="markdownIt-Anchor" href="#基本函数"></a> 基本函数</h3>
+<h2 id="基本函数"><a class="markdownIt-Anchor" href="#基本函数"></a> 基本函数</h2>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//从二叉搜索树BST中查找x，返回结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">Find</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br><br><span class="hljs-comment">//从二叉搜索树BST中查找最小元素的结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">FindMin</span><span class="hljs-params">(BinTree BST)</span></span>;<br><br><span class="hljs-comment">//从二叉搜索树BST中查找最大元素结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">FindMax</span><span class="hljs-params">(BinTree BST)</span></span>;<br><br><span class="hljs-comment">//向二叉搜索树BST插入值为x的结点</span><br><span class="hljs-function">BinTree <span class="hljs-title">Insert</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br><br><span class="hljs-comment">//向二叉搜索树BST删除值为x的结点</span><br><span class="hljs-function">BinTree <span class="hljs-title">Delete</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br></code></pre></td></tr></table></figure>
 <h2 id="find"><a class="markdownIt-Anchor" href="#find"></a> Find</h2>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Find</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (!BST) <span class="hljs-keyword">return</span> <span class="hljs-literal">nullptr</span>;<br><br>	<span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>		<span class="hljs-built_in">Find</span>(x, BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>		<span class="hljs-built_in">Find</span>(x, BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-keyword">return</span> BST;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -182,6 +185,16 @@
 </li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Delete</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	BiNode* tmp = <span class="hljs-literal">nullptr</span>;<br>	<span class="hljs-keyword">if</span> (!BST) &#123;<br>		cout &lt;&lt; <span class="hljs-string">&quot;未找到相应元素&quot;</span> &lt;&lt; endl;<br>	&#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>		BST-&gt;left = <span class="hljs-built_in">Delete</span>(x, BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>		BST-&gt;right = <span class="hljs-built_in">Delete</span>(x, BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">else</span>&#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;left &amp;&amp; BST-&gt;right) &#123;<br>			tmp = <span class="hljs-built_in">FindMax</span>(BST-&gt;left);<br><br>			BST-&gt;data = tmp-&gt;data;<br>			BST-&gt;left = <span class="hljs-built_in">Delete</span>(BST-&gt;data, BST-&gt;left);<br>            <br>            <span class="hljs-comment">/*这里也可以选择选取右子树最小值</span><br><span class="hljs-comment">            tmp = FindMin(BST-&gt;right);</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">			BST-&gt;data = tmp-&gt;data;</span><br><span class="hljs-comment">			BST-&gt;right = Delete(BST-&gt;data, BST-&gt;right);</span><br><span class="hljs-comment">            */</span><br><br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			tmp = BST;<br>			<span class="hljs-keyword">if</span> (!BST-&gt;left) &#123;<br>				BST = BST-&gt;left;<br>			&#125;<br>			<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!BST-&gt;right) &#123;<br>				BST = BST-&gt;right;<br>			&#125;<br><br>			<span class="hljs-keyword">delete</span> tmp;<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="平衡二叉树avltree"><a class="markdownIt-Anchor" href="#平衡二叉树avltree"></a> 平衡二叉树(AVLTree)</h1>
+<ul>
+<li>给定结点数为n的平衡二叉树的最大高度为<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>n</mi></mrow><annotation encoding="application/x-tex">log_2n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">o</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">g</span><span class="vlist"><span style="top:0.15em;margin-right:0.05em;margin-left:-0.03588em;"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span><span class="reset-textstyle scriptstyle cramped"><span class="mord mathrm">2</span></span></span><span class="baseline-fix"><span class="fontsize-ensurer reset-size5 size5"><span style="font-size:0em;">​</span></span>​</span></span></span><span class="mord mathit">n</span></span></span></span></li>
+</ul>
+<p>插入一个新结点后，如果树的平衡结构被破坏</p>
+<ul>
+<li>被破坏的是右侧结构：称这次插入为<strong>RR插入</strong> 应对这种不平衡的调整称为<strong>RR旋转（右旋）</strong></li>
+</ul>
+<p>↓插入NOV，Mar右侧结构被破坏，需要进行调整</p>
+<p>/!/[/]/(/img/page/tree/AVLRR.wepb)</p>
 
       </section>
 
@@ -193,7 +206,7 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/img/cover/BiTree.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="/img/cover/BiTree.webp"></div>
     
     <div class="card-text">
       
@@ -256,7 +269,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>25</span>
+        <span>26</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -268,7 +281,7 @@
         <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
 </svg>
-        17
+        19
       </div>
     </div>
   </div>
@@ -302,7 +315,7 @@
       
         <li class="categorys-list-item">
           <a href="/categories/C/">
-            C++ (13)
+            C++ (14)
           </a>
         </li>
       
@@ -313,14 +326,14 @@
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/Linux/">
-            Linux (1)
+          <a href="/categories/KEIL/">
+            KEIL (1)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/KEIL/">
-            KEIL (1)
+          <a href="/categories/Linux/">
+            Linux (1)
           </a>
         </li>
       
@@ -361,7 +374,7 @@
   </div>
   <div class="widget-body">
     <div class="tags-cloud">
-      <a href="/tags/STL/" style="font-size: 10px;" class="tags-cloud-0">STL</a> <a href="/tags/gitee/" style="font-size: 10px;" class="tags-cloud-0">gitee</a> <a href="/tags/pta/" style="font-size: 13.33px;" class="tags-cloud-3">pta</a> <a href="/tags/tree/" style="font-size: 10px;" class="tags-cloud-0">tree</a> <a href="/tags/%E4%B8%8E%E6%88%91%E6%9C%89%E5%85%B3/" style="font-size: 10px;" class="tags-cloud-0">与我有关</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" style="font-size: 10px;" class="tags-cloud-0">二叉搜索树</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 16.67px;" class="tags-cloud-7">二叉树</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 10px;" class="tags-cloud-0">优化</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;" class="tags-cloud-0">动态规划</a> <a href="/tags/%E5%9B%9E%E6%BA%AF/" style="font-size: 10px;" class="tags-cloud-0">回溯</a> <a href="/tags/%E5%A4%B8%E7%88%B6%E8%AE%A1%E5%88%92/" style="font-size: 10px;" class="tags-cloud-0">夸父计划</a> <a href="/tags/%E6%A0%88/" style="font-size: 10px;" class="tags-cloud-0">栈</a> <a href="/tags/%E6%A0%91/" style="font-size: 20px;" class="tags-cloud-10">树</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA/" style="font-size: 10px;" class="tags-cloud-0">格式化输出</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 10px;" class="tags-cloud-0">洛谷</a> <a href="/tags/%E6%BB%9A%E5%8A%A8%E6%95%B0%E7%BB%84/" style="font-size: 10px;" class="tags-cloud-0">滚动数组</a> <a href="/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6/" style="font-size: 10px;" class="tags-cloud-0">高精度</a>
+      <a href="/tags/STL/" style="font-size: 10px;" class="tags-cloud-0">STL</a> <a href="/tags/gitee/" style="font-size: 10px;" class="tags-cloud-0">gitee</a> <a href="/tags/pta/" style="font-size: 13.33px;" class="tags-cloud-3">pta</a> <a href="/tags/stack/" style="font-size: 10px;" class="tags-cloud-0">stack</a> <a href="/tags/tree/" style="font-size: 13.33px;" class="tags-cloud-3">tree</a> <a href="/tags/%E4%B8%8E%E6%88%91%E6%9C%89%E5%85%B3/" style="font-size: 10px;" class="tags-cloud-0">与我有关</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" style="font-size: 10px;" class="tags-cloud-0">二叉搜索树</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 16.67px;" class="tags-cloud-7">二叉树</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 10px;" class="tags-cloud-0">优化</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 13.33px;" class="tags-cloud-3">动态规划</a> <a href="/tags/%E5%9B%9E%E6%BA%AF/" style="font-size: 10px;" class="tags-cloud-0">回溯</a> <a href="/tags/%E5%A4%B8%E7%88%B6%E8%AE%A1%E5%88%92/" style="font-size: 10px;" class="tags-cloud-0">夸父计划</a> <a href="/tags/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;" class="tags-cloud-0">平衡二叉树</a> <a href="/tags/%E6%A0%88/" style="font-size: 10px;" class="tags-cloud-0">栈</a> <a href="/tags/%E6%A0%91/" style="font-size: 20px;" class="tags-cloud-10">树</a> <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA/" style="font-size: 10px;" class="tags-cloud-0">格式化输出</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 10px;" class="tags-cloud-0">洛谷</a> <a href="/tags/%E6%BB%9A%E5%8A%A8%E6%95%B0%E7%BB%84/" style="font-size: 10px;" class="tags-cloud-0">滚动数组</a> <a href="/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6/" style="font-size: 10px;" class="tags-cloud-0">高精度</a>
     </div>
   </div>
 </section>
