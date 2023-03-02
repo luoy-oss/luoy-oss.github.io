@@ -22,7 +22,7 @@
 
   
 
-  <title>STM32GPIO八种输入输出模式 | 洛屿的小站</title>
+  <title>AutoCAD | 洛屿的小站</title>
 
   
 
@@ -51,7 +51,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/img/cover/stm32.webp)"></div>
+    <div class="post-image" style="background-image: url(/img/bg.jpg)"></div>
   
 
   <!-- navbar -->
@@ -104,15 +104,15 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">STM32GPIO八种输入输出模式</h1>
+          <h1 class="title-wrap">AutoCAD</h1>
           <h2 class="title-sub-wrap">
             <strong>drluo</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2023-02-08T14:26:12.000Z" itemprop="datePublished">2023-02-08 22时26分12秒</time>
+            <time  class="article-date" datetime="2023-03-02T12:37:32.000Z" itemprop="datePublished">2023-03-02 20时37分32秒</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/STM32/">📒 STM32</a></li>
+    <li><a href="/categories/CAD/">📒 CAD</a></li>
   
 </ul>
           <ul class="wrap-list dark">
@@ -143,27 +143,57 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="stm32-gpio"><a class="markdownIt-Anchor" href="#stm32-gpio"></a> <strong>STM32</strong> GPIO</h2>
-<p><img src="/img/page/stm32GPIO/gpio.png" alt="img" /></p>
-<h2 id="1-gpio_mode_ain-模拟输入"><a class="markdownIt-Anchor" href="#1-gpio_mode_ain-模拟输入"></a> 1. GPIO_MODE_AIN 模拟输入</h2>
-<p>输入信号不经施密特触发器直接接入，<strong>输入信号为模拟量</strong>而非数字量，其余输入方式输入数字量。</p>
-<h2 id="2-gpio_mode_in_floating-浮空输入"><a class="markdownIt-Anchor" href="#2-gpio_mode_in_floating-浮空输入"></a> 2. GPIO_MODE_IN_FLOATING 浮空输入</h2>
-<p>输入信号经过施密特触发器接入输入数据存储器。<strong>当无信号输入时，电压不确定</strong>。因为浮空输入既<strong>高阻输入</strong>，可以认为输入端口阻抗无穷大，这样可以检测到微弱的信号。（相当于电压表测电压，如果电压表内阻不够大而外部阻抗比较大，则电压表分压会比较小）。此时输入高电平即高电平，输入低电平即低电平。但是外界没有输入时输入电平却容易受到外界电磁以及各种玄学干扰的影响。如按键采用浮空输入，则在按键按下时输入电平为低，但是当松开按键时输入端口悬空，外界有微弱的干扰都会被端口检测到。此时端口可能高，也可能低。</p>
-<h2 id="3-gpio_mode_ipd-下拉输入"><a class="markdownIt-Anchor" href="#3-gpio_mode_ipd-下拉输入"></a> 3. GPIO_MODE_IPD 下拉输入</h2>
-<p>浮空输入在外界没有输入时状态不确定，可能对电路造成干扰。为了使得电路更加稳定，不出现没有输入时端口的输入数据被干扰 （比如手碰一下电压就发生变化）。这时就需要下拉电阻（或上拉电阻）,此电阻与端口输入阻抗相比仍然较小。有输入信号时端口读取输入信号，<strong>无输入信号时端口电平被拉到低电平（高电平）</strong>。</p>
-<h2 id="4-gpio_mode_ipu-上拉输入"><a class="markdownIt-Anchor" href="#4-gpio_mode_ipu-上拉输入"></a> 4. GPIO_MODE_IPU 上拉输入</h2>
-<p>上拉输入与下拉输入类似，只是<strong>无输入信号时端口电平被拉到高电平</strong>。例如按键信号，当按下时输入低电平，松开时电平被拉到高电平。这样就不会出现按键松开时端口电平不确定的情况。即不知道时按下还是松开。</p>
-<h2 id="5-gpio-mode_out_od-开漏输出"><a class="markdownIt-Anchor" href="#5-gpio-mode_out_od-开漏输出"></a> 5. GPIO-MODE_OUT_OD 开漏输出</h2>
-<p><img src="/img/page/stm32GPIO/od.png" alt="img" /></p>
-<p>开漏输出即<strong>漏极开路输出</strong>。这种输出方式指场效应管漏极开路输出。<strong>需要接上拉电阻才能输出1</strong>。漏极经上拉电阻接到电源，栅极输出0时，场效应管截止（阻抗无线大），电压被分到场效应管上，此时输出为1。当栅极输出1时，场效应管导通，输出端口相当于接地，此时输出0。开漏输出高电平时是由外接电源输出的，因此可以实现高于输出端口电压的输出。可以实现电平的转换。<strong>开漏输出可以实现线与功能</strong>，方法是多个输出共接一个上拉电阻。但是漏极开路输出<strong>上升沿慢</strong>，因为上升沿是外接电源对上拉电阻以及外接负载充电。当上拉电阻较大或者负载容性较大时时间常数较大，充电较慢。<strong>需要较快反映时可以采用下降沿触发</strong>，此时没有电阻接入，电路的时间常数较小，充电较快。</p>
-<h2 id="6-gpio_mode_out_pp-推挽输出"><a class="markdownIt-Anchor" href="#6-gpio_mode_out_pp-推挽输出"></a> 6. GPIO_MODE_OUT_PP 推挽输出</h2>
-<p><img src="/img/page/stm32GPIO/pp.png" alt="img" /></p>
-<p><strong>推挽输出既可以输出1，又可以输出0</strong>。但是无法调节输出电压，因为输出高低电平均为三极管输入端电压，此电压在由芯片内部供电，无法改变。推挽输出任意时刻只有一路工作。上图为输出高电平时电路工作状态。只有三极管导通电阻，无外接电阻。因此推挽输出<strong>损耗小、速度快</strong>。</p>
-<h2 id="7-gpio_mode_af_od-复用开漏输出"><a class="markdownIt-Anchor" href="#7-gpio_mode_af_od-复用开漏输出"></a> 7. GPIO_MODE_AF_OD 复用开漏输出</h2>
-<p>STM32单片机内部有其他的外设，比如定时器、DAC等。复用开漏输出与普通开漏输出区别在于，开漏输出输出的是输出数据寄存器中的数据，<strong>复用开漏输出输出的是来自外设的数据</strong>。</p>
-<h2 id="8-goio_mode_af_pp-复用推挽输出"><a class="markdownIt-Anchor" href="#8-goio_mode_af_pp-复用推挽输出"></a> 8. GOIO_MODE_AF_PP 复用推挽输出</h2>
-<p><strong>复用推挽输出原理与复用开漏输出原理相同</strong></p>
-<p>文章转载自知乎<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/113367004">STM32 GPIO八种输入输出模式 - 知乎 (zhihu.com)</a></p>
+        <p>[TOC]</p>
+<h1 id="命令"><a class="markdownIt-Anchor" href="#命令"></a> 命令</h1>
+<h2 id="menubar菜单模式"><a class="markdownIt-Anchor" href="#menubar菜单模式"></a> MENUBAR(菜单模式)</h2>
+<blockquote>
+<p>0 非标准菜单模式</p>
+<p>1 标准菜单模式</p>
+</blockquote>
+<h2 id="grid辅助栅格"><a class="markdownIt-Anchor" href="#grid辅助栅格"></a> GRID(辅助栅格)</h2>
+<blockquote>
+<p>显示/不显示</p>
+<p>开(ON) 关(OFF) 捕捉(S) 主(M) 自适应(D) 界限(L) 跟随(F) 纵横向间距(A)</p>
+</blockquote>
+<h2 id="op界面设置"><a class="markdownIt-Anchor" href="#op界面设置"></a> OP(界面设置)</h2>
+<blockquote>
+<p>界面设置</p>
+</blockquote>
+<p><strong>再次按下回车可以重复运行上次的指令</strong></p>
+<h2 id="ctrlo全屏"><a class="markdownIt-Anchor" href="#ctrlo全屏"></a> CTRL+o(全屏)</h2>
+<h2 id="qs快速保存"><a class="markdownIt-Anchor" href="#qs快速保存"></a> QS(快速保存)</h2>
+<h2 id="la图层命令"><a class="markdownIt-Anchor" href="#la图层命令"></a> LA(图层命令)</h2>
+<blockquote>
+<p>图层命令</p>
+</blockquote>
+<h2 id="z缩放"><a class="markdownIt-Anchor" href="#z缩放"></a> Z(缩放)</h2>
+<h2 id="绘制相关"><a class="markdownIt-Anchor" href="#绘制相关"></a> 绘制相关</h2>
+<h3 id="l直线"><a class="markdownIt-Anchor" href="#l直线"></a> L(直线)</h3>
+<pre><code>&gt; 注意 **相对坐标**
+</code></pre>
+<h3 id="rec矩形"><a class="markdownIt-Anchor" href="#rec矩形"></a> REC(矩形)</h3>
+<pre><code>&gt; 参数：
+&gt;
+&gt; E （完全显示）
+
+### 	LW(线宽)
+</code></pre>
+<hr />
+<h1 id="注"><a class="markdownIt-Anchor" href="#注"></a> *注</h1>
+<p>线宽粗线细线约为2倍差距</p>
+<p>不同类型的线要分层</p>
+<p>以水平向右x轴正方向，向水平向上y轴正方向选择为正方向</p>
+<p>在 CAD 绘图中，通常建议将不同类型的线按照类别分层。这样做可以使绘图更具有可读性，方便后期的编辑和修改。分层的方式可以根据具体需要进行调整，但一般包括以下几个基本层：</p>
+<p>1.图框层(Frame)：绘制图框和边框线。</p>
+<p>2.文字层(Text)：绘制标注和注释的文字。</p>
+<p>3.注释层(Notes)：绘制图形中的注释和说明文字。</p>
+<p>4.图形层(Graphics)：绘制主要的图形和构件。</p>
+<p>5.隐藏层(Hidden)：绘制被遮挡或者隐藏的线条，用虚线表示。</p>
+<p>6.辅助层(Auxiliary)：绘制辅助线、切线等辅助构件。</p>
+<p>7.尺寸层(Dimension)：绘制尺寸标注。</p>
+<p>8.中心线层(Center)：绘制中心线和轴线等。</p>
+<p>以上层级只是一种基本的分层方式，根据具体的需要，可以添加或删除某些层，或者对层级进行更细致的分层。总之，分层的目的是为了使绘图更加清晰、易读、易修改。</p>
+<hr />
 
       </section>
 
@@ -171,32 +201,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/img/cover/fixed.webp"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2023/02/14/%E5%A4%A7%E6%9D%82%E7%83%A9/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">大杂烩</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/img/cover/stm32.webp"></div>
+      <div class="card-cover" background-image-lazy data-img="/img/cover/BiTree.webp"></div>
     
     <div class="card-text">
       
-        <a href="/2023/02/08/STM32%E5%BC%80%E5%8F%91%E7%9B%B8%E5%85%B3/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">STM32开发相关</h2>
+        <a href="/2023/02/18/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">二叉搜索树(BST)</h2>
         </a>
       
       <div class="card-text--row">Older</div>
