@@ -22,7 +22,7 @@
 
   
 
-  <title>AutoCAD | 洛屿的小站</title>
+  <title>拓扑排序 | 洛屿的小站</title>
 
   
 
@@ -51,7 +51,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/img/bg.jpg)"></div>
+    <div class="post-image" style="background-image: url(/img/cover/七七.webp)"></div>
   
 
   <!-- navbar -->
@@ -104,18 +104,20 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">AutoCAD</h1>
+          <h1 class="title-wrap">拓扑排序</h1>
           <h2 class="title-sub-wrap">
             <strong>drluo</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2023-03-02T12:37:32.000Z" itemprop="datePublished">2023-03-02 20时37分32秒</time>
+            <time  class="article-date" datetime="2023-03-03T12:39:54.000Z" itemprop="datePublished">2023-03-03 20时39分54秒</time>
           </h2>
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/CAD/">📒 CAD</a></li>
+    <li><a href="/categories/C/">📒 C++</a></li>
   
 </ul>
           <ul class="wrap-list dark">
+  
+    <li><a href="/tags/%E5%9B%BE/">🏷️ 图</a></li>
   
 </ul>
         </div>
@@ -143,63 +145,54 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>[TOC]</p>
-<h1 id="命令"><a class="markdownIt-Anchor" href="#命令"></a> 命令</h1>
-<h2 id="menubar菜单模式"><a class="markdownIt-Anchor" href="#menubar菜单模式"></a> MENUBAR(菜单模式)</h2>
+        <h1 id="什么是拓扑排序"><a class="markdownIt-Anchor" href="#什么是拓扑排序"></a> 什么是拓扑排序？</h1>
+<p>在图论中，<strong>拓扑排序</strong>（Topological Sorting）是一个有向无环图（DAG, Directed Acyclic Graph）的所有顶点的线性序列。且该序列必须满足下面两个条件：</p>
+<p>每个顶点出现且只出现一次</p>
+<p>若存在一条从顶点 A 到顶点 B 的路径，那么在序列中顶点 A 出现在顶点 B 的前面</p>
+<p><strong>有向无环图（DAG）才有拓扑排序，非DAG图没有拓扑排序一说</strong></p>
+<h1 id="拓扑排序有什么用"><a class="markdownIt-Anchor" href="#拓扑排序有什么用"></a> 拓扑排序有什么用？</h1>
 <blockquote>
-<p>0 非标准菜单模式</p>
-<p>1 标准菜单模式</p>
+<p><strong>它可以用来解决形如：</strong></p>
+<p>有n个任务需要完成，每个任务有一个耗时和一个前置任务列表，前置任务完成后才能开始当前任务。求完成所有任务的最短时间</p>
+<p>这样<strong>具有依赖关系</strong>的问题</p>
 </blockquote>
-<h2 id="grid辅助栅格"><a class="markdownIt-Anchor" href="#grid辅助栅格"></a> GRID(辅助栅格)</h2>
+<h1 id="拓扑排序的实现"><a class="markdownIt-Anchor" href="#拓扑排序的实现"></a> 拓扑排序的实现</h1>
 <blockquote>
-<p>显示/不显示</p>
-<p>开(ON) 关(OFF) 捕捉(S) 主(M) 自适应(D) 界限(L) 跟随(F) 纵横向间距(A)</p>
+<p>实现拓扑排序的关键就是<strong>维护一个入度为0的顶点的集合</strong></p>
 </blockquote>
-<h2 id="op界面设置"><a class="markdownIt-Anchor" href="#op界面设置"></a> OP(界面设置)</h2>
-<blockquote>
-<p>界面设置</p>
-</blockquote>
-<p><strong>再次按下回车可以重复运行上次的指令</strong></p>
-<h2 id="ctrlo全屏"><a class="markdownIt-Anchor" href="#ctrlo全屏"></a> CTRL+o(全屏)</h2>
-<h2 id="qs快速保存"><a class="markdownIt-Anchor" href="#qs快速保存"></a> QS(快速保存)</h2>
-<h2 id="la图层命令"><a class="markdownIt-Anchor" href="#la图层命令"></a> LA(图层命令)</h2>
-<blockquote>
-<p>图层命令</p>
-</blockquote>
-<h2 id="z缩放"><a class="markdownIt-Anchor" href="#z缩放"></a> Z(缩放)</h2>
-<h2 id="绘制相关"><a class="markdownIt-Anchor" href="#绘制相关"></a> 绘制相关</h2>
-<h3 id="l直线"><a class="markdownIt-Anchor" href="#l直线"></a> L(直线)</h3>
-<pre><code>&gt; 注意 **相对坐标**
-</code></pre>
-<h3 id="rec矩形"><a class="markdownIt-Anchor" href="#rec矩形"></a> REC(矩形)</h3>
-<pre><code>&gt; 参数：
-&gt;
-&gt; E （完全显示）
-
-### 	LW(线宽)
-</code></pre>
 <hr />
-<h1 id="注"><a class="markdownIt-Anchor" href="#注"></a> *注</h1>
-<p>线宽粗线细线约为2倍差距</p>
-<p>不同类型的线要分层</p>
-<p>以水平向右x轴正方向，向水平向上y轴正方向选择为正方向</p>
-<p>在 CAD 绘图中，通常建议将不同类型的线按照类别分层。这样做可以使绘图更具有可读性，方便后期的编辑和修改。分层的方式可以根据具体需要进行调整，但一般包括以下几个基本层：</p>
-<p>1.图框层(Frame)：绘制图框和边框线。</p>
-<p>2.文字层(Text)：绘制标注和注释的文字。</p>
-<p>3.注释层(Notes)：绘制图形中的注释和说明文字。</p>
-<p>4.图形层(Graphics)：绘制主要的图形和构件。</p>
-<p>5.隐藏层(Hidden)：绘制被遮挡或者隐藏的线条，用虚线表示。</p>
-<p>6.辅助层(Auxiliary)：绘制辅助线、切线等辅助构件。</p>
-<p>7.尺寸层(Dimension)：绘制尺寸标注。</p>
-<p>8.中心线层(Center)：绘制中心线和轴线等。</p>
-<p>以上层级只是一种基本的分层方式，根据具体的需要，可以添加或删除某些层，或者对层级进行更细致的分层。总之，分层的目的是为了使绘图更加清晰、易读、易修改。</p>
-<hr />
+<h2 id="egp1113-杂务"><a class="markdownIt-Anchor" href="#egp1113-杂务"></a> Eg：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1113">P1113 杂务</a></h2>
+<h2 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h2>
+<p><code>John</code>的农场在给奶牛挤奶前有很多杂务要完成，每一项杂务都需要一定的时间来完成它。比如：他们要将奶牛集合起来，将他们赶进牛棚，为奶牛清洗乳房以及一些其它工作。尽早将所有杂务完成是必要的，因为这样才有更多时间挤出更多的牛奶。当然，有些杂务必须在另一些杂务完成的情况下才能进行。比如：只有将奶牛赶进牛棚才能开始为它清洗乳房，还有在未给奶牛清洗乳房之前不能挤奶。我们把这些工作称为完成本项工作的准备工作。至少有一项杂务不要求有准备工作，这个可以最早着手完成的工作，标记为杂务<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span></span></span></span>。<code>John</code>有需要完成的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span>个杂务的清单，并且这份清单是有一定顺序的，杂务<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi><mo>(</mo><mi>k</mi><mo>&gt;</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">k(k&gt;1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mrel">&gt;</span><span class="mord mathrm">1</span><span class="mclose">)</span></span></span></span>的准备工作只可能在杂务<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span></span></span></span>至<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mbin">−</span><span class="mord mathrm">1</span></span></span></span>中。</p>
+<p>写一个程序从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span></span></span></span>到<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span>读入每个杂务的工作说明。计算出所有杂务都被完成的最短时间。当然互相没有关系的杂务可以同时工作，并且，你可以假定<code>John</code>的农场有足够多的工人来同时完成任意多项任务。</p>
+<h2 id="输入格式"><a class="markdownIt-Anchor" href="#输入格式"></a> 输入格式</h2>
+<p>第1行：一个整数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span>，必须完成的杂务的数目(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3</mn><mo>≤</mo><mi>n</mi><mo>≤</mo><mn>1</mn><mn>0</mn><mo separator="true">,</mo><mn>0</mn><mn>0</mn><mn>0</mn></mrow><annotation encoding="application/x-tex">3 \le n \le 10,000</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">3</span><span class="mrel">≤</span><span class="mord mathit">n</span><span class="mrel">≤</span><span class="mord mathrm">1</span><span class="mord mathrm">0</span><span class="mpunct">,</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span></span></span></span>)；</p>
+<p>第<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">2</span></span></span></span>至<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>n</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">(n+1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mopen">(</span><span class="mord mathit">n</span><span class="mbin">+</span><span class="mord mathrm">1</span><span class="mclose">)</span></span></span></span>行： 共有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span>行，每行有一些用<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span></span></span></span>个空格隔开的整数，分别表示：</p>
+<p>* 工作序号(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span></span></span></span>至<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">n</span></span></span></span>,在输入文件中是有序的)；</p>
+<p>* 完成工作所需要的时间<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>l</mi><mi>e</mi><mi>n</mi><mo>(</mo><mn>1</mn><mo>≤</mo><mi>l</mi><mi>e</mi><mi>n</mi><mo>≤</mo><mn>1</mn><mn>0</mn><mn>0</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">len(1 \le len \le 100)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">e</span><span class="mord mathit">n</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mrel">≤</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">e</span><span class="mord mathit">n</span><span class="mrel">≤</span><span class="mord mathrm">1</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span><span class="mclose">)</span></span></span></span>；</p>
+<p>* 一些必须完成的准备工作，总数不超过<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mn>0</mn><mn>0</mn></mrow><annotation encoding="application/x-tex">100</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">1</span><span class="mord mathrm">0</span><span class="mord mathrm">0</span></span></span></span>个，由一个数字<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">0</span></span></span></span>结束。有些杂务没有需要准备的工作只描述一个单独的<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathrm">0</span></span></span></span>，整个输入文件中不会出现多余的空格。</p>
+<h2 id="输出格式"><a class="markdownIt-Anchor" href="#输出格式"></a> 输出格式</h2>
+<p>一个整数，表示完成所有杂务所需的最短时间。</p>
+<h2 id="样例-1"><a class="markdownIt-Anchor" href="#样例-1"></a> 样例 #1</h2>
+<h3 id="样例输入-1"><a class="markdownIt-Anchor" href="#样例输入-1"></a> 样例输入 #1</h3>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-number">7</span><br><span class="hljs-symbol">1 </span><span class="hljs-number">5</span> <span class="hljs-number">0</span><br><span class="hljs-symbol">2 </span><span class="hljs-number">2</span> <span class="hljs-number">1</span> <span class="hljs-number">0</span><br><span class="hljs-symbol">3 </span><span class="hljs-number">3</span> <span class="hljs-number">2</span> <span class="hljs-number">0</span><br><span class="hljs-symbol">4 </span><span class="hljs-number">6</span> <span class="hljs-number">1</span> <span class="hljs-number">0</span><br><span class="hljs-symbol">5 </span><span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">4</span> <span class="hljs-number">0</span><br><span class="hljs-symbol">6 </span><span class="hljs-number">8</span> <span class="hljs-number">2</span> <span class="hljs-number">4</span> <span class="hljs-number">0</span><br><span class="hljs-symbol">7 </span><span class="hljs-number">4</span> <span class="hljs-number">3</span> <span class="hljs-number">5</span> <span class="hljs-number">6</span> <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<h3 id="样例输出-1"><a class="markdownIt-Anchor" href="#样例输出-1"></a> 样例输出 #1</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">23<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXN 10001		</span><br>vector&lt;<span class="hljs-type">int</span>&gt; followUpTask[MAXN];<span class="hljs-comment">//邻接表存图，对于下标为i的节点，其存储的为i的后续任务</span><br><span class="hljs-type">int</span> inDrgee[MAXN];	<span class="hljs-comment">//入度</span><br><span class="hljs-type">int</span> timeNeed[MAXN];	<span class="hljs-comment">//任务所需时间</span><br><span class="hljs-type">int</span> timeOver[MAXN];	<span class="hljs-comment">//第i号任务总耗时</span><br><br><span class="hljs-type">int</span> n;	<span class="hljs-comment">//图的节点数</span><br><br><span class="hljs-type">int</span> _max(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b) &#123;<br>	<span class="hljs-keyword">return</span> a &gt; b ? a : b;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">tuopu</span><span class="hljs-params">()</span> </span>&#123;<br>	queue&lt;<span class="hljs-type">int</span>&gt; q;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		<span class="hljs-keyword">if</span> (!inDrgee[i]) &#123;	<span class="hljs-comment">//统计入度为0的点，放入队列，准备拓扑排序</span><br>			q.<span class="hljs-built_in">push</span>(i);<br>			timeOver[i] = timeNeed[i];	<span class="hljs-comment">//对于入度为0的点，它的总耗时就是自己任务所需时间</span><br>		&#125;<br>	&#125;<br><br>	<span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>()) &#123;<br>		<span class="hljs-comment">//pre 存取的是入度为0的点(任务可以独立进行，或任务前置任务已经完成的任务点)</span><br>		<span class="hljs-type">int</span> pre = q.<span class="hljs-built_in">front</span>(); q.<span class="hljs-built_in">pop</span>();<br><br>		<span class="hljs-comment">//对于pre的后续任务，我们进行一个遍历</span><br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; crt : followUpTask[pre]) &#123;<br>			<span class="hljs-comment">//后续任务的耗时等于：max( 后续任务耗时 , pre任务+后续任务耗时 )</span><br>			timeOver[crt] = _max(timeOver[crt], timeOver[pre] + timeNeed[crt]);<br><br>			<span class="hljs-comment">//如果该后续任务的所有前置均完成（入度为0），将该后续任务放入队列，作为拓扑排序的新节点</span><br>			<span class="hljs-keyword">if</span> (!--inDrgee[crt])q.<span class="hljs-built_in">push</span>(crt);<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		ans = _max(ans, timeOver[i]);<br>	&#125;<br><br><br>	<span class="hljs-keyword">return</span> ans;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>	cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>	cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>	cin &gt;&gt; n;<br><br>	<span class="hljs-type">int</span> idx;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		cin &gt;&gt; idx &gt;&gt; timeNeed[i];<br><br>		<span class="hljs-type">int</span> preTask;<br>		cin &gt;&gt; preTask;<br>		<span class="hljs-keyword">while</span> (preTask) &#123;<br>			<span class="hljs-comment">//反向存储</span><br>			<span class="hljs-comment">//对于前置任务preTask，存储其后续任务</span><br>			followUpTask[preTask].<span class="hljs-built_in">push_back</span>(i);<br>			inDrgee[i]++;	<span class="hljs-comment">//后续任务入度加一</span><br>			cin &gt;&gt; preTask;<br>		&#125;<br>	&#125;<br><br>	cout &lt;&lt; <span class="hljs-built_in">tuopu</span>();<br>	<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>自问自答：</p>
+<blockquote>
+<p>Q：为什么是取max？</p>
+<p>A：因为任务是<strong>不限制人数的可并行完成模式</strong>，在已经计算出每个任务所需耗时后，所有任务中的最大耗时即为完成所有任务的最短耗时</p>
+</blockquote>
+<h2 id="利用拓扑排序思维的不建图实现硬性要求1号任务不需要前置任务"><a class="markdownIt-Anchor" href="#利用拓扑排序思维的不建图实现硬性要求1号任务不需要前置任务"></a> 利用拓扑排序思维的不建图实现（硬性要求1号任务不需要前置任务）</h2>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-type">int</span> itime[<span class="hljs-number">10001</span>];<br><span class="hljs-type">int</span> finishTime[<span class="hljs-number">10001</span>];<br>vector&lt;<span class="hljs-type">int</span>&gt; prepare[<span class="hljs-number">10001</span>];<br><br><span class="hljs-type">int</span> _max(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b) &#123;<br>	<span class="hljs-keyword">return</span> a &gt; b ? a : b;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>	cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>	cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>	<span class="hljs-type">int</span> n;<br>	cin &gt;&gt; n;<br><br>	<span class="hljs-type">int</span> idx;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		cin &gt;&gt; idx &gt;&gt; itime[i];<br><br>		<span class="hljs-type">int</span> prepa;<br>		cin &gt;&gt; prepa;<br>		<span class="hljs-keyword">while</span> (prepa) &#123;<br>			prepare[i].<span class="hljs-built_in">push_back</span>(prepa);<br>			cin &gt;&gt; prepa;<br>		&#125;<br>	&#125;<br><br><br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>	finishTime[<span class="hljs-number">1</span>] = itime[<span class="hljs-number">1</span>];<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; t : prepare[i]) &#123;<br>			finishTime[i] = _max(finishTime[i], finishTime[t] + itime[i]);<br>		&#125;<br>		ans = _max(ans, finishTime[i]);<br>	&#125;<br><br>	cout &lt;&lt; ans;<br>	<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
       </section>
 
       
       
         <nav class="article-nav">
+          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
@@ -210,23 +203,6 @@
       
         <a href="/2023/03/02/%E5%9B%BE%E7%9A%84%E8%A1%A8%E7%A4%BA/" itemprop="url">
           <h2 class="card-text--title text-ellipsis">图的表示</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
-          
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/img/cover/BiTree.webp"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2023/02/18/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">二叉搜索树(BST)</h2>
         </a>
       
       <div class="card-text--row">Older</div>
