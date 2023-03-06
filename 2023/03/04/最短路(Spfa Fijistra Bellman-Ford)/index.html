@@ -22,7 +22,7 @@
 
   
 
-  <title>C++ 格式化输出（前置补0，有效位数，保留小数） | 洛屿的小站</title>
+  <title>最短路 | 洛屿的小站</title>
 
   
 
@@ -104,11 +104,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">C++ 格式化输出（前置补0，有效位数，保留小数）</h1>
+          <h1 class="title-wrap">最短路</h1>
           <h2 class="title-sub-wrap">
             <strong>drluo</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2022-12-11T01:23:45.000Z" itemprop="datePublished">2022-12-11 09时23分45秒</time>
+            <time  class="article-date" datetime="2023-03-04T02:03:02.000Z" itemprop="datePublished">2023-03-04 10时03分02秒</time>
           </h2>
           <ul class="wrap-list dark">
   
@@ -117,7 +117,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA/">🏷️ 格式化输出</a></li>
+    <li><a href="/tags/%E5%9B%BE/">🏷️ 图</a></li>
   
 </ul>
         </div>
@@ -145,60 +145,69 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h2 id="1-默认情况"><a class="markdownIt-Anchor" href="#1-默认情况"></a> 1. 默认情况</h2>
-<p>C++默认的浮点数输出</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>	cout &lt;&lt; <span class="hljs-number">0.123456789</span> &lt;&lt; endl;<span class="hljs-comment">//0.123457</span><br>	cout &lt;&lt; <span class="hljs-number">1.123456789</span> &lt;&lt; endl;<span class="hljs-comment">//1.12346</span><br>	cout &lt;&lt; <span class="hljs-number">1.23456789</span> &lt;&lt; endl;<span class="hljs-comment">//1.2346</span><br>&#125; <br><br></code></pre></td></tr></table></figure>
-<h2 id="2-前置补0"><a class="markdownIt-Anchor" href="#2-前置补0"></a> 2. 前置补0</h2>
-<p>E.g:格式化输出时间<code>HH:mm:ss</code>。倘若时间不够10，则需要在前面补0。</p>
+        <blockquote>
+<p>最短的求解一般会遇到多种情况</p>
 <ul>
-<li>
-<p>头文件<code>iomanip</code></p>
-</li>
-<li>
-<p>输出控制符<code>setw</code></p>
+<li>有向无环图
 <ul>
-<li>理解：set width设置输出宽度。</li>
-<li>作用范围：仅对后续的&lt;&lt;生效一次。所以输出一次用一次。</li>
+<li>权值为正</li>
+<li>权值<strong>有</strong>负</li>
 </ul>
 </li>
-<li>
-<p>输出控制符<code>setfill</code></p>
+<li>有向有环图
 <ul>
-<li>理解：set fill character 设置填充的字符，不写参数的话默认是空格。</li>
-<li>作用范围：自设置之后的所有&lt;&lt;，直到下一个<code>setfill</code>才更改。所以用一次就好啦。</li>
+<li>权值为正</li>
+<li>权值<strong>有</strong>负</li>
 </ul>
 </li>
 </ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iomanip&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>	<span class="hljs-type">int</span> hour = <span class="hljs-number">2</span>;<br>	<span class="hljs-type">int</span> minute = <span class="hljs-number">33</span>;<br>	<span class="hljs-type">int</span> second = <span class="hljs-number">0</span>;	<br>	cout &lt;&lt; <span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; <span class="hljs-built_in">setfill</span>(<span class="hljs-string">&#x27;0&#x27;</span>) &lt;&lt; hour &lt;&lt;<span class="hljs-string">&quot;:&quot;</span> <br>		 &lt;&lt; <span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; minute &lt;&lt;<span class="hljs-string">&quot;:&quot;</span><br>		 &lt;&lt; <span class="hljs-built_in">setw</span>(<span class="hljs-number">2</span>) &lt;&lt; second &lt;&lt; endl;  <span class="hljs-comment">//02:33:00</span><br>&#125; <br></code></pre></td></tr></table></figure>
-<h2 id="3-保留有效位数"><a class="markdownIt-Anchor" href="#3-保留有效位数"></a> 3. 保留有效位数</h2>
-<ul>
-<li>
-<p>头文件<code>iomanip</code>，</p>
-</li>
-<li>
-<p>输出控制符<code> setprecision</code></p>
-<ul>
-<li>理解：可以设置输出精度。（总有效位数，包括整数部分）</li>
-<li>作用范围：同<code>setfill</code>，可以对后续的输出产生影响。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/////////////////////////测试示例都是分开测试。///////////////////////////</span><br><span class="hljs-type">float</span> t1 = <span class="hljs-number">12345</span>;												<span class="hljs-comment">//</span><br>cout &lt;&lt; t1 &lt;&lt;<span class="hljs-string">&quot; &quot;</span> &lt;&lt; <span class="hljs-built_in">setprecision</span>(<span class="hljs-number">4</span>) &lt;&lt; t1 &lt;&lt; endl;				   <span class="hljs-comment">//</span><br><span class="hljs-comment">//12345 1.234e+04												//</span><br><span class="hljs-comment">///////////////////////////////////////////////////////////////////////</span><br><span class="hljs-type">float</span> t2 = <span class="hljs-number">1.2345</span>;												<span class="hljs-comment">//</span><br>cout &lt;&lt; t2 &lt;&lt;<span class="hljs-string">&quot; &quot;</span> &lt;&lt; <span class="hljs-built_in">setprecision</span>(<span class="hljs-number">4</span>) &lt;&lt; t2 &lt;&lt; endl;				   <span class="hljs-comment">//</span><br><span class="hljs-comment">//1.2345 1.235													//</span><br><span class="hljs-comment">///////////////////////////////////////////////////////////////////////</span><br><span class="hljs-type">float</span> t3 = <span class="hljs-number">0.12345</span>;												<span class="hljs-comment">//</span><br>cout &lt;&lt; t3 &lt;&lt;<span class="hljs-string">&quot; &quot;</span> &lt;&lt; <span class="hljs-built_in">setprecision</span>(<span class="hljs-number">4</span>) &lt;&lt; t3 &lt;&lt; endl;				   <span class="hljs-comment">//</span><br><span class="hljs-comment">//0.12345 0.1235												//</span><br><span class="hljs-comment">///////////////////////////////////////////////////////////////////////</span><br></code></pre></td></tr></table></figure>
-<h2 id="4-保留小数"><a class="markdownIt-Anchor" href="#4-保留小数"></a> 4. 保留小数</h2>
-<ul>
-<li>头文件<code>iomanip</code></li>
-<li>流操作符<code>fixed</code>
-<ul>
-<li>理解：它表示浮点输出应该以固定点或小数点表示法显示。</li>
-<li>作用范围：之后所有。</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>fixed 操作符可能最重要的还是当它与 <code>setprecision</code> 操作符一起使用时，<code>setprecision</code> 即可以以一种新的方式显示。它将指定浮点数字的小数点后要显示的位数，而不是要显示的总有效数位数。而这通常正是我们想要的。<br />
-——摘自C语言中文网</p>
+<p>负权边和负权环 Bellmon-Ford</p>
+<p>权值非负的有向或无向图 Dijkstra</p>
 </blockquote>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++">cout &lt;&lt; fixed &lt;&lt; <span class="hljs-built_in">setprecision</span>(<span class="hljs-number">4</span>);	<br><span class="hljs-type">float</span> big = <span class="hljs-number">12345</span>;<br>cout  &lt;&lt; big &lt;&lt; endl;<span class="hljs-comment">// 12345.0000</span><br><span class="hljs-type">float</span> middle = <span class="hljs-number">1.2345</span>;	<br>cout &lt;&lt; middle &lt;&lt; endl;<span class="hljs-comment">// 1.2345</span><br><span class="hljs-type">float</span> mini = <span class="hljs-number">0.12345</span>;<br>cout &lt;&lt; mini &lt;&lt; endl;<span class="hljs-comment">//0.1235</span><br></code></pre></td></tr></table></figure>
+<h1 id="dijkstra"><a class="markdownIt-Anchor" href="#dijkstra"></a> Dijkstra</h1>
+<blockquote>
+<p>Dijkstra本质上是一种贪心算法，通过不断调整每个点的“当前距离”最终得到最优结果</p>
+<p>这种不断调整的过程，维基百科上面称为**“relax&quot;（松弛）**</p>
+</blockquote>
+<blockquote>
+<p><strong>算法流程</strong></p>
+<p>对于求一点<strong>s</strong>到其他所有点的最短距离</p>
+<p>对于每个点v均维护一个<strong>当前距离</strong>（dis[v]）和 <strong>是否访问过</strong>（vis[v]）。首先将dis[s]<strong>初始化为无穷</strong>，所有点访问状态(vis)<strong>置为未访问</strong></p>
+<p>对于一条边<strong>u-&gt;v</strong>，其边权为<strong>weight[u-&gt;v]</strong>，我们存储在了<strong>v.first</strong>中(v为G[u]中的一个邻接点)</p>
+<ol>
+<li>
+<p>从所有未访问的点中，找出当前距离最小的，设为u，并将其标记为已访问的。</p>
+</li>
+<li>
+<p>调整u的所有边（若是有向图则为出边）连接的并且<strong>未被访问过的</strong>点：</p>
+<p>若<strong>weight[u-&gt;v] + dis[u] &lt; dis[v]</strong>, 则将dis[v]更新为dis[u]+weight[u-&gt;v]，体现在代码中的操作即是：<strong>if (dis[v.second] &gt; dis[x] + v.first)</strong></p>
+</li>
+<li>
+<p>重复1和2步骤，直到所有点都被标记为已访问的，则<strong>dis[i]即s到i的最短距离</strong></p>
+<p>（当然，如果只想求从s到某一点的最短距离，那么当该点被标记为访问过之后可直接退出）</p>
+</li>
+<li>
+<p>如果还想得出两点间的最短路径，可以通过一个pre数组，在步骤2的**if (dis[v.second] &gt; dis[x] + v.first)**后添加操作：pre[v] = u</p>
+</li>
+</ol>
+</blockquote>
+<hr />
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs c++">vector &lt; pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt; &gt; G[MAXN];<br><span class="hljs-type">int</span> dis[MAXN];<br><span class="hljs-type">bool</span> vis[MAXN];<br><span class="hljs-type">int</span> n, m, s;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> PII pair<span class="hljs-string">&lt;int, int&gt;</span> </span><br>priority_queue &lt; PII, vector&lt;PII&gt;, greater&lt;PII&gt;&gt; q;<span class="hljs-comment">//小根堆，堆顶存放可访问的 未访问节点中 距离最小的节点</span><br><br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">void</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; ++i)dis[i] = <span class="hljs-number">0x7fffffff</span>;<br>    dis[s] = <span class="hljs-number">0</span>;<br>    q.<span class="hljs-built_in">push</span>(&#123; <span class="hljs-number">0</span>, s &#125;);<br><br>    <span class="hljs-keyword">while</span> (!q.<span class="hljs-built_in">empty</span>()) &#123;<br>        <span class="hljs-type">int</span> u = q.<span class="hljs-built_in">top</span>().second;<span class="hljs-comment">//由于点的维护依靠的是小根堆，堆顶的元素即是《未访问节点中 距离最小的节点》</span><br>        q.<span class="hljs-built_in">pop</span>();<br>        <span class="hljs-keyword">if</span> (vis[u]) <span class="hljs-keyword">continue</span>;<br>        vis[u] = <span class="hljs-number">1</span>;<br>        <br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; v : G[u]) &#123;<span class="hljs-comment">//邻接点访问</span><br>            <span class="hljs-keyword">if</span> (dis[v.second] &gt; dis[u] + v.first) &#123;<br>                dis[v.second] = dis[u] + v.first;<br>                <span class="hljs-keyword">if</span> (!vis[v.second]) &#123;<br>                    q.<span class="hljs-built_in">push</span>(&#123; dis[v.second], v.second &#125;);<span class="hljs-comment">//当前更新节点未完成更新(未被标记)，将当前节点和当前节点长度入队</span><br>                &#125;<br>            &#125;<br>        &#125;<br><br>    &#125;<br>&#125;<br><br><br><span class="hljs-comment">/////////MAIN/////////</span><br>cin &gt;&gt; n &gt;&gt; m &gt;&gt; s;<br><span class="hljs-comment">//register关键字表示使用cpu内部寄存器，这将加快变量的读写速度</span><br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">register</span> <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; m; ++i)&#123;<br>    <span class="hljs-keyword">register</span> <span class="hljs-type">int</span> u, v, w;<br>    cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;<br>    G[u].<span class="hljs-built_in">push_back</span>(&#123; w,v &#125;);<span class="hljs-comment">//有向图</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="bellmon"><a class="markdownIt-Anchor" href="#bellmon"></a> Bellmon</h1>
+<blockquote>
+<p>bellmon-ford是一种单源最短路算法，时间复杂度是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>V</mi><mi>E</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(VE)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.22222em;">V</span><span class="mord mathit" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span> ,显然不如dijkstra快，但它可以处理<strong>负权边</strong>和<strong>负权环</strong>的情况。它基于一个很基本的事实：</p>
+<p><strong>对于一个不包含负权环的V个点的图，任意两点之间的最短路径至多包含V-1条边</strong></p>
+<p>如果存在负权环，每次在负权环上走一圈都会使环上的每一个点的距离减少，因此不存在最短路径。</p>
+<p>bellmon-ford算法可以检测出这种情况</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXN 1501</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXE 50001</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> inf 99999999</span><br><br><span class="hljs-comment">//	u		   v		w</span><br><span class="hljs-type">int</span> from[MAXE], to[MAXE], weight[MAXE];<br><span class="hljs-comment">//dis为原点到当前节点的最短路径 pre存储最短路径的前后关系</span><br><span class="hljs-type">int</span> dis[MAXN], pre[MAXN];<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">bellmon</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)dis[i] = inf;<span class="hljs-comment">//初始化距离为极大值</span><br>	dis[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++) &#123;<br>			<span class="hljs-type">int</span> u = from[j], v = to[j], w = weight[j];<br>			<span class="hljs-keyword">if</span>(dis[u] + w &lt; dis[v]) &#123;<br>                <span class="hljs-comment">//《松弛》操作，如果u到v有一条边，dis[v]存储u到v的最短边</span><br>				dis[v] = dis[u] + w;<br>                <span class="hljs-comment">//pre表示最短路径上v的前一个节点是u</span><br>				pre[v] = u;<br>			&#125;<br>		&#125;<br>	&#125;<br>    <br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">    bellmon-ford算法可以判断负权环的存在：</span><br><span class="hljs-comment">    	只需在算法的最后对每条边再松弛一次</span><br><span class="hljs-comment">    	如果发现有点的距离得到更新</span><br><span class="hljs-comment">    	说明存在负权环</span><br><span class="hljs-comment">    			&quot;因为没有负权环时最短路径的长度至多为V-1&quot;</span><br><span class="hljs-comment">    */</span><br>&#125;<br><br></code></pre></td></tr></table></figure>
+<hr />
+<h1 id="spfa"><a class="markdownIt-Anchor" href="#spfa"></a> SPFA</h1>
+<blockquote>
+<p>spfa (shortest path faster algorithm)是对<strong>Bellmon</strong>的一个改进</p>
+<p>spfa 采用类似bfs的思想，使用一个队列，只松弛那些可能更新点的距离的边</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXN 1501</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> inf 99999999</span><br><br>vector &lt; pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span> &gt; &gt; G[MAXN];<br><span class="hljs-comment">//dis为原点到当前节点的最短路径</span><br><span class="hljs-type">int</span> dis[MAXN];<br><span class="hljs-type">bool</span> inq[MAXN];<br><span class="hljs-comment">///////////</span><br><span class="hljs-type">int</span> n, m;<span class="hljs-comment">//</span><br><span class="hljs-comment">///////////</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">spfa</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++)dis[i] = inf;<span class="hljs-comment">//初始化距离为极大值</span><br>	dis[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;<br>	queue&lt;<span class="hljs-type">int</span>&gt; q;<br>	q.<span class="hljs-built_in">push</span>(<span class="hljs-number">1</span>); inq[<span class="hljs-number">1</span>] = <span class="hljs-literal">true</span>;<br><br>	<span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>()) &#123;<br>		<span class="hljs-type">int</span> u = q.<span class="hljs-built_in">front</span>(); q.<span class="hljs-built_in">pop</span>();<br>		inq[u] = <span class="hljs-literal">false</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; v : G[u]) &#123;<br>			<span class="hljs-keyword">if</span> (dis[v.first] &gt; dis[u] + v.second) &#123;<br>				dis[v.first] = dis[u] + v.second;<br>				<span class="hljs-keyword">if</span> (!inq[v.first]) &#123;<br>					q.<span class="hljs-built_in">push</span>(v.first);<br>					inq[v.first] = <span class="hljs-literal">true</span>;<br>				&#125;<br>			&#125;<br>		&#125;<br>	&#125;<br><br>&#125;<br><br><br><span class="hljs-comment">//main</span><br>cin &gt;&gt; n &gt;&gt; m;<br><span class="hljs-type">int</span> u, v, w;<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++) &#123;<br>    cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;<br>    G[u].<span class="hljs-built_in">push_back</span>(&#123; v,-w &#125;);<span class="hljs-comment">//-w 求最长路</span><br>&#125;<br><br></code></pre></td></tr></table></figure>
 
       </section>
 
@@ -206,22 +215,6 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/img/cover/七七.webp"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2023/01/20/Linux%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8TAB%E9%94%AE%E3%80%81%E4%B8%8A%E4%B8%8B%E9%94%AE/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">Linux普通用户不能使用TAB键、上下键</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
@@ -230,8 +223,8 @@
     
     <div class="card-text">
       
-        <a href="/2022/12/08/%E4%B8%80%E9%81%93%E9%9B%86%E4%BC%97%E5%A4%9A%E6%8A%80%E5%B7%A7%E4%BA%8E%E4%B8%80%E8%BA%AB%E7%9A%84%E9%A2%98%E7%9B%AE%E2%80%94%E2%80%94%E3%80%8A%E5%AF%86%E6%96%87%E6%B8%B8%E6%88%8F%E3%80%8B/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">一道集众多技巧于一身的题目——《密文游戏》</h2>
+        <a href="/2023/03/04/%E6%9C%80%E7%9F%AD%E8%B7%AF/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">最短路</h2>
         </a>
       
       <div class="card-text--row">Older</div>
