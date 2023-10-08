@@ -1,0 +1,143 @@
+<h1>Share.js</h1>
+<blockquote>
+<p>🚨 此项目已经年久失修，其实分享就是一个个链接而已，每个链接里传递一些内容，所以定制需求比较高的话建议自己实现，没啥难度。<br>
+URL 写法请参考：<a href="https://github.com/overtrue/share.js/blob/master/src/js/social-share.js#L56-L64">https://github.com/overtrue/share.js/blob/master/src/js/social-share.js#L56-L64</a></p>
+</blockquote>
+<p>一键分享到微博、QQ空间、QQ好友、微信、腾讯微博、豆瓣、Facebook、Twitter、Linkedin、Google+、点点等社交网站。</p>
+<p><img src="https://cloud.githubusercontent.com/assets/1472352/11433126/05f8b0e0-94f4-11e5-9fca-74dc9d1b633f.png" alt="qq20151127-1 2x"></p>
+<h1>安装</h1>
+<p>有3种安装方式：</p>
+<ol>
+<li>
+<p>使用 <a href="https://npmjs.com">npm</a></p>
+<pre><code class="language-shell">npm install social-share.js
+</code></pre>
+</li>
+<li>
+<p>使用 <a href="https://bower.io">bower</a></p>
+<pre><code class="language-shell">bower install social-share.js
+</code></pre>
+</li>
+<li>
+<p>使用 <a href="https://cdnjs.com/libraries/social-share.js">cdnjs</a>，引入 <code>share.min.css</code> 与 <code>social-share.min.js</code> 两个链接就好。 (感谢 <a href="https://github.com/mdluo">@mdluo</a>)</p>
+</li>
+<li>
+<p>手动下载或者 git clone 本项目。</p>
+</li>
+</ol>
+<h1>使用</h1>
+<p>HTML:</p>
+<pre><code class="language-html">&lt;div class=&quot;social-share&quot;&gt;&lt;/div&gt;
+
+&lt;!--  css &amp; js --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;dist/css/share.min.css&quot;&gt;
+&lt;script src=&quot;dist/js/social-share.min.js&quot;&gt;&lt;/script&gt;
+
+// 当你使用类名为 `social-share` 时不需要手动初始化
+</code></pre>
+<h2 id="自定义配置">自定义配置</h2>
+<p>所有配置<strong>可选</strong>， 通常默认就满足需求：</p>
+<p>可用的配置有：</p>
+<pre><code class="language-js">
+url                 : '', // 网址，默认使用 window.location.href
+source              : '', // 来源（QQ空间会用到）, 默认读取head标签：&lt;meta name=&quot;site&quot; content=&quot;http://overtrue&quot; /&gt;
+title               : '', // 标题，默认读取 document.title 或者 &lt;meta name=&quot;title&quot; content=&quot;share.js&quot; /&gt;
+origin              : '', // 分享 @ 相关 twitter 账号
+description         : '', // 描述, 默认读取head标签：&lt;meta name=&quot;description&quot; content=&quot;PHP弱类型的实现原理分析&quot; /&gt;
+image               : '', // 图片, 默认取网页中第一个img标签
+sites               : ['qzone', 'qq', 'weibo','wechat', 'douban'], // 启用的站点
+disabled            : ['google', 'facebook', 'twitter'], // 禁用的站点
+wechatQrcodeTitle   : '微信扫一扫：分享', // 微信二维码提示文字
+wechatQrcodeHelper  : '&lt;p&gt;微信里点“发现”，扫一下&lt;/p&gt;&lt;p&gt;二维码便可将本文分享至朋友圈。&lt;/p&gt;'
+</code></pre>
+<p>示例代码：</p>
+<pre><code class="language-js">var $config = {
+    title               : '234',
+    description         : '123',
+    wechatQrcodeTitle   : &quot;微信扫一扫：分享&quot;, // 微信二维码提示文字
+    wechatQrcodeHelper  : '&lt;p&gt;微信里点“发现”，扫一下&lt;/p&gt;&lt;p&gt;二维码便可将本文分享至朋友圈。&lt;/p&gt;',
+};
+
+socialShare('.social-share-cs', $config);
+</code></pre>
+<p>以上选项均可通过标签 <code>data-xxx</code> 来设置：</p>
+<blockquote>
+<p>驼峰转为中横线，如<code>wechatQrcodeHelper</code> 的data标签为<code>data-wechat-qrcode-helper</code></p>
+</blockquote>
+<h5 id="禁用-google、twitter、facebook-并设置分享的描述">禁用 google、twitter、facebook 并设置分享的描述</h5>
+<pre><code class="language-html">&lt;div class=&quot;share-component&quot; data-disabled=&quot;google,twitter,facebook&quot; data-description=&quot;Share.js - 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣&quot;&gt;&lt;/div&gt;
+</code></pre>
+<h5 id="设置微信二维码标题">设置微信二维码标题</h5>
+<pre><code class="language-html">&lt;div class=&quot;social-share&quot; data-wechat-qrcode-title=&quot;请打开微信扫一扫&quot;&gt;&lt;/div&gt;
+</code></pre>
+<h5 id="针对特定站点使用不同的属性（title-url-description-image…）">针对特定站点使用不同的属性（title, url, description,image…）</h5>
+<pre><code class="language-html">&lt;div class=&quot;social-share&quot; data-weibo-title=&quot;这个标题只有的分享到微博时有用，其它标题为全局标题&quot; data-qq-title=&quot;分享到QQ时用此标题&quot;&gt;&lt;/div&gt;
+</code></pre>
+<h3 id="你也可以自定义图标">你也可以自定义图标</h3>
+<p>使用: <code>data-initialized=&quot;true&quot;</code> 标签或者 <code>initialized</code> 配置项来禁用自动生成icon功能。</p>
+<pre><code class="language-html">&lt;div class=&quot;social-share&quot; data-initialized=&quot;true&quot;&gt;
+    &lt;a href=&quot;#&quot; class=&quot;social-share-icon icon-weibo&quot;&gt;&lt;/a&gt;
+    &lt;a href=&quot;#&quot; class=&quot;social-share-icon icon-qq&quot;&gt;&lt;/a&gt;
+    &lt;a href=&quot;#&quot; class=&quot;social-share-icon icon-qzone&quot;&gt;&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+<p>以上a标题会自动加上分享链接（<code>a</code> 标签必须带 <code>icon-NAME</code> 属性，不然分享链接不会自动加上）。</p>
+<h3 id="如果你想在分享icon列表中内置一些元素，比如放一个收藏按钮在分享按钮的后面：">如果你想在分享icon列表中内置一些元素，比如放一个收藏按钮在分享按钮的后面：</h3>
+<pre><code class="language-html">&lt;div class=&quot;social-share&quot;&gt;
+    &lt;a href=&quot;javascript:;&quot; class=&quot;social-share-icon icon-heart&quot;&gt;&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+<p>这样并没有实现，因为结果是所有的分享按钮都创建在了收藏按钮的后面了，这时候你就可以用 <code>data-mode=&quot;prepend&quot;</code> 来确定分享按钮创建的方式。</p>
+<pre><code class="language-html">&lt;div class=&quot;social-share&quot; data-mode=&quot;prepend&quot;&gt;
+    &lt;a href=&quot;javascript:;&quot; class=&quot;social-share-icon icon-heart&quot;&gt;&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+<p>这样，所有的分享图标就会创建在容器的内容前面，反之可以用 <code>append</code> 创建在容器内容后面，当然这是默认的，也不需要这么做。</p>
+<h3 id="指定移动设备上显示的图标">指定移动设备上显示的图标</h3>
+<pre><code class="language-html">&lt;div class=&quot;share-component&quot; data-mobile-sites=&quot;weibo,qq,qzone,tencent&quot;&gt;&lt;/div&gt;
+</code></pre>
+<p>当在手机上打开该页面的时候就只会显示这4个图标了。</p>
+<p>欢迎贡献代码及提建议！</p>
+<h2 id="Requirejs">Requirejs</h2>
+<p>本插件支持使用Requirejs加载，Jquery版本参考如下：</p>
+<pre><code class="language-js">requirejs.config({
+  paths: {
+    jquery: '//cdn.bootcss.com/jquery/2.2.4/jquery.min',
+    share: '//cdn.bootcss.com/social-share.js/1.0.15/js/jquery.share.min'
+  },
+  shim: {
+    share:['jquery']
+  }
+})
+
+requirejs(['jquery','share'],function ($){
+  $('.target').share({
+    // settings
+  })
+})
+</code></pre>
+<p>无依赖版本直接加载即可，使用参考如下：</p>
+<pre><code class="language-js">requirejs.config({
+  paths: {
+    share: '//cdn.bootcss.com/social-share.js/1.0.15/js/social-share.min'
+  },
+})
+
+requirejs(['share'],function (){
+//   ele:指定初始化的元素，可以是单个元素也可以是元素数组
+  window.socialShare(ele,{
+    // settings
+  })
+})
+</code></pre>
+<h1>引用</h1>
+<p>本项目中二维码生成部分用到了开源组件：<a href="https://github.com/lrsjng/jquery-qrcode">lrsjng/jquery-qrcode</a> (MIT License)</p>
+<h1>贡献你的代码</h1>
+<h2 id="安装node-modules">安装node_modules</h2>
+<pre><code>npm install
+</code></pre>
+<h2 id="进入开发模式">进入开发模式</h2>
+<pre><code>npm run dev
+</code></pre>
+<h1>License</h1>
+<p>MIT</p>
