@@ -230,7 +230,7 @@
     twikoo.init(Object.assign({
       el: '#twikoo-wrap',
       envId: 'https://vercel.drluo.top',
-      region: 'ap-shanghai',
+      region: '',
       onCommentLoaded: function () {
         btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
       }
@@ -242,7 +242,7 @@
     if(!countELement) return
     twikoo.getCommentsCount({
       envId: 'https://vercel.drluo.top',
-      region: 'ap-shanghai',
+      region: '',
       urls: [window.location.pathname],
       includeReply: false
     }).then(function (res) {
