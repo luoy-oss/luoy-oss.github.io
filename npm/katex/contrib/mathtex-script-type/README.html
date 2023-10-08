@@ -1,0 +1,27 @@
+<h1><code>math/tex</code> Custom Script Type Extension</h1>
+<p>This is an extension to automatically display code inside <code>script</code> tags with <code>type=math/tex</code> using KaTeX.<br>
+This script type is commonly used by MathJax, so this can be used to support compatibility with MathJax.</p>
+<h3 id="Usage">Usage</h3>
+<p>This extension isn’t part of KaTeX proper, so the script should be separately<br>
+included in the page, in addition to KaTeX.</p>
+<p>Load the extension by adding the following line to your HTML file.</p>
+<pre><code class="language-html">&lt;script defer src=&quot;https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mathtex-script-type.min.js&quot; integrity=&quot;sha384-jiBVvJ8NGGj5n7kJaiWwWp9AjC+Yh8rhZY3GtAX8yU28azcLgoRo4oukO87g7zDT&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>You can download the script and use it locally, or from a local KaTeX installation instead.</p>
+<p>For example, in the following simple page, we first load KaTeX as usual.<br>
+Then, in the body, we use a <code>math/tex</code> script to typeset the equation <code>x+\sqrt{1-x^2}</code>.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css&quot; integrity=&quot;sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV&quot; crossorigin=&quot;anonymous&quot;&gt;
+        &lt;script src=&quot;https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js&quot; integrity=&quot;sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+        &lt;script defer src=&quot;https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mathtex-script-type.min.js&quot; integrity=&quot;sha384-jiBVvJ8NGGj5n7kJaiWwWp9AjC+Yh8rhZY3GtAX8yU28azcLgoRo4oukO87g7zDT&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;script type=&quot;math/tex&quot;&gt;x+\sqrt{1-x^2}&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>ECMAScript module is also available:</p>
+<pre><code class="language-html">&lt;script type=&quot;module&quot; src=&quot;https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mathtex-script-type.mjs&quot; integrity=&quot;sha384-4EJvC5tvqq9XJxXvdD4JutBokuFw/dCe2AB4gZ9sRpwFFXECpL3qT43tmE0PkpVg&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+</code></pre>

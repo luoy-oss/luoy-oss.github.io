@@ -1,0 +1,12 @@
+<h1>mhchem extension</h1>
+<p>This extension adds to KaTeX the <code>\ce</code> and <code>\pu</code> functions from the <a href="https://mhchem.github.io/MathJax-mhchem/">mhchem</a> package.</p>
+<h3 id="Usage">Usage</h3>
+<p>This extension isn’t part of core KaTeX, so the script should be separately included. Write the following line into the HTML page’s <code>&lt;head&gt;</code>. Place it <em>after</em> the line that calls <code>katex.js</code>, and if you make use of the <a href="https://katex.org/docs/autorender.html">auto-render</a> extension, place it <em>before</em> the line that calls <code>auto-render.js</code>.</p>
+<pre><code class="language-html">&lt;script defer src=&quot;https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js&quot; integrity=&quot;sha384-ifpG+NlgMq0kvOSGqGQxW1mJKpjjMDmZdpKGq3tbvD3WPhyshCEEYClriK/wRVU0&quot;  crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>If you remove the <code>defer</code> attribute from this tag, then you must also remove the <code>defer</code> attribute from the <code>&lt;script src=&quot;https://../katex.min.js&quot;&gt;</code> tag.</p>
+<h3 id="Syntax">Syntax</h3>
+<p>See the <a href="https://mhchem.github.io/MathJax-mhchem/">mhchem Manual</a> for a full explanation of the input syntax, with working examples. The manual also includes a demonstration box.</p>
+<p>Note that old versions of <code>mhchem.sty</code> used <code>\cf</code> for chemical formula and <code>\ce</code> for chemical equations, but <code>\cf</code> has been deprecated in place of <code>\ce</code>. This extension supports only <code>\ce</code>. You can define a macro mapping <code>\cf</code> to <code>\ce</code> if needed.</p>
+<h3 id="Browser-Support">Browser Support</h3>
+<p>This extension has been tested on Chrome, Firefox, Opera, and Edge.</p>
