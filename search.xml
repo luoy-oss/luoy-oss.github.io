@@ -149,25 +149,19 @@
       </categories>
   </entry>
   <entry>
-    <title>C++ STL</title>
-    <url>/2022/12/08/C++%20STL/</url>
-    <content><![CDATA[<blockquote>
-<p>#include  <algorithm></p>
-<p>求交集：</p>
-<p>set_intersection(first1,last1,first2,last2, result)</p>
-<p>求集合差：set_difference(first1,last1,first2,last2, result)</p>
-<p>合并两个集合：set_union(first1,last1,first2,last2, result)</p>
+    <title>Bi-LSTM(Attention)的PyTorch实现</title>
+    <url>/2023/07/26/Bi-LSTM(Attention)%E7%9A%84PyTorch%E5%AE%9E%E7%8E%B0/</url>
+    <content><![CDATA[<hr>
+<blockquote>
+<p>实现如下，代码解释以注释的方式呈现</p>
 </blockquote>
-<p><strong>上述所传递的容器必须是排序的</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">sort</span>(vm.<span class="hljs-built_in">begin</span>(), vm.<span class="hljs-built_in">end</span>());<br><span class="hljs-built_in">sort</span>(vn.<span class="hljs-built_in">begin</span>(), vn.<span class="hljs-built_in">end</span>());<br>   vector&lt;<span class="hljs-type">int</span>&gt; result;<br>   <span class="hljs-built_in">set_intersection</span>(vm.<span class="hljs-built_in">begin</span>(), vm.<span class="hljs-built_in">end</span>(), vn.<span class="hljs-built_in">begin</span>(), vn.<span class="hljs-built_in">end</span>(), <span class="hljs-built_in">inserter</span>(result, result.<span class="hljs-built_in">begin</span>()));<br>result.<span class="hljs-built_in">erase</span>(<span class="hljs-built_in">unique</span>(result.<span class="hljs-built_in">begin</span>(), result.<span class="hljs-built_in">end</span>()), result.<span class="hljs-built_in">end</span>());<span class="hljs-comment">//这是由于vector元素可能存在重复，需要去重</span><br></code></pre></td></tr></table></figure>
-<h3 id="set-intersection实现">set_intersection实现</h3>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">InputIterator1</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">InputIterator2</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">OutputIterator</span>&gt;<br><span class="hljs-function">OutputIterator <span class="hljs-title">set_intersection</span> <span class="hljs-params">(InputIterator1 first1, InputIterator1 last1,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 InputIterator2 first2, InputIterator2 last2,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 OutputIterator result)</span></span>&#123;<br>  <span class="hljs-keyword">while</span> (first1!=last1 &amp;&amp; first2!=last2)<br>  &#123;<br>    <span class="hljs-keyword">if</span> (*first1&lt;*first2) ++first1;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (*first2&lt;*first1) ++first2;<br>    <span class="hljs-keyword">else</span> &#123;<br>      *result = *first1;<br>      ++result; ++first1; ++first2;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> result;<br></code></pre></td></tr></table></figure>
-]]></content>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">import</span> torch.optim <span class="hljs-keyword">as</span> optim<br><span class="hljs-keyword">import</span> torch.nn.functional <span class="hljs-keyword">as</span> F<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BiLSTM_Attention</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">super</span>(BiLSTM_Attention, self).__init__()<br><br>        <span class="hljs-comment"># 嵌入层，用于将文本中的词汇映射为密集向量表示</span><br>        <span class="hljs-comment"># nn.Embedding 是PyTorch提供的用于词嵌入（Word Embedding）的层。</span><br>        <span class="hljs-comment"># vocab_size 是词汇表大小，代表有多少个不同的词汇。</span><br>        <span class="hljs-comment"># embedding_dim 是嵌入向量的维度，它将每个词汇映射到一个具有 embedding_dim 维度的向量空间中</span><br>        self.embedding = nn.Embedding(vocab_size, embedding_dim)<br><br>        <span class="hljs-comment"># 双向LSTM层，处理嵌入后的词向量，生成LSTM输出</span><br>        <span class="hljs-comment"># nn.LSTM 是PyTorch提供的LSTM层。</span><br>        <span class="hljs-comment"># embedding_dim 是嵌入向量的维度，也是LSTM层的输入尺寸（input_size），代表每个时间步的输入特征维度。</span><br>        <span class="hljs-comment"># n_hidden 是LSTM层的隐藏单元数（hidden_size），代表每个时间步的隐藏状态的维度</span><br>        <span class="hljs-comment"># bidirectional=True 表示该LSTM是双向的，即同时考虑正向和反向的序列信息，增加了模型对序列信息的理解能力。</span><br>        <span class="hljs-comment"># 这个LSTM层将用于处理输入的嵌入向量，生成LSTM的输出和最终的隐藏状态</span><br>        self.lstm = nn.LSTM(embedding_dim, n_hidden, bidirectional=<span class="hljs-literal">True</span>)<br><br>        <span class="hljs-comment"># 双向LSTM层，处理嵌入后的词向量，生成LSTM输出</span><br>        <span class="hljs-comment"># nn.Linear 是PyTorch提供的全连接（线性）层。</span><br>        <span class="hljs-comment"># n_hidden * 2 表示输入特征的维度，由于使用了双向LSTM，所以将正向和反向的隐藏状态拼接在一起，维度变为原来的两倍。</span><br>        <span class="hljs-comment"># num_classes 表示分类问题的类别数，因为这是一个二分类任务，所以设为2。</span><br>        <span class="hljs-comment"># 这个输出层将用于将LSTM的输出转换为最终的分类结果。输出为2维，其中一个维度表示负面情感的概率，另一个维度表示正面情感的概率</span><br>        self.out = nn.Linear(n_hidden * <span class="hljs-number">2</span>, num_classes)<br><br>    <span class="hljs-comment"># 该函数用于计算注意力权重，然后根据注意力权重对LSTM输出进行加权平均得到上下文向量</span><br>    <span class="hljs-comment"># lstm_output : LSTM的输出，维度为 [batch_size, n_step, n_hidden * num_directions(=2)]</span><br>    <span class="hljs-comment"># final_state : LSTM最终的隐藏状态，维度为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">attention_net</span>(<span class="hljs-params">self, lstm_output, final_state</span>):<br>        <span class="hljs-comment"># final_state 是LSTM在输入序列最后一个时间步的隐藏状态，维度为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        <span class="hljs-comment"># n_hidden * 2 表示双向LSTM的隐藏状态的维度，乘以2是因为它包含了前向和后向两个方向的隐藏状态。</span><br>        <span class="hljs-comment"># final_state.view(-1, n_hidden * 2, 1) 将 final_state 的维度从 [num_layers * num_directions, batch_size, n_hidden]</span><br>        <span class="hljs-comment"># 转换为 [batch_size, n_hidden * 2, 1]，在第三维度上增加了一个维度，这是为了后续计算注意力权重做准备</span><br>        <span class="hljs-comment"># hidden : [batch_size, n_hidden * num_directions(=2), 1(=n_layer)]</span><br>        hidden = final_state.view(-<span class="hljs-number">1</span>, n_hidden * <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br><br>        <span class="hljs-comment"># lstm_output 是LSTM的输出，维度为 [batch_size, n_step, n_hidden * num_directions(=2)]。</span><br>        <span class="hljs-comment"># hidden 是通过上面的操作得到的 final_state 的改变维度后的表示，维度为 [batch_size, n_hidden * 2, 1]。</span><br>        <span class="hljs-comment"># torch.bmm(lstm_output, hidden) 进行矩阵相乘，实现对 lstm_output 和 hidden 进行注意力权重的计算。注意力权重表示LSTM输出中每个时间步对应的重要程度。</span><br>        <span class="hljs-comment"># squeeze(2) 将注意力权重张量的第三个维度（为1维）挤压掉，得到维度为 [batch_size, n_step] 的 attn_weights</span><br>        attn_weights = torch.bmm(lstm_output, hidden).squeeze(<span class="hljs-number">2</span>) <span class="hljs-comment"># attn_weights : [batch_size, n_step]</span><br><br>        <span class="hljs-comment"># F.softmax(attn_weights, 1) 对注意力权重 attn_weights 进行softmax操作，将注意力权重转换为概率分布，使得每个时间步的权重值在0到1之间且和为1</span><br>        soft_attn_weights = F.softmax(attn_weights, <span class="hljs-number">1</span>)<br><br><br>        <span class="hljs-comment"># [batch_size, n_hidden * num_directions(=2), n_step] * [batch_size, n_step, 1] = [batch_size, n_hidden * num_directions(=2), 1]</span><br>        <span class="hljs-comment"># lstm_output.transpose(1, 2) 对LSTM输出进行转置，维度从 [batch_size, n_step, n_hidden * num_directions] 变为 [batch_size, n_hidden * num_directions, n_step]。</span><br>        <span class="hljs-comment"># soft_attn_weights.unsqueeze(2) 将 soft_attn_weights 张量的维度从 [batch_size, n_step] 扩展为 [batch_size, n_step, 1]，以便进行矩阵相乘。</span><br>        <span class="hljs-comment"># torch.bmm(lstm_output.transpose(1, 2), soft_attn_weights.unsqueeze(2)) 实现LSTM输出和注意力权重的加权平均，得到上下文向量。</span><br>        <span class="hljs-comment"># squeeze(2) 将上下文向量张量的第三个维度（为1维）挤压掉，得到维度为 [batch_size, n_hidden * num_directions] 的 context</span><br>        context = torch.bmm(lstm_output.transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>), soft_attn_weights.unsqueeze(<span class="hljs-number">2</span>)).squeeze(<span class="hljs-number">2</span>)<br><br>        <span class="hljs-comment"># 返回上下文向量 context 和注意力权重 soft_attn_weights。</span><br>        <span class="hljs-comment"># context 是根据注意力权重加权平均得到的LSTM输出的上下文向量，用于表示输入序列的重要信息。</span><br>        <span class="hljs-comment"># soft_attn_weights.data.numpy() 将注意力权重 soft_attn_weights 转换为NumPy数组形式并返回，以便后续可视化注意力权重矩阵</span><br>        <span class="hljs-keyword">return</span> context, soft_attn_weights.data.numpy() <span class="hljs-comment"># context : [batch_size, n_hidden * num_directions(=2)]</span><br><br>    <span class="hljs-comment"># 前向传播函数</span><br>    <span class="hljs-comment"># X : 输入的文本序列，维度为 [batch_size, len_seq]</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, X</span>):<br>        <span class="hljs-comment"># 首先将输入进行嵌入操作，然后交换维度以适应LSTM的输入格式</span><br>        <span class="hljs-comment"># 这里使用了 nn.Embedding 层，将输入的文本序列 X 中的每个词汇（对应的索引）映射为一个密集向量表示。</span><br>        <span class="hljs-comment"># input 变量维度为 [batch_size, len_seq, embedding_dim]</span><br>        <span class="hljs-comment"># 其中 batch_size 表示批次大小，len_seq 表示每个句子中的词汇数，embedding_dim 表示词向量的维度。</span><br>        <span class="hljs-built_in">input</span> = self.embedding(X)<br><br><br>        <span class="hljs-comment"># 交换维度以适应LSTM的输入格式</span><br>        <span class="hljs-comment"># LSTM模型的输入需要将序列长度维度放在第一位，因此这里使用 permute 方法交换了 input 的维度，使其变为 [len_seq, batch_size, embedding_dim]</span><br>        <span class="hljs-built_in">input</span> = <span class="hljs-built_in">input</span>.permute(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>)<br><br><br>        <span class="hljs-comment"># 初始化LSTM的隐藏状态和记忆单元状态为全零张量</span><br>        <span class="hljs-comment"># 这里创建了两个零张量 hidden_state 和 cell_state</span><br>        <span class="hljs-comment"># 用于存储LSTM的初始隐藏状态和记忆单元状态。</span><br>        <span class="hljs-comment"># 这里 1*2 表示LSTM的层数乘以双向LSTM的方向数（正向和反向）</span><br><br>        <span class="hljs-comment"># 维度为：[num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        hidden_state = torch.zeros(<span class="hljs-number">1</span>*<span class="hljs-number">2</span>, <span class="hljs-built_in">len</span>(X), n_hidden)<br>        <span class="hljs-comment"># 维度为：[num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        cell_state = torch.zeros(<span class="hljs-number">1</span>*<span class="hljs-number">2</span>, <span class="hljs-built_in">len</span>(X), n_hidden)<br><br>        <span class="hljs-comment"># final_hidden_state, final_cell_state : [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        <span class="hljs-comment"># 将嵌入后的序列输入LSTM，得到输出和最终的隐藏状态</span><br>        <span class="hljs-comment"># 这里调用了 nn.LSTM 层 self.lstm 来进行前向传播。</span><br>        <span class="hljs-comment"># output 是LSTM在所有时间步的输出，维度为 [len_seq, batch_size, n_hidden * num_directions(=2)]。</span><br>        <span class="hljs-comment"># final_hidden_state 和 final_cell_state 是LSTM的最终隐藏状态和记忆单元状态，维度均为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        output, (final_hidden_state, final_cell_state) = self.lstm(<span class="hljs-built_in">input</span>, (hidden_state, cell_state))<br><br><br>        <span class="hljs-comment"># 这里再次使用 permute 方法调整输出维度，使output恢复为 [batch_size, len_seq, n_hidden]</span><br>        output = output.permute(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>)<br><br><br>        <span class="hljs-comment"># 调用 attention_net 函数得到注意力加权的上下文向量。</span><br>        <span class="hljs-comment"># 将上下文向量输入输出层，得到最终的分类结果和注意力权重</span><br>        <span class="hljs-comment"># 这里调用了在 BiLSTM_Attention 类中定义的 attention_net 方法</span><br>        <span class="hljs-comment"># 该方法用于计算注意力权重并将其应用于LSTM输出 output，得到上下文向量 attn_output 和注意力权重矩阵 attention</span><br>        attn_output, attention = self.attention_net(output, final_hidden_state)<br><br>        <span class="hljs-comment"># 将上下文向量输入输出层，得到最终的分类结果和注意力权重</span><br>        <span class="hljs-comment"># 这里将上下文向量 attn_output 输入全连接输出层 self.out，得到最终的分类结果(model)，维度为 [batch_size, num_classes]。</span><br>        <span class="hljs-comment"># 返回注意力权重矩阵(attention)，维度为 [batch_size, n_step]。</span><br>        <span class="hljs-comment"># 注意力权重矩阵表示模型在分类时对文本序列中每个词的关注程度，可以用于可视化和分析模型的注意力行为</span><br>        <span class="hljs-keyword">return</span> self.out(attn_output), attention<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-comment"># embedding_dim 是嵌入维度，用于表示文本中的每个词汇的密集向量表示。</span><br>    <span class="hljs-comment"># 在自然语言处理任务中，文本数据往往是由离散的词汇组成，而神经网络很难直接处理这种离散形式的数据。</span><br>    <span class="hljs-comment"># 因此，需要将文本中的词汇映射为连续的向量表示，以便神经网络能够处理。</span><br>    <span class="hljs-comment"># 嵌入层（nn.Embedding）就是用来完成这个映射过程的。</span><br>    <span class="hljs-comment"># 它接受一个词汇表的大小（vocab_size）和一个嵌入维度（embedding_dim）作为输入，</span><br>    <span class="hljs-comment"># 然后根据词汇表的大小创建一个随机初始化的嵌入矩阵，其中每个词汇对应一个向量，</span><br>    <span class="hljs-comment"># 向量的维度为 embedding_dim。模型在训练过程中，会根据文本数据对这些嵌入向量进行学习，使得相似的词汇在嵌入空间中距离更近，有更好的表示能力</span><br>    embedding_dim = <span class="hljs-number">2</span><br><br>    <span class="hljs-comment"># n_hidden 表示LSTM隐藏层中的隐藏单元数（也称为隐藏状态的维度）。</span><br>    <span class="hljs-comment"># 在双向LSTM模型中，LSTM层会有两个方向的隐藏状态，所以总的隐藏单元数会是 n_hidden * 2。</span><br>    <span class="hljs-comment"># 在LSTM中，隐藏状态（hidden state）用于存储过去时间步的信息，通过更新和传递隐藏状态，LSTM能够在处理时间序列数据时更好地捕捉长期依赖关系。</span><br>    <span class="hljs-comment"># n_hidden 的值会影响LSTM模型的表示能力和学习能力，过小的值可能会导致模型拟合不足，无法捕获数据的复杂模式，而过大的值可能会增加模型复杂性，使得训练过程变得困难。</span><br>    <span class="hljs-comment"># 通常，对于不同的任务和数据集，合适的 n_hidden 取值会有所差异。</span><br>    <span class="hljs-comment"># 选择合适的 n_hidden 取决于数据集的大小和复杂度，以及任务的复杂性。</span><br>    <span class="hljs-comment"># 常见的做法是通过尝试不同的 n_hidden 值，然后根据在验证集上的性能选择最优的值</span><br>    n_hidden = <span class="hljs-number">5</span><br><br>    <span class="hljs-comment"># num_classes 在这个代码中用于指定文本分类任务的类别数量。在该代码中，文本分类任务有两个类别，即&quot;好&quot;和&quot;不好&quot;，分别用 1 和 0 表示。</span><br>    <span class="hljs-comment"># 在模型的输出层，我们使用 self.out = nn.Linear(n_hidden * 2, num_classes) 这一行代码来定义输出层。</span><br>    <span class="hljs-comment"># 这个输出层是一个全连接层，将 LSTM 输出的特征（n_hidden * 2 维）转换成最终的分类结果（num_classes 维）。</span><br>    <span class="hljs-comment"># 对于本例中的二分类任务，num_classes 为 2，因为我们需要输出两个值（0或1）来表示分类结果。</span><br>    <span class="hljs-comment"># 这样，模型的输出维度就对应着两个类别的概率分布。</span><br><br>    <span class="hljs-comment"># 在训练阶段，模型输出的结果会通过 softmax 函数处理，得到对应类别的概率分布。</span><br>    <span class="hljs-comment"># 例如，如果模型输出 [0.7, 0.3]，则表示模型认为该文本属于&quot;好&quot;的概率为 0.7，属于&quot;不好&quot;的概率为 0.3。最终分类结果会根据概率值选择概率较大的类别，例如这里会选择&quot;好&quot;类别(0.7 &gt; 0.3)。</span><br>    <span class="hljs-comment"># 因此，num_classes 在代码中用于定义输出层的维度，确保模型能够输出正确的类别概率分布，并根据分类结果进行准确的文本分类</span><br>    num_classes = <span class="hljs-number">2</span><br><br>    <span class="hljs-comment"># 3词汇句子</span><br><span class="hljs-comment">#    sentences = [&quot;我 爱 你&quot;, &quot;他 爱 我&quot;, &quot;她 喜欢 篮球&quot;, &quot;她 喜欢 他&quot;, &quot;我 讨厌 你&quot;,&quot;他 讨厌 我&quot;, &quot;我 对不起 你&quot;]</span><br><span class="hljs-comment">#    labels = [1, 1, 1, 1, 0, 0, 0]  # 1 是 好, 0 是 不好. 构建词汇表，并为每个词汇赋予一个唯一的索引</span><br>    sentences = [<span class="hljs-string">&quot;我 爱 你&quot;</span>, <span class="hljs-string">&quot;他 爱 我&quot;</span>, <span class="hljs-string">&quot;她 喜欢 篮球&quot;</span>, <span class="hljs-string">&quot;她 喜欢 他&quot;</span>, <span class="hljs-string">&quot;我 讨厌 你&quot;</span>, <span class="hljs-string">&quot;他 讨厌 我&quot;</span>, <span class="hljs-string">&quot;我 对不起 你&quot;</span>,<br>                 <span class="hljs-string">&quot;我 很高兴&quot;</span>,<span class="hljs-string">&quot;他 很高兴&quot;</span>,<span class="hljs-string">&quot;你 很高兴&quot;</span>,<span class="hljs-string">&quot;我 不高兴&quot;</span>,<span class="hljs-string">&quot;他 不高兴&quot;</span>,<span class="hljs-string">&quot;她 不高兴&quot;</span>]<br>    labels = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]<br><br>    <span class="hljs-comment"># Define the maximum sequence length</span><br>    max_seq_length = <span class="hljs-number">6</span><br><br>    <span class="hljs-comment"># 为每个句子添加一个特殊的标记（例如&lt;PAD&gt;），使其与最长句子长度保持一致，以便构成一个批次的张量输入</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">pad_sequence</span>(<span class="hljs-params">sentence, max_len</span>):<br>        words = sentence.split()<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(words) &lt; max_len:<br>            words.extend([<span class="hljs-string">&#x27;&lt;PAD&gt;&#x27;</span>] * (max_len - <span class="hljs-built_in">len</span>(words)))<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot; &quot;</span>.join(words[:max_len])<br><br>    <span class="hljs-comment"># 对所有句子进行填充</span><br>    sentences = [pad_sequence(sentence, max_seq_length) <span class="hljs-keyword">for</span> sentence <span class="hljs-keyword">in</span> sentences]<br><br>    <span class="hljs-comment"># 构建词汇表，并为每个词汇赋予一个唯一的索引</span><br>    <span class="hljs-comment"># 这段代码将所有的文本合并成一个字符串，然后按照空格分割成词汇列表。</span><br>    <span class="hljs-comment"># 使用set去重，确保每个词汇只出现一次，然后为每个词汇赋予一个唯一的索引。</span><br>    <span class="hljs-comment"># 构建出词汇表word_dict，其中键是词汇，值是对应的唯一索引，vocab_size表示词汇表的大小</span><br>    word_list = <span class="hljs-string">&quot; &quot;</span>.join(sentences).split()<br>    word_list = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">set</span>(word_list))<br>    word_dict = &#123;w: i <span class="hljs-keyword">for</span> i, w <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(word_list)&#125;<br>    vocab_size = <span class="hljs-built_in">len</span>(word_dict)<br><br>    <span class="hljs-comment"># 创建 BiLSTM_Attention 类的实例 model</span><br>    <span class="hljs-comment"># 创建了一个带有注意力机制的双向LSTM文本分类模型</span><br>    model = BiLSTM_Attention()<br><br>    <span class="hljs-comment"># 定义损失函数 criterion 为交叉熵损失，优化器 optimizer 为Adam优化器</span><br>    <span class="hljs-comment"># 交叉熵损失适用于多分类任务，而Adam优化器是一种常用的优化算法</span><br>    criterion = nn.CrossEntropyLoss()<br>    optimizer = optim.Adam(model.parameters(), lr=<span class="hljs-number">0.001</span>)<br><br>    <span class="hljs-comment"># 准备输入数据 inputs 和目标标签 targets</span><br>    <span class="hljs-comment"># 这段代码首先将每个句子转换为对应的索引序列，并将其转换为PyTorch的LongTensor类型，作为输入数据inputs。</span><br>    <span class="hljs-comment"># targets是标签序列，也转换为PyTorch的LongTensor类型。</span><br>    inputs = torch.LongTensor([np.asarray([word_dict[n] <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> sen.split()]) <span class="hljs-keyword">for</span> sen <span class="hljs-keyword">in</span> sentences])<br>    targets = torch.LongTensor([out <span class="hljs-keyword">for</span> out <span class="hljs-keyword">in</span> labels])  <span class="hljs-comment"># To using Torch Softmax Loss function</span><br><br>    <span class="hljs-comment"># 进行模型训练</span><br>    <span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5000</span>):<br>        <span class="hljs-comment"># 在每一轮训练中，首先将优化器的梯度清零（optimizer.zero_grad()）</span><br>        optimizer.zero_grad()<br><br>        <span class="hljs-comment"># 然后将输入数据输入模型，得到模型的输出和注意力权重。</span><br>        output, attention = model(inputs)<br><br>        <span class="hljs-comment"># 计算交叉熵损失</span><br>        loss = criterion(output, targets)<br>        <span class="hljs-keyword">if</span> (epoch + <span class="hljs-number">1</span>) % <span class="hljs-number">1000</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Epoch:&#x27;</span>, <span class="hljs-string">&#x27;%04d&#x27;</span> % (epoch + <span class="hljs-number">1</span>), <span class="hljs-string">&#x27;cost =&#x27;</span>, <span class="hljs-string">&#x27;&#123;:.6f&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(loss))<br><br>        <span class="hljs-comment"># 进行反向传播</span><br>        loss.backward()<br><br>        <span class="hljs-comment"># 参数优化</span><br>        optimizer.step()<br><br>    <span class="hljs-comment"># Test</span><br>    <span class="hljs-comment"># 定义一个测试文本 test_text</span><br>    test_text = <span class="hljs-string">&#x27;她 不高兴&#x27;</span><br>    <span class="hljs-comment"># 并转换为张量</span><br>    tests = [np.asarray([word_dict[n] <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> test_text.split()])]<br>    <span class="hljs-comment"># print(tests)</span><br><br>    test_batch = torch.LongTensor(tests)<br><br>    <span class="hljs-comment"># 进行预测</span><br>    predict, _ = model(test_batch)<br>    predict = predict.data.<span class="hljs-built_in">max</span>(<span class="hljs-number">1</span>, keepdim=<span class="hljs-literal">True</span>)[<span class="hljs-number">1</span>]<br>    <span class="hljs-comment"># 根据预测结果，判断测试文本的意义是&quot;好&quot;还是&quot;不好&quot;</span><br>    <span class="hljs-keyword">if</span> predict[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] == <span class="hljs-number">0</span>:<br>        <span class="hljs-built_in">print</span>(test_text,<span class="hljs-string">&quot;is Bad Mean...&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-built_in">print</span>(test_text,<span class="hljs-string">&quot;is Good Mean!!&quot;</span>)<br><br><br>    <span class="hljs-comment"># 可视化注意力权重</span><br>    <span class="hljs-comment"># 这段代码使用Matplotlib绘制了注意力权重矩阵的热力图。</span><br>    <span class="hljs-comment"># 矩阵的横轴表示文本序列中的每个词汇（&quot;first_word&quot;, &quot;second_word&quot;, &quot;third_word&quot;）</span><br>    <span class="hljs-comment"># 纵轴表示输入数据的批次（&quot;batch_1&quot;, &quot;batch_2&quot;, &quot;batch_3&quot;, &quot;batch_4&quot;, &quot;batch_5&quot;, &quot;batch_6&quot;）。</span><br>    <span class="hljs-comment"># 不同颜色的方块表示不同位置的词汇在分类时所受到的注意力程度。</span><br>    <span class="hljs-comment"># 通过该热力图可以观察模型在分类时关注的重要词</span><br>    fig = plt.figure(figsize=(<span class="hljs-number">6</span>, <span class="hljs-number">3</span>)) <span class="hljs-comment"># [batch_size, n_step]</span><br>    ax = fig.add_subplot(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>    ax.matshow(attention, cmap=<span class="hljs-string">&#x27;viridis&#x27;</span>)<br>    ax.set_xticklabels([<span class="hljs-string">&#x27;&#x27;</span>]+[<span class="hljs-string">&#x27;first_word&#x27;</span>, <span class="hljs-string">&#x27;second_word&#x27;</span>, <span class="hljs-string">&#x27;third_word&#x27;</span>], fontdict=&#123;<span class="hljs-string">&#x27;fontsize&#x27;</span>: <span class="hljs-number">14</span>&#125;, rotation=<span class="hljs-number">90</span>)<br>    ax.set_yticklabels([<span class="hljs-string">&#x27;&#x27;</span>]+[<span class="hljs-string">&#x27;batch_1&#x27;</span>, <span class="hljs-string">&#x27;batch_2&#x27;</span>, <span class="hljs-string">&#x27;batch_3&#x27;</span>, <span class="hljs-string">&#x27;batch_4&#x27;</span>, <span class="hljs-string">&#x27;batch_5&#x27;</span>, <span class="hljs-string">&#x27;batch_6&#x27;</span>], fontdict=&#123;<span class="hljs-string">&#x27;fontsize&#x27;</span>: <span class="hljs-number">14</span>&#125;)<br>    plt.show()<br><br></code></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>C++</category>
+        <category>PyTorch</category>
+        <category>python</category>
       </categories>
       <tags>
-        <tag>STL</tag>
+        <tag>NLP</tag>
       </tags>
   </entry>
   <entry>
@@ -296,22 +290,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Bi-LSTM(Attention)的PyTorch实现</title>
-    <url>/2023/07/26/Bi-LSTM(Attention)%E7%9A%84PyTorch%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[<hr>
-<blockquote>
-<p>实现如下，代码解释以注释的方式呈现</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">import</span> torch.optim <span class="hljs-keyword">as</span> optim<br><span class="hljs-keyword">import</span> torch.nn.functional <span class="hljs-keyword">as</span> F<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BiLSTM_Attention</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">super</span>(BiLSTM_Attention, self).__init__()<br><br>        <span class="hljs-comment"># 嵌入层，用于将文本中的词汇映射为密集向量表示</span><br>        <span class="hljs-comment"># nn.Embedding 是PyTorch提供的用于词嵌入（Word Embedding）的层。</span><br>        <span class="hljs-comment"># vocab_size 是词汇表大小，代表有多少个不同的词汇。</span><br>        <span class="hljs-comment"># embedding_dim 是嵌入向量的维度，它将每个词汇映射到一个具有 embedding_dim 维度的向量空间中</span><br>        self.embedding = nn.Embedding(vocab_size, embedding_dim)<br><br>        <span class="hljs-comment"># 双向LSTM层，处理嵌入后的词向量，生成LSTM输出</span><br>        <span class="hljs-comment"># nn.LSTM 是PyTorch提供的LSTM层。</span><br>        <span class="hljs-comment"># embedding_dim 是嵌入向量的维度，也是LSTM层的输入尺寸（input_size），代表每个时间步的输入特征维度。</span><br>        <span class="hljs-comment"># n_hidden 是LSTM层的隐藏单元数（hidden_size），代表每个时间步的隐藏状态的维度</span><br>        <span class="hljs-comment"># bidirectional=True 表示该LSTM是双向的，即同时考虑正向和反向的序列信息，增加了模型对序列信息的理解能力。</span><br>        <span class="hljs-comment"># 这个LSTM层将用于处理输入的嵌入向量，生成LSTM的输出和最终的隐藏状态</span><br>        self.lstm = nn.LSTM(embedding_dim, n_hidden, bidirectional=<span class="hljs-literal">True</span>)<br><br>        <span class="hljs-comment"># 双向LSTM层，处理嵌入后的词向量，生成LSTM输出</span><br>        <span class="hljs-comment"># nn.Linear 是PyTorch提供的全连接（线性）层。</span><br>        <span class="hljs-comment"># n_hidden * 2 表示输入特征的维度，由于使用了双向LSTM，所以将正向和反向的隐藏状态拼接在一起，维度变为原来的两倍。</span><br>        <span class="hljs-comment"># num_classes 表示分类问题的类别数，因为这是一个二分类任务，所以设为2。</span><br>        <span class="hljs-comment"># 这个输出层将用于将LSTM的输出转换为最终的分类结果。输出为2维，其中一个维度表示负面情感的概率，另一个维度表示正面情感的概率</span><br>        self.out = nn.Linear(n_hidden * <span class="hljs-number">2</span>, num_classes)<br><br>    <span class="hljs-comment"># 该函数用于计算注意力权重，然后根据注意力权重对LSTM输出进行加权平均得到上下文向量</span><br>    <span class="hljs-comment"># lstm_output : LSTM的输出，维度为 [batch_size, n_step, n_hidden * num_directions(=2)]</span><br>    <span class="hljs-comment"># final_state : LSTM最终的隐藏状态，维度为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">attention_net</span>(<span class="hljs-params">self, lstm_output, final_state</span>):<br>        <span class="hljs-comment"># final_state 是LSTM在输入序列最后一个时间步的隐藏状态，维度为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        <span class="hljs-comment"># n_hidden * 2 表示双向LSTM的隐藏状态的维度，乘以2是因为它包含了前向和后向两个方向的隐藏状态。</span><br>        <span class="hljs-comment"># final_state.view(-1, n_hidden * 2, 1) 将 final_state 的维度从 [num_layers * num_directions, batch_size, n_hidden]</span><br>        <span class="hljs-comment"># 转换为 [batch_size, n_hidden * 2, 1]，在第三维度上增加了一个维度，这是为了后续计算注意力权重做准备</span><br>        <span class="hljs-comment"># hidden : [batch_size, n_hidden * num_directions(=2), 1(=n_layer)]</span><br>        hidden = final_state.view(-<span class="hljs-number">1</span>, n_hidden * <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br><br>        <span class="hljs-comment"># lstm_output 是LSTM的输出，维度为 [batch_size, n_step, n_hidden * num_directions(=2)]。</span><br>        <span class="hljs-comment"># hidden 是通过上面的操作得到的 final_state 的改变维度后的表示，维度为 [batch_size, n_hidden * 2, 1]。</span><br>        <span class="hljs-comment"># torch.bmm(lstm_output, hidden) 进行矩阵相乘，实现对 lstm_output 和 hidden 进行注意力权重的计算。注意力权重表示LSTM输出中每个时间步对应的重要程度。</span><br>        <span class="hljs-comment"># squeeze(2) 将注意力权重张量的第三个维度（为1维）挤压掉，得到维度为 [batch_size, n_step] 的 attn_weights</span><br>        attn_weights = torch.bmm(lstm_output, hidden).squeeze(<span class="hljs-number">2</span>) <span class="hljs-comment"># attn_weights : [batch_size, n_step]</span><br><br>        <span class="hljs-comment"># F.softmax(attn_weights, 1) 对注意力权重 attn_weights 进行softmax操作，将注意力权重转换为概率分布，使得每个时间步的权重值在0到1之间且和为1</span><br>        soft_attn_weights = F.softmax(attn_weights, <span class="hljs-number">1</span>)<br><br><br>        <span class="hljs-comment"># [batch_size, n_hidden * num_directions(=2), n_step] * [batch_size, n_step, 1] = [batch_size, n_hidden * num_directions(=2), 1]</span><br>        <span class="hljs-comment"># lstm_output.transpose(1, 2) 对LSTM输出进行转置，维度从 [batch_size, n_step, n_hidden * num_directions] 变为 [batch_size, n_hidden * num_directions, n_step]。</span><br>        <span class="hljs-comment"># soft_attn_weights.unsqueeze(2) 将 soft_attn_weights 张量的维度从 [batch_size, n_step] 扩展为 [batch_size, n_step, 1]，以便进行矩阵相乘。</span><br>        <span class="hljs-comment"># torch.bmm(lstm_output.transpose(1, 2), soft_attn_weights.unsqueeze(2)) 实现LSTM输出和注意力权重的加权平均，得到上下文向量。</span><br>        <span class="hljs-comment"># squeeze(2) 将上下文向量张量的第三个维度（为1维）挤压掉，得到维度为 [batch_size, n_hidden * num_directions] 的 context</span><br>        context = torch.bmm(lstm_output.transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>), soft_attn_weights.unsqueeze(<span class="hljs-number">2</span>)).squeeze(<span class="hljs-number">2</span>)<br><br>        <span class="hljs-comment"># 返回上下文向量 context 和注意力权重 soft_attn_weights。</span><br>        <span class="hljs-comment"># context 是根据注意力权重加权平均得到的LSTM输出的上下文向量，用于表示输入序列的重要信息。</span><br>        <span class="hljs-comment"># soft_attn_weights.data.numpy() 将注意力权重 soft_attn_weights 转换为NumPy数组形式并返回，以便后续可视化注意力权重矩阵</span><br>        <span class="hljs-keyword">return</span> context, soft_attn_weights.data.numpy() <span class="hljs-comment"># context : [batch_size, n_hidden * num_directions(=2)]</span><br><br>    <span class="hljs-comment"># 前向传播函数</span><br>    <span class="hljs-comment"># X : 输入的文本序列，维度为 [batch_size, len_seq]</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, X</span>):<br>        <span class="hljs-comment"># 首先将输入进行嵌入操作，然后交换维度以适应LSTM的输入格式</span><br>        <span class="hljs-comment"># 这里使用了 nn.Embedding 层，将输入的文本序列 X 中的每个词汇（对应的索引）映射为一个密集向量表示。</span><br>        <span class="hljs-comment"># input 变量维度为 [batch_size, len_seq, embedding_dim]</span><br>        <span class="hljs-comment"># 其中 batch_size 表示批次大小，len_seq 表示每个句子中的词汇数，embedding_dim 表示词向量的维度。</span><br>        <span class="hljs-built_in">input</span> = self.embedding(X)<br><br><br>        <span class="hljs-comment"># 交换维度以适应LSTM的输入格式</span><br>        <span class="hljs-comment"># LSTM模型的输入需要将序列长度维度放在第一位，因此这里使用 permute 方法交换了 input 的维度，使其变为 [len_seq, batch_size, embedding_dim]</span><br>        <span class="hljs-built_in">input</span> = <span class="hljs-built_in">input</span>.permute(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>)<br><br><br>        <span class="hljs-comment"># 初始化LSTM的隐藏状态和记忆单元状态为全零张量</span><br>        <span class="hljs-comment"># 这里创建了两个零张量 hidden_state 和 cell_state</span><br>        <span class="hljs-comment"># 用于存储LSTM的初始隐藏状态和记忆单元状态。</span><br>        <span class="hljs-comment"># 这里 1*2 表示LSTM的层数乘以双向LSTM的方向数（正向和反向）</span><br><br>        <span class="hljs-comment"># 维度为：[num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        hidden_state = torch.zeros(<span class="hljs-number">1</span>*<span class="hljs-number">2</span>, <span class="hljs-built_in">len</span>(X), n_hidden)<br>        <span class="hljs-comment"># 维度为：[num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        cell_state = torch.zeros(<span class="hljs-number">1</span>*<span class="hljs-number">2</span>, <span class="hljs-built_in">len</span>(X), n_hidden)<br><br>        <span class="hljs-comment"># final_hidden_state, final_cell_state : [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        <span class="hljs-comment"># 将嵌入后的序列输入LSTM，得到输出和最终的隐藏状态</span><br>        <span class="hljs-comment"># 这里调用了 nn.LSTM 层 self.lstm 来进行前向传播。</span><br>        <span class="hljs-comment"># output 是LSTM在所有时间步的输出，维度为 [len_seq, batch_size, n_hidden * num_directions(=2)]。</span><br>        <span class="hljs-comment"># final_hidden_state 和 final_cell_state 是LSTM的最终隐藏状态和记忆单元状态，维度均为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        output, (final_hidden_state, final_cell_state) = self.lstm(<span class="hljs-built_in">input</span>, (hidden_state, cell_state))<br><br><br>        <span class="hljs-comment"># 这里再次使用 permute 方法调整输出维度，使output恢复为 [batch_size, len_seq, n_hidden]</span><br>        output = output.permute(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>)<br><br><br>        <span class="hljs-comment"># 调用 attention_net 函数得到注意力加权的上下文向量。</span><br>        <span class="hljs-comment"># 将上下文向量输入输出层，得到最终的分类结果和注意力权重</span><br>        <span class="hljs-comment"># 这里调用了在 BiLSTM_Attention 类中定义的 attention_net 方法</span><br>        <span class="hljs-comment"># 该方法用于计算注意力权重并将其应用于LSTM输出 output，得到上下文向量 attn_output 和注意力权重矩阵 attention</span><br>        attn_output, attention = self.attention_net(output, final_hidden_state)<br><br>        <span class="hljs-comment"># 将上下文向量输入输出层，得到最终的分类结果和注意力权重</span><br>        <span class="hljs-comment"># 这里将上下文向量 attn_output 输入全连接输出层 self.out，得到最终的分类结果(model)，维度为 [batch_size, num_classes]。</span><br>        <span class="hljs-comment"># 返回注意力权重矩阵(attention)，维度为 [batch_size, n_step]。</span><br>        <span class="hljs-comment"># 注意力权重矩阵表示模型在分类时对文本序列中每个词的关注程度，可以用于可视化和分析模型的注意力行为</span><br>        <span class="hljs-keyword">return</span> self.out(attn_output), attention<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-comment"># embedding_dim 是嵌入维度，用于表示文本中的每个词汇的密集向量表示。</span><br>    <span class="hljs-comment"># 在自然语言处理任务中，文本数据往往是由离散的词汇组成，而神经网络很难直接处理这种离散形式的数据。</span><br>    <span class="hljs-comment"># 因此，需要将文本中的词汇映射为连续的向量表示，以便神经网络能够处理。</span><br>    <span class="hljs-comment"># 嵌入层（nn.Embedding）就是用来完成这个映射过程的。</span><br>    <span class="hljs-comment"># 它接受一个词汇表的大小（vocab_size）和一个嵌入维度（embedding_dim）作为输入，</span><br>    <span class="hljs-comment"># 然后根据词汇表的大小创建一个随机初始化的嵌入矩阵，其中每个词汇对应一个向量，</span><br>    <span class="hljs-comment"># 向量的维度为 embedding_dim。模型在训练过程中，会根据文本数据对这些嵌入向量进行学习，使得相似的词汇在嵌入空间中距离更近，有更好的表示能力</span><br>    embedding_dim = <span class="hljs-number">2</span><br><br>    <span class="hljs-comment"># n_hidden 表示LSTM隐藏层中的隐藏单元数（也称为隐藏状态的维度）。</span><br>    <span class="hljs-comment"># 在双向LSTM模型中，LSTM层会有两个方向的隐藏状态，所以总的隐藏单元数会是 n_hidden * 2。</span><br>    <span class="hljs-comment"># 在LSTM中，隐藏状态（hidden state）用于存储过去时间步的信息，通过更新和传递隐藏状态，LSTM能够在处理时间序列数据时更好地捕捉长期依赖关系。</span><br>    <span class="hljs-comment"># n_hidden 的值会影响LSTM模型的表示能力和学习能力，过小的值可能会导致模型拟合不足，无法捕获数据的复杂模式，而过大的值可能会增加模型复杂性，使得训练过程变得困难。</span><br>    <span class="hljs-comment"># 通常，对于不同的任务和数据集，合适的 n_hidden 取值会有所差异。</span><br>    <span class="hljs-comment"># 选择合适的 n_hidden 取决于数据集的大小和复杂度，以及任务的复杂性。</span><br>    <span class="hljs-comment"># 常见的做法是通过尝试不同的 n_hidden 值，然后根据在验证集上的性能选择最优的值</span><br>    n_hidden = <span class="hljs-number">5</span><br><br>    <span class="hljs-comment"># num_classes 在这个代码中用于指定文本分类任务的类别数量。在该代码中，文本分类任务有两个类别，即&quot;好&quot;和&quot;不好&quot;，分别用 1 和 0 表示。</span><br>    <span class="hljs-comment"># 在模型的输出层，我们使用 self.out = nn.Linear(n_hidden * 2, num_classes) 这一行代码来定义输出层。</span><br>    <span class="hljs-comment"># 这个输出层是一个全连接层，将 LSTM 输出的特征（n_hidden * 2 维）转换成最终的分类结果（num_classes 维）。</span><br>    <span class="hljs-comment"># 对于本例中的二分类任务，num_classes 为 2，因为我们需要输出两个值（0或1）来表示分类结果。</span><br>    <span class="hljs-comment"># 这样，模型的输出维度就对应着两个类别的概率分布。</span><br><br>    <span class="hljs-comment"># 在训练阶段，模型输出的结果会通过 softmax 函数处理，得到对应类别的概率分布。</span><br>    <span class="hljs-comment"># 例如，如果模型输出 [0.7, 0.3]，则表示模型认为该文本属于&quot;好&quot;的概率为 0.7，属于&quot;不好&quot;的概率为 0.3。最终分类结果会根据概率值选择概率较大的类别，例如这里会选择&quot;好&quot;类别(0.7 &gt; 0.3)。</span><br>    <span class="hljs-comment"># 因此，num_classes 在代码中用于定义输出层的维度，确保模型能够输出正确的类别概率分布，并根据分类结果进行准确的文本分类</span><br>    num_classes = <span class="hljs-number">2</span><br><br>    <span class="hljs-comment"># 3词汇句子</span><br><span class="hljs-comment">#    sentences = [&quot;我 爱 你&quot;, &quot;他 爱 我&quot;, &quot;她 喜欢 篮球&quot;, &quot;她 喜欢 他&quot;, &quot;我 讨厌 你&quot;,&quot;他 讨厌 我&quot;, &quot;我 对不起 你&quot;]</span><br><span class="hljs-comment">#    labels = [1, 1, 1, 1, 0, 0, 0]  # 1 是 好, 0 是 不好. 构建词汇表，并为每个词汇赋予一个唯一的索引</span><br>    sentences = [<span class="hljs-string">&quot;我 爱 你&quot;</span>, <span class="hljs-string">&quot;他 爱 我&quot;</span>, <span class="hljs-string">&quot;她 喜欢 篮球&quot;</span>, <span class="hljs-string">&quot;她 喜欢 他&quot;</span>, <span class="hljs-string">&quot;我 讨厌 你&quot;</span>, <span class="hljs-string">&quot;他 讨厌 我&quot;</span>, <span class="hljs-string">&quot;我 对不起 你&quot;</span>,<br>                 <span class="hljs-string">&quot;我 很高兴&quot;</span>,<span class="hljs-string">&quot;他 很高兴&quot;</span>,<span class="hljs-string">&quot;你 很高兴&quot;</span>,<span class="hljs-string">&quot;我 不高兴&quot;</span>,<span class="hljs-string">&quot;他 不高兴&quot;</span>,<span class="hljs-string">&quot;她 不高兴&quot;</span>]<br>    labels = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]<br><br>    <span class="hljs-comment"># Define the maximum sequence length</span><br>    max_seq_length = <span class="hljs-number">6</span><br><br>    <span class="hljs-comment"># 为每个句子添加一个特殊的标记（例如&lt;PAD&gt;），使其与最长句子长度保持一致，以便构成一个批次的张量输入</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">pad_sequence</span>(<span class="hljs-params">sentence, max_len</span>):<br>        words = sentence.split()<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(words) &lt; max_len:<br>            words.extend([<span class="hljs-string">&#x27;&lt;PAD&gt;&#x27;</span>] * (max_len - <span class="hljs-built_in">len</span>(words)))<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot; &quot;</span>.join(words[:max_len])<br><br>    <span class="hljs-comment"># 对所有句子进行填充</span><br>    sentences = [pad_sequence(sentence, max_seq_length) <span class="hljs-keyword">for</span> sentence <span class="hljs-keyword">in</span> sentences]<br><br>    <span class="hljs-comment"># 构建词汇表，并为每个词汇赋予一个唯一的索引</span><br>    <span class="hljs-comment"># 这段代码将所有的文本合并成一个字符串，然后按照空格分割成词汇列表。</span><br>    <span class="hljs-comment"># 使用set去重，确保每个词汇只出现一次，然后为每个词汇赋予一个唯一的索引。</span><br>    <span class="hljs-comment"># 构建出词汇表word_dict，其中键是词汇，值是对应的唯一索引，vocab_size表示词汇表的大小</span><br>    word_list = <span class="hljs-string">&quot; &quot;</span>.join(sentences).split()<br>    word_list = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">set</span>(word_list))<br>    word_dict = &#123;w: i <span class="hljs-keyword">for</span> i, w <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(word_list)&#125;<br>    vocab_size = <span class="hljs-built_in">len</span>(word_dict)<br><br>    <span class="hljs-comment"># 创建 BiLSTM_Attention 类的实例 model</span><br>    <span class="hljs-comment"># 创建了一个带有注意力机制的双向LSTM文本分类模型</span><br>    model = BiLSTM_Attention()<br><br>    <span class="hljs-comment"># 定义损失函数 criterion 为交叉熵损失，优化器 optimizer 为Adam优化器</span><br>    <span class="hljs-comment"># 交叉熵损失适用于多分类任务，而Adam优化器是一种常用的优化算法</span><br>    criterion = nn.CrossEntropyLoss()<br>    optimizer = optim.Adam(model.parameters(), lr=<span class="hljs-number">0.001</span>)<br><br>    <span class="hljs-comment"># 准备输入数据 inputs 和目标标签 targets</span><br>    <span class="hljs-comment"># 这段代码首先将每个句子转换为对应的索引序列，并将其转换为PyTorch的LongTensor类型，作为输入数据inputs。</span><br>    <span class="hljs-comment"># targets是标签序列，也转换为PyTorch的LongTensor类型。</span><br>    inputs = torch.LongTensor([np.asarray([word_dict[n] <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> sen.split()]) <span class="hljs-keyword">for</span> sen <span class="hljs-keyword">in</span> sentences])<br>    targets = torch.LongTensor([out <span class="hljs-keyword">for</span> out <span class="hljs-keyword">in</span> labels])  <span class="hljs-comment"># To using Torch Softmax Loss function</span><br><br>    <span class="hljs-comment"># 进行模型训练</span><br>    <span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5000</span>):<br>        <span class="hljs-comment"># 在每一轮训练中，首先将优化器的梯度清零（optimizer.zero_grad()）</span><br>        optimizer.zero_grad()<br><br>        <span class="hljs-comment"># 然后将输入数据输入模型，得到模型的输出和注意力权重。</span><br>        output, attention = model(inputs)<br><br>        <span class="hljs-comment"># 计算交叉熵损失</span><br>        loss = criterion(output, targets)<br>        <span class="hljs-keyword">if</span> (epoch + <span class="hljs-number">1</span>) % <span class="hljs-number">1000</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Epoch:&#x27;</span>, <span class="hljs-string">&#x27;%04d&#x27;</span> % (epoch + <span class="hljs-number">1</span>), <span class="hljs-string">&#x27;cost =&#x27;</span>, <span class="hljs-string">&#x27;&#123;:.6f&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(loss))<br><br>        <span class="hljs-comment"># 进行反向传播</span><br>        loss.backward()<br><br>        <span class="hljs-comment"># 参数优化</span><br>        optimizer.step()<br><br>    <span class="hljs-comment"># Test</span><br>    <span class="hljs-comment"># 定义一个测试文本 test_text</span><br>    test_text = <span class="hljs-string">&#x27;她 不高兴&#x27;</span><br>    <span class="hljs-comment"># 并转换为张量</span><br>    tests = [np.asarray([word_dict[n] <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> test_text.split()])]<br>    <span class="hljs-comment"># print(tests)</span><br><br>    test_batch = torch.LongTensor(tests)<br><br>    <span class="hljs-comment"># 进行预测</span><br>    predict, _ = model(test_batch)<br>    predict = predict.data.<span class="hljs-built_in">max</span>(<span class="hljs-number">1</span>, keepdim=<span class="hljs-literal">True</span>)[<span class="hljs-number">1</span>]<br>    <span class="hljs-comment"># 根据预测结果，判断测试文本的意义是&quot;好&quot;还是&quot;不好&quot;</span><br>    <span class="hljs-keyword">if</span> predict[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] == <span class="hljs-number">0</span>:<br>        <span class="hljs-built_in">print</span>(test_text,<span class="hljs-string">&quot;is Bad Mean...&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-built_in">print</span>(test_text,<span class="hljs-string">&quot;is Good Mean!!&quot;</span>)<br><br><br>    <span class="hljs-comment"># 可视化注意力权重</span><br>    <span class="hljs-comment"># 这段代码使用Matplotlib绘制了注意力权重矩阵的热力图。</span><br>    <span class="hljs-comment"># 矩阵的横轴表示文本序列中的每个词汇（&quot;first_word&quot;, &quot;second_word&quot;, &quot;third_word&quot;）</span><br>    <span class="hljs-comment"># 纵轴表示输入数据的批次（&quot;batch_1&quot;, &quot;batch_2&quot;, &quot;batch_3&quot;, &quot;batch_4&quot;, &quot;batch_5&quot;, &quot;batch_6&quot;）。</span><br>    <span class="hljs-comment"># 不同颜色的方块表示不同位置的词汇在分类时所受到的注意力程度。</span><br>    <span class="hljs-comment"># 通过该热力图可以观察模型在分类时关注的重要词</span><br>    fig = plt.figure(figsize=(<span class="hljs-number">6</span>, <span class="hljs-number">3</span>)) <span class="hljs-comment"># [batch_size, n_step]</span><br>    ax = fig.add_subplot(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>    ax.matshow(attention, cmap=<span class="hljs-string">&#x27;viridis&#x27;</span>)<br>    ax.set_xticklabels([<span class="hljs-string">&#x27;&#x27;</span>]+[<span class="hljs-string">&#x27;first_word&#x27;</span>, <span class="hljs-string">&#x27;second_word&#x27;</span>, <span class="hljs-string">&#x27;third_word&#x27;</span>], fontdict=&#123;<span class="hljs-string">&#x27;fontsize&#x27;</span>: <span class="hljs-number">14</span>&#125;, rotation=<span class="hljs-number">90</span>)<br>    ax.set_yticklabels([<span class="hljs-string">&#x27;&#x27;</span>]+[<span class="hljs-string">&#x27;batch_1&#x27;</span>, <span class="hljs-string">&#x27;batch_2&#x27;</span>, <span class="hljs-string">&#x27;batch_3&#x27;</span>, <span class="hljs-string">&#x27;batch_4&#x27;</span>, <span class="hljs-string">&#x27;batch_5&#x27;</span>, <span class="hljs-string">&#x27;batch_6&#x27;</span>], fontdict=&#123;<span class="hljs-string">&#x27;fontsize&#x27;</span>: <span class="hljs-number">14</span>&#125;)<br>    plt.show()<br><br></code></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>PyTorch</category>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>NLP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CH32(F10X F20X)</title>
     <url>/2023/03/11/CH32(F10X%20F20X)/</url>
     <content><![CDATA[<h1>对于WCH-link的接线</h1>
@@ -335,6 +313,28 @@ CS(NSS) 片选管脚</p>
       <categories>
         <category>CH32</category>
       </categories>
+  </entry>
+  <entry>
+    <title>C++ STL</title>
+    <url>/2022/12/08/C++%20STL/</url>
+    <content><![CDATA[<blockquote>
+<p>#include  <algorithm></p>
+<p>求交集：</p>
+<p>set_intersection(first1,last1,first2,last2, result)</p>
+<p>求集合差：set_difference(first1,last1,first2,last2, result)</p>
+<p>合并两个集合：set_union(first1,last1,first2,last2, result)</p>
+</blockquote>
+<p><strong>上述所传递的容器必须是排序的</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">sort</span>(vm.<span class="hljs-built_in">begin</span>(), vm.<span class="hljs-built_in">end</span>());<br><span class="hljs-built_in">sort</span>(vn.<span class="hljs-built_in">begin</span>(), vn.<span class="hljs-built_in">end</span>());<br>   vector&lt;<span class="hljs-type">int</span>&gt; result;<br>   <span class="hljs-built_in">set_intersection</span>(vm.<span class="hljs-built_in">begin</span>(), vm.<span class="hljs-built_in">end</span>(), vn.<span class="hljs-built_in">begin</span>(), vn.<span class="hljs-built_in">end</span>(), <span class="hljs-built_in">inserter</span>(result, result.<span class="hljs-built_in">begin</span>()));<br>result.<span class="hljs-built_in">erase</span>(<span class="hljs-built_in">unique</span>(result.<span class="hljs-built_in">begin</span>(), result.<span class="hljs-built_in">end</span>()), result.<span class="hljs-built_in">end</span>());<span class="hljs-comment">//这是由于vector元素可能存在重复，需要去重</span><br></code></pre></td></tr></table></figure>
+<h3 id="set-intersection实现">set_intersection实现</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">InputIterator1</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">InputIterator2</span>, <span class="hljs-keyword">class</span> <span class="hljs-title class_">OutputIterator</span>&gt;<br><span class="hljs-function">OutputIterator <span class="hljs-title">set_intersection</span> <span class="hljs-params">(InputIterator1 first1, InputIterator1 last1,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 InputIterator2 first2, InputIterator2 last2,</span></span><br><span class="hljs-params"><span class="hljs-function">                                 OutputIterator result)</span></span>&#123;<br>  <span class="hljs-keyword">while</span> (first1!=last1 &amp;&amp; first2!=last2)<br>  &#123;<br>    <span class="hljs-keyword">if</span> (*first1&lt;*first2) ++first1;<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (*first2&lt;*first1) ++first2;<br>    <span class="hljs-keyword">else</span> &#123;<br>      *result = *first1;<br>      ++result; ++first1; ++first2;<br>    &#125;<br>  &#125;<br>  <span class="hljs-keyword">return</span> result;<br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>STL</tag>
+      </tags>
   </entry>
   <entry>
     <title>C语言学习相关</title>
@@ -501,39 +501,65 @@ $$</p>
       </tags>
   </entry>
   <entry>
-    <title>GMD09601-0.96OLED显示屏</title>
-    <url>/2023/03/14/GMD09601-0.96OLED%E6%98%BE%E7%A4%BA%E5%B1%8F/</url>
-    <content><![CDATA[<h1>GMD09601-0.96OLED显示屏</h1>
+    <title>Linux普通用户不能使用TAB键、上下键</title>
+    <url>/2023/01/20/Linux%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8TAB%E9%94%AE%E3%80%81%E4%B8%8A%E4%B8%8B%E9%94%AE/</url>
+    <content><![CDATA[<h3 id="出发点">出发点</h3>
 <blockquote>
-<p>驱动芯片：SSD1306</p>
-<p>支持接口：SPI/IIC</p>
-<p>分辨率：128*64</p>
+<p>通过shell远程连接linux的时候发现tab键命令不能补全<br>
+结合ubuntu,因默认ubuntu创建的普通帐号，默认shell为<code>/bin/sh</code>，而这不支持tab等键的，所以将「指定用户」帐号的shell改为<code>/bin/bash</code>就可以</p>
 </blockquote>
-<h2 id="接口定义">接口定义</h2>
-<ul>
-<li>GND：电源地</li>
-<li>VDD：电源正（3.3V ~ 5V）</li>
-<li>SCK：时钟线</li>
-<li>SDA：数据线</li>
-<li>RES：复位线</li>
-<li>DC：数据/命令</li>
-<li>CS：片选</li>
-</ul>
-<h1>对于096 OLED屏幕接线</h1>
-<h2 id="F207">F207</h2>
+<h3 id="操作">操作</h3>
 <blockquote>
-<p>GND 电源地<br>
-VCC 电源正（3.3～5V）<br>
-D0(SCL) SCK管脚<br>
-D1(SDA) MOSI管脚<br>
-RES(RST) 用来复位（低电平复位）<br>
-DC(D/C) 数据和命令控制管脚 1表示数据 0表示命令<br>
-CS(NSS) 片选管脚</p>
+<p>1.查看当前的shell：<br>
+<code># echo $SHELL</code><br>
+<code>/bin/sh</code><br>
+2.修改shell为<code>/bin/bash</code>：<br>
+(切换到root用户执行) <code># usermod -s /bin/bash 用户名</code></p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">GND	-&gt;	GND<br>VCC	-&gt;	3V3<br>D0	-&gt;	PA5<br>D1	-&gt;	PA7<br>RES	-&gt;	PA4<br>DC	-&gt;	PA6<br>CS	-&gt;	NONE<br></code></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>STM32</category>
+        <category>Linux</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>NOIonline</title>
+    <url>/2021/04/04/NOIonline/</url>
+    <content><![CDATA[<h2 id="愤怒的小-N（angry）-CCF-NOI-Online-能力测试-提高组-2021第一题">愤怒的小 N（angry）-	CCF NOI Online 能力测试 提高组 2021第一题</h2>
+<p><strong>【题目描述】</strong><br>
+极度愤怒的小 N 通关了一款游戏来泄愤。<br>
+这款游戏共有 n 关，分别为第 0 关、第 1 关、第 2 关、···、第 n−1 关。这些关卡中有一些是普通关卡，另一些则是奖励关卡。 这款游戏中普通关卡与奖励关卡的分布比较特殊。如果用字符 a 表示普通关卡，用 字符 b 表示奖励关卡，那么第 0 关、第 1 关、第 2 关、···、第 n−1 关依次排列形成 的字符串是一个无穷字符串 s 的前缀，且 s 可以按照如下方式构造：</p>
+<blockquote>
+<ol>
+<li>初始时 s 为包含单个字符 a 的字符串。</li>
+<li>将 s 的每个字符 a 替换成字符 b，每个字符 b 替换成字符 a 得到字符串 t，然后 将 t 拼接到 s 后。</li>
+<li>不断执行 2. 得到的字符串就是最终的 s。</li>
+</ol>
+</blockquote>
+<p>可以发现 s = abbabaabbaababba···，所以这款游戏的第 0 关是普通关卡，第 1 关 是奖励关卡，第 2 关是奖励关卡，第 3 关是普通关卡，以此类推。 通过游戏的第 i 关可以得到 f(i) 分，其中 f(x) = a0 + a1x + a2x2 +···+ ak−1xk−1 是一个固定的 k−1 次多项式。 小 N 通关时一气之下通过了所有奖励关卡而忽略了所有普通关卡，然后就把游戏 卸载了。现在回想起来，他想要知道他在卸载游戏前的总得分对 10⁹ + 7 取模后的结果。<br>
+<strong>【输入格式】</strong> 从文件 <a href="http://angry.in">angry.in</a> 中读入数据。 第一行一个正整数 n，表示游戏的关卡数目。为方便，n 以二进制表示给出。 第二行一个正整数 k，表示多项式的次数加一。 第三行 k 个非负整数，分别为 a0,a1,a2,…,ak−1，表示多项式的各项系数。<br>
+<strong>【输出格式】</strong> 输出到文件 angry.out 中。 一行一个非负整数，表示小 N 卸载游戏前的总得分对 109 + 7 取模后的结果。<br>
+<strong>【样例 1 输入】</strong><br>
+1 1000 2 3 3 3 2 1<br>
+<strong>【样例 1 输出】</strong><br>
+1 110<br>
+<strong>【样例 1 解释】</strong><br>
+这款游戏共有 8 关，通关第 i 关可以得到 (3 + 2i + i2) 分。第 1,2,4,7 关为奖励关， 小 N 通过这几关分别得到了 6,11,27,66 分，共 110 分。<br>
+<strong>【样例 2 输入】</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">11111100101 <br>4<br>2 0 2 1<br></code></pre></td></tr></table></figure>
+<p><strong>【样例 2 输出】</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">143901603<br></code></pre></td></tr></table></figure>
+<p><strong>【样例 3 输入】</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">1001011001101001 <br>16<br>1 0 0 1 0 1 1 0 0 1 1 0 1 0 0 1<br></code></pre></td></tr></table></figure>
+<p><strong>【样例 3 输出】</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">184740992<br></code></pre></td></tr></table></figure>
+<p><strong>【数据范围与提示】</strong> 对于所有测试点：0 ≤log₂n &lt; 5×10⁵，1 ≤ k ≤ 500，0 ≤ ai &lt; 10⁹ + 7，a的第k-1项≠ 0。</p>
+<hr>
+<h3 id="我的代码">我的代码</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> RLL register long long</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LL long long</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> VALUE 1000000007</span><br><br><span class="hljs-type">int</span> n;<br><span class="hljs-type">int</span> x[<span class="hljs-number">512</span>],k;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getn</span><span class="hljs-params">(LL num)</span></span>&#123;<br>	<span class="hljs-keyword">return</span> (num)?<span class="hljs-number">1</span>+<span class="hljs-built_in">getn</span>(num/<span class="hljs-number">10</span>):<span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">BtoD</span><span class="hljs-params">(LL num)</span></span>&#123;<br>	<span class="hljs-type">int</span> dec=<span class="hljs-number">0</span>,i=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span>(num)&#123;<br>		dec+=(num%<span class="hljs-number">10</span>)*(<span class="hljs-number">1</span>&lt;&lt;i++);<br>		num/=<span class="hljs-number">10</span>;<br>	&#125;<br>	<span class="hljs-keyword">return</span> dec;<br>&#125;<br><br><span class="hljs-comment">//这一一般的求幂（的模）</span><br><span class="hljs-function">LL <span class="hljs-title">normalExponentiation</span><span class="hljs-params">(<span class="hljs-type">int</span> base,<span class="hljs-type">int</span> power)</span></span>&#123;<br>    LL res=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=power;i++)&#123;<br>        res*=base;<br>        res%=VALUE;<br>    &#125;<br>    <span class="hljs-keyword">return</span> res%VALUE;<br>&#125;<br><span class="hljs-comment">//老快了</span><br><span class="hljs-function">LL <span class="hljs-title">fastExponentiation</span><span class="hljs-params">(LL base,LL power)</span> </span>&#123;<br>    LL res = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span> (power &gt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span> (power &amp; <span class="hljs-number">1</span>) &#123;<span class="hljs-comment">//此处等价于if(power%2==1)</span><br>            res = res * base % VALUE;<br>        &#125;<br>        power &gt;&gt;= <span class="hljs-number">1</span>;<span class="hljs-comment">//此处等价于power=power/2</span><br>        base = (base * base) % VALUE;<br>    &#125;<br>    <span class="hljs-keyword">return</span> res;<br>&#125;<br><br><span class="hljs-function">LL <span class="hljs-title">getScore</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span></span>&#123;<br>	<span class="hljs-comment">//第i个关卡</span><br>	LL res=<span class="hljs-number">0</span>,power;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> l=<span class="hljs-number">0</span>;l&lt;k;l++)&#123;<br>		power=x[l];<br>		<span class="hljs-keyword">if</span>(x[l])<br>			res+=<span class="hljs-built_in">fastExponentiation</span>(i,l);<span class="hljs-comment">//比normalExponentiation快了好多好多好多好多 </span><br>	&#125;<br>	<span class="hljs-keyword">return</span> res;<br>&#125;<br><br><span class="hljs-function">string <span class="hljs-title">mades</span><span class="hljs-params">(string s)</span></span>&#123;<br>	string news=s;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;s.<span class="hljs-built_in">size</span>();j++)<br>			news+=(s[j]==<span class="hljs-string">&#x27;a&#x27;</span>)?<span class="hljs-string">&quot;b&quot;</span>:<span class="hljs-string">&quot;a&quot;</span>;<br>		s=news;<br>	&#125;<br>	<span class="hljs-keyword">return</span> news;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	LL num;<br>	cin&gt;&gt;num&gt;&gt;k;<br>	n=<span class="hljs-built_in">getn</span>(num);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;k;i++)cin&gt;&gt;x[i];<br>	string s=<span class="hljs-built_in">mades</span>(<span class="hljs-string">&quot;a&quot;</span>);<br>	RLL ScoreSum=<span class="hljs-number">0</span>;<br>	<span class="hljs-type">int</span> max=<span class="hljs-built_in">BtoD</span>(num);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;max;i++)<br>		<span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;b&#x27;</span>)&#123;<br>			ScoreSum+=<span class="hljs-built_in">getScore</span>(i);<br>		&#125;<br>	cout&lt;&lt;<span class="hljs-string">&quot;SUM:&quot;</span>&lt;&lt;ScoreSum%VALUE;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>这里的<em>fastExponentiation</em>其实有更好的方法，但是没从本子那边拿到（我自己也想不出来😥）</strong></p>
+]]></content>
+      <categories>
+        <category>C++</category>
       </categories>
   </entry>
   <entry>
@@ -1154,68 +1180,6 @@ CS(NSS) 片选管脚</p>
       </categories>
   </entry>
   <entry>
-    <title>Linux普通用户不能使用TAB键、上下键</title>
-    <url>/2023/01/20/Linux%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8TAB%E9%94%AE%E3%80%81%E4%B8%8A%E4%B8%8B%E9%94%AE/</url>
-    <content><![CDATA[<h3 id="出发点">出发点</h3>
-<blockquote>
-<p>通过shell远程连接linux的时候发现tab键命令不能补全<br>
-结合ubuntu,因默认ubuntu创建的普通帐号，默认shell为<code>/bin/sh</code>，而这不支持tab等键的，所以将「指定用户」帐号的shell改为<code>/bin/bash</code>就可以</p>
-</blockquote>
-<h3 id="操作">操作</h3>
-<blockquote>
-<p>1.查看当前的shell：<br>
-<code># echo $SHELL</code><br>
-<code>/bin/sh</code><br>
-2.修改shell为<code>/bin/bash</code>：<br>
-(切换到root用户执行) <code># usermod -s /bin/bash 用户名</code></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>NOIonline</title>
-    <url>/2021/04/04/NOIonline/</url>
-    <content><![CDATA[<h2 id="愤怒的小-N（angry）-CCF-NOI-Online-能力测试-提高组-2021第一题">愤怒的小 N（angry）-	CCF NOI Online 能力测试 提高组 2021第一题</h2>
-<p><strong>【题目描述】</strong><br>
-极度愤怒的小 N 通关了一款游戏来泄愤。<br>
-这款游戏共有 n 关，分别为第 0 关、第 1 关、第 2 关、···、第 n−1 关。这些关卡中有一些是普通关卡，另一些则是奖励关卡。 这款游戏中普通关卡与奖励关卡的分布比较特殊。如果用字符 a 表示普通关卡，用 字符 b 表示奖励关卡，那么第 0 关、第 1 关、第 2 关、···、第 n−1 关依次排列形成 的字符串是一个无穷字符串 s 的前缀，且 s 可以按照如下方式构造：</p>
-<blockquote>
-<ol>
-<li>初始时 s 为包含单个字符 a 的字符串。</li>
-<li>将 s 的每个字符 a 替换成字符 b，每个字符 b 替换成字符 a 得到字符串 t，然后 将 t 拼接到 s 后。</li>
-<li>不断执行 2. 得到的字符串就是最终的 s。</li>
-</ol>
-</blockquote>
-<p>可以发现 s = abbabaabbaababba···，所以这款游戏的第 0 关是普通关卡，第 1 关 是奖励关卡，第 2 关是奖励关卡，第 3 关是普通关卡，以此类推。 通过游戏的第 i 关可以得到 f(i) 分，其中 f(x) = a0 + a1x + a2x2 +···+ ak−1xk−1 是一个固定的 k−1 次多项式。 小 N 通关时一气之下通过了所有奖励关卡而忽略了所有普通关卡，然后就把游戏 卸载了。现在回想起来，他想要知道他在卸载游戏前的总得分对 10⁹ + 7 取模后的结果。<br>
-<strong>【输入格式】</strong> 从文件 <a href="http://angry.in">angry.in</a> 中读入数据。 第一行一个正整数 n，表示游戏的关卡数目。为方便，n 以二进制表示给出。 第二行一个正整数 k，表示多项式的次数加一。 第三行 k 个非负整数，分别为 a0,a1,a2,…,ak−1，表示多项式的各项系数。<br>
-<strong>【输出格式】</strong> 输出到文件 angry.out 中。 一行一个非负整数，表示小 N 卸载游戏前的总得分对 109 + 7 取模后的结果。<br>
-<strong>【样例 1 输入】</strong><br>
-1 1000 2 3 3 3 2 1<br>
-<strong>【样例 1 输出】</strong><br>
-1 110<br>
-<strong>【样例 1 解释】</strong><br>
-这款游戏共有 8 关，通关第 i 关可以得到 (3 + 2i + i2) 分。第 1,2,4,7 关为奖励关， 小 N 通过这几关分别得到了 6,11,27,66 分，共 110 分。<br>
-<strong>【样例 2 输入】</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">11111100101 <br>4<br>2 0 2 1<br></code></pre></td></tr></table></figure>
-<p><strong>【样例 2 输出】</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">143901603<br></code></pre></td></tr></table></figure>
-<p><strong>【样例 3 输入】</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">1001011001101001 <br>16<br>1 0 0 1 0 1 1 0 0 1 1 0 1 0 0 1<br></code></pre></td></tr></table></figure>
-<p><strong>【样例 3 输出】</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">184740992<br></code></pre></td></tr></table></figure>
-<p><strong>【数据范围与提示】</strong> 对于所有测试点：0 ≤log₂n &lt; 5×10⁵，1 ≤ k ≤ 500，0 ≤ ai &lt; 10⁹ + 7，a的第k-1项≠ 0。</p>
-<hr>
-<h3 id="我的代码">我的代码</h3>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> RLL register long long</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LL long long</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> VALUE 1000000007</span><br><br><span class="hljs-type">int</span> n;<br><span class="hljs-type">int</span> x[<span class="hljs-number">512</span>],k;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getn</span><span class="hljs-params">(LL num)</span></span>&#123;<br>	<span class="hljs-keyword">return</span> (num)?<span class="hljs-number">1</span>+<span class="hljs-built_in">getn</span>(num/<span class="hljs-number">10</span>):<span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">BtoD</span><span class="hljs-params">(LL num)</span></span>&#123;<br>	<span class="hljs-type">int</span> dec=<span class="hljs-number">0</span>,i=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span>(num)&#123;<br>		dec+=(num%<span class="hljs-number">10</span>)*(<span class="hljs-number">1</span>&lt;&lt;i++);<br>		num/=<span class="hljs-number">10</span>;<br>	&#125;<br>	<span class="hljs-keyword">return</span> dec;<br>&#125;<br><br><span class="hljs-comment">//这一一般的求幂（的模）</span><br><span class="hljs-function">LL <span class="hljs-title">normalExponentiation</span><span class="hljs-params">(<span class="hljs-type">int</span> base,<span class="hljs-type">int</span> power)</span></span>&#123;<br>    LL res=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=power;i++)&#123;<br>        res*=base;<br>        res%=VALUE;<br>    &#125;<br>    <span class="hljs-keyword">return</span> res%VALUE;<br>&#125;<br><span class="hljs-comment">//老快了</span><br><span class="hljs-function">LL <span class="hljs-title">fastExponentiation</span><span class="hljs-params">(LL base,LL power)</span> </span>&#123;<br>    LL res = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span> (power &gt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span> (power &amp; <span class="hljs-number">1</span>) &#123;<span class="hljs-comment">//此处等价于if(power%2==1)</span><br>            res = res * base % VALUE;<br>        &#125;<br>        power &gt;&gt;= <span class="hljs-number">1</span>;<span class="hljs-comment">//此处等价于power=power/2</span><br>        base = (base * base) % VALUE;<br>    &#125;<br>    <span class="hljs-keyword">return</span> res;<br>&#125;<br><br><span class="hljs-function">LL <span class="hljs-title">getScore</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span></span>&#123;<br>	<span class="hljs-comment">//第i个关卡</span><br>	LL res=<span class="hljs-number">0</span>,power;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> l=<span class="hljs-number">0</span>;l&lt;k;l++)&#123;<br>		power=x[l];<br>		<span class="hljs-keyword">if</span>(x[l])<br>			res+=<span class="hljs-built_in">fastExponentiation</span>(i,l);<span class="hljs-comment">//比normalExponentiation快了好多好多好多好多 </span><br>	&#125;<br>	<span class="hljs-keyword">return</span> res;<br>&#125;<br><br><span class="hljs-function">string <span class="hljs-title">mades</span><span class="hljs-params">(string s)</span></span>&#123;<br>	string news=s;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;s.<span class="hljs-built_in">size</span>();j++)<br>			news+=(s[j]==<span class="hljs-string">&#x27;a&#x27;</span>)?<span class="hljs-string">&quot;b&quot;</span>:<span class="hljs-string">&quot;a&quot;</span>;<br>		s=news;<br>	&#125;<br>	<span class="hljs-keyword">return</span> news;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	LL num;<br>	cin&gt;&gt;num&gt;&gt;k;<br>	n=<span class="hljs-built_in">getn</span>(num);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;k;i++)cin&gt;&gt;x[i];<br>	string s=<span class="hljs-built_in">mades</span>(<span class="hljs-string">&quot;a&quot;</span>);<br>	RLL ScoreSum=<span class="hljs-number">0</span>;<br>	<span class="hljs-type">int</span> max=<span class="hljs-built_in">BtoD</span>(num);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;max;i++)<br>		<span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;b&#x27;</span>)&#123;<br>			ScoreSum+=<span class="hljs-built_in">getScore</span>(i);<br>		&#125;<br>	cout&lt;&lt;<span class="hljs-string">&quot;SUM:&quot;</span>&lt;&lt;ScoreSum%VALUE;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p><strong>这里的<em>fastExponentiation</em>其实有更好的方法，但是没从本子那边拿到（我自己也想不出来😥）</strong></p>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Paddle环境搭建</title>
     <url>/2023/04/04/Paddle%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<blockquote>
@@ -1270,6 +1234,42 @@ CS(NSS) 片选管脚</p>
         <tag>Python</tag>
         <tag>深度学习</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>GMD09601-0.96OLED显示屏</title>
+    <url>/2023/03/14/GMD09601-0.96OLED%E6%98%BE%E7%A4%BA%E5%B1%8F/</url>
+    <content><![CDATA[<h1>GMD09601-0.96OLED显示屏</h1>
+<blockquote>
+<p>驱动芯片：SSD1306</p>
+<p>支持接口：SPI/IIC</p>
+<p>分辨率：128*64</p>
+</blockquote>
+<h2 id="接口定义">接口定义</h2>
+<ul>
+<li>GND：电源地</li>
+<li>VDD：电源正（3.3V ~ 5V）</li>
+<li>SCK：时钟线</li>
+<li>SDA：数据线</li>
+<li>RES：复位线</li>
+<li>DC：数据/命令</li>
+<li>CS：片选</li>
+</ul>
+<h1>对于096 OLED屏幕接线</h1>
+<h2 id="F207">F207</h2>
+<blockquote>
+<p>GND 电源地<br>
+VCC 电源正（3.3～5V）<br>
+D0(SCL) SCK管脚<br>
+D1(SDA) MOSI管脚<br>
+RES(RST) 用来复位（低电平复位）<br>
+DC(D/C) 数据和命令控制管脚 1表示数据 0表示命令<br>
+CS(NSS) 片选管脚</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">GND	-&gt;	GND<br>VCC	-&gt;	3V3<br>D0	-&gt;	PA5<br>D1	-&gt;	PA7<br>RES	-&gt;	PA4<br>DC	-&gt;	PA6<br>CS	-&gt;	NONE<br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>STM32</category>
+      </categories>
   </entry>
   <entry>
     <title>Predict.py的编写</title>
@@ -1577,25 +1577,6 @@ CS(NSS) 片选管脚</p>
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/04/03/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>edgeboardFZ3A相关问题</title>
     <url>/2023/06/09/edgeboardFZ3A%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h1>FZ3A</h1>
@@ -1640,6 +1621,25 @@ set(SERIAL_INCLUDE_DIR “/usr/include/serial”)</p>
       <tags>
         <tag>linux</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/04/03/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start">Quick Start</h2>
+<h3 id="Create-a-new-post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
   <entry>
     <title>《树》</title>
@@ -1707,6 +1707,14 @@ set(SERIAL_INCLUDE_DIR “/usr/include/serial”)</p>
       </tags>
   </entry>
   <entry>
+    <title>一个特别的日子</title>
+    <url>/2022/08/18/%E4%B8%80%E4%B8%AA%E7%89%B9%E5%88%AB%E7%9A%84%E6%97%A5%E5%AD%90/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>我</category>
+      </categories>
+  </entry>
+  <entry>
     <title>【LeetCode 1617】统计子树中城市之间最大距离</title>
     <url>/2023/03/12/%E3%80%90LeetCode%201617%E3%80%91%E7%BB%9F%E8%AE%A1%E5%AD%90%E6%A0%91%E4%B8%AD%E5%9F%8E%E5%B8%82%E4%B9%8B%E9%97%B4%E6%9C%80%E5%A4%A7%E8%B7%9D%E7%A6%BB/</url>
     <content><![CDATA[<h2 id="题目描述">题目描述</h2>
@@ -1750,14 +1758,6 @@ $题目保证 (ui, vi) 所表示的边互不相同。$</p>
         <tag>回溯</tag>
         <tag>枚举</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>一个特别的日子</title>
-    <url>/2022/08/18/%E4%B8%80%E4%B8%AA%E7%89%B9%E5%88%AB%E7%9A%84%E6%97%A5%E5%AD%90/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>我</category>
-      </categories>
   </entry>
   <entry>
     <title>一道集众多技巧于一身的题目——《密文游戏》</title>
@@ -2138,6 +2138,32 @@ $$</p>
       </tags>
   </entry>
   <entry>
+    <title>二叉树的遍历序列转换</title>
+    <url>/2023/02/18/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E8%BD%AC%E6%8D%A2/</url>
+    <content><![CDATA[<h1>前序中序转后序</h1>
+<h2 id="输入-1">输入#1</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">ABEDFCHG<br>CBADEFGH <br></code></pre></td></tr></table></figure>
+<h2 id="输出-1">输出#1</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">AEFDBHGC<br></code></pre></td></tr></table></figure>
+<p>针对二叉树的</p>
+<p>前序遍历，根-&gt;左-&gt;右</p>
+<p>中序遍历，左-&gt;根-&gt;右</p>
+<p>这两个的特性</p>
+<p>我们可以尝试凭借前序遍历的根结点（叶子结点也可以看错左右儿子为空的根）将中序遍历的左右根依次拆分成左右两块，针对左右两块再次递归操作</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">void</span> _find(string InOrderStr, string PreOrderStr)&#123;<br>	<span class="hljs-keyword">if</span> (PreOrderStr.<span class="hljs-built_in">empty</span>())<span class="hljs-keyword">return</span>;<span class="hljs-comment">//针对前序遍历序列（拆分出的序列的）的根结点访问结束</span><br>    <br>    <span class="hljs-type">char</span> root = PreOrderStr[<span class="hljs-number">0</span>];<br>    PreOrderStr.<span class="hljs-built_in">erase</span>(PreOrderStr.<span class="hljs-built_in">begin</span>());<span class="hljs-comment">//根结点取出，作为拆分标识</span><br>    <br>    <span class="hljs-type">int</span> rootidx = InOrderStr.<span class="hljs-built_in">find</span>(root);<br>    <br>    string leftIn = InOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>,rootidx);		<span class="hljs-comment">//中序左分块</span><br>    string leftPre = PreOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>,rootidx);		<span class="hljs-comment">//新前序，内容与中序 左 分块相同</span><br>    <br>    string rightIn = InOrderStr.<span class="hljs-built_in">substr</span>(rootidx + <span class="hljs-number">1</span>);	<span class="hljs-comment">//中序右分块</span><br>    string rightPre = PreOrderStr.<span class="hljs-built_in">substr</span>(rootidx);			<span class="hljs-comment">//新前序，内容与中序 右 分块相同</span><br>    <br>    _find(leftIn,leftPre);	<span class="hljs-comment">//左分块递归</span><br>	_find(rightIn,rightPre);<span class="hljs-comment">//右分块递归</span><br>    <br>    cout &lt;&lt; root;<br>&#125;<br></code></pre></td></tr></table></figure>
+<hr>
+<h1>后序中序转前序(和上方概念类似)</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++">stack&lt;<span class="hljs-type">char</span>&gt; st;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	string InOrderStr;<br>	string PreOrderStr;<br>	cin &gt;&gt; InOrderStr &gt;&gt; PreOrderStr;<br>	<br>	_find2(InOrderStr, PreOrderStr);<br>	<span class="hljs-keyword">while</span> (!st.<span class="hljs-built_in">empty</span>()) &#123;<br>		cout &lt;&lt; st.<span class="hljs-built_in">top</span>();<br>		st.<span class="hljs-built_in">pop</span>();<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> _find2(string InOrderStr, string PostOrderStr)&#123;<br>	<span class="hljs-keyword">if</span> (PostOrderStr.<span class="hljs-built_in">empty</span>())<span class="hljs-keyword">return</span>;<br>	<span class="hljs-type">char</span> root = PostOrderStr[PostOrderStr.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>];<br>	PostOrderStr.<span class="hljs-built_in">pop_back</span>();<br><br>	<span class="hljs-type">int</span> rootidx = InOrderStr.<span class="hljs-built_in">find</span>(root);<br><br>	string leftIn = InOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, rootidx);<br>	string leftPost = PostOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, rootidx);<br><br>	string rightIn = InOrderStr.<span class="hljs-built_in">substr</span>(rootidx + <span class="hljs-number">1</span>);<br>	string rightPost = PostOrderStr.<span class="hljs-built_in">substr</span>(rootidx);<br><br><br>	_find2(rightIn, rightPost);<br>	_find2(leftIn, leftPost);<br><br>	st.<span class="hljs-built_in">push</span>(root);<br>&#125;<br><br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>树</tag>
+        <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>回溯</title>
     <url>/2022/12/08/%E5%9B%9E%E6%BA%AF/</url>
     <content><![CDATA[<h1>1</h1>
@@ -2213,6 +2239,39 @@ $$</p>
       </tags>
   </entry>
   <entry>
+    <title>大杂烩</title>
+    <url>/2023/02/14/%E5%A4%A7%E6%9D%82%E7%83%A9/</url>
+    <content><![CDATA[<p>[TOC]</p>
+<h1>动态规划</h1>
+<h2 id="P8784-蓝桥杯-2022-省-B-积木画"><a href="https://www.luogu.com.cn/problem/P8784">P8784 蓝桥杯 2022 省 B  - 积木画 </a></h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">int</span> mod = <span class="hljs-number">1000000007</span>;<br><br><span class="hljs-type">int</span> f[<span class="hljs-number">6</span>] = &#123; <span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">5</span> &#125;;<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>    <span class="hljs-type">int</span> n;<br>    cin &gt;&gt; n;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">4</span>; i &lt;= n; i++) &#123;<br>        f[i] = (<span class="hljs-number">2</span> * f[i<span class="hljs-number">-1</span>] % mod + f[i<span class="hljs-number">-3</span>] % mod) % mod;<br>    &#125;<br><br>    cout &lt;&lt; f[n];<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="P8786-蓝桥杯-2022-省-B-李白打酒加强版"><a href="https://www.luogu.com.cn/problem/P8786">P8786 蓝桥杯 2022 省 B -  李白打酒加强版 </a></h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">int</span> mod = <span class="hljs-number">1000000007</span>;<br><br><span class="hljs-type">int</span> jiu[<span class="hljs-number">201</span>][<span class="hljs-number">101</span>][<span class="hljs-number">101</span>];<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>    <span class="hljs-type">int</span> n, m;<br>    cin &gt;&gt; n &gt;&gt; m;<br><br>    jiu[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>][<span class="hljs-number">2</span>] = <span class="hljs-number">1</span>;<br>    <span class="hljs-comment">//i 位置</span><br>    <span class="hljs-comment">//j 花</span><br>    <span class="hljs-comment">//k 酒</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n + m; i++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; m; j++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k = <span class="hljs-number">0</span>; k &lt;= m; k++) &#123;<br>                <span class="hljs-keyword">if</span> (jiu[i][j][k]) &#123;<br>                    <span class="hljs-keyword">if</span> (k &gt; <span class="hljs-number">0</span>) jiu[i + <span class="hljs-number">1</span>][j + <span class="hljs-number">1</span>][k - <span class="hljs-number">1</span>] = (jiu[i + <span class="hljs-number">1</span>][j + <span class="hljs-number">1</span>][k - <span class="hljs-number">1</span>] + jiu[i][j][k]) % mod;<br>                    <span class="hljs-keyword">if</span> (k &lt;= m/<span class="hljs-number">2</span>) jiu[i + <span class="hljs-number">1</span>][j][k * <span class="hljs-number">2</span>] = (jiu[i + <span class="hljs-number">1</span>][j][k * <span class="hljs-number">2</span>] + jiu[i][j][k]) % mod;<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    cout &lt;&lt; jiu[n + m][m][<span class="hljs-number">0</span>];<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="P2758-编辑距离"><a href="https://www.luogu.com.cn/problem/P2758">P2758 编辑距离 </a></h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> n, m;<br><span class="hljs-type">int</span> ans;<br><span class="hljs-comment">//dp[i][j]</span><br><br><span class="hljs-comment">//A的前i位转换为 B前j位的最小步骤</span><br><span class="hljs-type">int</span> dp[<span class="hljs-number">2001</span>][<span class="hljs-number">2001</span>];<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">Ⅰ：删除一个字符；</span><br><span class="hljs-comment">Ⅱ：插入一个字符；</span><br><span class="hljs-comment">Ⅲ：将一个字符改为另一个字符。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    <br>    string str1, str2;<br>    cin &gt;&gt; str1 &gt;&gt; str2;<br>    n = str1.<span class="hljs-built_in">size</span>();<br>    m = str2.<span class="hljs-built_in">size</span>();<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        dp[i][<span class="hljs-number">0</span>] = i;<br>    &#125;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++) &#123;<br>        dp[<span class="hljs-number">0</span>][i] = i;<br>    &#125;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++) &#123;<br>            <span class="hljs-keyword">if</span> (str1[i - <span class="hljs-number">1</span>] == str2[j - <span class="hljs-number">1</span>]) &#123;<br>                dp[i][j] = dp[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>];<br>                <span class="hljs-keyword">continue</span>;<br>            &#125;<br>            <br>		<span class="hljs-comment">//分别对应i情况：			Ⅰ			Ⅱ				Ⅲ</span><br>            dp[i][j] = <span class="hljs-built_in">min</span>(<span class="hljs-built_in">min</span>(dp[i - <span class="hljs-number">1</span>][j], dp[i][j - <span class="hljs-number">1</span>]), dp[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>]) + <span class="hljs-number">1</span>;<br>        &#125;<br>    &#125;<br><br>    cout &lt;&lt; dp[n][m];<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="P1077-NOIP2012-普及组-摆花"><a href="https://www.luogu.com.cn/problem/P1077">P1077 NOIP2012 普及组 摆花</a></h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> dp[<span class="hljs-number">101</span>][<span class="hljs-number">101</span>];<br><span class="hljs-type">int</span> n, m;<br><span class="hljs-type">int</span> a[<span class="hljs-number">101</span>];<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    <span class="hljs-comment">//m盆</span><br>    <span class="hljs-comment">//n种花</span><br>    <span class="hljs-comment">//第i种不能超ai盆</span><br>    <span class="hljs-comment">//同一种放一起，标号从小到大排</span><br>    cin &gt;&gt; n &gt;&gt; m;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        cin &gt;&gt; a[i];<br>    &#125;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= n; i++) &#123;<br>        dp[i][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> num = <span class="hljs-number">0</span>; num &lt;= <span class="hljs-built_in">min</span>(j,a[i]); num++) &#123;<br>                <span class="hljs-comment">//状态方程</span><br>                <span class="hljs-comment">//i种j盆的方法数 = 自身 + i-1种j-a_i选择盆的方法数</span><br>                dp[i][j] = (dp[i][j] + dp[i - <span class="hljs-number">1</span>][j - num])%<span class="hljs-number">1000007</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    cout &lt;&lt; dp[n][m];<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="P4933-大师-洛谷-计算机科学教育新生态-luogu-com-cn"><a href="https://www.luogu.com.cn/problem/P4933">P4933 大师 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> mod 998244353</span><br><br><span class="hljs-type">int</span> n;<br><span class="hljs-type">int</span> h[<span class="hljs-number">1001</span>];<br><span class="hljs-type">int</span> dp[<span class="hljs-number">1001</span>][<span class="hljs-number">40001</span>];<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>    cin &gt;&gt; n;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        cin &gt;&gt; h[i];<br>    &#125;<br><br>    <span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        ans++;<span class="hljs-comment">//每个数自身也是一个答案</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = i - <span class="hljs-number">1</span>; j; j--) &#123;<br>            dp[i][h[i] - h[j] + <span class="hljs-number">20000</span>] += dp[j][h[i] - h[j] + <span class="hljs-number">20000</span>] + <span class="hljs-number">1</span>;<br>            dp[i][h[i] - h[j] + <span class="hljs-number">20000</span>] %= mod;<br>            ans += dp[j][h[i] - h[j] + <span class="hljs-number">20000</span>] + <span class="hljs-number">1</span>;<br>            ans %= mod;<br>        &#125;<br>    &#125;<br><br><br>    cout &lt;&lt; ans;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br> <br></code></pre></td></tr></table></figure>
+<h2 id="P1091-NOIP2004-提高组-合唱队形">[P1091 <a href="https://www.luogu.com.cn/problem/P1091">NOIP2004 提高组 合唱队形 </a></h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>    cin &gt;&gt; n;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>        cin &gt;&gt; h[i];<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>        dp[i][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>            <span class="hljs-keyword">if</span> (h[j] &lt; h[i]) &#123;<br>                dp[i][<span class="hljs-number">0</span>] = <span class="hljs-built_in">max</span>(dp[i][<span class="hljs-number">0</span>], dp[j][<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>);<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>        dp[i][<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>            <span class="hljs-keyword">if</span> (h[j] &gt; h[i]) &#123;<br>                dp[i][<span class="hljs-number">1</span>] = <span class="hljs-built_in">max</span>(dp[i][<span class="hljs-number">1</span>], <span class="hljs-built_in">max</span>(dp[j][<span class="hljs-number">0</span>], dp[j][<span class="hljs-number">1</span>]) + <span class="hljs-number">1</span>);<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>        ans = <span class="hljs-built_in">max</span>(ans, <span class="hljs-built_in">max</span>(dp[i][<span class="hljs-number">0</span>], dp[i][<span class="hljs-number">1</span>]));<br>    &#125;<br><br>    cout &lt;&lt; n - ans;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h1>树</h1>
+<h2 id="前序后序，确定中序数量">前序后序，确定中序数量</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//子结点为1的节点数目为n</span><br><span class="hljs-comment">//2^n即为答案</span><br><br>string pre, post;<br>cin &gt;&gt; pre &gt;&gt; post;<br><br><span class="hljs-type">int</span> b = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; pre.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>; i++) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt; post.<span class="hljs-built_in">size</span>(); j++) &#123;<br>        <span class="hljs-keyword">if</span> (pre[i] == post[j] &amp;&amp; pre[i + <span class="hljs-number">1</span>] == post[j - <span class="hljs-number">1</span>])<br>            b++;<br>    &#125;<br>&#125;<br><br>cout &lt;&lt; (<span class="hljs-number">1</span> &lt;&lt; b);<br></code></pre></td></tr></table></figure>
+<h1>堆栈</h1>
+<h2 id="小顶堆">小顶堆</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAXN = <span class="hljs-number">1314</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MINH = <span class="hljs-number">-1314</span>;<br><span class="hljs-type">int</span> minS[MAXN], _size;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Creat</span><span class="hljs-params">()</span> </span>&#123;<br>	_size = <span class="hljs-number">0</span>;<br>	minS[<span class="hljs-number">0</span>] = MINH;<span class="hljs-comment">//设置岗哨</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Insert</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;<br>	<span class="hljs-type">int</span> i;<br>    <span class="hljs-comment">//岗哨的作用体现，岗哨是比插入数据都小的，不会导致越界</span><br>	<span class="hljs-keyword">for</span> (i = ++_size; minS[i / <span class="hljs-number">2</span>] &gt; x; i /= <span class="hljs-number">2</span>)<br>		minS[i] = minS[i / <span class="hljs-number">2</span>];<br>	minS[i] = x;<br>&#125;<br><br><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> n, m;<br>    <span class="hljs-comment">//一个有n个数据的堆，m次查找</span><br>	cin &gt;&gt; n &gt;&gt; m;<br>	<span class="hljs-built_in">Creat</span>();<br>	<span class="hljs-type">int</span> x;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>		cin &gt;&gt; x;<br>		<span class="hljs-built_in">Insert</span>(x);<br>	&#125;<br>	<br>    <span class="hljs-comment">//m次查找，根据查找所给下标，返回其到根的路径</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) &#123;<br>		cin &gt;&gt; x;<br>		cout &lt;&lt; minS[x];<br>		<span class="hljs-keyword">while</span> (x &gt; <span class="hljs-number">1</span>) &#123;<br>			x /= <span class="hljs-number">2</span>;<br>			cout &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt;  minS[x];<br>		&#125;<br>		cout &lt;&lt; endl;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>tree</tag>
+        <tag>动态规划</tag>
+        <tag>stack</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>夸父计划--源空间</title>
     <url>/2022/01/12/%E5%A4%B8%E7%88%B6%E8%AE%A1%E5%88%92--%E6%BA%90%E7%A9%BA%E9%97%B4/</url>
     <content><![CDATA[<h1><strong>夸父计划–源空间</strong></h1>
@@ -2254,39 +2313,6 @@ $$</p>
       </categories>
       <tags>
         <tag>夸父计划</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>大杂烩</title>
-    <url>/2023/02/14/%E5%A4%A7%E6%9D%82%E7%83%A9/</url>
-    <content><![CDATA[<p>[TOC]</p>
-<h1>动态规划</h1>
-<h2 id="P8784-蓝桥杯-2022-省-B-积木画"><a href="https://www.luogu.com.cn/problem/P8784">P8784 蓝桥杯 2022 省 B  - 积木画 </a></h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">int</span> mod = <span class="hljs-number">1000000007</span>;<br><br><span class="hljs-type">int</span> f[<span class="hljs-number">6</span>] = &#123; <span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">5</span> &#125;;<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>    <span class="hljs-type">int</span> n;<br>    cin &gt;&gt; n;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">4</span>; i &lt;= n; i++) &#123;<br>        f[i] = (<span class="hljs-number">2</span> * f[i<span class="hljs-number">-1</span>] % mod + f[i<span class="hljs-number">-3</span>] % mod) % mod;<br>    &#125;<br><br>    cout &lt;&lt; f[n];<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="P8786-蓝桥杯-2022-省-B-李白打酒加强版"><a href="https://www.luogu.com.cn/problem/P8786">P8786 蓝桥杯 2022 省 B -  李白打酒加强版 </a></h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">int</span> mod = <span class="hljs-number">1000000007</span>;<br><br><span class="hljs-type">int</span> jiu[<span class="hljs-number">201</span>][<span class="hljs-number">101</span>][<span class="hljs-number">101</span>];<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>    <span class="hljs-type">int</span> n, m;<br>    cin &gt;&gt; n &gt;&gt; m;<br><br>    jiu[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>][<span class="hljs-number">2</span>] = <span class="hljs-number">1</span>;<br>    <span class="hljs-comment">//i 位置</span><br>    <span class="hljs-comment">//j 花</span><br>    <span class="hljs-comment">//k 酒</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n + m; i++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; m; j++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> k = <span class="hljs-number">0</span>; k &lt;= m; k++) &#123;<br>                <span class="hljs-keyword">if</span> (jiu[i][j][k]) &#123;<br>                    <span class="hljs-keyword">if</span> (k &gt; <span class="hljs-number">0</span>) jiu[i + <span class="hljs-number">1</span>][j + <span class="hljs-number">1</span>][k - <span class="hljs-number">1</span>] = (jiu[i + <span class="hljs-number">1</span>][j + <span class="hljs-number">1</span>][k - <span class="hljs-number">1</span>] + jiu[i][j][k]) % mod;<br>                    <span class="hljs-keyword">if</span> (k &lt;= m/<span class="hljs-number">2</span>) jiu[i + <span class="hljs-number">1</span>][j][k * <span class="hljs-number">2</span>] = (jiu[i + <span class="hljs-number">1</span>][j][k * <span class="hljs-number">2</span>] + jiu[i][j][k]) % mod;<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    cout &lt;&lt; jiu[n + m][m][<span class="hljs-number">0</span>];<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="P2758-编辑距离"><a href="https://www.luogu.com.cn/problem/P2758">P2758 编辑距离 </a></h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> n, m;<br><span class="hljs-type">int</span> ans;<br><span class="hljs-comment">//dp[i][j]</span><br><br><span class="hljs-comment">//A的前i位转换为 B前j位的最小步骤</span><br><span class="hljs-type">int</span> dp[<span class="hljs-number">2001</span>][<span class="hljs-number">2001</span>];<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">Ⅰ：删除一个字符；</span><br><span class="hljs-comment">Ⅱ：插入一个字符；</span><br><span class="hljs-comment">Ⅲ：将一个字符改为另一个字符。</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    <br>    string str1, str2;<br>    cin &gt;&gt; str1 &gt;&gt; str2;<br>    n = str1.<span class="hljs-built_in">size</span>();<br>    m = str2.<span class="hljs-built_in">size</span>();<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        dp[i][<span class="hljs-number">0</span>] = i;<br>    &#125;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i++) &#123;<br>        dp[<span class="hljs-number">0</span>][i] = i;<br>    &#125;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++) &#123;<br>            <span class="hljs-keyword">if</span> (str1[i - <span class="hljs-number">1</span>] == str2[j - <span class="hljs-number">1</span>]) &#123;<br>                dp[i][j] = dp[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>];<br>                <span class="hljs-keyword">continue</span>;<br>            &#125;<br>            <br>		<span class="hljs-comment">//分别对应i情况：			Ⅰ			Ⅱ				Ⅲ</span><br>            dp[i][j] = <span class="hljs-built_in">min</span>(<span class="hljs-built_in">min</span>(dp[i - <span class="hljs-number">1</span>][j], dp[i][j - <span class="hljs-number">1</span>]), dp[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>]) + <span class="hljs-number">1</span>;<br>        &#125;<br>    &#125;<br><br>    cout &lt;&lt; dp[n][m];<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="P1077-NOIP2012-普及组-摆花"><a href="https://www.luogu.com.cn/problem/P1077">P1077 NOIP2012 普及组 摆花</a></h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> dp[<span class="hljs-number">101</span>][<span class="hljs-number">101</span>];<br><span class="hljs-type">int</span> n, m;<br><span class="hljs-type">int</span> a[<span class="hljs-number">101</span>];<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    <span class="hljs-comment">//m盆</span><br>    <span class="hljs-comment">//n种花</span><br>    <span class="hljs-comment">//第i种不能超ai盆</span><br>    <span class="hljs-comment">//同一种放一起，标号从小到大排</span><br>    cin &gt;&gt; n &gt;&gt; m;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        cin &gt;&gt; a[i];<br>    &#125;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= n; i++) &#123;<br>        dp[i][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j++) &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> num = <span class="hljs-number">0</span>; num &lt;= <span class="hljs-built_in">min</span>(j,a[i]); num++) &#123;<br>                <span class="hljs-comment">//状态方程</span><br>                <span class="hljs-comment">//i种j盆的方法数 = 自身 + i-1种j-a_i选择盆的方法数</span><br>                dp[i][j] = (dp[i][j] + dp[i - <span class="hljs-number">1</span>][j - num])%<span class="hljs-number">1000007</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    cout &lt;&lt; dp[n][m];<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="P4933-大师-洛谷-计算机科学教育新生态-luogu-com-cn"><a href="https://www.luogu.com.cn/problem/P4933">P4933 大师 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> mod 998244353</span><br><br><span class="hljs-type">int</span> n;<br><span class="hljs-type">int</span> h[<span class="hljs-number">1001</span>];<br><span class="hljs-type">int</span> dp[<span class="hljs-number">1001</span>][<span class="hljs-number">40001</span>];<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>    cin &gt;&gt; n;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        cin &gt;&gt; h[i];<br>    &#125;<br><br>    <span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>        ans++;<span class="hljs-comment">//每个数自身也是一个答案</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = i - <span class="hljs-number">1</span>; j; j--) &#123;<br>            dp[i][h[i] - h[j] + <span class="hljs-number">20000</span>] += dp[j][h[i] - h[j] + <span class="hljs-number">20000</span>] + <span class="hljs-number">1</span>;<br>            dp[i][h[i] - h[j] + <span class="hljs-number">20000</span>] %= mod;<br>            ans += dp[j][h[i] - h[j] + <span class="hljs-number">20000</span>] + <span class="hljs-number">1</span>;<br>            ans %= mod;<br>        &#125;<br>    &#125;<br><br><br>    cout &lt;&lt; ans;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br> <br></code></pre></td></tr></table></figure>
-<h2 id="P1091-NOIP2004-提高组-合唱队形">[P1091 <a href="https://www.luogu.com.cn/problem/P1091">NOIP2004 提高组 合唱队形 </a></h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>    cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>    cin &gt;&gt; n;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>        cin &gt;&gt; h[i];<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>        dp[i][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>            <span class="hljs-keyword">if</span> (h[j] &lt; h[i]) &#123;<br>                dp[i][<span class="hljs-number">0</span>] = <span class="hljs-built_in">max</span>(dp[i][<span class="hljs-number">0</span>], dp[j][<span class="hljs-number">0</span>] + <span class="hljs-number">1</span>);<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>        dp[i][<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++) &#123;<br>            <span class="hljs-keyword">if</span> (h[j] &gt; h[i]) &#123;<br>                dp[i][<span class="hljs-number">1</span>] = <span class="hljs-built_in">max</span>(dp[i][<span class="hljs-number">1</span>], <span class="hljs-built_in">max</span>(dp[j][<span class="hljs-number">0</span>], dp[j][<span class="hljs-number">1</span>]) + <span class="hljs-number">1</span>);<br>            &#125;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>        ans = <span class="hljs-built_in">max</span>(ans, <span class="hljs-built_in">max</span>(dp[i][<span class="hljs-number">0</span>], dp[i][<span class="hljs-number">1</span>]));<br>    &#125;<br><br>    cout &lt;&lt; n - ans;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-<h1>树</h1>
-<h2 id="前序后序，确定中序数量">前序后序，确定中序数量</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//子结点为1的节点数目为n</span><br><span class="hljs-comment">//2^n即为答案</span><br><br>string pre, post;<br>cin &gt;&gt; pre &gt;&gt; post;<br><br><span class="hljs-type">int</span> b = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; pre.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>; i++) &#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt; post.<span class="hljs-built_in">size</span>(); j++) &#123;<br>        <span class="hljs-keyword">if</span> (pre[i] == post[j] &amp;&amp; pre[i + <span class="hljs-number">1</span>] == post[j - <span class="hljs-number">1</span>])<br>            b++;<br>    &#125;<br>&#125;<br><br>cout &lt;&lt; (<span class="hljs-number">1</span> &lt;&lt; b);<br></code></pre></td></tr></table></figure>
-<h1>堆栈</h1>
-<h2 id="小顶堆">小顶堆</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAXN = <span class="hljs-number">1314</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MINH = <span class="hljs-number">-1314</span>;<br><span class="hljs-type">int</span> minS[MAXN], _size;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Creat</span><span class="hljs-params">()</span> </span>&#123;<br>	_size = <span class="hljs-number">0</span>;<br>	minS[<span class="hljs-number">0</span>] = MINH;<span class="hljs-comment">//设置岗哨</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Insert</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;<br>	<span class="hljs-type">int</span> i;<br>    <span class="hljs-comment">//岗哨的作用体现，岗哨是比插入数据都小的，不会导致越界</span><br>	<span class="hljs-keyword">for</span> (i = ++_size; minS[i / <span class="hljs-number">2</span>] &gt; x; i /= <span class="hljs-number">2</span>)<br>		minS[i] = minS[i / <span class="hljs-number">2</span>];<br>	minS[i] = x;<br>&#125;<br><br><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> n, m;<br>    <span class="hljs-comment">//一个有n个数据的堆，m次查找</span><br>	cin &gt;&gt; n &gt;&gt; m;<br>	<span class="hljs-built_in">Creat</span>();<br>	<span class="hljs-type">int</span> x;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;<br>		cin &gt;&gt; x;<br>		<span class="hljs-built_in">Insert</span>(x);<br>	&#125;<br>	<br>    <span class="hljs-comment">//m次查找，根据查找所给下标，返回其到根的路径</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; m; i++) &#123;<br>		cin &gt;&gt; x;<br>		cout &lt;&lt; minS[x];<br>		<span class="hljs-keyword">while</span> (x &gt; <span class="hljs-number">1</span>) &#123;<br>			x /= <span class="hljs-number">2</span>;<br>			cout &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt;  minS[x];<br>		&#125;<br>		cout &lt;&lt; endl;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>tree</tag>
-        <tag>动态规划</tag>
-        <tag>stack</tag>
       </tags>
   </entry>
   <entry>
@@ -2782,84 +2808,6 @@ int main() &#123;
       </tags>
   </entry>
   <entry>
-    <title>记一次gitee本地推送</title>
-    <url>/2022/05/13/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/</url>
-    <content><![CDATA[<h1>序言</h1>
-<p>上传项目到gitee的时候，遇到了一些奇奇怪怪的BUG，导致最终无法正确上传项目<br>
-此文章旨在利用Git命令行(用cmd也可以)的方式将代码从本地仓库上传到远程仓库</p>
-<h1>第一步 本地目录进入git</h1>
-<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/1.png" alt=""></p>
-<p>然后用下方代码初始化git，输入完以后就可以看到该目录下多了一个*.git*的隐藏文件</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git init<br></code></pre></td></tr></table></figure>
-<h1>第二步 将本地项目工作区的所有文件添加到暂存区</h1>
-<p>小数点 <strong>.</strong> ，意为添加文件夹下的所有文件<br>
-把 <strong>.</strong> 改为指定文件名即可添加项目中的指定文件</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git add .<br></code></pre></td></tr></table></figure>
-<h1>第三步 将暂存区的文件提交到本地仓库</h1>
-<p>这里的注释一般用作  <strong>提醒用户此次代码提交做的更改</strong></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git commit -m <span class="hljs-string">&quot;此次提交的注释&quot;</span><br></code></pre></td></tr></table></figure>
-<h1>创建gitee仓库</h1>
-<p>此步骤可以先做好</p>
-<h1>第五步 将本地代码仓库关联到 gitee 上</h1>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git remote add origin 仓库地址<br></code></pre></td></tr></table></figure>
-<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/2.png" alt="仓库地址"></p>
-<p>这此处的地址即为仓库地址</p>
-<p>在这一步时如果出现错误<code>error:remote origin already exists</code></p>
-<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/3.png" alt="仓库地址"></p>
-<p>输入：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git remote rm origin<br>git remote add origin 仓库地址<br></code></pre></td></tr></table></figure>
-<p>即可解决</p>
-<h1>第六步 将代码由本地仓库上传到 gitee远程仓库</h1>
-<h2 id="6-1-获取远程库与本地同步合并">6.1 获取远程库与本地同步合并</h2>
-<p>如果远程库不为空必须做这一步，否则后面的提交可能会失败</p>
-<p>原因是  gitee 中的 <a href="http://README.md">README.md</a> 文件不在本地仓库中，可以通过该命令进行代码合并</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git pull --rebase origin master  <br></code></pre></td></tr></table></figure>
-<p>可能会遇到：</p>
-<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/4.png" alt="仓库地址"></p>
-<p>这时输入<code>git rebase --continue</code>后再输入<code>git pull --rebase origin master  </code>即可</p>
-<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/5.png" alt="仓库地址"></p>
-<h2 id="6-2-把当前分支-master-推送到远程">6.2 把当前分支 master 推送到远程</h2>
-<p>执行此命令后有可能会让输入用户名、密码</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git push -u origin master<br></code></pre></td></tr></table></figure>
-<p>执行完之后如果无错误就上传成功了（这里的 master 是 gitee 默认的分支</p>
-<blockquote>
-<p>如果本地的当前分支不是master，就用<code>git checkout master</code>切换到master分支</p>
-</blockquote>
-<blockquote>
-<p>如果想用本地当前分支上传代码，就用<code>git checkout 当前分支名称</code>切换成当前分支名即可</p>
-</blockquote>
-<h1>第七步 完成</h1>
-<h1>后记</h1>
-<p>如果后续仓库内容做了更新，就只需：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git add .<br>git commit -m <span class="hljs-string">&quot;此次提交的注释&quot;</span><br>git remote rm origin<br>git remote add origin 仓库地址<br>git pull --rebase origin master  <br>git push -u origin master<br></code></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>gitee</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>百天冲鸭！</title>
-    <url>/2022/02/27/%E7%99%BE%E5%A4%A9%E5%86%B2%E9%B8%AD%EF%BC%81/</url>
-    <content><![CDATA[<h1>高考百天，冲冲冲！</h1>
-<p><img src="https://api.xecades.xyz/api?&amp;img=2&amp;luogu=%E6%98%AF%E6%B4%9B%E5%A4%A7%E4%BA%BA%E5%93%9F&amp;quote=%E9%95%BF%E4%B9%85%E7%9A%84%E9%99%AA%E4%BC%B4%EF%BC%8C%E6%88%96%E8%AE%B8%E5%B0%B1%E6%98%AF%E5%91%8A%E7%99%BD%E5%90%A7%E3%80%82&amp;img=1&amp;bg=68,68,68,1&amp;color=210,207,207,0.76&amp;bilibili=%E6%98%AF%E6%B4%9B%E5%A4%A7%E4%BA%BA%E5%93%9F&amp;github=luoy-oss&amp;date=2022-06-07" alt=""></p>
-<blockquote>
-<p>2022年2月27日 以此记录</p>
-</blockquote>
-<blockquote>
-<p>2022年4月19日 学校解封回家1日</p>
-</blockquote>
-<blockquote>
-<p>2022年5月13日，意外学校给放了2天的假期</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-  </entry>
-  <entry>
     <title>部署博客那些事</title>
     <url>/2021/04/04/%E9%83%A8%E7%BD%B2%E5%8D%9A%E5%AE%A2%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
     <content><![CDATA[<p>为了把班里的截图导到网站上，就用gitee搞个非公开的博客，用的hexo。</p>
@@ -3071,29 +3019,81 @@ int main() &#123;
       </categories>
   </entry>
   <entry>
-    <title>二叉树的遍历序列转换</title>
-    <url>/2023/02/18/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%81%8D%E5%8E%86%E5%BA%8F%E5%88%97%E8%BD%AC%E6%8D%A2/</url>
-    <content><![CDATA[<h1>前序中序转后序</h1>
-<h2 id="输入-1">输入#1</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">ABEDFCHG<br>CBADEFGH <br></code></pre></td></tr></table></figure>
-<h2 id="输出-1">输出#1</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">AEFDBHGC<br></code></pre></td></tr></table></figure>
-<p>针对二叉树的</p>
-<p>前序遍历，根-&gt;左-&gt;右</p>
-<p>中序遍历，左-&gt;根-&gt;右</p>
-<p>这两个的特性</p>
-<p>我们可以尝试凭借前序遍历的根结点（叶子结点也可以看错左右儿子为空的根）将中序遍历的左右根依次拆分成左右两块，针对左右两块再次递归操作</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">void</span> _find(string InOrderStr, string PreOrderStr)&#123;<br>	<span class="hljs-keyword">if</span> (PreOrderStr.<span class="hljs-built_in">empty</span>())<span class="hljs-keyword">return</span>;<span class="hljs-comment">//针对前序遍历序列（拆分出的序列的）的根结点访问结束</span><br>    <br>    <span class="hljs-type">char</span> root = PreOrderStr[<span class="hljs-number">0</span>];<br>    PreOrderStr.<span class="hljs-built_in">erase</span>(PreOrderStr.<span class="hljs-built_in">begin</span>());<span class="hljs-comment">//根结点取出，作为拆分标识</span><br>    <br>    <span class="hljs-type">int</span> rootidx = InOrderStr.<span class="hljs-built_in">find</span>(root);<br>    <br>    string leftIn = InOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>,rootidx);		<span class="hljs-comment">//中序左分块</span><br>    string leftPre = PreOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>,rootidx);		<span class="hljs-comment">//新前序，内容与中序 左 分块相同</span><br>    <br>    string rightIn = InOrderStr.<span class="hljs-built_in">substr</span>(rootidx + <span class="hljs-number">1</span>);	<span class="hljs-comment">//中序右分块</span><br>    string rightPre = PreOrderStr.<span class="hljs-built_in">substr</span>(rootidx);			<span class="hljs-comment">//新前序，内容与中序 右 分块相同</span><br>    <br>    _find(leftIn,leftPre);	<span class="hljs-comment">//左分块递归</span><br>	_find(rightIn,rightPre);<span class="hljs-comment">//右分块递归</span><br>    <br>    cout &lt;&lt; root;<br>&#125;<br></code></pre></td></tr></table></figure>
-<hr>
-<h1>后序中序转前序(和上方概念类似)</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++">stack&lt;<span class="hljs-type">char</span>&gt; st;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	string InOrderStr;<br>	string PreOrderStr;<br>	cin &gt;&gt; InOrderStr &gt;&gt; PreOrderStr;<br>	<br>	_find2(InOrderStr, PreOrderStr);<br>	<span class="hljs-keyword">while</span> (!st.<span class="hljs-built_in">empty</span>()) &#123;<br>		cout &lt;&lt; st.<span class="hljs-built_in">top</span>();<br>		st.<span class="hljs-built_in">pop</span>();<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> _find2(string InOrderStr, string PostOrderStr)&#123;<br>	<span class="hljs-keyword">if</span> (PostOrderStr.<span class="hljs-built_in">empty</span>())<span class="hljs-keyword">return</span>;<br>	<span class="hljs-type">char</span> root = PostOrderStr[PostOrderStr.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>];<br>	PostOrderStr.<span class="hljs-built_in">pop_back</span>();<br><br>	<span class="hljs-type">int</span> rootidx = InOrderStr.<span class="hljs-built_in">find</span>(root);<br><br>	string leftIn = InOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, rootidx);<br>	string leftPost = PostOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, rootidx);<br><br>	string rightIn = InOrderStr.<span class="hljs-built_in">substr</span>(rootidx + <span class="hljs-number">1</span>);<br>	string rightPost = PostOrderStr.<span class="hljs-built_in">substr</span>(rootidx);<br><br><br>	_find2(rightIn, rightPost);<br>	_find2(leftIn, leftPost);<br><br>	st.<span class="hljs-built_in">push</span>(root);<br>&#125;<br><br></code></pre></td></tr></table></figure>
+    <title>百天冲鸭！</title>
+    <url>/2022/02/27/%E7%99%BE%E5%A4%A9%E5%86%B2%E9%B8%AD%EF%BC%81/</url>
+    <content><![CDATA[<h1>高考百天，冲冲冲！</h1>
+<p><img src="https://api.xecades.xyz/api?&amp;img=2&amp;luogu=%E6%98%AF%E6%B4%9B%E5%A4%A7%E4%BA%BA%E5%93%9F&amp;quote=%E9%95%BF%E4%B9%85%E7%9A%84%E9%99%AA%E4%BC%B4%EF%BC%8C%E6%88%96%E8%AE%B8%E5%B0%B1%E6%98%AF%E5%91%8A%E7%99%BD%E5%90%A7%E3%80%82&amp;img=1&amp;bg=68,68,68,1&amp;color=210,207,207,0.76&amp;bilibili=%E6%98%AF%E6%B4%9B%E5%A4%A7%E4%BA%BA%E5%93%9F&amp;github=luoy-oss&amp;date=2022-06-07" alt=""></p>
+<blockquote>
+<p>2022年2月27日 以此记录</p>
+</blockquote>
+<blockquote>
+<p>2022年4月19日 学校解封回家1日</p>
+</blockquote>
+<blockquote>
+<p>2022年5月13日，意外学校给放了2天的假期</p>
+</blockquote>
 ]]></content>
       <categories>
-        <category>C++</category>
+        <category>杂谈</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>记一次gitee本地推送</title>
+    <url>/2022/05/13/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/</url>
+    <content><![CDATA[<h1>序言</h1>
+<p>上传项目到gitee的时候，遇到了一些奇奇怪怪的BUG，导致最终无法正确上传项目<br>
+此文章旨在利用Git命令行(用cmd也可以)的方式将代码从本地仓库上传到远程仓库</p>
+<h1>第一步 本地目录进入git</h1>
+<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/1.png" alt=""></p>
+<p>然后用下方代码初始化git，输入完以后就可以看到该目录下多了一个*.git*的隐藏文件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git init<br></code></pre></td></tr></table></figure>
+<h1>第二步 将本地项目工作区的所有文件添加到暂存区</h1>
+<p>小数点 <strong>.</strong> ，意为添加文件夹下的所有文件<br>
+把 <strong>.</strong> 改为指定文件名即可添加项目中的指定文件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git add .<br></code></pre></td></tr></table></figure>
+<h1>第三步 将暂存区的文件提交到本地仓库</h1>
+<p>这里的注释一般用作  <strong>提醒用户此次代码提交做的更改</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git commit -m <span class="hljs-string">&quot;此次提交的注释&quot;</span><br></code></pre></td></tr></table></figure>
+<h1>创建gitee仓库</h1>
+<p>此步骤可以先做好</p>
+<h1>第五步 将本地代码仓库关联到 gitee 上</h1>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git remote add origin 仓库地址<br></code></pre></td></tr></table></figure>
+<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/2.png" alt="仓库地址"></p>
+<p>这此处的地址即为仓库地址</p>
+<p>在这一步时如果出现错误<code>error:remote origin already exists</code></p>
+<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/3.png" alt="仓库地址"></p>
+<p>输入：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git remote rm origin<br>git remote add origin 仓库地址<br></code></pre></td></tr></table></figure>
+<p>即可解决</p>
+<h1>第六步 将代码由本地仓库上传到 gitee远程仓库</h1>
+<h2 id="6-1-获取远程库与本地同步合并">6.1 获取远程库与本地同步合并</h2>
+<p>如果远程库不为空必须做这一步，否则后面的提交可能会失败</p>
+<p>原因是  gitee 中的 <a href="http://README.md">README.md</a> 文件不在本地仓库中，可以通过该命令进行代码合并</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git pull --rebase origin master  <br></code></pre></td></tr></table></figure>
+<p>可能会遇到：</p>
+<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/4.png" alt="仓库地址"></p>
+<p>这时输入<code>git rebase --continue</code>后再输入<code>git pull --rebase origin master  </code>即可</p>
+<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/5.png" alt="仓库地址"></p>
+<h2 id="6-2-把当前分支-master-推送到远程">6.2 把当前分支 master 推送到远程</h2>
+<p>执行此命令后有可能会让输入用户名、密码</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git push -u origin master<br></code></pre></td></tr></table></figure>
+<p>执行完之后如果无错误就上传成功了（这里的 master 是 gitee 默认的分支</p>
+<blockquote>
+<p>如果本地的当前分支不是master，就用<code>git checkout master</code>切换到master分支</p>
+</blockquote>
+<blockquote>
+<p>如果想用本地当前分支上传代码，就用<code>git checkout 当前分支名称</code>切换成当前分支名即可</p>
+</blockquote>
+<h1>第七步 完成</h1>
+<h1>后记</h1>
+<p>如果后续仓库内容做了更新，就只需：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git add .<br>git commit -m <span class="hljs-string">&quot;此次提交的注释&quot;</span><br>git remote rm origin<br>git remote add origin 仓库地址<br>git pull --rebase origin master  <br>git push -u origin master<br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>git</category>
       </categories>
       <tags>
-        <tag>树</tag>
-        <tag>二叉树</tag>
+        <tag>gitee</tag>
       </tags>
   </entry>
 </search>
