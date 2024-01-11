@@ -78,13 +78,9 @@
         alert('未加载文件');
         return;
       }
-	  
 
       const now = Tone.now() + 0.5; // 获取当前时间
       const synths = [];            // 存储合成器
-	  // 在代码最外层设置音频调度的模式，并启动音频调度。
-	  Tone.context.latencyHint = 'fastest';
-	  Tone.Transport.start();
       // 遍历midi文件中的轨道
       currentMidi.tracks.forEach(track => {
         // 创建合成器作为音轨并连接至出口，音色使用Tonejs的默认音色
@@ -129,6 +125,10 @@
 				pixi.stage.addChild(new Light(color, note.duration * 150 * config.speed, (note.midi - 20) * 10))
 				
 			}, note.time + now);
+
+			// 在代码最外层设置音频调度的模式，并启动音频调度。
+			Tone.context.latencyHint = 'fastest';
+			Tone.Transport.start();
 
         });
       });
