@@ -149,6 +149,23 @@
       </categories>
   </entry>
   <entry>
+    <title>Bi-LSTM(Attention)的PyTorch实现</title>
+    <url>/posts/633.html</url>
+    <content><![CDATA[<hr>
+<blockquote>
+<p>实现如下，代码解释以注释的方式呈现</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">import</span> torch.optim <span class="hljs-keyword">as</span> optim<br><span class="hljs-keyword">import</span> torch.nn.functional <span class="hljs-keyword">as</span> F<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BiLSTM_Attention</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">super</span>(BiLSTM_Attention, self).__init__()<br><br>        <span class="hljs-comment"># 嵌入层，用于将文本中的词汇映射为密集向量表示</span><br>        <span class="hljs-comment"># nn.Embedding 是PyTorch提供的用于词嵌入（Word Embedding）的层。</span><br>        <span class="hljs-comment"># vocab_size 是词汇表大小，代表有多少个不同的词汇。</span><br>        <span class="hljs-comment"># embedding_dim 是嵌入向量的维度，它将每个词汇映射到一个具有 embedding_dim 维度的向量空间中</span><br>        self.embedding = nn.Embedding(vocab_size, embedding_dim)<br><br>        <span class="hljs-comment"># 双向LSTM层，处理嵌入后的词向量，生成LSTM输出</span><br>        <span class="hljs-comment"># nn.LSTM 是PyTorch提供的LSTM层。</span><br>        <span class="hljs-comment"># embedding_dim 是嵌入向量的维度，也是LSTM层的输入尺寸（input_size），代表每个时间步的输入特征维度。</span><br>        <span class="hljs-comment"># n_hidden 是LSTM层的隐藏单元数（hidden_size），代表每个时间步的隐藏状态的维度</span><br>        <span class="hljs-comment"># bidirectional=True 表示该LSTM是双向的，即同时考虑正向和反向的序列信息，增加了模型对序列信息的理解能力。</span><br>        <span class="hljs-comment"># 这个LSTM层将用于处理输入的嵌入向量，生成LSTM的输出和最终的隐藏状态</span><br>        self.lstm = nn.LSTM(embedding_dim, n_hidden, bidirectional=<span class="hljs-literal">True</span>)<br><br>        <span class="hljs-comment"># 双向LSTM层，处理嵌入后的词向量，生成LSTM输出</span><br>        <span class="hljs-comment"># nn.Linear 是PyTorch提供的全连接（线性）层。</span><br>        <span class="hljs-comment"># n_hidden * 2 表示输入特征的维度，由于使用了双向LSTM，所以将正向和反向的隐藏状态拼接在一起，维度变为原来的两倍。</span><br>        <span class="hljs-comment"># num_classes 表示分类问题的类别数，因为这是一个二分类任务，所以设为2。</span><br>        <span class="hljs-comment"># 这个输出层将用于将LSTM的输出转换为最终的分类结果。输出为2维，其中一个维度表示负面情感的概率，另一个维度表示正面情感的概率</span><br>        self.out = nn.Linear(n_hidden * <span class="hljs-number">2</span>, num_classes)<br><br>    <span class="hljs-comment"># 该函数用于计算注意力权重，然后根据注意力权重对LSTM输出进行加权平均得到上下文向量</span><br>    <span class="hljs-comment"># lstm_output : LSTM的输出，维度为 [batch_size, n_step, n_hidden * num_directions(=2)]</span><br>    <span class="hljs-comment"># final_state : LSTM最终的隐藏状态，维度为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">attention_net</span>(<span class="hljs-params">self, lstm_output, final_state</span>):<br>        <span class="hljs-comment"># final_state 是LSTM在输入序列最后一个时间步的隐藏状态，维度为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        <span class="hljs-comment"># n_hidden * 2 表示双向LSTM的隐藏状态的维度，乘以2是因为它包含了前向和后向两个方向的隐藏状态。</span><br>        <span class="hljs-comment"># final_state.view(-1, n_hidden * 2, 1) 将 final_state 的维度从 [num_layers * num_directions, batch_size, n_hidden]</span><br>        <span class="hljs-comment"># 转换为 [batch_size, n_hidden * 2, 1]，在第三维度上增加了一个维度，这是为了后续计算注意力权重做准备</span><br>        <span class="hljs-comment"># hidden : [batch_size, n_hidden * num_directions(=2), 1(=n_layer)]</span><br>        hidden = final_state.view(-<span class="hljs-number">1</span>, n_hidden * <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br><br>        <span class="hljs-comment"># lstm_output 是LSTM的输出，维度为 [batch_size, n_step, n_hidden * num_directions(=2)]。</span><br>        <span class="hljs-comment"># hidden 是通过上面的操作得到的 final_state 的改变维度后的表示，维度为 [batch_size, n_hidden * 2, 1]。</span><br>        <span class="hljs-comment"># torch.bmm(lstm_output, hidden) 进行矩阵相乘，实现对 lstm_output 和 hidden 进行注意力权重的计算。注意力权重表示LSTM输出中每个时间步对应的重要程度。</span><br>        <span class="hljs-comment"># squeeze(2) 将注意力权重张量的第三个维度（为1维）挤压掉，得到维度为 [batch_size, n_step] 的 attn_weights</span><br>        attn_weights = torch.bmm(lstm_output, hidden).squeeze(<span class="hljs-number">2</span>) <span class="hljs-comment"># attn_weights : [batch_size, n_step]</span><br><br>        <span class="hljs-comment"># F.softmax(attn_weights, 1) 对注意力权重 attn_weights 进行softmax操作，将注意力权重转换为概率分布，使得每个时间步的权重值在0到1之间且和为1</span><br>        soft_attn_weights = F.softmax(attn_weights, <span class="hljs-number">1</span>)<br><br><br>        <span class="hljs-comment"># [batch_size, n_hidden * num_directions(=2), n_step] * [batch_size, n_step, 1] = [batch_size, n_hidden * num_directions(=2), 1]</span><br>        <span class="hljs-comment"># lstm_output.transpose(1, 2) 对LSTM输出进行转置，维度从 [batch_size, n_step, n_hidden * num_directions] 变为 [batch_size, n_hidden * num_directions, n_step]。</span><br>        <span class="hljs-comment"># soft_attn_weights.unsqueeze(2) 将 soft_attn_weights 张量的维度从 [batch_size, n_step] 扩展为 [batch_size, n_step, 1]，以便进行矩阵相乘。</span><br>        <span class="hljs-comment"># torch.bmm(lstm_output.transpose(1, 2), soft_attn_weights.unsqueeze(2)) 实现LSTM输出和注意力权重的加权平均，得到上下文向量。</span><br>        <span class="hljs-comment"># squeeze(2) 将上下文向量张量的第三个维度（为1维）挤压掉，得到维度为 [batch_size, n_hidden * num_directions] 的 context</span><br>        context = torch.bmm(lstm_output.transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>), soft_attn_weights.unsqueeze(<span class="hljs-number">2</span>)).squeeze(<span class="hljs-number">2</span>)<br><br>        <span class="hljs-comment"># 返回上下文向量 context 和注意力权重 soft_attn_weights。</span><br>        <span class="hljs-comment"># context 是根据注意力权重加权平均得到的LSTM输出的上下文向量，用于表示输入序列的重要信息。</span><br>        <span class="hljs-comment"># soft_attn_weights.data.numpy() 将注意力权重 soft_attn_weights 转换为NumPy数组形式并返回，以便后续可视化注意力权重矩阵</span><br>        <span class="hljs-keyword">return</span> context, soft_attn_weights.data.numpy() <span class="hljs-comment"># context : [batch_size, n_hidden * num_directions(=2)]</span><br><br>    <span class="hljs-comment"># 前向传播函数</span><br>    <span class="hljs-comment"># X : 输入的文本序列，维度为 [batch_size, len_seq]</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, X</span>):<br>        <span class="hljs-comment"># 首先将输入进行嵌入操作，然后交换维度以适应LSTM的输入格式</span><br>        <span class="hljs-comment"># 这里使用了 nn.Embedding 层，将输入的文本序列 X 中的每个词汇（对应的索引）映射为一个密集向量表示。</span><br>        <span class="hljs-comment"># input 变量维度为 [batch_size, len_seq, embedding_dim]</span><br>        <span class="hljs-comment"># 其中 batch_size 表示批次大小，len_seq 表示每个句子中的词汇数，embedding_dim 表示词向量的维度。</span><br>        <span class="hljs-built_in">input</span> = self.embedding(X)<br><br><br>        <span class="hljs-comment"># 交换维度以适应LSTM的输入格式</span><br>        <span class="hljs-comment"># LSTM模型的输入需要将序列长度维度放在第一位，因此这里使用 permute 方法交换了 input 的维度，使其变为 [len_seq, batch_size, embedding_dim]</span><br>        <span class="hljs-built_in">input</span> = <span class="hljs-built_in">input</span>.permute(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>)<br><br><br>        <span class="hljs-comment"># 初始化LSTM的隐藏状态和记忆单元状态为全零张量</span><br>        <span class="hljs-comment"># 这里创建了两个零张量 hidden_state 和 cell_state</span><br>        <span class="hljs-comment"># 用于存储LSTM的初始隐藏状态和记忆单元状态。</span><br>        <span class="hljs-comment"># 这里 1*2 表示LSTM的层数乘以双向LSTM的方向数（正向和反向）</span><br><br>        <span class="hljs-comment"># 维度为：[num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        hidden_state = torch.zeros(<span class="hljs-number">1</span>*<span class="hljs-number">2</span>, <span class="hljs-built_in">len</span>(X), n_hidden)<br>        <span class="hljs-comment"># 维度为：[num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        cell_state = torch.zeros(<span class="hljs-number">1</span>*<span class="hljs-number">2</span>, <span class="hljs-built_in">len</span>(X), n_hidden)<br><br>        <span class="hljs-comment"># final_hidden_state, final_cell_state : [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        <span class="hljs-comment"># 将嵌入后的序列输入LSTM，得到输出和最终的隐藏状态</span><br>        <span class="hljs-comment"># 这里调用了 nn.LSTM 层 self.lstm 来进行前向传播。</span><br>        <span class="hljs-comment"># output 是LSTM在所有时间步的输出，维度为 [len_seq, batch_size, n_hidden * num_directions(=2)]。</span><br>        <span class="hljs-comment"># final_hidden_state 和 final_cell_state 是LSTM的最终隐藏状态和记忆单元状态，维度均为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        output, (final_hidden_state, final_cell_state) = self.lstm(<span class="hljs-built_in">input</span>, (hidden_state, cell_state))<br><br><br>        <span class="hljs-comment"># 这里再次使用 permute 方法调整输出维度，使output恢复为 [batch_size, len_seq, n_hidden]</span><br>        output = output.permute(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>)<br><br><br>        <span class="hljs-comment"># 调用 attention_net 函数得到注意力加权的上下文向量。</span><br>        <span class="hljs-comment"># 将上下文向量输入输出层，得到最终的分类结果和注意力权重</span><br>        <span class="hljs-comment"># 这里调用了在 BiLSTM_Attention 类中定义的 attention_net 方法</span><br>        <span class="hljs-comment"># 该方法用于计算注意力权重并将其应用于LSTM输出 output，得到上下文向量 attn_output 和注意力权重矩阵 attention</span><br>        attn_output, attention = self.attention_net(output, final_hidden_state)<br><br>        <span class="hljs-comment"># 将上下文向量输入输出层，得到最终的分类结果和注意力权重</span><br>        <span class="hljs-comment"># 这里将上下文向量 attn_output 输入全连接输出层 self.out，得到最终的分类结果(model)，维度为 [batch_size, num_classes]。</span><br>        <span class="hljs-comment"># 返回注意力权重矩阵(attention)，维度为 [batch_size, n_step]。</span><br>        <span class="hljs-comment"># 注意力权重矩阵表示模型在分类时对文本序列中每个词的关注程度，可以用于可视化和分析模型的注意力行为</span><br>        <span class="hljs-keyword">return</span> self.out(attn_output), attention<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-comment"># embedding_dim 是嵌入维度，用于表示文本中的每个词汇的密集向量表示。</span><br>    <span class="hljs-comment"># 在自然语言处理任务中，文本数据往往是由离散的词汇组成，而神经网络很难直接处理这种离散形式的数据。</span><br>    <span class="hljs-comment"># 因此，需要将文本中的词汇映射为连续的向量表示，以便神经网络能够处理。</span><br>    <span class="hljs-comment"># 嵌入层（nn.Embedding）就是用来完成这个映射过程的。</span><br>    <span class="hljs-comment"># 它接受一个词汇表的大小（vocab_size）和一个嵌入维度（embedding_dim）作为输入，</span><br>    <span class="hljs-comment"># 然后根据词汇表的大小创建一个随机初始化的嵌入矩阵，其中每个词汇对应一个向量，</span><br>    <span class="hljs-comment"># 向量的维度为 embedding_dim。模型在训练过程中，会根据文本数据对这些嵌入向量进行学习，使得相似的词汇在嵌入空间中距离更近，有更好的表示能力</span><br>    embedding_dim = <span class="hljs-number">2</span><br><br>    <span class="hljs-comment"># n_hidden 表示LSTM隐藏层中的隐藏单元数（也称为隐藏状态的维度）。</span><br>    <span class="hljs-comment"># 在双向LSTM模型中，LSTM层会有两个方向的隐藏状态，所以总的隐藏单元数会是 n_hidden * 2。</span><br>    <span class="hljs-comment"># 在LSTM中，隐藏状态（hidden state）用于存储过去时间步的信息，通过更新和传递隐藏状态，LSTM能够在处理时间序列数据时更好地捕捉长期依赖关系。</span><br>    <span class="hljs-comment"># n_hidden 的值会影响LSTM模型的表示能力和学习能力，过小的值可能会导致模型拟合不足，无法捕获数据的复杂模式，而过大的值可能会增加模型复杂性，使得训练过程变得困难。</span><br>    <span class="hljs-comment"># 通常，对于不同的任务和数据集，合适的 n_hidden 取值会有所差异。</span><br>    <span class="hljs-comment"># 选择合适的 n_hidden 取决于数据集的大小和复杂度，以及任务的复杂性。</span><br>    <span class="hljs-comment"># 常见的做法是通过尝试不同的 n_hidden 值，然后根据在验证集上的性能选择最优的值</span><br>    n_hidden = <span class="hljs-number">5</span><br><br>    <span class="hljs-comment"># num_classes 在这个代码中用于指定文本分类任务的类别数量。在该代码中，文本分类任务有两个类别，即&quot;好&quot;和&quot;不好&quot;，分别用 1 和 0 表示。</span><br>    <span class="hljs-comment"># 在模型的输出层，我们使用 self.out = nn.Linear(n_hidden * 2, num_classes) 这一行代码来定义输出层。</span><br>    <span class="hljs-comment"># 这个输出层是一个全连接层，将 LSTM 输出的特征（n_hidden * 2 维）转换成最终的分类结果（num_classes 维）。</span><br>    <span class="hljs-comment"># 对于本例中的二分类任务，num_classes 为 2，因为我们需要输出两个值（0或1）来表示分类结果。</span><br>    <span class="hljs-comment"># 这样，模型的输出维度就对应着两个类别的概率分布。</span><br><br>    <span class="hljs-comment"># 在训练阶段，模型输出的结果会通过 softmax 函数处理，得到对应类别的概率分布。</span><br>    <span class="hljs-comment"># 例如，如果模型输出 [0.7, 0.3]，则表示模型认为该文本属于&quot;好&quot;的概率为 0.7，属于&quot;不好&quot;的概率为 0.3。最终分类结果会根据概率值选择概率较大的类别，例如这里会选择&quot;好&quot;类别(0.7 &gt; 0.3)。</span><br>    <span class="hljs-comment"># 因此，num_classes 在代码中用于定义输出层的维度，确保模型能够输出正确的类别概率分布，并根据分类结果进行准确的文本分类</span><br>    num_classes = <span class="hljs-number">2</span><br><br>    <span class="hljs-comment"># 3词汇句子</span><br><span class="hljs-comment">#    sentences = [&quot;我 爱 你&quot;, &quot;他 爱 我&quot;, &quot;她 喜欢 篮球&quot;, &quot;她 喜欢 他&quot;, &quot;我 讨厌 你&quot;,&quot;他 讨厌 我&quot;, &quot;我 对不起 你&quot;]</span><br><span class="hljs-comment">#    labels = [1, 1, 1, 1, 0, 0, 0]  # 1 是 好, 0 是 不好. 构建词汇表，并为每个词汇赋予一个唯一的索引</span><br>    sentences = [<span class="hljs-string">&quot;我 爱 你&quot;</span>, <span class="hljs-string">&quot;他 爱 我&quot;</span>, <span class="hljs-string">&quot;她 喜欢 篮球&quot;</span>, <span class="hljs-string">&quot;她 喜欢 他&quot;</span>, <span class="hljs-string">&quot;我 讨厌 你&quot;</span>, <span class="hljs-string">&quot;他 讨厌 我&quot;</span>, <span class="hljs-string">&quot;我 对不起 你&quot;</span>,<br>                 <span class="hljs-string">&quot;我 很高兴&quot;</span>,<span class="hljs-string">&quot;他 很高兴&quot;</span>,<span class="hljs-string">&quot;你 很高兴&quot;</span>,<span class="hljs-string">&quot;我 不高兴&quot;</span>,<span class="hljs-string">&quot;他 不高兴&quot;</span>,<span class="hljs-string">&quot;她 不高兴&quot;</span>]<br>    labels = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]<br><br>    <span class="hljs-comment"># Define the maximum sequence length</span><br>    max_seq_length = <span class="hljs-number">6</span><br><br>    <span class="hljs-comment"># 为每个句子添加一个特殊的标记（例如&lt;PAD&gt;），使其与最长句子长度保持一致，以便构成一个批次的张量输入</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">pad_sequence</span>(<span class="hljs-params">sentence, max_len</span>):<br>        words = sentence.split()<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(words) &lt; max_len:<br>            words.extend([<span class="hljs-string">&#x27;&lt;PAD&gt;&#x27;</span>] * (max_len - <span class="hljs-built_in">len</span>(words)))<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot; &quot;</span>.join(words[:max_len])<br><br>    <span class="hljs-comment"># 对所有句子进行填充</span><br>    sentences = [pad_sequence(sentence, max_seq_length) <span class="hljs-keyword">for</span> sentence <span class="hljs-keyword">in</span> sentences]<br><br>    <span class="hljs-comment"># 构建词汇表，并为每个词汇赋予一个唯一的索引</span><br>    <span class="hljs-comment"># 这段代码将所有的文本合并成一个字符串，然后按照空格分割成词汇列表。</span><br>    <span class="hljs-comment"># 使用set去重，确保每个词汇只出现一次，然后为每个词汇赋予一个唯一的索引。</span><br>    <span class="hljs-comment"># 构建出词汇表word_dict，其中键是词汇，值是对应的唯一索引，vocab_size表示词汇表的大小</span><br>    word_list = <span class="hljs-string">&quot; &quot;</span>.join(sentences).split()<br>    word_list = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">set</span>(word_list))<br>    word_dict = &#123;w: i <span class="hljs-keyword">for</span> i, w <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(word_list)&#125;<br>    vocab_size = <span class="hljs-built_in">len</span>(word_dict)<br><br>    <span class="hljs-comment"># 创建 BiLSTM_Attention 类的实例 model</span><br>    <span class="hljs-comment"># 创建了一个带有注意力机制的双向LSTM文本分类模型</span><br>    model = BiLSTM_Attention()<br><br>    <span class="hljs-comment"># 定义损失函数 criterion 为交叉熵损失，优化器 optimizer 为Adam优化器</span><br>    <span class="hljs-comment"># 交叉熵损失适用于多分类任务，而Adam优化器是一种常用的优化算法</span><br>    criterion = nn.CrossEntropyLoss()<br>    optimizer = optim.Adam(model.parameters(), lr=<span class="hljs-number">0.001</span>)<br><br>    <span class="hljs-comment"># 准备输入数据 inputs 和目标标签 targets</span><br>    <span class="hljs-comment"># 这段代码首先将每个句子转换为对应的索引序列，并将其转换为PyTorch的LongTensor类型，作为输入数据inputs。</span><br>    <span class="hljs-comment"># targets是标签序列，也转换为PyTorch的LongTensor类型。</span><br>    inputs = torch.LongTensor([np.asarray([word_dict[n] <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> sen.split()]) <span class="hljs-keyword">for</span> sen <span class="hljs-keyword">in</span> sentences])<br>    targets = torch.LongTensor([out <span class="hljs-keyword">for</span> out <span class="hljs-keyword">in</span> labels])  <span class="hljs-comment"># To using Torch Softmax Loss function</span><br><br>    <span class="hljs-comment"># 进行模型训练</span><br>    <span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5000</span>):<br>        <span class="hljs-comment"># 在每一轮训练中，首先将优化器的梯度清零（optimizer.zero_grad()）</span><br>        optimizer.zero_grad()<br><br>        <span class="hljs-comment"># 然后将输入数据输入模型，得到模型的输出和注意力权重。</span><br>        output, attention = model(inputs)<br><br>        <span class="hljs-comment"># 计算交叉熵损失</span><br>        loss = criterion(output, targets)<br>        <span class="hljs-keyword">if</span> (epoch + <span class="hljs-number">1</span>) % <span class="hljs-number">1000</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Epoch:&#x27;</span>, <span class="hljs-string">&#x27;%04d&#x27;</span> % (epoch + <span class="hljs-number">1</span>), <span class="hljs-string">&#x27;cost =&#x27;</span>, <span class="hljs-string">&#x27;&#123;:.6f&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(loss))<br><br>        <span class="hljs-comment"># 进行反向传播</span><br>        loss.backward()<br><br>        <span class="hljs-comment"># 参数优化</span><br>        optimizer.step()<br><br>    <span class="hljs-comment"># Test</span><br>    <span class="hljs-comment"># 定义一个测试文本 test_text</span><br>    test_text = <span class="hljs-string">&#x27;她 不高兴&#x27;</span><br>    <span class="hljs-comment"># 并转换为张量</span><br>    tests = [np.asarray([word_dict[n] <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> test_text.split()])]<br>    <span class="hljs-comment"># print(tests)</span><br><br>    test_batch = torch.LongTensor(tests)<br><br>    <span class="hljs-comment"># 进行预测</span><br>    predict, _ = model(test_batch)<br>    predict = predict.data.<span class="hljs-built_in">max</span>(<span class="hljs-number">1</span>, keepdim=<span class="hljs-literal">True</span>)[<span class="hljs-number">1</span>]<br>    <span class="hljs-comment"># 根据预测结果，判断测试文本的意义是&quot;好&quot;还是&quot;不好&quot;</span><br>    <span class="hljs-keyword">if</span> predict[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] == <span class="hljs-number">0</span>:<br>        <span class="hljs-built_in">print</span>(test_text,<span class="hljs-string">&quot;is Bad Mean...&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-built_in">print</span>(test_text,<span class="hljs-string">&quot;is Good Mean!!&quot;</span>)<br><br><br>    <span class="hljs-comment"># 可视化注意力权重</span><br>    <span class="hljs-comment"># 这段代码使用Matplotlib绘制了注意力权重矩阵的热力图。</span><br>    <span class="hljs-comment"># 矩阵的横轴表示文本序列中的每个词汇（&quot;first_word&quot;, &quot;second_word&quot;, &quot;third_word&quot;）</span><br>    <span class="hljs-comment"># 纵轴表示输入数据的批次（&quot;batch_1&quot;, &quot;batch_2&quot;, &quot;batch_3&quot;, &quot;batch_4&quot;, &quot;batch_5&quot;, &quot;batch_6&quot;）。</span><br>    <span class="hljs-comment"># 不同颜色的方块表示不同位置的词汇在分类时所受到的注意力程度。</span><br>    <span class="hljs-comment"># 通过该热力图可以观察模型在分类时关注的重要词</span><br>    fig = plt.figure(figsize=(<span class="hljs-number">6</span>, <span class="hljs-number">3</span>)) <span class="hljs-comment"># [batch_size, n_step]</span><br>    ax = fig.add_subplot(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>    ax.matshow(attention, cmap=<span class="hljs-string">&#x27;viridis&#x27;</span>)<br>    ax.set_xticklabels([<span class="hljs-string">&#x27;&#x27;</span>]+[<span class="hljs-string">&#x27;first_word&#x27;</span>, <span class="hljs-string">&#x27;second_word&#x27;</span>, <span class="hljs-string">&#x27;third_word&#x27;</span>], fontdict=&#123;<span class="hljs-string">&#x27;fontsize&#x27;</span>: <span class="hljs-number">14</span>&#125;, rotation=<span class="hljs-number">90</span>)<br>    ax.set_yticklabels([<span class="hljs-string">&#x27;&#x27;</span>]+[<span class="hljs-string">&#x27;batch_1&#x27;</span>, <span class="hljs-string">&#x27;batch_2&#x27;</span>, <span class="hljs-string">&#x27;batch_3&#x27;</span>, <span class="hljs-string">&#x27;batch_4&#x27;</span>, <span class="hljs-string">&#x27;batch_5&#x27;</span>, <span class="hljs-string">&#x27;batch_6&#x27;</span>], fontdict=&#123;<span class="hljs-string">&#x27;fontsize&#x27;</span>: <span class="hljs-number">14</span>&#125;)<br>    plt.show()<br><br></code></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>PyTorch</tag>
+        <tag>Python</tag>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C++ STL</title>
     <url>/posts/15764.html</url>
     <content><![CDATA[<blockquote>
@@ -169,6 +186,31 @@
       <tags>
         <tag>STL</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>CH32(F10X F20X)</title>
+    <url>/posts/57388.html</url>
+    <content><![CDATA[<h1>对于WCH-link的接线</h1>
+<h2 id="F103">F103</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">U	-&gt;	板上SWD区域<br>Rx	-&gt;	PA9(Tx)<br>Tx	-&gt;	PA10(Rx)<br>GND	-&gt;	GND<br>3V3	-&gt;	VCC<br>SWDIO-&gt;	PA13<br>SWDLK-&gt;	PA14<br></code></pre></td></tr></table></figure>
+<h2 id="F207">F207</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">U	-&gt;	板上SWD区域<br>Rx	-&gt;	TXD<br>Tx	-&gt;	RXD<br>GND	-&gt;	GND<br>3V3	-&gt;	VDD<br>SWDIO	-&gt;	SWIO<br>SWDLK	-&gt;	SWCK<br></code></pre></td></tr></table></figure>
+<h1>对于096 OLED屏幕接线</h1>
+<h2 id="F207-2">F207</h2>
+<blockquote>
+<p>GND 电源地<br>
+VCC 电源正（3.3～5V）<br>
+D0(SCL) SCK管脚<br>
+D1(SDA) MOSI管脚<br>
+RES(RST) 用来复位（低电平复位）<br>
+DC(D/C) 数据和命令控制管脚 1表示数据 0表示命令<br>
+CS(NSS) 片选管脚</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">GND	-&gt;	GND<br>VCC	-&gt;	3V3<br>D0	-&gt;	PA5<br>D1	-&gt;	PA7<br>RES	-&gt;	PA4<br>DC	-&gt;	PA6<br>CS	-&gt;	NONE<br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>CH32</category>
+      </categories>
   </entry>
   <entry>
     <title>C++ 格式化输出（前置补0，有效位数，保留小数）</title>
@@ -236,23 +278,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Bi-LSTM(Attention)的PyTorch实现</title>
-    <url>/posts/633.html</url>
-    <content><![CDATA[<hr>
-<blockquote>
-<p>实现如下，代码解释以注释的方式呈现</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">import</span> torch.optim <span class="hljs-keyword">as</span> optim<br><span class="hljs-keyword">import</span> torch.nn.functional <span class="hljs-keyword">as</span> F<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BiLSTM_Attention</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">super</span>(BiLSTM_Attention, self).__init__()<br><br>        <span class="hljs-comment"># 嵌入层，用于将文本中的词汇映射为密集向量表示</span><br>        <span class="hljs-comment"># nn.Embedding 是PyTorch提供的用于词嵌入（Word Embedding）的层。</span><br>        <span class="hljs-comment"># vocab_size 是词汇表大小，代表有多少个不同的词汇。</span><br>        <span class="hljs-comment"># embedding_dim 是嵌入向量的维度，它将每个词汇映射到一个具有 embedding_dim 维度的向量空间中</span><br>        self.embedding = nn.Embedding(vocab_size, embedding_dim)<br><br>        <span class="hljs-comment"># 双向LSTM层，处理嵌入后的词向量，生成LSTM输出</span><br>        <span class="hljs-comment"># nn.LSTM 是PyTorch提供的LSTM层。</span><br>        <span class="hljs-comment"># embedding_dim 是嵌入向量的维度，也是LSTM层的输入尺寸（input_size），代表每个时间步的输入特征维度。</span><br>        <span class="hljs-comment"># n_hidden 是LSTM层的隐藏单元数（hidden_size），代表每个时间步的隐藏状态的维度</span><br>        <span class="hljs-comment"># bidirectional=True 表示该LSTM是双向的，即同时考虑正向和反向的序列信息，增加了模型对序列信息的理解能力。</span><br>        <span class="hljs-comment"># 这个LSTM层将用于处理输入的嵌入向量，生成LSTM的输出和最终的隐藏状态</span><br>        self.lstm = nn.LSTM(embedding_dim, n_hidden, bidirectional=<span class="hljs-literal">True</span>)<br><br>        <span class="hljs-comment"># 双向LSTM层，处理嵌入后的词向量，生成LSTM输出</span><br>        <span class="hljs-comment"># nn.Linear 是PyTorch提供的全连接（线性）层。</span><br>        <span class="hljs-comment"># n_hidden * 2 表示输入特征的维度，由于使用了双向LSTM，所以将正向和反向的隐藏状态拼接在一起，维度变为原来的两倍。</span><br>        <span class="hljs-comment"># num_classes 表示分类问题的类别数，因为这是一个二分类任务，所以设为2。</span><br>        <span class="hljs-comment"># 这个输出层将用于将LSTM的输出转换为最终的分类结果。输出为2维，其中一个维度表示负面情感的概率，另一个维度表示正面情感的概率</span><br>        self.out = nn.Linear(n_hidden * <span class="hljs-number">2</span>, num_classes)<br><br>    <span class="hljs-comment"># 该函数用于计算注意力权重，然后根据注意力权重对LSTM输出进行加权平均得到上下文向量</span><br>    <span class="hljs-comment"># lstm_output : LSTM的输出，维度为 [batch_size, n_step, n_hidden * num_directions(=2)]</span><br>    <span class="hljs-comment"># final_state : LSTM最终的隐藏状态，维度为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">attention_net</span>(<span class="hljs-params">self, lstm_output, final_state</span>):<br>        <span class="hljs-comment"># final_state 是LSTM在输入序列最后一个时间步的隐藏状态，维度为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        <span class="hljs-comment"># n_hidden * 2 表示双向LSTM的隐藏状态的维度，乘以2是因为它包含了前向和后向两个方向的隐藏状态。</span><br>        <span class="hljs-comment"># final_state.view(-1, n_hidden * 2, 1) 将 final_state 的维度从 [num_layers * num_directions, batch_size, n_hidden]</span><br>        <span class="hljs-comment"># 转换为 [batch_size, n_hidden * 2, 1]，在第三维度上增加了一个维度，这是为了后续计算注意力权重做准备</span><br>        <span class="hljs-comment"># hidden : [batch_size, n_hidden * num_directions(=2), 1(=n_layer)]</span><br>        hidden = final_state.view(-<span class="hljs-number">1</span>, n_hidden * <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br><br>        <span class="hljs-comment"># lstm_output 是LSTM的输出，维度为 [batch_size, n_step, n_hidden * num_directions(=2)]。</span><br>        <span class="hljs-comment"># hidden 是通过上面的操作得到的 final_state 的改变维度后的表示，维度为 [batch_size, n_hidden * 2, 1]。</span><br>        <span class="hljs-comment"># torch.bmm(lstm_output, hidden) 进行矩阵相乘，实现对 lstm_output 和 hidden 进行注意力权重的计算。注意力权重表示LSTM输出中每个时间步对应的重要程度。</span><br>        <span class="hljs-comment"># squeeze(2) 将注意力权重张量的第三个维度（为1维）挤压掉，得到维度为 [batch_size, n_step] 的 attn_weights</span><br>        attn_weights = torch.bmm(lstm_output, hidden).squeeze(<span class="hljs-number">2</span>) <span class="hljs-comment"># attn_weights : [batch_size, n_step]</span><br><br>        <span class="hljs-comment"># F.softmax(attn_weights, 1) 对注意力权重 attn_weights 进行softmax操作，将注意力权重转换为概率分布，使得每个时间步的权重值在0到1之间且和为1</span><br>        soft_attn_weights = F.softmax(attn_weights, <span class="hljs-number">1</span>)<br><br><br>        <span class="hljs-comment"># [batch_size, n_hidden * num_directions(=2), n_step] * [batch_size, n_step, 1] = [batch_size, n_hidden * num_directions(=2), 1]</span><br>        <span class="hljs-comment"># lstm_output.transpose(1, 2) 对LSTM输出进行转置，维度从 [batch_size, n_step, n_hidden * num_directions] 变为 [batch_size, n_hidden * num_directions, n_step]。</span><br>        <span class="hljs-comment"># soft_attn_weights.unsqueeze(2) 将 soft_attn_weights 张量的维度从 [batch_size, n_step] 扩展为 [batch_size, n_step, 1]，以便进行矩阵相乘。</span><br>        <span class="hljs-comment"># torch.bmm(lstm_output.transpose(1, 2), soft_attn_weights.unsqueeze(2)) 实现LSTM输出和注意力权重的加权平均，得到上下文向量。</span><br>        <span class="hljs-comment"># squeeze(2) 将上下文向量张量的第三个维度（为1维）挤压掉，得到维度为 [batch_size, n_hidden * num_directions] 的 context</span><br>        context = torch.bmm(lstm_output.transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>), soft_attn_weights.unsqueeze(<span class="hljs-number">2</span>)).squeeze(<span class="hljs-number">2</span>)<br><br>        <span class="hljs-comment"># 返回上下文向量 context 和注意力权重 soft_attn_weights。</span><br>        <span class="hljs-comment"># context 是根据注意力权重加权平均得到的LSTM输出的上下文向量，用于表示输入序列的重要信息。</span><br>        <span class="hljs-comment"># soft_attn_weights.data.numpy() 将注意力权重 soft_attn_weights 转换为NumPy数组形式并返回，以便后续可视化注意力权重矩阵</span><br>        <span class="hljs-keyword">return</span> context, soft_attn_weights.data.numpy() <span class="hljs-comment"># context : [batch_size, n_hidden * num_directions(=2)]</span><br><br>    <span class="hljs-comment"># 前向传播函数</span><br>    <span class="hljs-comment"># X : 输入的文本序列，维度为 [batch_size, len_seq]</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, X</span>):<br>        <span class="hljs-comment"># 首先将输入进行嵌入操作，然后交换维度以适应LSTM的输入格式</span><br>        <span class="hljs-comment"># 这里使用了 nn.Embedding 层，将输入的文本序列 X 中的每个词汇（对应的索引）映射为一个密集向量表示。</span><br>        <span class="hljs-comment"># input 变量维度为 [batch_size, len_seq, embedding_dim]</span><br>        <span class="hljs-comment"># 其中 batch_size 表示批次大小，len_seq 表示每个句子中的词汇数，embedding_dim 表示词向量的维度。</span><br>        <span class="hljs-built_in">input</span> = self.embedding(X)<br><br><br>        <span class="hljs-comment"># 交换维度以适应LSTM的输入格式</span><br>        <span class="hljs-comment"># LSTM模型的输入需要将序列长度维度放在第一位，因此这里使用 permute 方法交换了 input 的维度，使其变为 [len_seq, batch_size, embedding_dim]</span><br>        <span class="hljs-built_in">input</span> = <span class="hljs-built_in">input</span>.permute(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>)<br><br><br>        <span class="hljs-comment"># 初始化LSTM的隐藏状态和记忆单元状态为全零张量</span><br>        <span class="hljs-comment"># 这里创建了两个零张量 hidden_state 和 cell_state</span><br>        <span class="hljs-comment"># 用于存储LSTM的初始隐藏状态和记忆单元状态。</span><br>        <span class="hljs-comment"># 这里 1*2 表示LSTM的层数乘以双向LSTM的方向数（正向和反向）</span><br><br>        <span class="hljs-comment"># 维度为：[num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        hidden_state = torch.zeros(<span class="hljs-number">1</span>*<span class="hljs-number">2</span>, <span class="hljs-built_in">len</span>(X), n_hidden)<br>        <span class="hljs-comment"># 维度为：[num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        cell_state = torch.zeros(<span class="hljs-number">1</span>*<span class="hljs-number">2</span>, <span class="hljs-built_in">len</span>(X), n_hidden)<br><br>        <span class="hljs-comment"># final_hidden_state, final_cell_state : [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        <span class="hljs-comment"># 将嵌入后的序列输入LSTM，得到输出和最终的隐藏状态</span><br>        <span class="hljs-comment"># 这里调用了 nn.LSTM 层 self.lstm 来进行前向传播。</span><br>        <span class="hljs-comment"># output 是LSTM在所有时间步的输出，维度为 [len_seq, batch_size, n_hidden * num_directions(=2)]。</span><br>        <span class="hljs-comment"># final_hidden_state 和 final_cell_state 是LSTM的最终隐藏状态和记忆单元状态，维度均为 [num_layers(=1) * num_directions(=2), batch_size, n_hidden]</span><br>        output, (final_hidden_state, final_cell_state) = self.lstm(<span class="hljs-built_in">input</span>, (hidden_state, cell_state))<br><br><br>        <span class="hljs-comment"># 这里再次使用 permute 方法调整输出维度，使output恢复为 [batch_size, len_seq, n_hidden]</span><br>        output = output.permute(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>)<br><br><br>        <span class="hljs-comment"># 调用 attention_net 函数得到注意力加权的上下文向量。</span><br>        <span class="hljs-comment"># 将上下文向量输入输出层，得到最终的分类结果和注意力权重</span><br>        <span class="hljs-comment"># 这里调用了在 BiLSTM_Attention 类中定义的 attention_net 方法</span><br>        <span class="hljs-comment"># 该方法用于计算注意力权重并将其应用于LSTM输出 output，得到上下文向量 attn_output 和注意力权重矩阵 attention</span><br>        attn_output, attention = self.attention_net(output, final_hidden_state)<br><br>        <span class="hljs-comment"># 将上下文向量输入输出层，得到最终的分类结果和注意力权重</span><br>        <span class="hljs-comment"># 这里将上下文向量 attn_output 输入全连接输出层 self.out，得到最终的分类结果(model)，维度为 [batch_size, num_classes]。</span><br>        <span class="hljs-comment"># 返回注意力权重矩阵(attention)，维度为 [batch_size, n_step]。</span><br>        <span class="hljs-comment"># 注意力权重矩阵表示模型在分类时对文本序列中每个词的关注程度，可以用于可视化和分析模型的注意力行为</span><br>        <span class="hljs-keyword">return</span> self.out(attn_output), attention<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-comment"># embedding_dim 是嵌入维度，用于表示文本中的每个词汇的密集向量表示。</span><br>    <span class="hljs-comment"># 在自然语言处理任务中，文本数据往往是由离散的词汇组成，而神经网络很难直接处理这种离散形式的数据。</span><br>    <span class="hljs-comment"># 因此，需要将文本中的词汇映射为连续的向量表示，以便神经网络能够处理。</span><br>    <span class="hljs-comment"># 嵌入层（nn.Embedding）就是用来完成这个映射过程的。</span><br>    <span class="hljs-comment"># 它接受一个词汇表的大小（vocab_size）和一个嵌入维度（embedding_dim）作为输入，</span><br>    <span class="hljs-comment"># 然后根据词汇表的大小创建一个随机初始化的嵌入矩阵，其中每个词汇对应一个向量，</span><br>    <span class="hljs-comment"># 向量的维度为 embedding_dim。模型在训练过程中，会根据文本数据对这些嵌入向量进行学习，使得相似的词汇在嵌入空间中距离更近，有更好的表示能力</span><br>    embedding_dim = <span class="hljs-number">2</span><br><br>    <span class="hljs-comment"># n_hidden 表示LSTM隐藏层中的隐藏单元数（也称为隐藏状态的维度）。</span><br>    <span class="hljs-comment"># 在双向LSTM模型中，LSTM层会有两个方向的隐藏状态，所以总的隐藏单元数会是 n_hidden * 2。</span><br>    <span class="hljs-comment"># 在LSTM中，隐藏状态（hidden state）用于存储过去时间步的信息，通过更新和传递隐藏状态，LSTM能够在处理时间序列数据时更好地捕捉长期依赖关系。</span><br>    <span class="hljs-comment"># n_hidden 的值会影响LSTM模型的表示能力和学习能力，过小的值可能会导致模型拟合不足，无法捕获数据的复杂模式，而过大的值可能会增加模型复杂性，使得训练过程变得困难。</span><br>    <span class="hljs-comment"># 通常，对于不同的任务和数据集，合适的 n_hidden 取值会有所差异。</span><br>    <span class="hljs-comment"># 选择合适的 n_hidden 取决于数据集的大小和复杂度，以及任务的复杂性。</span><br>    <span class="hljs-comment"># 常见的做法是通过尝试不同的 n_hidden 值，然后根据在验证集上的性能选择最优的值</span><br>    n_hidden = <span class="hljs-number">5</span><br><br>    <span class="hljs-comment"># num_classes 在这个代码中用于指定文本分类任务的类别数量。在该代码中，文本分类任务有两个类别，即&quot;好&quot;和&quot;不好&quot;，分别用 1 和 0 表示。</span><br>    <span class="hljs-comment"># 在模型的输出层，我们使用 self.out = nn.Linear(n_hidden * 2, num_classes) 这一行代码来定义输出层。</span><br>    <span class="hljs-comment"># 这个输出层是一个全连接层，将 LSTM 输出的特征（n_hidden * 2 维）转换成最终的分类结果（num_classes 维）。</span><br>    <span class="hljs-comment"># 对于本例中的二分类任务，num_classes 为 2，因为我们需要输出两个值（0或1）来表示分类结果。</span><br>    <span class="hljs-comment"># 这样，模型的输出维度就对应着两个类别的概率分布。</span><br><br>    <span class="hljs-comment"># 在训练阶段，模型输出的结果会通过 softmax 函数处理，得到对应类别的概率分布。</span><br>    <span class="hljs-comment"># 例如，如果模型输出 [0.7, 0.3]，则表示模型认为该文本属于&quot;好&quot;的概率为 0.7，属于&quot;不好&quot;的概率为 0.3。最终分类结果会根据概率值选择概率较大的类别，例如这里会选择&quot;好&quot;类别(0.7 &gt; 0.3)。</span><br>    <span class="hljs-comment"># 因此，num_classes 在代码中用于定义输出层的维度，确保模型能够输出正确的类别概率分布，并根据分类结果进行准确的文本分类</span><br>    num_classes = <span class="hljs-number">2</span><br><br>    <span class="hljs-comment"># 3词汇句子</span><br><span class="hljs-comment">#    sentences = [&quot;我 爱 你&quot;, &quot;他 爱 我&quot;, &quot;她 喜欢 篮球&quot;, &quot;她 喜欢 他&quot;, &quot;我 讨厌 你&quot;,&quot;他 讨厌 我&quot;, &quot;我 对不起 你&quot;]</span><br><span class="hljs-comment">#    labels = [1, 1, 1, 1, 0, 0, 0]  # 1 是 好, 0 是 不好. 构建词汇表，并为每个词汇赋予一个唯一的索引</span><br>    sentences = [<span class="hljs-string">&quot;我 爱 你&quot;</span>, <span class="hljs-string">&quot;他 爱 我&quot;</span>, <span class="hljs-string">&quot;她 喜欢 篮球&quot;</span>, <span class="hljs-string">&quot;她 喜欢 他&quot;</span>, <span class="hljs-string">&quot;我 讨厌 你&quot;</span>, <span class="hljs-string">&quot;他 讨厌 我&quot;</span>, <span class="hljs-string">&quot;我 对不起 你&quot;</span>,<br>                 <span class="hljs-string">&quot;我 很高兴&quot;</span>,<span class="hljs-string">&quot;他 很高兴&quot;</span>,<span class="hljs-string">&quot;你 很高兴&quot;</span>,<span class="hljs-string">&quot;我 不高兴&quot;</span>,<span class="hljs-string">&quot;他 不高兴&quot;</span>,<span class="hljs-string">&quot;她 不高兴&quot;</span>]<br>    labels = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]<br><br>    <span class="hljs-comment"># Define the maximum sequence length</span><br>    max_seq_length = <span class="hljs-number">6</span><br><br>    <span class="hljs-comment"># 为每个句子添加一个特殊的标记（例如&lt;PAD&gt;），使其与最长句子长度保持一致，以便构成一个批次的张量输入</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">pad_sequence</span>(<span class="hljs-params">sentence, max_len</span>):<br>        words = sentence.split()<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(words) &lt; max_len:<br>            words.extend([<span class="hljs-string">&#x27;&lt;PAD&gt;&#x27;</span>] * (max_len - <span class="hljs-built_in">len</span>(words)))<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot; &quot;</span>.join(words[:max_len])<br><br>    <span class="hljs-comment"># 对所有句子进行填充</span><br>    sentences = [pad_sequence(sentence, max_seq_length) <span class="hljs-keyword">for</span> sentence <span class="hljs-keyword">in</span> sentences]<br><br>    <span class="hljs-comment"># 构建词汇表，并为每个词汇赋予一个唯一的索引</span><br>    <span class="hljs-comment"># 这段代码将所有的文本合并成一个字符串，然后按照空格分割成词汇列表。</span><br>    <span class="hljs-comment"># 使用set去重，确保每个词汇只出现一次，然后为每个词汇赋予一个唯一的索引。</span><br>    <span class="hljs-comment"># 构建出词汇表word_dict，其中键是词汇，值是对应的唯一索引，vocab_size表示词汇表的大小</span><br>    word_list = <span class="hljs-string">&quot; &quot;</span>.join(sentences).split()<br>    word_list = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">set</span>(word_list))<br>    word_dict = &#123;w: i <span class="hljs-keyword">for</span> i, w <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(word_list)&#125;<br>    vocab_size = <span class="hljs-built_in">len</span>(word_dict)<br><br>    <span class="hljs-comment"># 创建 BiLSTM_Attention 类的实例 model</span><br>    <span class="hljs-comment"># 创建了一个带有注意力机制的双向LSTM文本分类模型</span><br>    model = BiLSTM_Attention()<br><br>    <span class="hljs-comment"># 定义损失函数 criterion 为交叉熵损失，优化器 optimizer 为Adam优化器</span><br>    <span class="hljs-comment"># 交叉熵损失适用于多分类任务，而Adam优化器是一种常用的优化算法</span><br>    criterion = nn.CrossEntropyLoss()<br>    optimizer = optim.Adam(model.parameters(), lr=<span class="hljs-number">0.001</span>)<br><br>    <span class="hljs-comment"># 准备输入数据 inputs 和目标标签 targets</span><br>    <span class="hljs-comment"># 这段代码首先将每个句子转换为对应的索引序列，并将其转换为PyTorch的LongTensor类型，作为输入数据inputs。</span><br>    <span class="hljs-comment"># targets是标签序列，也转换为PyTorch的LongTensor类型。</span><br>    inputs = torch.LongTensor([np.asarray([word_dict[n] <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> sen.split()]) <span class="hljs-keyword">for</span> sen <span class="hljs-keyword">in</span> sentences])<br>    targets = torch.LongTensor([out <span class="hljs-keyword">for</span> out <span class="hljs-keyword">in</span> labels])  <span class="hljs-comment"># To using Torch Softmax Loss function</span><br><br>    <span class="hljs-comment"># 进行模型训练</span><br>    <span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5000</span>):<br>        <span class="hljs-comment"># 在每一轮训练中，首先将优化器的梯度清零（optimizer.zero_grad()）</span><br>        optimizer.zero_grad()<br><br>        <span class="hljs-comment"># 然后将输入数据输入模型，得到模型的输出和注意力权重。</span><br>        output, attention = model(inputs)<br><br>        <span class="hljs-comment"># 计算交叉熵损失</span><br>        loss = criterion(output, targets)<br>        <span class="hljs-keyword">if</span> (epoch + <span class="hljs-number">1</span>) % <span class="hljs-number">1000</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Epoch:&#x27;</span>, <span class="hljs-string">&#x27;%04d&#x27;</span> % (epoch + <span class="hljs-number">1</span>), <span class="hljs-string">&#x27;cost =&#x27;</span>, <span class="hljs-string">&#x27;&#123;:.6f&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(loss))<br><br>        <span class="hljs-comment"># 进行反向传播</span><br>        loss.backward()<br><br>        <span class="hljs-comment"># 参数优化</span><br>        optimizer.step()<br><br>    <span class="hljs-comment"># Test</span><br>    <span class="hljs-comment"># 定义一个测试文本 test_text</span><br>    test_text = <span class="hljs-string">&#x27;她 不高兴&#x27;</span><br>    <span class="hljs-comment"># 并转换为张量</span><br>    tests = [np.asarray([word_dict[n] <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> test_text.split()])]<br>    <span class="hljs-comment"># print(tests)</span><br><br>    test_batch = torch.LongTensor(tests)<br><br>    <span class="hljs-comment"># 进行预测</span><br>    predict, _ = model(test_batch)<br>    predict = predict.data.<span class="hljs-built_in">max</span>(<span class="hljs-number">1</span>, keepdim=<span class="hljs-literal">True</span>)[<span class="hljs-number">1</span>]<br>    <span class="hljs-comment"># 根据预测结果，判断测试文本的意义是&quot;好&quot;还是&quot;不好&quot;</span><br>    <span class="hljs-keyword">if</span> predict[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] == <span class="hljs-number">0</span>:<br>        <span class="hljs-built_in">print</span>(test_text,<span class="hljs-string">&quot;is Bad Mean...&quot;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-built_in">print</span>(test_text,<span class="hljs-string">&quot;is Good Mean!!&quot;</span>)<br><br><br>    <span class="hljs-comment"># 可视化注意力权重</span><br>    <span class="hljs-comment"># 这段代码使用Matplotlib绘制了注意力权重矩阵的热力图。</span><br>    <span class="hljs-comment"># 矩阵的横轴表示文本序列中的每个词汇（&quot;first_word&quot;, &quot;second_word&quot;, &quot;third_word&quot;）</span><br>    <span class="hljs-comment"># 纵轴表示输入数据的批次（&quot;batch_1&quot;, &quot;batch_2&quot;, &quot;batch_3&quot;, &quot;batch_4&quot;, &quot;batch_5&quot;, &quot;batch_6&quot;）。</span><br>    <span class="hljs-comment"># 不同颜色的方块表示不同位置的词汇在分类时所受到的注意力程度。</span><br>    <span class="hljs-comment"># 通过该热力图可以观察模型在分类时关注的重要词</span><br>    fig = plt.figure(figsize=(<span class="hljs-number">6</span>, <span class="hljs-number">3</span>)) <span class="hljs-comment"># [batch_size, n_step]</span><br>    ax = fig.add_subplot(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>    ax.matshow(attention, cmap=<span class="hljs-string">&#x27;viridis&#x27;</span>)<br>    ax.set_xticklabels([<span class="hljs-string">&#x27;&#x27;</span>]+[<span class="hljs-string">&#x27;first_word&#x27;</span>, <span class="hljs-string">&#x27;second_word&#x27;</span>, <span class="hljs-string">&#x27;third_word&#x27;</span>], fontdict=&#123;<span class="hljs-string">&#x27;fontsize&#x27;</span>: <span class="hljs-number">14</span>&#125;, rotation=<span class="hljs-number">90</span>)<br>    ax.set_yticklabels([<span class="hljs-string">&#x27;&#x27;</span>]+[<span class="hljs-string">&#x27;batch_1&#x27;</span>, <span class="hljs-string">&#x27;batch_2&#x27;</span>, <span class="hljs-string">&#x27;batch_3&#x27;</span>, <span class="hljs-string">&#x27;batch_4&#x27;</span>, <span class="hljs-string">&#x27;batch_5&#x27;</span>, <span class="hljs-string">&#x27;batch_6&#x27;</span>], fontdict=&#123;<span class="hljs-string">&#x27;fontsize&#x27;</span>: <span class="hljs-number">14</span>&#125;)<br>    plt.show()<br><br></code></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Python</category>
-      </categories>
-      <tags>
-        <tag>PyTorch</tag>
-        <tag>Python</tag>
-        <tag>NLP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C++药品管理系统</title>
     <url>/posts/32231.html</url>
     <content><![CDATA[<blockquote>
@@ -309,58 +334,6 @@
 ]]></content>
       <categories>
         <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>CH32(F10X F20X)</title>
-    <url>/posts/57388.html</url>
-    <content><![CDATA[<h1>对于WCH-link的接线</h1>
-<h2 id="F103">F103</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">U	-&gt;	板上SWD区域<br>Rx	-&gt;	PA9(Tx)<br>Tx	-&gt;	PA10(Rx)<br>GND	-&gt;	GND<br>3V3	-&gt;	VCC<br>SWDIO-&gt;	PA13<br>SWDLK-&gt;	PA14<br></code></pre></td></tr></table></figure>
-<h2 id="F207">F207</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">U	-&gt;	板上SWD区域<br>Rx	-&gt;	TXD<br>Tx	-&gt;	RXD<br>GND	-&gt;	GND<br>3V3	-&gt;	VDD<br>SWDIO	-&gt;	SWIO<br>SWDLK	-&gt;	SWCK<br></code></pre></td></tr></table></figure>
-<h1>对于096 OLED屏幕接线</h1>
-<h2 id="F207-2">F207</h2>
-<blockquote>
-<p>GND 电源地<br>
-VCC 电源正（3.3～5V）<br>
-D0(SCL) SCK管脚<br>
-D1(SDA) MOSI管脚<br>
-RES(RST) 用来复位（低电平复位）<br>
-DC(D/C) 数据和命令控制管脚 1表示数据 0表示命令<br>
-CS(NSS) 片选管脚</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">GND	-&gt;	GND<br>VCC	-&gt;	3V3<br>D0	-&gt;	PA5<br>D1	-&gt;	PA7<br>RES	-&gt;	PA4<br>DC	-&gt;	PA6<br>CS	-&gt;	NONE<br></code></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>CH32</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>CSP-S 2021游记</title>
-    <url>/posts/8713.html</url>
-    <content><![CDATA[<hr>
-<blockquote>
-<p><strong>结构体指针三目乱飞，球体体积交怼脸，手算 base64，现学四毛子算法，欢迎来到 CSP2021-S1。</strong></p>
-</blockquote>
-<p>身为蒟蒻的咱，心态平和🤔走的很安详</p>
-<blockquote>
-<p><strong>这里，我想用一下<a href="https://www.luogu.com.cn/user/486119">Naptie</a>大佬的概括</strong></p>
-<p><strong>《平凡的单选题》</strong><br>
-<strong>《acos(0.5)》</strong><br>
-<strong>《d1, d2表示半径》</strong><br>
-<strong>《两球体积交》</strong><br>
-<strong>《含四个整型的结构体重载加号》</strong><br>
-<strong>《int(char(0f))》</strong><br>
-<strong>《Cg==》</strong><br>
-<strong>《手算Base64编解码》</strong><br>
-<strong>《121行代码》</strong><br>
-<strong>《四毛子算法课》</strong><br>
-<strong>《结构体与指针的复杂应用》</strong></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>杂谈</category>
       </categories>
   </entry>
   <entry>
@@ -511,57 +484,31 @@ CS(NSS) 片选管脚</p>
       </tags>
   </entry>
   <entry>
-    <title>C、C++存储类型关键字详解</title>
-    <url>/posts/229.html</url>
-    <content><![CDATA[<h1>存储类型关键字</h1>
-<h2 id="auto">auto</h2>
-<ul>
-<li><code>auto</code> 是默认的存储类别关键字，它用于定义自动变量。</li>
-<li>自动变量的生命周期仅限于定义它们的代码块，当代码块执行结束时，它们会被销毁。</li>
-</ul>
-<p>示例代码（<strong>记作代码1</strong>）：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">auto</span> <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>; <span class="hljs-comment">// 可以省略 &quot;auto&quot;，因为它是默认的存储类别</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x: %d\n&quot;</span>, x);<br>    <span class="hljs-comment">// x 的生命周期仅限于 main 函数</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>在上方代码1中，<code>auto int x = 10;</code>和<code>int x = 10;</code>是等效的：</p>
-<p>这是因为 <code>int x = 10;</code> 默认就是一个自动变量，编译器会根据上下文自动识别它为自动变量。</p>
-<p>同样，例如下方代码（<strong>记作代码2</strong>）：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">auto</span> <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>; <span class="hljs-comment">// 可以省略 &quot;auto&quot;，因为它是默认的存储类别</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x: %d\n&quot;</span>, x);<br><br>    <span class="hljs-keyword">auto</span> y = x;		 <span class="hljs-comment">// 使用auto类型定义变量y</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;y: %d\n&quot;</span>, y);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>当你写 <code>auto y = x;</code> 时，编译器也会将 <code>y</code> 类型设置为 <code>int</code>，因为 <code>x</code> 是 <code>int</code> 类型，所以 <code>y</code> 也被赋予了相同的类型。</p>
-<p>C语言的类型系统会<strong>根据右侧表达式的类型来确定左侧变量的类型</strong>，这就是类型推断。</p>
-<p>因此，在<strong>代码2</strong>中，<code>y</code> 被推断为 <code>int</code> 类型，与 <code>x</code> 相同。</p>
-<h2 id="extern">extern</h2>
-<ul>
-<li><code>extern</code> 用于声明一个全局变量，它表明<strong>该变量在当前文件中并没有被定义，而是在其他文件中定义的</strong>。</li>
-<li>这允许<strong>多个文件共享同一个全局变量</strong>，该变量可以被多个文件调用，并修改其值。</li>
-</ul>
-<p>示例代码（<code>extern</code>使用时，对应着多文件场景）：</p>
-<p>文件1.c:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> globalVar; <span class="hljs-comment">// 定义全局变量</span><br></code></pre></td></tr></table></figure>
-<p>文件2.c:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> globalVar; <span class="hljs-comment">// 声明全局变量，以便在其他文件中使用</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;globalVar: %d\n&quot;</span>, globalVar);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="register">register</h2>
-<ul>
-<li><code>register</code> 用于请求编译器将变量存储在CPU寄存器中，以加快对变量的访问速度。</li>
-<li>这是一个建议（编译阶段请求将register存储在CPU寄存器中），<strong>编译器可能会忽略它</strong>，特别是在如今的编译器中（因为如今的编译器已经非常智能，它们能够更好地管理寄存器分配，从而提高代码的性能，通常来说，如今的编译器比程序员更了解如何优化代码）。</li>
-</ul>
-<p>示例代码：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">register</span> <span class="hljs-type">int</span> i = <span class="hljs-number">5</span>; <span class="hljs-comment">// 请求将变量 i 存储在寄存器中</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i: %d\n&quot;</span>, i);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="static">static</h2>
-<ul>
-<li><code>static</code> 用于改变变量的存储期和可见性。</li>
-<li>在函数内部使用 <code>static</code> 声明的变量具有持久的存储期，而在如今的使用 <code>static</code> 声明的变量<strong>只在当前文件中可见</strong>。</li>
-</ul>
-<p>示例代码：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">demo</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">static</span> <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">// 持久性的局部变量</span><br>    count++;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count: %d\n&quot;</span>, count);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    demo(); <span class="hljs-comment">// 输出 count: 2</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>如果上述代码不加<code>static</code>：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">demo</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">// 持久性的局部变量</span><br>    count++;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count: %d\n&quot;</span>, count);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+    <title>CSP-S 2021游记</title>
+    <url>/posts/8713.html</url>
+    <content><![CDATA[<hr>
+<blockquote>
+<p><strong>结构体指针三目乱飞，球体体积交怼脸，手算 base64，现学四毛子算法，欢迎来到 CSP2021-S1。</strong></p>
+</blockquote>
+<p>身为蒟蒻的咱，心态平和🤔走的很安详</p>
+<blockquote>
+<p><strong>这里，我想用一下<a href="https://www.luogu.com.cn/user/486119">Naptie</a>大佬的概括</strong></p>
+<p><strong>《平凡的单选题》</strong><br>
+<strong>《acos(0.5)》</strong><br>
+<strong>《d1, d2表示半径》</strong><br>
+<strong>《两球体积交》</strong><br>
+<strong>《含四个整型的结构体重载加号》</strong><br>
+<strong>《int(char(0f))》</strong><br>
+<strong>《Cg==》</strong><br>
+<strong>《手算Base64编解码》</strong><br>
+<strong>《121行代码》</strong><br>
+<strong>《四毛子算法课》</strong><br>
+<strong>《结构体与指针的复杂应用》</strong></p>
+</blockquote>
 ]]></content>
       <categories>
-        <category>C/C++</category>
+        <category>杂谈</category>
       </categories>
-      <tags>
-        <tag>C语言</tag>
-        <tag>C++</tag>
-      </tags>
   </entry>
   <entry>
     <title>C、C++其他关键字详解</title>
@@ -623,100 +570,49 @@ CS(NSS) 片选管脚</p>
       </tags>
   </entry>
   <entry>
-    <title>C、C++数据类型关键字详解</title>
-    <url>/posts/48531.html</url>
-    <content><![CDATA[<h1>数据类型关键字</h1>
-<p>以下是对每个C语言数据类型关键字的详细解释，包括其包括特性、用法以及可能的范围和精度限制。</p>
-<h3 id="char">char</h3>
+    <title>C、C++存储类型关键字详解</title>
+    <url>/posts/229.html</url>
+    <content><![CDATA[<h1>存储类型关键字</h1>
+<h2 id="auto">auto</h2>
 <ul>
-<li>特性：<code>char</code>（字符型）用于存储单个字符，通常占用1个字节的内存空间。它可以表示ASCII字符集中的字符。范围通常为-128到127。</li>
-<li>用法：通常用于存储字符或小整数值。</li>
-<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> letter = <span class="hljs-string">&#x27;A&#x27;</span>; <span class="hljs-comment">// 定义一个字符变量并赋值</span><br></code></pre></td></tr></table></figure>
-</li>
+<li><code>auto</code> 是默认的存储类别关键字，它用于定义自动变量。</li>
+<li>自动变量的生命周期仅限于定义它们的代码块，当代码块执行结束时，它们会被销毁。</li>
 </ul>
-<h3 id="short">short</h3>
+<p>示例代码（<strong>记作代码1</strong>）：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">auto</span> <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>; <span class="hljs-comment">// 可以省略 &quot;auto&quot;，因为它是默认的存储类别</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x: %d\n&quot;</span>, x);<br>    <span class="hljs-comment">// x 的生命周期仅限于 main 函数</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在上方代码1中，<code>auto int x = 10;</code>和<code>int x = 10;</code>是等效的：</p>
+<p>这是因为 <code>int x = 10;</code> 默认就是一个自动变量，编译器会根据上下文自动识别它为自动变量。</p>
+<p>同样，例如下方代码（<strong>记作代码2</strong>）：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">auto</span> <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>; <span class="hljs-comment">// 可以省略 &quot;auto&quot;，因为它是默认的存储类别</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x: %d\n&quot;</span>, x);<br><br>    <span class="hljs-keyword">auto</span> y = x;		 <span class="hljs-comment">// 使用auto类型定义变量y</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;y: %d\n&quot;</span>, y);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>当你写 <code>auto y = x;</code> 时，编译器也会将 <code>y</code> 类型设置为 <code>int</code>，因为 <code>x</code> 是 <code>int</code> 类型，所以 <code>y</code> 也被赋予了相同的类型。</p>
+<p>C语言的类型系统会<strong>根据右侧表达式的类型来确定左侧变量的类型</strong>，这就是类型推断。</p>
+<p>因此，在<strong>代码2</strong>中，<code>y</code> 被推断为 <code>int</code> 类型，与 <code>x</code> 相同。</p>
+<h2 id="extern">extern</h2>
 <ul>
-<li>特性：<code>short</code>（短整型）用于存储整数值，通常占用2个字节的内存空间。范围通常为-32768到32767。</li>
-<li>用法：适用于节省内存空间但需要存储整数的情况。</li>
-<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">short</span> temperature = <span class="hljs-number">-10</span>; <span class="hljs-comment">// 定义一个短整数变量并赋值</span><br></code></pre></td></tr></table></figure>
-</li>
+<li><code>extern</code> 用于声明一个全局变量，它表明<strong>该变量在当前文件中并没有被定义，而是在其他文件中定义的</strong>。</li>
+<li>这允许<strong>多个文件共享同一个全局变量</strong>，该变量可以被多个文件调用，并修改其值。</li>
 </ul>
-<h3 id="int">int</h3>
+<p>示例代码（<code>extern</code>使用时，对应着多文件场景）：</p>
+<p>文件1.c:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> globalVar; <span class="hljs-comment">// 定义全局变量</span><br></code></pre></td></tr></table></figure>
+<p>文件2.c:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> globalVar; <span class="hljs-comment">// 声明全局变量，以便在其他文件中使用</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;globalVar: %d\n&quot;</span>, globalVar);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="register">register</h2>
 <ul>
-<li>
-<p>特性：<code>int</code>（整型）用于存储整数值，通常占用4个字节的内存空间。这是最常用的整数类型。范围通常为-2147483648到2147483647。</p>
-</li>
-<li>
-<p>用法：通常用于存储整数，执行基本数学运算等。</p>
-</li>
-<li>
+<li><code>register</code> 用于请求编译器将变量存储在CPU寄存器中，以加快对变量的访问速度。</li>
+<li>这是一个建议（编译阶段请求将register存储在CPU寄存器中），<strong>编译器可能会忽略它</strong>，特别是在如今的编译器中（因为如今的编译器已经非常智能，它们能够更好地管理寄存器分配，从而提高代码的性能，通常来说，如今的编译器比程序员更了解如何优化代码）。</li>
+</ul>
 <p>示例代码：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> count = <span class="hljs-number">100</span>; <span class="hljs-comment">// 定义一个整数变量并赋值</span><br></code></pre></td></tr></table></figure>
-<p>int类型在计算过程中，会仅保留整数位，比如：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">3</span>;<br>a = a/<span class="hljs-number">2</span>;<br><span class="hljs-comment">//经过a/2计算后，3/2=1.5,实际上a被赋予的值是1</span><br></code></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="float">float</h3>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">register</span> <span class="hljs-type">int</span> i = <span class="hljs-number">5</span>; <span class="hljs-comment">// 请求将变量 i 存储在寄存器中</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i: %d\n&quot;</span>, i);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="static">static</h2>
 <ul>
-<li>特性：<code>float</code>（单精度浮点型）用于存储浮点数，通常占用4个字节的内存空间。它具有单精度（约6-7位有效数字）。</li>
-<li>用法：用于存储小数或具有小数部分的数值。</li>
-<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">float</span> pi = <span class="hljs-number">3.14</span>; <span class="hljs-comment">// 定义一个单精度浮点数变量并赋值为 3.14</span><br></code></pre></td></tr></table></figure>
-</li>
+<li><code>static</code> 用于改变变量的存储期和可见性。</li>
+<li>在函数内部使用 <code>static</code> 声明的变量具有持久的存储期，而在如今的使用 <code>static</code> 声明的变量<strong>只在当前文件中可见</strong>。</li>
 </ul>
-<h3 id="double">double</h3>
-<ul>
-<li>特性：<code>double</code>（双精度浮点型）用于存储双精度浮点数，通常占用8个字节的内存空间。它具有更高的精度（约15-16位有效数字）。</li>
-<li>用法：用于存储需要高精度的浮点数。</li>
-<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> salary = <span class="hljs-number">2.71828</span>; <span class="hljs-comment">// 定义一个双精度浮点数变量并赋值为 2.71828</span><br></code></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="long">long</h3>
-<ul>
-<li>特性：<code>long</code>（长整型）用于存储长整数，通常占用4个或8个字节的内存空间，具体大小取决于编译器和平台。通常用1long long`去声明一个长整数。</li>
-<li>用法：用于存储大整数值。</li>
-<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">long</span> <span class="hljs-type">long</span> population = <span class="hljs-number">8000000L</span>; <span class="hljs-comment">// 定义一个长整数变量并赋值，L表示值为长整数</span><br></code></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="signed-和-unsigned">signed 和 unsigned</h3>
-<ul>
-<li>特性：这两个关键字用于指定整数的符号性质。<code>signed</code>用于表示有符号整数，可以表示正数、负数和零；<code>unsigned</code>用于表示无符号整数，只能表示非负整数。</li>
-<li>用法：根据需求选择合适的符号性质。</li>
-<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">signed</span> <span class="hljs-type">int</span> temperature = <span class="hljs-number">-5</span>; <span class="hljs-comment">// 有符号整数</span><br><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> score = <span class="hljs-number">95</span>; <span class="hljs-comment">// 无符号整数</span><br></code></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="struct">struct</h3>
-<ul>
-<li>特性：<code>struct</code>（结构体）用于定义自定义的数据类型，可以包含多个不同类型的成员变量。</li>
-<li>用法：用于组织和存储多个相关数据项。</li>
-<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Point</span> &#123;</span><br>    <span class="hljs-type">int</span> x;<br>    <span class="hljs-type">int</span> y;<br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Point</span> <span class="hljs-title">p1</span> =</span> &#123;<span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;; <span class="hljs-comment">// 定义一个结构体变量</span><br></code></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="enum">enum</h3>
-<ul>
-<li>特性：<code>enum</code>（枚举类型）用于创建一个有限集合的命名整数常量。</li>
-<li>用法：用于提高代码可读性，将整数值与有意义的标识符关联起来。</li>
-<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Days</span> &#123;</span> Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday &#125;;<br><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Days</span> <span class="hljs-title">today</span> =</span> Tuesday; <span class="hljs-comment">// 使用枚举值</span><br></code></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="union">union</h3>
-<pre><code>- 特性：`union`（联合体）用于在相同的内存位置存储不同类型的数据，但只能同时存储其中一个成员。
-    - 用法：用于节省内存空间，但需要同时存储不同类型的数据。
-    - 示例代码：
-  <figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">Data</span> &#123;</span><br>    <span class="hljs-type">int</span> i;<br>    <span class="hljs-type">float</span> f;<br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">Data</span> <span class="hljs-title">value</span>;</span><br>value.i = <span class="hljs-number">42</span>; <span class="hljs-comment">// 存储整数</span><br></code></pre></td></tr></table></figure>
-</code></pre>
-<h3 id="void">void</h3>
-<pre><code>- 特性：`void`用于表示没有特定数据类型的值，通常用于函数的返回类型和指针类型。
-    - 用法：
-  - 函数返回类型：用于表示函数不返回任何值。
-  - 指针类型：用于创建通用指针（`void*`），可以指向任何类型的数据。
-    
-    - 示例代码：
-    
-      <figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">printMessage</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello, World!\n&quot;</span>);<br>&#125;<br><span class="hljs-type">void</span>* ptr; <span class="hljs-comment">// 定义一个通用指针</span><br><span class="hljs-type">int</span> x = <span class="hljs-number">10</span>;<br>ptr = &amp;x; <span class="hljs-comment">// 将通用指针指向一个整数</span><br></code></pre></td></tr></table></figure>
-</code></pre>
-<p>每种数据类型都有其自身的特性和适用场景。范围和精度限制取决于具体的数据类型和编译器/平台的实现。</p>
-<p>例如，整数类型的范围受到位数的限制，浮点数类型的精度受到<a href="https://zhuanlan.zhihu.com/p/480834719">IEEE 754标准</a>的限制。</p>
-<p>在程序编写过程中，使用合适的数据类型可以提高程序的性能和可维护性。</p>
+<p>示例代码：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">demo</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">static</span> <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">// 持久性的局部变量</span><br>    count++;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count: %d\n&quot;</span>, count);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    demo(); <span class="hljs-comment">// 输出 count: 2</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果上述代码不加<code>static</code>：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">demo</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">// 持久性的局部变量</span><br>    count++;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count: %d\n&quot;</span>, count);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>C/C++</category>
@@ -877,6 +773,110 @@ CS(NSS) 片选管脚</p>
       </tags>
   </entry>
   <entry>
+    <title>C、C++数据类型关键字详解</title>
+    <url>/posts/48531.html</url>
+    <content><![CDATA[<h1>数据类型关键字</h1>
+<p>以下是对每个C语言数据类型关键字的详细解释，包括其包括特性、用法以及可能的范围和精度限制。</p>
+<h3 id="char">char</h3>
+<ul>
+<li>特性：<code>char</code>（字符型）用于存储单个字符，通常占用1个字节的内存空间。它可以表示ASCII字符集中的字符。范围通常为-128到127。</li>
+<li>用法：通常用于存储字符或小整数值。</li>
+<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">char</span> letter = <span class="hljs-string">&#x27;A&#x27;</span>; <span class="hljs-comment">// 定义一个字符变量并赋值</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="short">short</h3>
+<ul>
+<li>特性：<code>short</code>（短整型）用于存储整数值，通常占用2个字节的内存空间。范围通常为-32768到32767。</li>
+<li>用法：适用于节省内存空间但需要存储整数的情况。</li>
+<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">short</span> temperature = <span class="hljs-number">-10</span>; <span class="hljs-comment">// 定义一个短整数变量并赋值</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="int">int</h3>
+<ul>
+<li>
+<p>特性：<code>int</code>（整型）用于存储整数值，通常占用4个字节的内存空间。这是最常用的整数类型。范围通常为-2147483648到2147483647。</p>
+</li>
+<li>
+<p>用法：通常用于存储整数，执行基本数学运算等。</p>
+</li>
+<li>
+<p>示例代码：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> count = <span class="hljs-number">100</span>; <span class="hljs-comment">// 定义一个整数变量并赋值</span><br></code></pre></td></tr></table></figure>
+<p>int类型在计算过程中，会仅保留整数位，比如：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a = <span class="hljs-number">3</span>;<br>a = a/<span class="hljs-number">2</span>;<br><span class="hljs-comment">//经过a/2计算后，3/2=1.5,实际上a被赋予的值是1</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="float">float</h3>
+<ul>
+<li>特性：<code>float</code>（单精度浮点型）用于存储浮点数，通常占用4个字节的内存空间。它具有单精度（约6-7位有效数字）。</li>
+<li>用法：用于存储小数或具有小数部分的数值。</li>
+<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">float</span> pi = <span class="hljs-number">3.14</span>; <span class="hljs-comment">// 定义一个单精度浮点数变量并赋值为 3.14</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="double">double</h3>
+<ul>
+<li>特性：<code>double</code>（双精度浮点型）用于存储双精度浮点数，通常占用8个字节的内存空间。它具有更高的精度（约15-16位有效数字）。</li>
+<li>用法：用于存储需要高精度的浮点数。</li>
+<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">double</span> salary = <span class="hljs-number">2.71828</span>; <span class="hljs-comment">// 定义一个双精度浮点数变量并赋值为 2.71828</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="long">long</h3>
+<ul>
+<li>特性：<code>long</code>（长整型）用于存储长整数，通常占用4个或8个字节的内存空间，具体大小取决于编译器和平台。通常用1long long`去声明一个长整数。</li>
+<li>用法：用于存储大整数值。</li>
+<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">long</span> <span class="hljs-type">long</span> population = <span class="hljs-number">8000000L</span>; <span class="hljs-comment">// 定义一个长整数变量并赋值，L表示值为长整数</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="signed-和-unsigned">signed 和 unsigned</h3>
+<ul>
+<li>特性：这两个关键字用于指定整数的符号性质。<code>signed</code>用于表示有符号整数，可以表示正数、负数和零；<code>unsigned</code>用于表示无符号整数，只能表示非负整数。</li>
+<li>用法：根据需求选择合适的符号性质。</li>
+<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">signed</span> <span class="hljs-type">int</span> temperature = <span class="hljs-number">-5</span>; <span class="hljs-comment">// 有符号整数</span><br><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> score = <span class="hljs-number">95</span>; <span class="hljs-comment">// 无符号整数</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="struct">struct</h3>
+<ul>
+<li>特性：<code>struct</code>（结构体）用于定义自定义的数据类型，可以包含多个不同类型的成员变量。</li>
+<li>用法：用于组织和存储多个相关数据项。</li>
+<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Point</span> &#123;</span><br>    <span class="hljs-type">int</span> x;<br>    <span class="hljs-type">int</span> y;<br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Point</span> <span class="hljs-title">p1</span> =</span> &#123;<span class="hljs-number">2</span>, <span class="hljs-number">3</span>&#125;; <span class="hljs-comment">// 定义一个结构体变量</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="enum">enum</h3>
+<ul>
+<li>特性：<code>enum</code>（枚举类型）用于创建一个有限集合的命名整数常量。</li>
+<li>用法：用于提高代码可读性，将整数值与有意义的标识符关联起来。</li>
+<li>示例代码：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Days</span> &#123;</span> Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday &#125;;<br><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">Days</span> <span class="hljs-title">today</span> =</span> Tuesday; <span class="hljs-comment">// 使用枚举值</span><br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="union">union</h3>
+<pre><code>- 特性：`union`（联合体）用于在相同的内存位置存储不同类型的数据，但只能同时存储其中一个成员。
+    - 用法：用于节省内存空间，但需要同时存储不同类型的数据。
+    - 示例代码：
+  <figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">Data</span> &#123;</span><br>    <span class="hljs-type">int</span> i;<br>    <span class="hljs-type">float</span> f;<br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">Data</span> <span class="hljs-title">value</span>;</span><br>value.i = <span class="hljs-number">42</span>; <span class="hljs-comment">// 存储整数</span><br></code></pre></td></tr></table></figure>
+</code></pre>
+<h3 id="void">void</h3>
+<pre><code>- 特性：`void`用于表示没有特定数据类型的值，通常用于函数的返回类型和指针类型。
+    - 用法：
+  - 函数返回类型：用于表示函数不返回任何值。
+  - 指针类型：用于创建通用指针（`void*`），可以指向任何类型的数据。
+    
+    - 示例代码：
+    
+      <figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">printMessage</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello, World!\n&quot;</span>);<br>&#125;<br><span class="hljs-type">void</span>* ptr; <span class="hljs-comment">// 定义一个通用指针</span><br><span class="hljs-type">int</span> x = <span class="hljs-number">10</span>;<br>ptr = &amp;x; <span class="hljs-comment">// 将通用指针指向一个整数</span><br></code></pre></td></tr></table></figure>
+</code></pre>
+<p>每种数据类型都有其自身的特性和适用场景。范围和精度限制取决于具体的数据类型和编译器/平台的实现。</p>
+<p>例如，整数类型的范围受到位数的限制，浮点数类型的精度受到<a href="https://zhuanlan.zhihu.com/p/480834719">IEEE 754标准</a>的限制。</p>
+<p>在程序编写过程中，使用合适的数据类型可以提高程序的性能和可维护性。</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C语言</tag>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C、C++数组，指针，指针数组，数组指针的区别</title>
     <url>/posts/24095.html</url>
     <content><![CDATA[<h2 id="C、C-数组，指针，指针数组，数组指针的区别">C、C++数组，指针，指针数组，数组指针的区别</h2>
@@ -991,6 +991,50 @@ CS(NSS) 片选管脚</p>
         <tag>C语言</tag>
         <tag>C++</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>C语言学习相关</title>
+    <url>/posts/27662.html</url>
+    <content><![CDATA[<h2 id="函数递归">函数递归</h2>
+<blockquote>
+<p>函数递归，简单的理解就是，自己调用自己，直到遇到边界条件，停止递归</p>
+</blockquote>
+<p>比如我们想实现一个阶乘函数</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> n = <span class="hljs-number">5</span>;<span class="hljs-comment">//求n!  这里是5!</span><br><br><br><span class="hljs-comment">//不使用递归，一种可行的做法是这样</span><br><span class="hljs-type">int</span> ans = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>    ans *= i;<br>&#125;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d! = %d&quot;</span>, n, ans);<br><br><br><span class="hljs-comment">//使用递归</span><br><span class="hljs-type">int</span> _n(<span class="hljs-type">int</span> x) &#123;<br>	<span class="hljs-keyword">if</span> (x == <span class="hljs-number">0</span>)<span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">return</span> x * _n(x - <span class="hljs-number">1</span>);<br>&#125;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d! = %d&quot;</span>, n, _n(n));<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">对于 _n(5)，我们拆分一下它自己调用自己的过程↓</span><br><span class="hljs-comment">_n(5)</span><br><span class="hljs-comment"> 5 * _n(4)</span><br><span class="hljs-comment">	 4 * _n(3)</span><br><span class="hljs-comment">		 3 * _n(2)</span><br><span class="hljs-comment">			 2 * _n(1)</span><br><span class="hljs-comment">				 1 * _n(0)</span><br><span class="hljs-comment">					 1</span><br><span class="hljs-comment">达到边界，返回值为：5*4*3*2*1*1的   结果   (是，结果，不是这个计算式)</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+<h2 id="define和const的区别">define和const的区别</h2>
+<h3 id="define：">define：</h3>
+<ul>
+<li><code>define</code> 是一个预处理指令，通常在 C 和 C++ 这类编程语言中使用。</li>
+<li>它用于定义编译时常量，这意味着在编译程序之前就将其值固定下来。</li>
+<li><code>define</code> 通常用于创建符号常量（宏常量），例如：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_VALUE 100</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>这样的定义会在编译时进行文本替换，将所有出现 <code>MAX_VALUE</code> 的地方替换为 <code>100</code>，<strong>没有变量类型或内存分配</strong>。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_VALUE 100</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> x = MAX_VALUE;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x的值是: %d\n&quot;</span>, x);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在这个示例中，<code>MAX_VALUE</code> 被定义为 <code>100</code>，并且在 <code>main</code> 函数中将其赋值给变量 <code>x</code>。当编译此代码时，预处理器会将 <code>MAX_VALUE</code> 替换为 <code>100</code>，因此在编译后的代码中，<code>int x = MAX_VALUE;</code> 实际上变成了 <code>int x = 100;</code>。这样，编译后的程序中不再存在 <code>MAX_VALUE</code> 符号，而是直接包含了 <code>100</code> 的值。</p>
+<h3 id="const：">const：</h3>
+<ul>
+<li><code>const</code> 是一种变量修饰符，通常在多种编程语言中使用，包括 C++, C#, JavaScript 等。</li>
+<li>它用于创建不可变的量，也就是常量。</li>
+<li><code>const</code> 变量在运行时<strong>具有类型和内存分配</strong>，通常存储在内存中，但其值无法被修改。</li>
+<li>例如，在 C++ 中：<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_VALUE = <span class="hljs-number">100</span>;<br></code></pre></td></tr></table></figure>
+</li>
+<li>这样的定义创建了一个整数常量，不能在后续代码中修改 <code>MAX_VALUE</code> 的值。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_VALUE = <span class="hljs-number">100</span>;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">int</span> x = MAX_VALUE;<br>    <span class="hljs-comment">// 试图修改 MAX_VALUE，将导致编译错误</span><br>    <span class="hljs-comment">// MAX_VALUE = 200;</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x的值是: %d\n&quot;</span>, x);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在这个示例中，<code>MAX_VALUE</code> 被定义为整数常量 <code>100</code>，并且在 <code>main</code> 函数中将其赋值给变量 <code>x</code>。</p>
+<p>如果你尝试在后续代码中修改 <code>MAX_VALUE</code> 的值（例如，<code>MAX_VALUE = 200;</code>），编译器将报错，因为<code>MAX_VALUE</code> 被声明为<code>const</code>，这意味着它是不可修改的常量。</p>
+<p>所以，使用<code>const</code>关键字可以确保变量的值在后续代码中不会被修改。</p>
+<hr>
+<p><strong><code>define</code> 和<code>const</code> 的主要区别在于：</strong></p>
+<ul>
+<li><strong><code>define</code> 用于创建编译时常量，没有变量类型和内存分配，只是文本替换。</strong></li>
+<li><strong><code>const</code> 用于创建运行时常量，具有变量类型和内存分配，但其值无法被修改。</strong></li>
+</ul>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
   </entry>
   <entry>
     <title>C、C++预处理详解</title>
@@ -1251,47 +1295,60 @@ CS(NSS) 片选管脚</p>
       </tags>
   </entry>
   <entry>
-    <title>C语言学习相关</title>
-    <url>/posts/27662.html</url>
-    <content><![CDATA[<h2 id="函数递归">函数递归</h2>
+    <title>GMD09601-0.96OLED显示屏</title>
+    <url>/posts/24495.html</url>
+    <content><![CDATA[<h1>GMD09601-0.96OLED显示屏</h1>
 <blockquote>
-<p>函数递归，简单的理解就是，自己调用自己，直到遇到边界条件，停止递归</p>
+<p>驱动芯片：SSD1306</p>
+<p>支持接口：SPI/IIC</p>
+<p>分辨率：128*64</p>
 </blockquote>
-<p>比如我们想实现一个阶乘函数</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">int</span> n = <span class="hljs-number">5</span>;<span class="hljs-comment">//求n!  这里是5!</span><br><br><br><span class="hljs-comment">//不使用递归，一种可行的做法是这样</span><br><span class="hljs-type">int</span> ans = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>    ans *= i;<br>&#125;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d! = %d&quot;</span>, n, ans);<br><br><br><span class="hljs-comment">//使用递归</span><br><span class="hljs-type">int</span> _n(<span class="hljs-type">int</span> x) &#123;<br>	<span class="hljs-keyword">if</span> (x == <span class="hljs-number">0</span>)<span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">return</span> x * _n(x - <span class="hljs-number">1</span>);<br>&#125;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d! = %d&quot;</span>, n, _n(n));<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">对于 _n(5)，我们拆分一下它自己调用自己的过程↓</span><br><span class="hljs-comment">_n(5)</span><br><span class="hljs-comment"> 5 * _n(4)</span><br><span class="hljs-comment">	 4 * _n(3)</span><br><span class="hljs-comment">		 3 * _n(2)</span><br><span class="hljs-comment">			 2 * _n(1)</span><br><span class="hljs-comment">				 1 * _n(0)</span><br><span class="hljs-comment">					 1</span><br><span class="hljs-comment">达到边界，返回值为：5*4*3*2*1*1的   结果   (是，结果，不是这个计算式)</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
-<h2 id="define和const的区别">define和const的区别</h2>
-<h3 id="define：">define：</h3>
+<h2 id="接口定义">接口定义</h2>
 <ul>
-<li><code>define</code> 是一个预处理指令，通常在 C 和 C++ 这类编程语言中使用。</li>
-<li>它用于定义编译时常量，这意味着在编译程序之前就将其值固定下来。</li>
-<li><code>define</code> 通常用于创建符号常量（宏常量），例如：<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_VALUE 100</span><br></code></pre></td></tr></table></figure>
-</li>
-<li>这样的定义会在编译时进行文本替换，将所有出现 <code>MAX_VALUE</code> 的地方替换为 <code>100</code>，<strong>没有变量类型或内存分配</strong>。</li>
+<li>GND：电源地</li>
+<li>VDD：电源正（3.3V ~ 5V）</li>
+<li>SCK：时钟线</li>
+<li>SDA：数据线</li>
+<li>RES：复位线</li>
+<li>DC：数据/命令</li>
+<li>CS：片选</li>
 </ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_VALUE 100</span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> x = MAX_VALUE;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x的值是: %d\n&quot;</span>, x);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>在这个示例中，<code>MAX_VALUE</code> 被定义为 <code>100</code>，并且在 <code>main</code> 函数中将其赋值给变量 <code>x</code>。当编译此代码时，预处理器会将 <code>MAX_VALUE</code> 替换为 <code>100</code>，因此在编译后的代码中，<code>int x = MAX_VALUE;</code> 实际上变成了 <code>int x = 100;</code>。这样，编译后的程序中不再存在 <code>MAX_VALUE</code> 符号，而是直接包含了 <code>100</code> 的值。</p>
-<h3 id="const：">const：</h3>
-<ul>
-<li><code>const</code> 是一种变量修饰符，通常在多种编程语言中使用，包括 C++, C#, JavaScript 等。</li>
-<li>它用于创建不可变的量，也就是常量。</li>
-<li><code>const</code> 变量在运行时<strong>具有类型和内存分配</strong>，通常存储在内存中，但其值无法被修改。</li>
-<li>例如，在 C++ 中：<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_VALUE = <span class="hljs-number">100</span>;<br></code></pre></td></tr></table></figure>
-</li>
-<li>这样的定义创建了一个整数常量，不能在后续代码中修改 <code>MAX_VALUE</code> 的值。</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">const</span> <span class="hljs-type">int</span> MAX_VALUE = <span class="hljs-number">100</span>;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-type">int</span> x = MAX_VALUE;<br>    <span class="hljs-comment">// 试图修改 MAX_VALUE，将导致编译错误</span><br>    <span class="hljs-comment">// MAX_VALUE = 200;</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x的值是: %d\n&quot;</span>, x);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>在这个示例中，<code>MAX_VALUE</code> 被定义为整数常量 <code>100</code>，并且在 <code>main</code> 函数中将其赋值给变量 <code>x</code>。</p>
-<p>如果你尝试在后续代码中修改 <code>MAX_VALUE</code> 的值（例如，<code>MAX_VALUE = 200;</code>），编译器将报错，因为<code>MAX_VALUE</code> 被声明为<code>const</code>，这意味着它是不可修改的常量。</p>
-<p>所以，使用<code>const</code>关键字可以确保变量的值在后续代码中不会被修改。</p>
-<hr>
-<p><strong><code>define</code> 和<code>const</code> 的主要区别在于：</strong></p>
-<ul>
-<li><strong><code>define</code> 用于创建编译时常量，没有变量类型和内存分配，只是文本替换。</strong></li>
-<li><strong><code>const</code> 用于创建运行时常量，具有变量类型和内存分配，但其值无法被修改。</strong></li>
-</ul>
+<h1>对于096 OLED屏幕接线</h1>
+<h2 id="F207">F207</h2>
+<blockquote>
+<p>GND 电源地<br>
+VCC 电源正（3.3～5V）<br>
+D0(SCL) SCK管脚<br>
+D1(SDA) MOSI管脚<br>
+RES(RST) 用来复位（低电平复位）<br>
+DC(D/C) 数据和命令控制管脚 1表示数据 0表示命令<br>
+CS(NSS) 片选管脚</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">GND	-&gt;	GND<br>VCC	-&gt;	3V3<br>D0	-&gt;	PA5<br>D1	-&gt;	PA7<br>RES	-&gt;	PA4<br>DC	-&gt;	PA6<br>CS	-&gt;	NONE<br></code></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>C++</category>
+        <category>STM32</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Linux普通用户不能使用TAB键、上下键</title>
+    <url>/posts/40823.html</url>
+    <content><![CDATA[<h3 id="出发点">出发点</h3>
+<blockquote>
+<p>通过shell远程连接linux的时候发现tab键命令不能补全<br>
+结合ubuntu,因默认ubuntu创建的普通帐号，默认shell为<code>/bin/sh</code>，而这不支持tab等键的，所以将「指定用户」帐号的shell改为<code>/bin/bash</code>就可以</p>
+</blockquote>
+<h3 id="操作">操作</h3>
+<blockquote>
+<p>1.查看当前的shell：<br>
+<code># echo $SHELL</code><br>
+<code>/bin/sh</code><br>
+2.修改shell为<code>/bin/bash</code>：<br>
+(切换到root用户执行) <code># usermod -s /bin/bash 用户名</code></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
       </categories>
   </entry>
   <entry>
@@ -1396,42 +1453,6 @@ CS(NSS) 片选管脚</p>
 ]]></content>
       <categories>
         <category>C/C++</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>GMD09601-0.96OLED显示屏</title>
-    <url>/posts/24495.html</url>
-    <content><![CDATA[<h1>GMD09601-0.96OLED显示屏</h1>
-<blockquote>
-<p>驱动芯片：SSD1306</p>
-<p>支持接口：SPI/IIC</p>
-<p>分辨率：128*64</p>
-</blockquote>
-<h2 id="接口定义">接口定义</h2>
-<ul>
-<li>GND：电源地</li>
-<li>VDD：电源正（3.3V ~ 5V）</li>
-<li>SCK：时钟线</li>
-<li>SDA：数据线</li>
-<li>RES：复位线</li>
-<li>DC：数据/命令</li>
-<li>CS：片选</li>
-</ul>
-<h1>对于096 OLED屏幕接线</h1>
-<h2 id="F207">F207</h2>
-<blockquote>
-<p>GND 电源地<br>
-VCC 电源正（3.3～5V）<br>
-D0(SCL) SCK管脚<br>
-D1(SDA) MOSI管脚<br>
-RES(RST) 用来复位（低电平复位）<br>
-DC(D/C) 数据和命令控制管脚 1表示数据 0表示命令<br>
-CS(NSS) 片选管脚</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">GND	-&gt;	GND<br>VCC	-&gt;	3V3<br>D0	-&gt;	PA5<br>D1	-&gt;	PA7<br>RES	-&gt;	PA4<br>DC	-&gt;	PA6<br>CS	-&gt;	NONE<br></code></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>STM32</category>
       </categories>
   </entry>
   <entry>
@@ -2052,6 +2073,47 @@ CS(NSS) 片选管脚</p>
       </categories>
   </entry>
   <entry>
+    <title>NOIonline</title>
+    <url>/posts/34336.html</url>
+    <content><![CDATA[<h2 id="愤怒的小-N（angry）-CCF-NOI-Online-能力测试-提高组-2021第一题">愤怒的小 N（angry）-	CCF NOI Online 能力测试 提高组 2021第一题</h2>
+<p><strong>【题目描述】</strong><br>
+极度愤怒的小 N 通关了一款游戏来泄愤。<br>
+这款游戏共有 n 关，分别为第 0 关、第 1 关、第 2 关、···、第 n−1 关。这些关卡中有一些是普通关卡，另一些则是奖励关卡。 这款游戏中普通关卡与奖励关卡的分布比较特殊。如果用字符 a 表示普通关卡，用 字符 b 表示奖励关卡，那么第 0 关、第 1 关、第 2 关、···、第 n−1 关依次排列形成 的字符串是一个无穷字符串 s 的前缀，且 s 可以按照如下方式构造：</p>
+<blockquote>
+<ol>
+<li>初始时 s 为包含单个字符 a 的字符串。</li>
+<li>将 s 的每个字符 a 替换成字符 b，每个字符 b 替换成字符 a 得到字符串 t，然后 将 t 拼接到 s 后。</li>
+<li>不断执行 2. 得到的字符串就是最终的 s。</li>
+</ol>
+</blockquote>
+<p>可以发现 s = abbabaabbaababba···，所以这款游戏的第 0 关是普通关卡，第 1 关 是奖励关卡，第 2 关是奖励关卡，第 3 关是普通关卡，以此类推。 通过游戏的第 i 关可以得到 f(i) 分，其中 f(x) = a0 + a1x + a2x2 +···+ ak−1xk−1 是一个固定的 k−1 次多项式。 小 N 通关时一气之下通过了所有奖励关卡而忽略了所有普通关卡，然后就把游戏 卸载了。现在回想起来，他想要知道他在卸载游戏前的总得分对 10⁹ + 7 取模后的结果。<br>
+<strong>【输入格式】</strong> 从文件 <a href="http://angry.in">angry.in</a> 中读入数据。 第一行一个正整数 n，表示游戏的关卡数目。为方便，n 以二进制表示给出。 第二行一个正整数 k，表示多项式的次数加一。 第三行 k 个非负整数，分别为 a0,a1,a2,…,ak−1，表示多项式的各项系数。<br>
+<strong>【输出格式】</strong> 输出到文件 angry.out 中。 一行一个非负整数，表示小 N 卸载游戏前的总得分对 109 + 7 取模后的结果。<br>
+<strong>【样例 1 输入】</strong><br>
+1 1000 2 3 3 3 2 1<br>
+<strong>【样例 1 输出】</strong><br>
+1 110<br>
+<strong>【样例 1 解释】</strong><br>
+这款游戏共有 8 关，通关第 i 关可以得到 (3 + 2i + i2) 分。第 1,2,4,7 关为奖励关， 小 N 通过这几关分别得到了 6,11,27,66 分，共 110 分。<br>
+<strong>【样例 2 输入】</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">11111100101 <br>4<br>2 0 2 1<br></code></pre></td></tr></table></figure>
+<p><strong>【样例 2 输出】</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">143901603<br></code></pre></td></tr></table></figure>
+<p><strong>【样例 3 输入】</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">1001011001101001 <br>16<br>1 0 0 1 0 1 1 0 0 1 1 0 1 0 0 1<br></code></pre></td></tr></table></figure>
+<p><strong>【样例 3 输出】</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">184740992<br></code></pre></td></tr></table></figure>
+<p><strong>【数据范围与提示】</strong> 对于所有测试点：0 ≤log₂n &lt; 5×10⁵，1 ≤ k ≤ 500，0 ≤ ai &lt; 10⁹ + 7，a的第k-1项≠ 0。</p>
+<hr>
+<h3 id="我的代码">我的代码</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> RLL register long long</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LL long long</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> VALUE 1000000007</span><br><br><span class="hljs-type">int</span> n;<br><span class="hljs-type">int</span> x[<span class="hljs-number">512</span>],k;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getn</span><span class="hljs-params">(LL num)</span></span>&#123;<br>	<span class="hljs-keyword">return</span> (num)?<span class="hljs-number">1</span>+<span class="hljs-built_in">getn</span>(num/<span class="hljs-number">10</span>):<span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">BtoD</span><span class="hljs-params">(LL num)</span></span>&#123;<br>	<span class="hljs-type">int</span> dec=<span class="hljs-number">0</span>,i=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span>(num)&#123;<br>		dec+=(num%<span class="hljs-number">10</span>)*(<span class="hljs-number">1</span>&lt;&lt;i++);<br>		num/=<span class="hljs-number">10</span>;<br>	&#125;<br>	<span class="hljs-keyword">return</span> dec;<br>&#125;<br><br><span class="hljs-comment">//这一一般的求幂（的模）</span><br><span class="hljs-function">LL <span class="hljs-title">normalExponentiation</span><span class="hljs-params">(<span class="hljs-type">int</span> base,<span class="hljs-type">int</span> power)</span></span>&#123;<br>    LL res=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=power;i++)&#123;<br>        res*=base;<br>        res%=VALUE;<br>    &#125;<br>    <span class="hljs-keyword">return</span> res%VALUE;<br>&#125;<br><span class="hljs-comment">//老快了</span><br><span class="hljs-function">LL <span class="hljs-title">fastExponentiation</span><span class="hljs-params">(LL base,LL power)</span> </span>&#123;<br>    LL res = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span> (power &gt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span> (power &amp; <span class="hljs-number">1</span>) &#123;<span class="hljs-comment">//此处等价于if(power%2==1)</span><br>            res = res * base % VALUE;<br>        &#125;<br>        power &gt;&gt;= <span class="hljs-number">1</span>;<span class="hljs-comment">//此处等价于power=power/2</span><br>        base = (base * base) % VALUE;<br>    &#125;<br>    <span class="hljs-keyword">return</span> res;<br>&#125;<br><br><span class="hljs-function">LL <span class="hljs-title">getScore</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span></span>&#123;<br>	<span class="hljs-comment">//第i个关卡</span><br>	LL res=<span class="hljs-number">0</span>,power;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> l=<span class="hljs-number">0</span>;l&lt;k;l++)&#123;<br>		power=x[l];<br>		<span class="hljs-keyword">if</span>(x[l])<br>			res+=<span class="hljs-built_in">fastExponentiation</span>(i,l);<span class="hljs-comment">//比normalExponentiation快了好多好多好多好多 </span><br>	&#125;<br>	<span class="hljs-keyword">return</span> res;<br>&#125;<br><br><span class="hljs-function">string <span class="hljs-title">mades</span><span class="hljs-params">(string s)</span></span>&#123;<br>	string news=s;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;s.<span class="hljs-built_in">size</span>();j++)<br>			news+=(s[j]==<span class="hljs-string">&#x27;a&#x27;</span>)?<span class="hljs-string">&quot;b&quot;</span>:<span class="hljs-string">&quot;a&quot;</span>;<br>		s=news;<br>	&#125;<br>	<span class="hljs-keyword">return</span> news;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	LL num;<br>	cin&gt;&gt;num&gt;&gt;k;<br>	n=<span class="hljs-built_in">getn</span>(num);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;k;i++)cin&gt;&gt;x[i];<br>	string s=<span class="hljs-built_in">mades</span>(<span class="hljs-string">&quot;a&quot;</span>);<br>	RLL ScoreSum=<span class="hljs-number">0</span>;<br>	<span class="hljs-type">int</span> max=<span class="hljs-built_in">BtoD</span>(num);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;max;i++)<br>		<span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;b&#x27;</span>)&#123;<br>			ScoreSum+=<span class="hljs-built_in">getScore</span>(i);<br>		&#125;<br>	cout&lt;&lt;<span class="hljs-string">&quot;SUM:&quot;</span>&lt;&lt;ScoreSum%VALUE;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>这里的<em>fastExponentiation</em>其实有更好的方法，但是没从本子那边拿到（我自己也想不出来😥）</strong></p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
     <title>C语言实现波士顿房价预测</title>
     <url>/posts/37594.html</url>
     <content><![CDATA[<p>波士顿房价预测是一个经典的机器学习任务，类似于程序员世界的“Hello World”。和大家对房价的普遍认知相同，波士顿地区的房价受诸多因素影响。该数据集统计了13种可能影响房价的因素和该类型房屋的均价，期望构建一个基于13个因素进行房价预测的模型，如 下图所示。</p>
@@ -2163,27 +2225,6 @@ $$</p>
       </tags>
   </entry>
   <entry>
-    <title>Linux普通用户不能使用TAB键、上下键</title>
-    <url>/posts/40823.html</url>
-    <content><![CDATA[<h3 id="出发点">出发点</h3>
-<blockquote>
-<p>通过shell远程连接linux的时候发现tab键命令不能补全<br>
-结合ubuntu,因默认ubuntu创建的普通帐号，默认shell为<code>/bin/sh</code>，而这不支持tab等键的，所以将「指定用户」帐号的shell改为<code>/bin/bash</code>就可以</p>
-</blockquote>
-<h3 id="操作">操作</h3>
-<blockquote>
-<p>1.查看当前的shell：<br>
-<code># echo $SHELL</code><br>
-<code>/bin/sh</code><br>
-2.修改shell为<code>/bin/bash</code>：<br>
-(切换到root用户执行) <code># usermod -s /bin/bash 用户名</code></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>PaddleDetection</title>
     <url>/posts/5959.html</url>
     <content><![CDATA[<blockquote>
@@ -2224,47 +2265,6 @@ $$</p>
       <tags>
         <tag>Python</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>NOIonline</title>
-    <url>/posts/34336.html</url>
-    <content><![CDATA[<h2 id="愤怒的小-N（angry）-CCF-NOI-Online-能力测试-提高组-2021第一题">愤怒的小 N（angry）-	CCF NOI Online 能力测试 提高组 2021第一题</h2>
-<p><strong>【题目描述】</strong><br>
-极度愤怒的小 N 通关了一款游戏来泄愤。<br>
-这款游戏共有 n 关，分别为第 0 关、第 1 关、第 2 关、···、第 n−1 关。这些关卡中有一些是普通关卡，另一些则是奖励关卡。 这款游戏中普通关卡与奖励关卡的分布比较特殊。如果用字符 a 表示普通关卡，用 字符 b 表示奖励关卡，那么第 0 关、第 1 关、第 2 关、···、第 n−1 关依次排列形成 的字符串是一个无穷字符串 s 的前缀，且 s 可以按照如下方式构造：</p>
-<blockquote>
-<ol>
-<li>初始时 s 为包含单个字符 a 的字符串。</li>
-<li>将 s 的每个字符 a 替换成字符 b，每个字符 b 替换成字符 a 得到字符串 t，然后 将 t 拼接到 s 后。</li>
-<li>不断执行 2. 得到的字符串就是最终的 s。</li>
-</ol>
-</blockquote>
-<p>可以发现 s = abbabaabbaababba···，所以这款游戏的第 0 关是普通关卡，第 1 关 是奖励关卡，第 2 关是奖励关卡，第 3 关是普通关卡，以此类推。 通过游戏的第 i 关可以得到 f(i) 分，其中 f(x) = a0 + a1x + a2x2 +···+ ak−1xk−1 是一个固定的 k−1 次多项式。 小 N 通关时一气之下通过了所有奖励关卡而忽略了所有普通关卡，然后就把游戏 卸载了。现在回想起来，他想要知道他在卸载游戏前的总得分对 10⁹ + 7 取模后的结果。<br>
-<strong>【输入格式】</strong> 从文件 <a href="http://angry.in">angry.in</a> 中读入数据。 第一行一个正整数 n，表示游戏的关卡数目。为方便，n 以二进制表示给出。 第二行一个正整数 k，表示多项式的次数加一。 第三行 k 个非负整数，分别为 a0,a1,a2,…,ak−1，表示多项式的各项系数。<br>
-<strong>【输出格式】</strong> 输出到文件 angry.out 中。 一行一个非负整数，表示小 N 卸载游戏前的总得分对 109 + 7 取模后的结果。<br>
-<strong>【样例 1 输入】</strong><br>
-1 1000 2 3 3 3 2 1<br>
-<strong>【样例 1 输出】</strong><br>
-1 110<br>
-<strong>【样例 1 解释】</strong><br>
-这款游戏共有 8 关，通关第 i 关可以得到 (3 + 2i + i2) 分。第 1,2,4,7 关为奖励关， 小 N 通过这几关分别得到了 6,11,27,66 分，共 110 分。<br>
-<strong>【样例 2 输入】</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">11111100101 <br>4<br>2 0 2 1<br></code></pre></td></tr></table></figure>
-<p><strong>【样例 2 输出】</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">143901603<br></code></pre></td></tr></table></figure>
-<p><strong>【样例 3 输入】</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">1001011001101001 <br>16<br>1 0 0 1 0 1 1 0 0 1 1 0 1 0 0 1<br></code></pre></td></tr></table></figure>
-<p><strong>【样例 3 输出】</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">184740992<br></code></pre></td></tr></table></figure>
-<p><strong>【数据范围与提示】</strong> 对于所有测试点：0 ≤log₂n &lt; 5×10⁵，1 ≤ k ≤ 500，0 ≤ ai &lt; 10⁹ + 7，a的第k-1项≠ 0。</p>
-<hr>
-<h3 id="我的代码">我的代码</h3>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> RLL register long long</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> LL long long</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> VALUE 1000000007</span><br><br><span class="hljs-type">int</span> n;<br><span class="hljs-type">int</span> x[<span class="hljs-number">512</span>],k;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getn</span><span class="hljs-params">(LL num)</span></span>&#123;<br>	<span class="hljs-keyword">return</span> (num)?<span class="hljs-number">1</span>+<span class="hljs-built_in">getn</span>(num/<span class="hljs-number">10</span>):<span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">BtoD</span><span class="hljs-params">(LL num)</span></span>&#123;<br>	<span class="hljs-type">int</span> dec=<span class="hljs-number">0</span>,i=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span>(num)&#123;<br>		dec+=(num%<span class="hljs-number">10</span>)*(<span class="hljs-number">1</span>&lt;&lt;i++);<br>		num/=<span class="hljs-number">10</span>;<br>	&#125;<br>	<span class="hljs-keyword">return</span> dec;<br>&#125;<br><br><span class="hljs-comment">//这一一般的求幂（的模）</span><br><span class="hljs-function">LL <span class="hljs-title">normalExponentiation</span><span class="hljs-params">(<span class="hljs-type">int</span> base,<span class="hljs-type">int</span> power)</span></span>&#123;<br>    LL res=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=power;i++)&#123;<br>        res*=base;<br>        res%=VALUE;<br>    &#125;<br>    <span class="hljs-keyword">return</span> res%VALUE;<br>&#125;<br><span class="hljs-comment">//老快了</span><br><span class="hljs-function">LL <span class="hljs-title">fastExponentiation</span><span class="hljs-params">(LL base,LL power)</span> </span>&#123;<br>    LL res = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">while</span> (power &gt; <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">if</span> (power &amp; <span class="hljs-number">1</span>) &#123;<span class="hljs-comment">//此处等价于if(power%2==1)</span><br>            res = res * base % VALUE;<br>        &#125;<br>        power &gt;&gt;= <span class="hljs-number">1</span>;<span class="hljs-comment">//此处等价于power=power/2</span><br>        base = (base * base) % VALUE;<br>    &#125;<br>    <span class="hljs-keyword">return</span> res;<br>&#125;<br><br><span class="hljs-function">LL <span class="hljs-title">getScore</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span></span>&#123;<br>	<span class="hljs-comment">//第i个关卡</span><br>	LL res=<span class="hljs-number">0</span>,power;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> l=<span class="hljs-number">0</span>;l&lt;k;l++)&#123;<br>		power=x[l];<br>		<span class="hljs-keyword">if</span>(x[l])<br>			res+=<span class="hljs-built_in">fastExponentiation</span>(i,l);<span class="hljs-comment">//比normalExponentiation快了好多好多好多好多 </span><br>	&#125;<br>	<span class="hljs-keyword">return</span> res;<br>&#125;<br><br><span class="hljs-function">string <span class="hljs-title">mades</span><span class="hljs-params">(string s)</span></span>&#123;<br>	string news=s;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>		<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j=<span class="hljs-number">0</span>;j&lt;s.<span class="hljs-built_in">size</span>();j++)<br>			news+=(s[j]==<span class="hljs-string">&#x27;a&#x27;</span>)?<span class="hljs-string">&quot;b&quot;</span>:<span class="hljs-string">&quot;a&quot;</span>;<br>		s=news;<br>	&#125;<br>	<span class="hljs-keyword">return</span> news;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	LL num;<br>	cin&gt;&gt;num&gt;&gt;k;<br>	n=<span class="hljs-built_in">getn</span>(num);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;k;i++)cin&gt;&gt;x[i];<br>	string s=<span class="hljs-built_in">mades</span>(<span class="hljs-string">&quot;a&quot;</span>);<br>	RLL ScoreSum=<span class="hljs-number">0</span>;<br>	<span class="hljs-type">int</span> max=<span class="hljs-built_in">BtoD</span>(num);<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;max;i++)<br>		<span class="hljs-keyword">if</span>(s[i]==<span class="hljs-string">&#x27;b&#x27;</span>)&#123;<br>			ScoreSum+=<span class="hljs-built_in">getScore</span>(i);<br>		&#125;<br>	cout&lt;&lt;<span class="hljs-string">&quot;SUM:&quot;</span>&lt;&lt;ScoreSum%VALUE;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p><strong>这里的<em>fastExponentiation</em>其实有更好的方法，但是没从本子那边拿到（我自己也想不出来😥）</strong></p>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
   </entry>
   <entry>
     <title>Paddle环境搭建</title>
@@ -2628,6 +2628,25 @@ $$</p>
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/posts/16107.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start">Quick Start</h2>
+<h3 id="Create-a-new-post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>edgeboardFZ3A相关问题</title>
     <url>/posts/31267.html</url>
     <content><![CDATA[<h1>FZ3A</h1>
@@ -2671,78 +2690,6 @@ set(SERIAL_INCLUDE_DIR “/usr/include/serial”)</p>
       <tags>
         <tag>Linux</tag>
         <tag>edgeboard-FZ3A</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/posts/16107.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>yolo和paddle模型常见输出参数</title>
-    <url>/posts/40355.html</url>
-    <content><![CDATA[<blockquote>
-<p>爱来自ZZULI❤<a href="https://luoy-oss.github.io">drluo</a></p>
-</blockquote>
-<p><img src="/img/page/ZZULI.webp" alt=""></p>
-<hr>
-<p>原文链接：<a href="https://blog.csdn.net/changzengli/article/details/131012843">yolo和paddle模型常见输出参数解惑</a></p>
-<p>此文为本人方便查找手动转存记录，请支持原作者。</p>
-<hr>
-<h1>yolo和paddle模型常见输出参数</h1>
-<h3 id="第一种">第一种</h3>
-<ul>
-<li><strong>Concatoutput_dim_0</strong> ：变量，表示预测目标的数量，</li>
-<li><strong>7</strong>：表示每个目标的七个参数：<code>batch_id，x0，y0，x1，y1，cls_id，score</code></li>
-</ul>
-<p><img src="/img/page/model_output/output_type1.webp" alt=""></p>
-<h3 id="第二种">第二种</h3>
-<ul>
-<li><strong>85</strong>：每一行<code>85</code>个数值，<code>5</code>个center_x,center_y, width, height，score ，<code>80</code>个标签类别得分</li>
-<li><strong>25200</strong>：三个尺度上的预测框总和 ( 80∗80∗3 + 40∗40∗3 + 20∗20∗3 )，每个网格三个预测框，后续需要非极大值抑制NMS处理</li>
-<li><strong>1</strong>：没有批量预测推理，即每次输入推理一张图片</li>
-</ul>
-<p><img src="/img/page/model_output/output_type2.webp" alt=""></p>
-<h3 id="第三种">第三种</h3>
-<ul>
-<li><strong>num_dets</strong>：表示其批次中每个图像中的目标数</li>
-<li><strong>det_boxes</strong>：表示 topk(100) 目标的坐标信息 [x0,y0,x1,y1]</li>
-<li><strong>det_scores</strong>：表示每个 topk(100) 个对象的置信度分数</li>
-<li><strong>det_classes</strong>：表示每个 topk(100) 个对象的类别</li>
-</ul>
-<p><img src="/img/page/model_output/output_type3.webp" alt=""></p>
-<h3 id="第四种">第四种</h3>
-<p><img src="/img/page/model_output/output_type4.webp" alt=""></p>
-<h3 id="第五种">第五种</h3>
-<p><img src="/img/page/model_output/output_type5.webp" alt=""></p>
-<h3 id="第六种-paddlepaddle">第六种(paddlepaddle)</h3>
-<ul>
-<li><strong>DynamicDimension</strong> ：表示动态维度，一般是1</li>
-<li><strong>im_shape</strong>：图像经过resize后的大小，表示为H,W, DynamicDimension 表示batch维度</li>
-<li><strong>image</strong>：输入网络的图像，DynamicDimension 表示batch维度，如果输入图像大小为变长，则H,W为None</li>
-<li><strong>scale_factor</strong>：输入图像大小比真实图像大小，表示为<code>scale_y</code>, <code>scale_x</code></li>
-<li><strong>multiclass_nms3_0.tmp_0</strong>：bbox, NMS的输出，形状为<code>[N, 6]</code>, 其中N为预测框的个数，6为<code>[class_id, score, x1, y1, x2, y2]</code></li>
-<li><strong>multiclass_nms3_0.tmp_2</strong>：bbox_num, 每张图片对应预测框的个数，例如batch_size为2，输出为[N1, N2], 表示第一张图包含N1个预测框，第二张图包含N2个预测框，并且预测框的总个数和NMS输出的第一维N相同</li>
-</ul>
-<p><img src="/img/page/model_output/output_type6.webp" alt=""></p>
-]]></content>
-      <tags>
-        <tag>Paddle</tag>
-        <tag>yolo</tag>
       </tags>
   </entry>
   <entry>
@@ -2811,12 +2758,57 @@ set(SERIAL_INCLUDE_DIR “/usr/include/serial”)</p>
       </tags>
   </entry>
   <entry>
-    <title>一个特别的日子</title>
-    <url>/posts/21795.html</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>我</category>
-      </categories>
+    <title>yolo和paddle模型常见输出参数</title>
+    <url>/posts/40355.html</url>
+    <content><![CDATA[<blockquote>
+<p>爱来自ZZULI❤<a href="https://luoy-oss.github.io">drluo</a></p>
+</blockquote>
+<p><img src="/img/page/ZZULI.webp" alt=""></p>
+<hr>
+<p>原文链接：<a href="https://blog.csdn.net/changzengli/article/details/131012843">yolo和paddle模型常见输出参数解惑</a></p>
+<p>此文为本人方便查找手动转存记录，请支持原作者。</p>
+<hr>
+<h1>yolo和paddle模型常见输出参数</h1>
+<h3 id="第一种">第一种</h3>
+<ul>
+<li><strong>Concatoutput_dim_0</strong> ：变量，表示预测目标的数量，</li>
+<li><strong>7</strong>：表示每个目标的七个参数：<code>batch_id，x0，y0，x1，y1，cls_id，score</code></li>
+</ul>
+<p><img src="/img/page/model_output/output_type1.webp" alt=""></p>
+<h3 id="第二种">第二种</h3>
+<ul>
+<li><strong>85</strong>：每一行<code>85</code>个数值，<code>5</code>个center_x,center_y, width, height，score ，<code>80</code>个标签类别得分</li>
+<li><strong>25200</strong>：三个尺度上的预测框总和 ( 80∗80∗3 + 40∗40∗3 + 20∗20∗3 )，每个网格三个预测框，后续需要非极大值抑制NMS处理</li>
+<li><strong>1</strong>：没有批量预测推理，即每次输入推理一张图片</li>
+</ul>
+<p><img src="/img/page/model_output/output_type2.webp" alt=""></p>
+<h3 id="第三种">第三种</h3>
+<ul>
+<li><strong>num_dets</strong>：表示其批次中每个图像中的目标数</li>
+<li><strong>det_boxes</strong>：表示 topk(100) 目标的坐标信息 [x0,y0,x1,y1]</li>
+<li><strong>det_scores</strong>：表示每个 topk(100) 个对象的置信度分数</li>
+<li><strong>det_classes</strong>：表示每个 topk(100) 个对象的类别</li>
+</ul>
+<p><img src="/img/page/model_output/output_type3.webp" alt=""></p>
+<h3 id="第四种">第四种</h3>
+<p><img src="/img/page/model_output/output_type4.webp" alt=""></p>
+<h3 id="第五种">第五种</h3>
+<p><img src="/img/page/model_output/output_type5.webp" alt=""></p>
+<h3 id="第六种-paddlepaddle">第六种(paddlepaddle)</h3>
+<ul>
+<li><strong>DynamicDimension</strong> ：表示动态维度，一般是1</li>
+<li><strong>im_shape</strong>：图像经过resize后的大小，表示为H,W, DynamicDimension 表示batch维度</li>
+<li><strong>image</strong>：输入网络的图像，DynamicDimension 表示batch维度，如果输入图像大小为变长，则H,W为None</li>
+<li><strong>scale_factor</strong>：输入图像大小比真实图像大小，表示为<code>scale_y</code>, <code>scale_x</code></li>
+<li><strong>multiclass_nms3_0.tmp_0</strong>：bbox, NMS的输出，形状为<code>[N, 6]</code>, 其中N为预测框的个数，6为<code>[class_id, score, x1, y1, x2, y2]</code></li>
+<li><strong>multiclass_nms3_0.tmp_2</strong>：bbox_num, 每张图片对应预测框的个数，例如batch_size为2，输出为[N1, N2], 表示第一张图包含N1个预测框，第二张图包含N2个预测框，并且预测框的总个数和NMS输出的第一维N相同</li>
+</ul>
+<p><img src="/img/page/model_output/output_type6.webp" alt=""></p>
+]]></content>
+      <tags>
+        <tag>Paddle</tag>
+        <tag>yolo</tag>
+      </tags>
   </entry>
   <entry>
     <title>【LeetCode 1617】统计子树中城市之间最大距离</title>
@@ -2861,6 +2853,72 @@ $题目保证 (ui, vi) 所表示的边互不相同。$</p>
         <tag>树</tag>
         <tag>回溯</tag>
         <tag>枚举</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一个特别的日子</title>
+    <url>/posts/21795.html</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>我</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>二叉搜索树(BST)</title>
+    <url>/posts/45841.html</url>
+    <content><![CDATA[<p>[TOC]</p>
+<h1>性质</h1>
+<p>二叉搜索树本质上还是一棵二叉树，其满足以下性质（习惯性定义为）：</p>
+<ul>
+<li>非空<strong>左子树</strong>的所有<strong>键值小于其根结点</strong>的键值</li>
+<li>非空<strong>右子树</strong>的所有<strong>键值大于其根结点</strong>的键值</li>
+<li>左右子树都是二叉搜索树</li>
+</ul>
+<h2 id="基本函数">基本函数</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//从二叉搜索树BST中查找x，返回结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">Find</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br><br><span class="hljs-comment">//从二叉搜索树BST中查找最小元素的结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">FindMin</span><span class="hljs-params">(BinTree BST)</span></span>;<br><br><span class="hljs-comment">//从二叉搜索树BST中查找最大元素结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">FindMax</span><span class="hljs-params">(BinTree BST)</span></span>;<br><br><span class="hljs-comment">//向二叉搜索树BST插入值为x的结点</span><br><span class="hljs-function">BinTree <span class="hljs-title">Insert</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br><br><span class="hljs-comment">//向二叉搜索树BST删除值为x的结点</span><br><span class="hljs-function">BinTree <span class="hljs-title">Delete</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br></code></pre></td></tr></table></figure>
+<h2 id="Find">Find</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Find</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (!BST) <span class="hljs-keyword">return</span> <span class="hljs-literal">nullptr</span>;<br><br>	<span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>		<span class="hljs-built_in">Find</span>(x, BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>		<span class="hljs-built_in">Find</span>(x, BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-keyword">return</span> BST;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="FindMin">FindMin</h2>
+<p>最小元素一定在树的最左分支的结点</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::FindMin</span><span class="hljs-params">(BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;left)<span class="hljs-keyword">return</span> <span class="hljs-built_in">FindMin</span>(BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="FindMax">FindMax</h2>
+<p>最大元素一定在树的最右分支的结点</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::FindMax</span><span class="hljs-params">(BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;right)<span class="hljs-keyword">return</span> <span class="hljs-built_in">FindMin</span>(BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h2 id="Insert">Insert</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Insert</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>			<span class="hljs-comment">//向左子树</span><br>			BST-&gt;left = <span class="hljs-built_in">Insert</span>(x, BST-&gt;left);<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>			<span class="hljs-comment">//向右子树</span><br>			BST-&gt;right = <span class="hljs-built_in">Insert</span>(x, BST-&gt;right);<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-comment">//根即为当前数</span><br>			BST-&gt;cnt++;<br>		&#125;<br>	&#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-comment">//构造新节点用于存储</span><br>		BST = <span class="hljs-keyword">new</span> BiNode;<br>		BST-&gt;data = x;<br>		BST-&gt;left = BST-&gt;right = <span class="hljs-literal">nullptr</span>;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="Delete">Delete</h2>
+<p>需要考虑<strong>三种情况</strong></p>
+<ul>
+<li>
+<p>要删除的是<strong>叶结点</strong>：直接删除，再修改其父结点指针NULL</p>
+</li>
+<li>
+<p>要删除的结点<strong>只有一个&quot;孩子&quot;</strong>：将其<strong>父结点的指针</strong>指向要删除的&quot;孩子&quot;结点</p>
+</li>
+<li>
+<p>要删除的结点有<strong>左右两棵子树</strong>：用另一结点替代被删除的结点（<strong>右子树的最小元素</strong> 或 <strong>左子树的最大元素</strong>）----- 这样做的好处是：右子树的最小值和左子树的最大值<strong>一定不会有两个</strong>&quot;孩子&quot;的结点</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Delete</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	BiNode* tmp = <span class="hljs-literal">nullptr</span>;<br>	<span class="hljs-keyword">if</span> (!BST) &#123;<br>		cout &lt;&lt; <span class="hljs-string">&quot;未找到相应元素&quot;</span> &lt;&lt; endl;<br>	&#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>		BST-&gt;left = <span class="hljs-built_in">Delete</span>(x, BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>		BST-&gt;right = <span class="hljs-built_in">Delete</span>(x, BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">else</span>&#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;left &amp;&amp; BST-&gt;right) &#123;<br>			tmp = <span class="hljs-built_in">FindMax</span>(BST-&gt;left);<br><br>			BST-&gt;data = tmp-&gt;data;<br>			BST-&gt;left = <span class="hljs-built_in">Delete</span>(BST-&gt;data, BST-&gt;left);<br>            <br>            <span class="hljs-comment">/*这里也可以选择选取右子树最小值</span><br><span class="hljs-comment">            tmp = FindMin(BST-&gt;right);</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">			BST-&gt;data = tmp-&gt;data;</span><br><span class="hljs-comment">			BST-&gt;right = Delete(BST-&gt;data, BST-&gt;right);</span><br><span class="hljs-comment">            */</span><br><br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			tmp = BST;<br>			<span class="hljs-keyword">if</span> (!BST-&gt;left) &#123;<br>				BST = BST-&gt;left;<br>			&#125;<br>			<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!BST-&gt;right) &#123;<br>				BST = BST-&gt;right;<br>			&#125;<br><br>			<span class="hljs-keyword">delete</span> tmp;<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1>平衡二叉树(AVLTree)</h1>
+<ul>
+<li>给定结点数为n的平衡二叉树的最大高度为$log_2n$</li>
+</ul>
+<p>插入一个新结点后，如果树的平衡结构被破坏</p>
+<ul>
+<li>被破坏的是右侧结构：称这次插入为<strong>RR插入</strong> 应对这种不平衡的调整称为<strong>RR旋转（右旋）</strong></li>
+</ul>
+<p>↓插入NOV，Mar右侧结构被破坏，需要进行调整</p>
+<p>/!/[/]/(/img/page/tree/AVLRR.wepb)</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>树</tag>
+        <tag>二叉树</tag>
+        <tag>二叉搜索树</tag>
+        <tag>平衡二叉树</tag>
       </tags>
   </entry>
   <entry>
@@ -3058,64 +3116,6 @@ $$</p>
       </tags>
   </entry>
   <entry>
-    <title>二叉搜索树(BST)</title>
-    <url>/posts/45841.html</url>
-    <content><![CDATA[<p>[TOC]</p>
-<h1>性质</h1>
-<p>二叉搜索树本质上还是一棵二叉树，其满足以下性质（习惯性定义为）：</p>
-<ul>
-<li>非空<strong>左子树</strong>的所有<strong>键值小于其根结点</strong>的键值</li>
-<li>非空<strong>右子树</strong>的所有<strong>键值大于其根结点</strong>的键值</li>
-<li>左右子树都是二叉搜索树</li>
-</ul>
-<h2 id="基本函数">基本函数</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//从二叉搜索树BST中查找x，返回结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">Find</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br><br><span class="hljs-comment">//从二叉搜索树BST中查找最小元素的结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">FindMin</span><span class="hljs-params">(BinTree BST)</span></span>;<br><br><span class="hljs-comment">//从二叉搜索树BST中查找最大元素结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">FindMax</span><span class="hljs-params">(BinTree BST)</span></span>;<br><br><span class="hljs-comment">//向二叉搜索树BST插入值为x的结点</span><br><span class="hljs-function">BinTree <span class="hljs-title">Insert</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br><br><span class="hljs-comment">//向二叉搜索树BST删除值为x的结点</span><br><span class="hljs-function">BinTree <span class="hljs-title">Delete</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br></code></pre></td></tr></table></figure>
-<h2 id="Find">Find</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Find</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (!BST) <span class="hljs-keyword">return</span> <span class="hljs-literal">nullptr</span>;<br><br>	<span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>		<span class="hljs-built_in">Find</span>(x, BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>		<span class="hljs-built_in">Find</span>(x, BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-keyword">return</span> BST;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="FindMin">FindMin</h2>
-<p>最小元素一定在树的最左分支的结点</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::FindMin</span><span class="hljs-params">(BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;left)<span class="hljs-keyword">return</span> <span class="hljs-built_in">FindMin</span>(BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="FindMax">FindMax</h2>
-<p>最大元素一定在树的最右分支的结点</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::FindMax</span><span class="hljs-params">(BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;right)<span class="hljs-keyword">return</span> <span class="hljs-built_in">FindMin</span>(BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-<h2 id="Insert">Insert</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Insert</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>			<span class="hljs-comment">//向左子树</span><br>			BST-&gt;left = <span class="hljs-built_in">Insert</span>(x, BST-&gt;left);<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>			<span class="hljs-comment">//向右子树</span><br>			BST-&gt;right = <span class="hljs-built_in">Insert</span>(x, BST-&gt;right);<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-comment">//根即为当前数</span><br>			BST-&gt;cnt++;<br>		&#125;<br>	&#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-comment">//构造新节点用于存储</span><br>		BST = <span class="hljs-keyword">new</span> BiNode;<br>		BST-&gt;data = x;<br>		BST-&gt;left = BST-&gt;right = <span class="hljs-literal">nullptr</span>;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="Delete">Delete</h2>
-<p>需要考虑<strong>三种情况</strong></p>
-<ul>
-<li>
-<p>要删除的是<strong>叶结点</strong>：直接删除，再修改其父结点指针NULL</p>
-</li>
-<li>
-<p>要删除的结点<strong>只有一个&quot;孩子&quot;</strong>：将其<strong>父结点的指针</strong>指向要删除的&quot;孩子&quot;结点</p>
-</li>
-<li>
-<p>要删除的结点有<strong>左右两棵子树</strong>：用另一结点替代被删除的结点（<strong>右子树的最小元素</strong> 或 <strong>左子树的最大元素</strong>）----- 这样做的好处是：右子树的最小值和左子树的最大值<strong>一定不会有两个</strong>&quot;孩子&quot;的结点</p>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Delete</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	BiNode* tmp = <span class="hljs-literal">nullptr</span>;<br>	<span class="hljs-keyword">if</span> (!BST) &#123;<br>		cout &lt;&lt; <span class="hljs-string">&quot;未找到相应元素&quot;</span> &lt;&lt; endl;<br>	&#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>		BST-&gt;left = <span class="hljs-built_in">Delete</span>(x, BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>		BST-&gt;right = <span class="hljs-built_in">Delete</span>(x, BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">else</span>&#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;left &amp;&amp; BST-&gt;right) &#123;<br>			tmp = <span class="hljs-built_in">FindMax</span>(BST-&gt;left);<br><br>			BST-&gt;data = tmp-&gt;data;<br>			BST-&gt;left = <span class="hljs-built_in">Delete</span>(BST-&gt;data, BST-&gt;left);<br>            <br>            <span class="hljs-comment">/*这里也可以选择选取右子树最小值</span><br><span class="hljs-comment">            tmp = FindMin(BST-&gt;right);</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">			BST-&gt;data = tmp-&gt;data;</span><br><span class="hljs-comment">			BST-&gt;right = Delete(BST-&gt;data, BST-&gt;right);</span><br><span class="hljs-comment">            */</span><br><br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			tmp = BST;<br>			<span class="hljs-keyword">if</span> (!BST-&gt;left) &#123;<br>				BST = BST-&gt;left;<br>			&#125;<br>			<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!BST-&gt;right) &#123;<br>				BST = BST-&gt;right;<br>			&#125;<br><br>			<span class="hljs-keyword">delete</span> tmp;<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h1>平衡二叉树(AVLTree)</h1>
-<ul>
-<li>给定结点数为n的平衡二叉树的最大高度为$log_2n$</li>
-</ul>
-<p>插入一个新结点后，如果树的平衡结构被破坏</p>
-<ul>
-<li>被破坏的是右侧结构：称这次插入为<strong>RR插入</strong> 应对这种不平衡的调整称为<strong>RR旋转（右旋）</strong></li>
-</ul>
-<p>↓插入NOV，Mar右侧结构被破坏，需要进行调整</p>
-<p>/!/[/]/(/img/page/tree/AVLRR.wepb)</p>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>树</tag>
-        <tag>二叉树</tag>
-        <tag>二叉搜索树</tag>
-        <tag>平衡二叉树</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>二叉树的同构</title>
     <url>/posts/50176.html</url>
     <content><![CDATA[<h1>关于二叉树的同构</h1>
@@ -3167,32 +3167,6 @@ $$</p>
 <p>通常的遍历，结点在访问后便被丢弃</p>
 <p>要想做到层序的效果，我们需要在访问一个结点时，要注意存下其左右结点（注意判空）</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::LevelOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	BiNode* BQ[<span class="hljs-number">100</span>]; 	<span class="hljs-comment">//队列，用于存放结点</span><br>	BiNode* p;			<span class="hljs-comment">//取出的当前队列最前方结点</span><br>	<span class="hljs-type">int</span> l = <span class="hljs-number">0</span>, r = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">if</span>(B) BQ[r++] = B;	<span class="hljs-comment">//判空</span><br><br>	<span class="hljs-keyword">while</span> (l != r) &#123;	<span class="hljs-comment">//跳出循环的条件是队列为空（左右相遇即为空）</span><br>		p = BQ[l++];<br>		cout &lt;&lt; p-&gt;data &lt;&lt; endl;<br>		<span class="hljs-keyword">if</span> (p-&gt;left)BQ[r++] = p-&gt;left;		<span class="hljs-comment">//存入左结点</span><br>		<span class="hljs-keyword">if</span> (p-&gt;right)BQ[r++] = p-&gt;right;	<span class="hljs-comment">//存入右结点</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>树</tag>
-        <tag>二叉树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>二叉树的遍历序列转换</title>
-    <url>/posts/57450.html</url>
-    <content><![CDATA[<h1>前序中序转后序</h1>
-<h2 id="输入-1">输入#1</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">ABEDFCHG<br>CBADEFGH <br></code></pre></td></tr></table></figure>
-<h2 id="输出-1">输出#1</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">AEFDBHGC<br></code></pre></td></tr></table></figure>
-<p>针对二叉树的</p>
-<p>前序遍历，根-&gt;左-&gt;右</p>
-<p>中序遍历，左-&gt;根-&gt;右</p>
-<p>这两个的特性</p>
-<p>我们可以尝试凭借前序遍历的根结点（叶子结点也可以看错左右儿子为空的根）将中序遍历的左右根依次拆分成左右两块，针对左右两块再次递归操作</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">void</span> _find(string InOrderStr, string PreOrderStr)&#123;<br>	<span class="hljs-keyword">if</span> (PreOrderStr.<span class="hljs-built_in">empty</span>())<span class="hljs-keyword">return</span>;<span class="hljs-comment">//针对前序遍历序列（拆分出的序列的）的根结点访问结束</span><br>    <br>    <span class="hljs-type">char</span> root = PreOrderStr[<span class="hljs-number">0</span>];<br>    PreOrderStr.<span class="hljs-built_in">erase</span>(PreOrderStr.<span class="hljs-built_in">begin</span>());<span class="hljs-comment">//根结点取出，作为拆分标识</span><br>    <br>    <span class="hljs-type">int</span> rootidx = InOrderStr.<span class="hljs-built_in">find</span>(root);<br>    <br>    string leftIn = InOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>,rootidx);		<span class="hljs-comment">//中序左分块</span><br>    string leftPre = PreOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>,rootidx);		<span class="hljs-comment">//新前序，内容与中序 左 分块相同</span><br>    <br>    string rightIn = InOrderStr.<span class="hljs-built_in">substr</span>(rootidx + <span class="hljs-number">1</span>);	<span class="hljs-comment">//中序右分块</span><br>    string rightPre = PreOrderStr.<span class="hljs-built_in">substr</span>(rootidx);			<span class="hljs-comment">//新前序，内容与中序 右 分块相同</span><br>    <br>    _find(leftIn,leftPre);	<span class="hljs-comment">//左分块递归</span><br>	_find(rightIn,rightPre);<span class="hljs-comment">//右分块递归</span><br>    <br>    cout &lt;&lt; root;<br>&#125;<br></code></pre></td></tr></table></figure>
-<hr>
-<h1>后序中序转前序(和上方概念类似)</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++">stack&lt;<span class="hljs-type">char</span>&gt; st;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	string InOrderStr;<br>	string PreOrderStr;<br>	cin &gt;&gt; InOrderStr &gt;&gt; PreOrderStr;<br>	<br>	_find2(InOrderStr, PreOrderStr);<br>	<span class="hljs-keyword">while</span> (!st.<span class="hljs-built_in">empty</span>()) &#123;<br>		cout &lt;&lt; st.<span class="hljs-built_in">top</span>();<br>		st.<span class="hljs-built_in">pop</span>();<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> _find2(string InOrderStr, string PostOrderStr)&#123;<br>	<span class="hljs-keyword">if</span> (PostOrderStr.<span class="hljs-built_in">empty</span>())<span class="hljs-keyword">return</span>;<br>	<span class="hljs-type">char</span> root = PostOrderStr[PostOrderStr.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>];<br>	PostOrderStr.<span class="hljs-built_in">pop_back</span>();<br><br>	<span class="hljs-type">int</span> rootidx = InOrderStr.<span class="hljs-built_in">find</span>(root);<br><br>	string leftIn = InOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, rootidx);<br>	string leftPost = PostOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, rootidx);<br><br>	string rightIn = InOrderStr.<span class="hljs-built_in">substr</span>(rootidx + <span class="hljs-number">1</span>);<br>	string rightPost = PostOrderStr.<span class="hljs-built_in">substr</span>(rootidx);<br><br><br>	_find2(rightIn, rightPost);<br>	_find2(leftIn, leftPost);<br><br>	st.<span class="hljs-built_in">push</span>(root);<br>&#125;<br><br></code></pre></td></tr></table></figure>
-]]></content>
       <categories>
         <category>C++</category>
       </categories>
@@ -3265,6 +3239,32 @@ $$</p>
       </categories>
       <tags>
         <tag>栈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二叉树的遍历序列转换</title>
+    <url>/posts/57450.html</url>
+    <content><![CDATA[<h1>前序中序转后序</h1>
+<h2 id="输入-1">输入#1</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">ABEDFCHG<br>CBADEFGH <br></code></pre></td></tr></table></figure>
+<h2 id="输出-1">输出#1</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">AEFDBHGC<br></code></pre></td></tr></table></figure>
+<p>针对二叉树的</p>
+<p>前序遍历，根-&gt;左-&gt;右</p>
+<p>中序遍历，左-&gt;根-&gt;右</p>
+<p>这两个的特性</p>
+<p>我们可以尝试凭借前序遍历的根结点（叶子结点也可以看错左右儿子为空的根）将中序遍历的左右根依次拆分成左右两块，针对左右两块再次递归操作</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-type">void</span> _find(string InOrderStr, string PreOrderStr)&#123;<br>	<span class="hljs-keyword">if</span> (PreOrderStr.<span class="hljs-built_in">empty</span>())<span class="hljs-keyword">return</span>;<span class="hljs-comment">//针对前序遍历序列（拆分出的序列的）的根结点访问结束</span><br>    <br>    <span class="hljs-type">char</span> root = PreOrderStr[<span class="hljs-number">0</span>];<br>    PreOrderStr.<span class="hljs-built_in">erase</span>(PreOrderStr.<span class="hljs-built_in">begin</span>());<span class="hljs-comment">//根结点取出，作为拆分标识</span><br>    <br>    <span class="hljs-type">int</span> rootidx = InOrderStr.<span class="hljs-built_in">find</span>(root);<br>    <br>    string leftIn = InOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>,rootidx);		<span class="hljs-comment">//中序左分块</span><br>    string leftPre = PreOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>,rootidx);		<span class="hljs-comment">//新前序，内容与中序 左 分块相同</span><br>    <br>    string rightIn = InOrderStr.<span class="hljs-built_in">substr</span>(rootidx + <span class="hljs-number">1</span>);	<span class="hljs-comment">//中序右分块</span><br>    string rightPre = PreOrderStr.<span class="hljs-built_in">substr</span>(rootidx);			<span class="hljs-comment">//新前序，内容与中序 右 分块相同</span><br>    <br>    _find(leftIn,leftPre);	<span class="hljs-comment">//左分块递归</span><br>	_find(rightIn,rightPre);<span class="hljs-comment">//右分块递归</span><br>    <br>    cout &lt;&lt; root;<br>&#125;<br></code></pre></td></tr></table></figure>
+<hr>
+<h1>后序中序转前序(和上方概念类似)</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++">stack&lt;<span class="hljs-type">char</span>&gt; st;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	string InOrderStr;<br>	string PreOrderStr;<br>	cin &gt;&gt; InOrderStr &gt;&gt; PreOrderStr;<br>	<br>	_find2(InOrderStr, PreOrderStr);<br>	<span class="hljs-keyword">while</span> (!st.<span class="hljs-built_in">empty</span>()) &#123;<br>		cout &lt;&lt; st.<span class="hljs-built_in">top</span>();<br>		st.<span class="hljs-built_in">pop</span>();<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> _find2(string InOrderStr, string PostOrderStr)&#123;<br>	<span class="hljs-keyword">if</span> (PostOrderStr.<span class="hljs-built_in">empty</span>())<span class="hljs-keyword">return</span>;<br>	<span class="hljs-type">char</span> root = PostOrderStr[PostOrderStr.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>];<br>	PostOrderStr.<span class="hljs-built_in">pop_back</span>();<br><br>	<span class="hljs-type">int</span> rootidx = InOrderStr.<span class="hljs-built_in">find</span>(root);<br><br>	string leftIn = InOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, rootidx);<br>	string leftPost = PostOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, rootidx);<br><br>	string rightIn = InOrderStr.<span class="hljs-built_in">substr</span>(rootidx + <span class="hljs-number">1</span>);<br>	string rightPost = PostOrderStr.<span class="hljs-built_in">substr</span>(rootidx);<br><br><br>	_find2(rightIn, rightPost);<br>	_find2(leftIn, leftPost);<br><br>	st.<span class="hljs-built_in">push</span>(root);<br>&#125;<br><br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>树</tag>
+        <tag>二叉树</tag>
       </tags>
   </entry>
   <entry>
@@ -3792,25 +3792,6 @@ $$</p>
       </tags>
   </entry>
   <entry>
-    <title>树的表示</title>
-    <url>/posts/30396.html</url>
-    <content><![CDATA[<h1>链表实现</h1>
-<p><img src="/img/page/tree!%5Bimg%5D(file:///C:%5CUsers%5Cdrluo%5CAppData%5CRoaming%5CTencent%5CQQTempSys)A%5BY)I~%5D(ZC9Z%5B3Y)IDK7LK.gif" alt="">stDo.webp)</p>
-<p>图中右下角的样式不统一，若统一为3项，则有大量空间浪费，不妨如此这般</p>
-<p><img src="/img/page/tree/SonAndBro.webp" alt=""></p>
-<p><img src="/img/page/tree/SonAndBroEG.webp" alt=""></p>
-<p>左侧结点存储<strong>儿子</strong>，右侧结点存储<strong>兄弟</strong></p>
-<p>这样的表示方式为：<strong>二叉树</strong></p>
-<p><img src="/img/page/tree/Binarytree.webp" alt=""></p>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>树</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>百天冲鸭！</title>
     <url>/posts/53026.html</url>
     <content><![CDATA[<h1>高考百天，冲冲冲！</h1>
@@ -3828,6 +3809,25 @@ $$</p>
       <categories>
         <category>杂谈</category>
       </categories>
+  </entry>
+  <entry>
+    <title>树的表示</title>
+    <url>/posts/30396.html</url>
+    <content><![CDATA[<h1>链表实现</h1>
+<p><img src="/img/page/tree!%5Bimg%5D(file:///C:%5CUsers%5Cdrluo%5CAppData%5CRoaming%5CTencent%5CQQTempSys)A%5BY)I~%5D(ZC9Z%5B3Y)IDK7LK.gif" alt="">stDo.webp)</p>
+<p>图中右下角的样式不统一，若统一为3项，则有大量空间浪费，不妨如此这般</p>
+<p><img src="/img/page/tree/SonAndBro.webp" alt=""></p>
+<p><img src="/img/page/tree/SonAndBroEG.webp" alt=""></p>
+<p>左侧结点存储<strong>儿子</strong>，右侧结点存储<strong>兄弟</strong></p>
+<p>这样的表示方式为：<strong>二叉树</strong></p>
+<p><img src="/img/page/tree/Binarytree.webp" alt=""></p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>树</tag>
+      </tags>
   </entry>
   <entry>
     <title>模拟与高精度</title>
@@ -4391,7 +4391,7 @@ int main() &#123;
 <p><a href="https://blog.csdn.net/m0_66711291/article/details/131724443">Pixi + Tone 实现简单midi音频可视化_tone.js节拍器-CSDN博客</a></p>
 <p>代码实现效果：</p>
 <p><a href="https://www.drluo.top/friends/self/midivisualization/index.html">网页详情</a></p>
-<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;X-UA-Compatible&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;IE=edge&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Midi可视化<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><br>	<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./node_modules/Tone.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./node_modules/Midi.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./node_modules/pixi.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;file&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;file&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;play&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;播放&quot;</span>/&gt;</span><br>	<br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">	<span class="hljs-keyword">const</span> <span class="hljs-title class_">Application</span> = <span class="hljs-variable constant_">PIXI</span>.<span class="hljs-property">Application</span>;  <span class="hljs-comment">// 应用类，快速创建PIXI应用</span></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> <span class="hljs-title class_">Sprite</span> = <span class="hljs-variable constant_">PIXI</span>.<span class="hljs-property">Sprite</span>;            <span class="hljs-comment">// 精灵类</span></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> <span class="hljs-title class_">Graphics</span> = <span class="hljs-variable constant_">PIXI</span>.<span class="hljs-property">Graphics</span>;        <span class="hljs-comment">// 图形类</span></span><br><span class="language-javascript">    <span class="hljs-comment">// 创建应用程序并挂载</span></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> pixi = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Application</span>(&#123;</span><br><span class="language-javascript">      <span class="hljs-attr">width</span>: <span class="hljs-number">1000</span>,</span><br><span class="language-javascript">      <span class="hljs-attr">height</span>: <span class="hljs-number">600</span>,</span><br><span class="language-javascript">      <span class="hljs-attr">backgroundColor</span>: <span class="hljs-number">0x000000</span></span><br><span class="language-javascript">    &#125;)</span><br><span class="language-javascript">    <span class="hljs-comment">// pixi.view 代表画布，是一个canvas元素</span></span><br><span class="language-javascript">    <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(pixi.<span class="hljs-property">view</span>);</span><br><span class="language-javascript"></span><br><span class="language-javascript">	<span class="hljs-keyword">const</span> config = &#123;</span><br><span class="language-javascript">		  <span class="hljs-attr">speed</span>: <span class="hljs-number">1</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">leftColor</span>: <span class="hljs-number">0xFF69B4</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">rightColor</span>: <span class="hljs-number">0x00BFFF</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">color1</span>: <span class="hljs-number">0x66A9C9</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">color2</span>: <span class="hljs-number">0xF0C9CF</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">color3</span>: <span class="hljs-number">0xE2C17C</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">color4</span>: <span class="hljs-number">0x363433</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">color5</span>: <span class="hljs-number">0xFF4500</span>,</span><br><span class="language-javascript">		&#125;</span><br><span class="language-javascript">	<span class="hljs-comment">// 定义灯光类作为音符的可视化</span></span><br><span class="language-javascript">	<span class="hljs-keyword">class</span> <span class="hljs-title class_">Light</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Graphics</span> &#123;</span><br><span class="language-javascript">	  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">color, height, x</span>) &#123;</span><br><span class="language-javascript">		<span class="hljs-variable language_">super</span>();</span><br><span class="language-javascript">		<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">beginFill</span>(color);</span><br><span class="language-javascript">		<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">drawRect</span>(x, <span class="hljs-number">600</span>, <span class="hljs-number">10</span>, height);</span><br><span class="language-javascript">		<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">endFill</span>();</span><br><span class="language-javascript">		<span class="hljs-comment">// pixijs的定时器，可以实现每帧执行一次，并且十分稳定</span></span><br><span class="language-javascript">		pixi.<span class="hljs-property">ticker</span>.<span class="hljs-title function_">add</span>(<span class="hljs-function">() =&gt;</span> &#123;</span><br><span class="language-javascript">		  <span class="hljs-variable language_">this</span>.<span class="hljs-property">y</span> -= config.<span class="hljs-property">speed</span> * <span class="hljs-number">5</span>;</span><br><span class="language-javascript">		&#125;);</span><br><span class="language-javascript">	  &#125;</span><br><span class="language-javascript">	&#125;</span><br><span class="language-javascript">	<span class="hljs-comment">// pixi.stage 代表舞台，所有的物体必须挂载在舞台上才可以显示。</span></span><br><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#file&#x27;</span>);</span><br><span class="language-javascript">    input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;</span><br><span class="language-javascript">      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">target</span>.<span class="hljs-property">files</span>[<span class="hljs-number">0</span>]);</span><br><span class="language-javascript">	  <span class="hljs-title function_">parseMidi</span>(e.<span class="hljs-property">target</span>.<span class="hljs-property">files</span>[<span class="hljs-number">0</span>]);</span><br><span class="language-javascript">    &#125;)</span><br><span class="language-javascript">	</span><br><span class="language-javascript">    <span class="hljs-comment">// 读取midi文件</span></span><br><span class="language-javascript">    <span class="hljs-keyword">function</span> <span class="hljs-title function_">parseMidi</span>(<span class="hljs-params">file</span>) &#123;</span><br><span class="language-javascript">      <span class="hljs-comment">// 创建文件读取器</span></span><br><span class="language-javascript">      <span class="hljs-keyword">const</span> reader = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileReader</span>();</span><br><span class="language-javascript">      <span class="hljs-comment">// 读取文件</span></span><br><span class="language-javascript">      reader.<span class="hljs-title function_">readAsArrayBuffer</span>(file);</span><br><span class="language-javascript">      <span class="hljs-comment">// 文件读取完成后将文件转化为json对象</span></span><br><span class="language-javascript">      reader.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;load&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;</span><br><span class="language-javascript">        currentMidi = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Midi</span>(e.<span class="hljs-property">target</span>.<span class="hljs-property">result</span>);</span><br><span class="language-javascript">        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(currentMidi);</span><br><span class="language-javascript">      &#125;)</span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript">	</span><br><span class="language-javascript">	play.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;</span><br><span class="language-javascript">      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(currentMidi);</span><br><span class="language-javascript">      <span class="hljs-comment">// 如果未加载midi文件</span></span><br><span class="language-javascript">      <span class="hljs-keyword">if</span>(!currentMidi) &#123;</span><br><span class="language-javascript">        <span class="hljs-title function_">alert</span>(<span class="hljs-string">&#x27;未加载文件&#x27;</span>);</span><br><span class="language-javascript">        <span class="hljs-keyword">return</span>;</span><br><span class="language-javascript">      &#125;</span><br><span class="language-javascript"></span><br><span class="language-javascript">      <span class="hljs-keyword">const</span> now = <span class="hljs-title class_">Tone</span>.<span class="hljs-title function_">now</span>() + <span class="hljs-number">0.5</span>; <span class="hljs-comment">// 获取当前时间</span></span><br><span class="language-javascript">      <span class="hljs-keyword">const</span> synths = [];            <span class="hljs-comment">// 存储合成器</span></span><br><span class="language-javascript">      <span class="hljs-comment">// 遍历midi文件中的轨道</span></span><br><span class="language-javascript">      currentMidi.<span class="hljs-property">tracks</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">track</span> =&gt;</span> &#123;</span><br><span class="language-javascript">        <span class="hljs-comment">// 创建合成器作为音轨并连接至出口，音色使用Tonejs的默认音色</span></span><br><span class="language-javascript">        <span class="hljs-keyword">const</span> synth = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Tone</span>.<span class="hljs-title class_">PolySynth</span>(<span class="hljs-title class_">Tone</span>.<span class="hljs-property">Synth</span>, &#123;</span><br><span class="language-javascript">					<span class="hljs-attr">envelope</span>: &#123;</span><br><span class="language-javascript">            <span class="hljs-comment">// 声音的生命周期：按下按键 - 渐入 - 攻击阶段 - 衰减阶段 - 衰减结束 - 松开按键 - 声音消逝</span></span><br><span class="language-javascript">						<span class="hljs-attr">attack</span>: <span class="hljs-number">0.02</span>,     <span class="hljs-comment">// 渐入时间</span></span><br><span class="language-javascript">						<span class="hljs-attr">decay</span>: <span class="hljs-number">0.1</span>,       <span class="hljs-comment">// 攻击阶段（最大音量）持续时间</span></span><br><span class="language-javascript">						<span class="hljs-attr">sustain</span>: <span class="hljs-number">0.3</span>,     <span class="hljs-comment">// 衰减结束后的最小声音</span></span><br><span class="language-javascript">						<span class="hljs-attr">release</span>: <span class="hljs-number">1</span>,       <span class="hljs-comment">// 从松开按键到声音彻底消失所需的时间</span></span><br><span class="language-javascript">					&#125;,</span><br><span class="language-javascript">				&#125;).<span class="hljs-title function_">toDestination</span>();</span><br><span class="language-javascript">		<span class="hljs-comment">// 将合成器存储起来，为之后停止播放的功能留下接口。</span></span><br><span class="language-javascript">        synths.<span class="hljs-title function_">push</span>(synth);</span><br><span class="language-javascript"></span><br><span class="language-javascript">        <span class="hljs-comment">// 遍历轨道中的每个音符</span></span><br><span class="language-javascript">        track.<span class="hljs-property">notes</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">note</span> =&gt;</span> &#123;</span><br><span class="language-javascript">          <span class="hljs-comment">// 合成器发声</span></span><br><span class="language-javascript">          synth.<span class="hljs-title function_">triggerAttackRelease</span>(</span><br><span class="language-javascript">						note.<span class="hljs-property">name</span>,         <span class="hljs-comment">// 音名</span></span><br><span class="language-javascript">						note.<span class="hljs-property">duration</span>,     <span class="hljs-comment">// 持续时间</span></span><br><span class="language-javascript">						note.<span class="hljs-property">time</span> + now,   <span class="hljs-comment">// 开始发声时间</span></span><br><span class="language-javascript">						note.<span class="hljs-property">velocity</span>      <span class="hljs-comment">// 音量</span></span><br><span class="language-javascript">					);</span><br><span class="language-javascript">					</span><br><span class="language-javascript">			<span class="hljs-comment">// 在播放按钮的事件中，遍历音符时，创建音频调度，实现音画同步</span></span><br><span class="language-javascript">			<span class="hljs-title class_">Tone</span>.<span class="hljs-property">Transport</span>.<span class="hljs-title function_">schedule</span>(<span class="hljs-function">(<span class="hljs-params">time</span>) =&gt;</span> &#123;</span><br><span class="language-javascript">				<span class="hljs-comment">// 根据音调划分颜色，（其实应该根据轨道来划分的）</span></span><br><span class="language-javascript">				<span class="hljs-keyword">var</span> color = config.<span class="hljs-property">color1</span>;</span><br><span class="language-javascript">				<span class="hljs-keyword">if</span>(note.<span class="hljs-property">midi</span> &lt; <span class="hljs-number">15</span>) &#123;</span><br><span class="language-javascript">					color = config.<span class="hljs-property">color1</span>;</span><br><span class="language-javascript">				&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (note.<span class="hljs-property">midi</span> &lt; <span class="hljs-number">30</span>)&#123;					</span><br><span class="language-javascript">					color = config.<span class="hljs-property">color2</span>;</span><br><span class="language-javascript">				&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (note.<span class="hljs-property">midi</span> &lt; <span class="hljs-number">45</span>)&#123;</span><br><span class="language-javascript">					color = config.<span class="hljs-property">color3</span>;</span><br><span class="language-javascript">				&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (note.<span class="hljs-property">midi</span> &lt; <span class="hljs-number">60</span>)&#123;</span><br><span class="language-javascript">					color = config.<span class="hljs-property">color4</span>;</span><br><span class="language-javascript">				&#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="language-javascript">					color = config.<span class="hljs-property">color5</span>;</span><br><span class="language-javascript">				&#125;</span><br><span class="language-javascript">				color = <span class="hljs-string">&#x27;0x&#x27;</span>+ <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>().<span class="hljs-title function_">toString</span>(<span class="hljs-number">16</span>).<span class="hljs-title function_">substr</span>(<span class="hljs-number">2</span>,<span class="hljs-number">6</span>);</span><br><span class="language-javascript">				pixi.<span class="hljs-property">stage</span>.<span class="hljs-title function_">addChild</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Light</span>(color, note.<span class="hljs-property">duration</span> * <span class="hljs-number">150</span> * config.<span class="hljs-property">speed</span>, (note.<span class="hljs-property">midi</span> - <span class="hljs-number">20</span>) * <span class="hljs-number">10</span>))</span><br><span class="language-javascript">				</span><br><span class="language-javascript">			&#125;, note.<span class="hljs-property">time</span> + now);</span><br><span class="language-javascript"></span><br><span class="language-javascript">			<span class="hljs-comment">// 在代码最外层设置音频调度的模式，并启动音频调度。</span></span><br><span class="language-javascript">			<span class="hljs-title class_">Tone</span>.<span class="hljs-property">context</span>.<span class="hljs-property">latencyHint</span> = <span class="hljs-string">&#x27;fastest&#x27;</span>;</span><br><span class="language-javascript">			<span class="hljs-title class_">Tone</span>.<span class="hljs-property">Transport</span>.<span class="hljs-title function_">start</span>();</span><br><span class="language-javascript"></span><br><span class="language-javascript">        &#125;);</span><br><span class="language-javascript">      &#125;);</span><br><span class="language-javascript">    &#125;)</span><br><span class="language-javascript">	</span><br><span class="language-javascript">	</span><br><span class="language-javascript">	</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;X-UA-Compatible&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;IE=edge&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Midi可视化<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><br>	<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./js/Tone.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./js/Midi.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./js/pixi.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;file&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;file&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;button&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;play&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;播放&quot;</span>/&gt;</span><br>	<br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">	<span class="hljs-keyword">const</span> <span class="hljs-title class_">Application</span> = <span class="hljs-variable constant_">PIXI</span>.<span class="hljs-property">Application</span>;  <span class="hljs-comment">// 应用类，快速创建PIXI应用</span></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> <span class="hljs-title class_">Sprite</span> = <span class="hljs-variable constant_">PIXI</span>.<span class="hljs-property">Sprite</span>;            <span class="hljs-comment">// 精灵类</span></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> <span class="hljs-title class_">Graphics</span> = <span class="hljs-variable constant_">PIXI</span>.<span class="hljs-property">Graphics</span>;        <span class="hljs-comment">// 图形类</span></span><br><span class="language-javascript">    <span class="hljs-comment">// 创建应用程序并挂载</span></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> pixi = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Application</span>(&#123;</span><br><span class="language-javascript">      <span class="hljs-attr">width</span>: <span class="hljs-number">1000</span>,</span><br><span class="language-javascript">      <span class="hljs-attr">height</span>: <span class="hljs-number">600</span>,</span><br><span class="language-javascript">      <span class="hljs-attr">backgroundColor</span>: <span class="hljs-number">0x000000</span></span><br><span class="language-javascript">    &#125;)</span><br><span class="language-javascript">    <span class="hljs-comment">// pixi.view 代表画布，是一个canvas元素</span></span><br><span class="language-javascript">    <span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-title function_">appendChild</span>(pixi.<span class="hljs-property">view</span>);</span><br><span class="language-javascript"></span><br><span class="language-javascript">	<span class="hljs-keyword">const</span> config = &#123;</span><br><span class="language-javascript">		  <span class="hljs-attr">speed</span>: <span class="hljs-number">1</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">leftColor</span>: <span class="hljs-number">0xFF69B4</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">rightColor</span>: <span class="hljs-number">0x00BFFF</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">color1</span>: <span class="hljs-number">0x66A9C9</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">color2</span>: <span class="hljs-number">0xF0C9CF</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">color3</span>: <span class="hljs-number">0xE2C17C</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">color4</span>: <span class="hljs-number">0x363433</span>,</span><br><span class="language-javascript">		  <span class="hljs-attr">color5</span>: <span class="hljs-number">0xFF4500</span>,</span><br><span class="language-javascript">		&#125;</span><br><span class="language-javascript">	<span class="hljs-comment">// 定义灯光类作为音符的可视化</span></span><br><span class="language-javascript">	<span class="hljs-keyword">class</span> <span class="hljs-title class_">Light</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">Graphics</span> &#123;</span><br><span class="language-javascript">	  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">color, height, x</span>) &#123;</span><br><span class="language-javascript">		<span class="hljs-variable language_">super</span>();</span><br><span class="language-javascript">		<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">beginFill</span>(color);</span><br><span class="language-javascript">		<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">drawRect</span>(x, <span class="hljs-number">600</span>, <span class="hljs-number">10</span>, height);</span><br><span class="language-javascript">		<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">endFill</span>();</span><br><span class="language-javascript">		<span class="hljs-comment">// pixijs的定时器，可以实现每帧执行一次，并且十分稳定</span></span><br><span class="language-javascript">		pixi.<span class="hljs-property">ticker</span>.<span class="hljs-title function_">add</span>(<span class="hljs-function">() =&gt;</span> &#123;</span><br><span class="language-javascript">		  <span class="hljs-variable language_">this</span>.<span class="hljs-property">y</span> -= config.<span class="hljs-property">speed</span> * <span class="hljs-number">5</span>;</span><br><span class="language-javascript">		&#125;);</span><br><span class="language-javascript">	  &#125;</span><br><span class="language-javascript">	&#125;</span><br><span class="language-javascript">	<span class="hljs-comment">// pixi.stage 代表舞台，所有的物体必须挂载在舞台上才可以显示。</span></span><br><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> input = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;#file&#x27;</span>);</span><br><span class="language-javascript">    input.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;change&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;</span><br><span class="language-javascript">      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(e.<span class="hljs-property">target</span>.<span class="hljs-property">files</span>[<span class="hljs-number">0</span>]);</span><br><span class="language-javascript">	  <span class="hljs-title function_">parseMidi</span>(e.<span class="hljs-property">target</span>.<span class="hljs-property">files</span>[<span class="hljs-number">0</span>]);</span><br><span class="language-javascript">    &#125;)</span><br><span class="language-javascript">	</span><br><span class="language-javascript">    <span class="hljs-comment">// 读取midi文件</span></span><br><span class="language-javascript">    <span class="hljs-keyword">function</span> <span class="hljs-title function_">parseMidi</span>(<span class="hljs-params">file</span>) &#123;</span><br><span class="language-javascript">      <span class="hljs-comment">// 创建文件读取器</span></span><br><span class="language-javascript">      <span class="hljs-keyword">const</span> reader = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileReader</span>();</span><br><span class="language-javascript">      <span class="hljs-comment">// 读取文件</span></span><br><span class="language-javascript">      reader.<span class="hljs-title function_">readAsArrayBuffer</span>(file);</span><br><span class="language-javascript">      <span class="hljs-comment">// 文件读取完成后将文件转化为json对象</span></span><br><span class="language-javascript">      reader.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;load&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;</span><br><span class="language-javascript">        currentMidi = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Midi</span>(e.<span class="hljs-property">target</span>.<span class="hljs-property">result</span>);</span><br><span class="language-javascript">        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(currentMidi);</span><br><span class="language-javascript">      &#125;)</span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript">	</span><br><span class="language-javascript">	play.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> &#123;</span><br><span class="language-javascript">      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(currentMidi);</span><br><span class="language-javascript">      <span class="hljs-comment">// 如果未加载midi文件</span></span><br><span class="language-javascript">      <span class="hljs-keyword">if</span>(!currentMidi) &#123;</span><br><span class="language-javascript">        <span class="hljs-title function_">alert</span>(<span class="hljs-string">&#x27;未加载文件&#x27;</span>);</span><br><span class="language-javascript">        <span class="hljs-keyword">return</span>;</span><br><span class="language-javascript">      &#125;</span><br><span class="language-javascript"></span><br><span class="language-javascript">      <span class="hljs-keyword">const</span> now = <span class="hljs-title class_">Tone</span>.<span class="hljs-title function_">now</span>() + <span class="hljs-number">0.5</span>; <span class="hljs-comment">// 获取当前时间</span></span><br><span class="language-javascript">      <span class="hljs-keyword">const</span> synths = [];            <span class="hljs-comment">// 存储合成器</span></span><br><span class="language-javascript">      <span class="hljs-comment">// 遍历midi文件中的轨道</span></span><br><span class="language-javascript">      currentMidi.<span class="hljs-property">tracks</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">track</span> =&gt;</span> &#123;</span><br><span class="language-javascript">        <span class="hljs-comment">// 创建合成器作为音轨并连接至出口，音色使用Tonejs的默认音色</span></span><br><span class="language-javascript">        <span class="hljs-keyword">const</span> synth = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Tone</span>.<span class="hljs-title class_">PolySynth</span>(<span class="hljs-title class_">Tone</span>.<span class="hljs-property">Synth</span>, &#123;</span><br><span class="language-javascript">					<span class="hljs-attr">envelope</span>: &#123;</span><br><span class="language-javascript">						<span class="hljs-comment">// 声音的生命周期：按下按键 - 渐入 - 攻击阶段 - 衰减阶段 - 衰减结束 - 松开按键 - 声音消逝</span></span><br><span class="language-javascript">						</span><br><span class="language-javascript">						&lt;!-- <span class="hljs-comment">// 旧 --&gt;</span></span><br><span class="language-javascript">						&lt;!-- <span class="hljs-attr">attack</span>: <span class="hljs-number">0.02</span>,     <span class="hljs-comment">// 渐入时间 --&gt;</span></span><br><span class="language-javascript">						&lt;!-- <span class="hljs-attr">decay</span>: <span class="hljs-number">0.1</span>,       <span class="hljs-comment">// 攻击阶段（最大音量）持续时间 --&gt;</span></span><br><span class="language-javascript">						&lt;!-- <span class="hljs-attr">sustain</span>: <span class="hljs-number">0.3</span>,     <span class="hljs-comment">// 衰减结束后的最小声音 --&gt;</span></span><br><span class="language-javascript">						&lt;!-- <span class="hljs-attr">release</span>: <span class="hljs-number">1</span>,       <span class="hljs-comment">// 从松开按键到声音彻底消失所需的时间 --&gt;</span></span><br><span class="language-javascript">						</span><br><span class="language-javascript">						<span class="hljs-comment">// Piano</span></span><br><span class="language-javascript">						<span class="hljs-attr">attack</span>: <span class="hljs-number">0.005</span>,     <span class="hljs-comment">// 渐入时间</span></span><br><span class="language-javascript">						<span class="hljs-attr">decay</span>: <span class="hljs-number">1.5</span>,       <span class="hljs-comment">// 攻击阶段（最大音量）持续时间</span></span><br><span class="language-javascript">						<span class="hljs-attr">sustain</span>: <span class="hljs-number">0.05</span>,     <span class="hljs-comment">// 衰减结束后的最小声音</span></span><br><span class="language-javascript">						<span class="hljs-attr">release</span>: <span class="hljs-number">0.005</span>,       <span class="hljs-comment">// 从松开按键到声音彻底消失所需的时间</span></span><br><span class="language-javascript">					&#125;,</span><br><span class="language-javascript">				&#125;).<span class="hljs-title function_">toDestination</span>();</span><br><span class="language-javascript">		<span class="hljs-comment">// 将合成器存储起来，为之后停止播放的功能留下接口。</span></span><br><span class="language-javascript">        synths.<span class="hljs-title function_">push</span>(synth);</span><br><span class="language-javascript"></span><br><span class="language-javascript">        <span class="hljs-comment">// 遍历轨道中的每个音符</span></span><br><span class="language-javascript">        track.<span class="hljs-property">notes</span>.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">note</span> =&gt;</span> &#123;</span><br><span class="language-javascript">          <span class="hljs-comment">// 合成器发声</span></span><br><span class="language-javascript">		  note.<span class="hljs-property">velocity</span> = note.<span class="hljs-property">velocity</span>/<span class="hljs-number">10</span>;</span><br><span class="language-javascript">          synth.<span class="hljs-title function_">triggerAttackRelease</span>(</span><br><span class="language-javascript">						note.<span class="hljs-property">name</span>,         <span class="hljs-comment">// 音名</span></span><br><span class="language-javascript">						note.<span class="hljs-property">duration</span>,     <span class="hljs-comment">// 持续时间</span></span><br><span class="language-javascript">						note.<span class="hljs-property">time</span> + now,   <span class="hljs-comment">// 开始发声时间</span></span><br><span class="language-javascript">						note.<span class="hljs-property">velocity</span>      <span class="hljs-comment">// 音量</span></span><br><span class="language-javascript">					);</span><br><span class="language-javascript">					</span><br><span class="language-javascript">			<span class="hljs-comment">// 在播放按钮的事件中，遍历音符时，创建音频调度，实现音画同步</span></span><br><span class="language-javascript">			<span class="hljs-title class_">Tone</span>.<span class="hljs-property">Transport</span>.<span class="hljs-title function_">schedule</span>(<span class="hljs-function">(<span class="hljs-params">time</span>) =&gt;</span> &#123;</span><br><span class="language-javascript">				<span class="hljs-comment">// 根据音调划分颜色，（其实应该根据轨道来划分的）</span></span><br><span class="language-javascript">				<span class="hljs-keyword">var</span> color = config.<span class="hljs-property">color1</span>;</span><br><span class="language-javascript">				<span class="hljs-keyword">if</span>(note.<span class="hljs-property">midi</span> &lt; <span class="hljs-number">15</span>) &#123;</span><br><span class="language-javascript">					color = config.<span class="hljs-property">color1</span>;</span><br><span class="language-javascript">				&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (note.<span class="hljs-property">midi</span> &lt; <span class="hljs-number">30</span>)&#123;					</span><br><span class="language-javascript">					color = config.<span class="hljs-property">color2</span>;</span><br><span class="language-javascript">				&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (note.<span class="hljs-property">midi</span> &lt; <span class="hljs-number">45</span>)&#123;</span><br><span class="language-javascript">					color = config.<span class="hljs-property">color3</span>;</span><br><span class="language-javascript">				&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (note.<span class="hljs-property">midi</span> &lt; <span class="hljs-number">60</span>)&#123;</span><br><span class="language-javascript">					color = config.<span class="hljs-property">color4</span>;</span><br><span class="language-javascript">				&#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="language-javascript">					color = config.<span class="hljs-property">color5</span>;</span><br><span class="language-javascript">				&#125;</span><br><span class="language-javascript">				<span class="hljs-comment">//color = &#x27;0x&#x27;+ Math.random().toString(16).substr(2,6);</span></span><br><span class="language-javascript">				pixi.<span class="hljs-property">stage</span>.<span class="hljs-title function_">addChild</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Light</span>(color, note.<span class="hljs-property">duration</span> * <span class="hljs-number">150</span> * config.<span class="hljs-property">speed</span>, (note.<span class="hljs-property">midi</span> - <span class="hljs-number">20</span>) * <span class="hljs-number">10</span>))</span><br><span class="language-javascript">				</span><br><span class="language-javascript">			&#125;, note.<span class="hljs-property">time</span> + now);</span><br><span class="language-javascript"></span><br><span class="language-javascript">			<span class="hljs-comment">// 在代码最外层设置音频调度的模式，并启动音频调度。</span></span><br><span class="language-javascript">			<span class="hljs-title class_">Tone</span>.<span class="hljs-property">context</span>.<span class="hljs-property">latencyHint</span> = <span class="hljs-string">&#x27;fastest&#x27;</span>;</span><br><span class="language-javascript">			<span class="hljs-title class_">Tone</span>.<span class="hljs-property">Transport</span>.<span class="hljs-title function_">start</span>();</span><br><span class="language-javascript"></span><br><span class="language-javascript">        &#125;);</span><br><span class="language-javascript">      &#125;);</span><br><span class="language-javascript">    &#125;)</span><br><span class="language-javascript">	</span><br><span class="language-javascript">	</span><br><span class="language-javascript">	</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br><br></code></pre></td></tr></table></figure>
 <hr>
 <p>Tone.js文件，Midi.js文件，pixi.js文件：</p>
 <p><a href="https://www.drluo.top/friends/self/midivisualization/js/Tone.js">https://www.drluo.top/friends/self/midivisualization/js/Tone.js</a></p>
