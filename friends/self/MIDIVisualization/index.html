@@ -121,7 +121,7 @@
 				} else {
 					color = config.color5;
 				}
-				color = '0x'+ Math.random().toString(16).substr(2,6);
+				//color = '0x'+ Math.random().toString(16).substr(2,6);
 				pixi.stage.addChild(new Light(color, note.duration * 150 * config.speed, (note.midi - 20) * 10))
 				
 			}, note.time + now);
