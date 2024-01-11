@@ -86,11 +86,19 @@
         // 创建合成器作为音轨并连接至出口，音色使用Tonejs的默认音色
         const synth = new Tone.PolySynth(Tone.Synth, {
 					envelope: {
-            // 声音的生命周期：按下按键 - 渐入 - 攻击阶段 - 衰减阶段 - 衰减结束 - 松开按键 - 声音消逝
+						// 声音的生命周期：按下按键 - 渐入 - 攻击阶段 - 衰减阶段 - 衰减结束 - 松开按键 - 声音消逝
+						
+						// 旧
 						attack: 0.02,     // 渐入时间
 						decay: 0.1,       // 攻击阶段（最大音量）持续时间
 						sustain: 0.3,     // 衰减结束后的最小声音
 						release: 1,       // 从松开按键到声音彻底消失所需的时间
+						
+						<!-- // Piano -->
+						<!-- attack: 0.005,     // 渐入时间 -->
+						<!-- decay: 1.5,       // 攻击阶段（最大音量）持续时间 -->
+						<!-- sustain: 0.05,     // 衰减结束后的最小声音 -->
+						<!-- release: 0.005,       // 从松开按键到声音彻底消失所需的时间 -->
 					},
 				}).toDestination();
 		// 将合成器存储起来，为之后停止播放的功能留下接口。
@@ -99,6 +107,7 @@
         // 遍历轨道中的每个音符
         track.notes.forEach(note => {
           // 合成器发声
+		  note.velocity = note.velocity/10;
           synth.triggerAttackRelease(
 						note.name,         // 音名
 						note.duration,     // 持续时间
