@@ -21,14 +21,14 @@
     // 创建应用程序并挂载
     const pixi = new Application({
       width: 1000,
-      height: 600,
-      backgroundColor: 0x000000
+      height: 720,
+      backgroundColor: 0x363433
     })
     // pixi.view 代表画布，是一个canvas元素
     document.body.appendChild(pixi.view);
 
 	const config = {
-		  speed: 1,
+		  speed: 30,
 		  leftColor: 0xFF69B4,
 		  rightColor: 0x00BFFF,
 		  color1: 0x66A9C9,
@@ -42,11 +42,11 @@
 	  constructor(color, height, x) {
 		super();
 		this.beginFill(color);
-		this.drawRect(x, 600, 10, height);
+		this.drawRect(x, 720, 8, height);
 		this.endFill();
 		// pixijs的定时器，可以实现每帧执行一次，并且十分稳定
 		pixi.ticker.add(() => {
-		  this.y -= config.speed * 5;
+		  this.y -= config.speed / 120 * 2;
 		});
 	  }
 	}
@@ -72,6 +72,9 @@
     }
 	
 	play.addEventListener('click', (e) => {
+	  // 在代码最外层设置音频调度的模式，并启动音频调度。
+	  Tone.context.latencyHint = 'fastest';
+	  Tone.Transport.start();
       console.log(currentMidi);
       // 如果未加载midi文件
       if(!currentMidi) {
@@ -79,34 +82,66 @@
         return;
       }
 
-      const now = Tone.now() + 0.5; // 获取当前时间
-      const synths = [];            // 存储合成器
+	 
+	  const synths = [];            // 存储合成器
+	  const pianoMap = {
+		"A0": "./sound/piano/21.ogg","A#0": "./sound/piano/22.ogg","B0": "./sound/piano/23.ogg","C1": "./sound/piano/24.ogg","C#1": "./sound/piano/25.ogg","D1": "./sound/piano/26.ogg","D#1": "./sound/piano/27.ogg","E1": "./sound/piano/28.ogg","F1": "./sound/piano/29.ogg","F#1": "./sound/piano/30.ogg","G1": "./sound/piano/31.ogg","G#1": "./sound/piano/32.ogg","A1": "./sound/piano/33.ogg","A#1": "./sound/piano/34.ogg","B1": "./sound/piano/35.ogg","C2": "./sound/piano/36.ogg","C#2": "./sound/piano/37.ogg","D2": "./sound/piano/38.ogg","D#2": "./sound/piano/39.ogg","E2": "./sound/piano/40.ogg","F2": "./sound/piano/41.ogg","F#2": "./sound/piano/42.ogg","G2": "./sound/piano/43.ogg","G#2": "./sound/piano/44.ogg","A2": "./sound/piano/45.ogg","A#2": "./sound/piano/46.ogg","B2": "./sound/piano/47.ogg","C3": "./sound/piano/48.ogg","C#3": "./sound/piano/49.ogg","D3": "./sound/piano/50.ogg","D#3": "./sound/piano/51.ogg","E3": "./sound/piano/52.ogg","F3": "./sound/piano/53.ogg","F#3": "./sound/piano/54.ogg","G3": "./sound/piano/55.ogg","G#3": "./sound/piano/56.ogg","A3": "./sound/piano/57.ogg","A#3": "./sound/piano/58.ogg","B3": "./sound/piano/59.ogg","C4": "./sound/piano/60.ogg","C#4": "./sound/piano/61.ogg","D4": "./sound/piano/62.ogg","D#4": "./sound/piano/63.ogg","E4": "./sound/piano/64.ogg","F4": "./sound/piano/65.ogg","F#4": "./sound/piano/66.ogg","G4": "./sound/piano/67.ogg","G#4": "./sound/piano/68.ogg","A4": "./sound/piano/69.ogg","A#4": "./sound/piano/70.ogg","B4": "./sound/piano/71.ogg","C5": "./sound/piano/72.ogg","C#5": "./sound/piano/73.ogg","D5": "./sound/piano/74.ogg","D#5": "./sound/piano/75.ogg","E5": "./sound/piano/76.ogg","F5": "./sound/piano/77.ogg","F#5": "./sound/piano/78.ogg","G5": "./sound/piano/79.ogg","G#5": "./sound/piano/80.ogg","A5": "./sound/piano/81.ogg","A#5": "./sound/piano/82.ogg","B5": "./sound/piano/83.ogg","C6": "./sound/piano/84.ogg","C#6": "./sound/piano/85.ogg","D6": "./sound/piano/86.ogg","D#6": "./sound/piano/87.ogg","E6": "./sound/piano/88.ogg","F6": "./sound/piano/89.ogg","F#6": "./sound/piano/90.ogg","G6": "./sound/piano/91.ogg","G#6": "./sound/piano/92.ogg","A6": "./sound/piano/93.ogg","A#6": "./sound/piano/94.ogg","B6": "./sound/piano/95.ogg","C7": "./sound/piano/96.ogg","C#7": "./sound/piano/97.ogg","D7": "./sound/piano/98.ogg","D#7": "./sound/piano/99.ogg","E7": "./sound/piano/100.ogg","F7": "./sound/piano/101.ogg","F#7": "./sound/piano/102.ogg","G7": "./sound/piano/103.ogg","G#7": "./sound/piano/104.ogg","A7": "./sound/piano/105.ogg","A#7": "./sound/piano/106.ogg","B7": "./sound/piano/107.ogg","C8": "./sound/piano/108.ogg"
+	  };
+	  const harpMap = {
+		"A0": "./sound/harp/21.ogg","A#0": "./sound/harp/22.ogg","B0": "./sound/harp/23.ogg","C1": "./sound/harp/24.ogg","C#1": "./sound/harp/25.ogg","D1": "./sound/harp/26.ogg","D#1": "./sound/harp/27.ogg","E1": "./sound/harp/28.ogg","F1": "./sound/harp/29.ogg","F#1": "./sound/harp/30.ogg","G1": "./sound/harp/31.ogg","G#1": "./sound/harp/32.ogg","A1": "./sound/harp/33.ogg","A#1": "./sound/harp/34.ogg","B1": "./sound/harp/35.ogg","C2": "./sound/harp/36.ogg","C#2": "./sound/harp/37.ogg","D2": "./sound/harp/38.ogg","D#2": "./sound/harp/39.ogg","E2": "./sound/harp/40.ogg","F2": "./sound/harp/41.ogg","F#2": "./sound/harp/42.ogg","G2": "./sound/harp/43.ogg","G#2": "./sound/harp/44.ogg","A2": "./sound/harp/45.ogg","A#2": "./sound/harp/46.ogg","B2": "./sound/harp/47.ogg","C3": "./sound/harp/48.ogg","C#3": "./sound/harp/49.ogg","D3": "./sound/harp/50.ogg","D#3": "./sound/harp/51.ogg","E3": "./sound/harp/52.ogg","F3": "./sound/harp/53.ogg","F#3": "./sound/harp/54.ogg","G3": "./sound/harp/55.ogg","G#3": "./sound/harp/56.ogg","A3": "./sound/harp/57.ogg","A#3": "./sound/harp/58.ogg","B3": "./sound/harp/59.ogg","C4": "./sound/harp/60.ogg","C#4": "./sound/harp/61.ogg","D4": "./sound/harp/62.ogg","D#4": "./sound/harp/63.ogg","E4": "./sound/harp/64.ogg","F4": "./sound/harp/65.ogg","F#4": "./sound/harp/66.ogg","G4": "./sound/harp/67.ogg","G#4": "./sound/harp/68.ogg","A4": "./sound/harp/69.ogg","A#4": "./sound/harp/70.ogg","B4": "./sound/harp/71.ogg","C5": "./sound/harp/72.ogg","C#5": "./sound/harp/73.ogg","D5": "./sound/harp/74.ogg","D#5": "./sound/harp/75.ogg","E5": "./sound/harp/76.ogg","F5": "./sound/harp/77.ogg","F#5": "./sound/harp/78.ogg","G5": "./sound/harp/79.ogg","G#5": "./sound/harp/80.ogg","A5": "./sound/harp/81.ogg","A#5": "./sound/harp/82.ogg","B5": "./sound/harp/83.ogg","C6": "./sound/harp/84.ogg","C#6": "./sound/harp/85.ogg","D6": "./sound/harp/86.ogg","D#6": "./sound/harp/87.ogg","E6": "./sound/harp/88.ogg","F6": "./sound/harp/89.ogg","F#6": "./sound/harp/90.ogg","G6": "./sound/harp/91.ogg","G#6": "./sound/harp/92.ogg","A6": "./sound/harp/93.ogg","A#6": "./sound/harp/94.ogg","B6": "./sound/harp/95.ogg","C7": "./sound/harp/96.ogg","C#7": "./sound/harp/97.ogg","D7": "./sound/harp/98.ogg","D#7": "./sound/harp/99.ogg","E7": "./sound/harp/100.ogg","F7": "./sound/harp/101.ogg","F#7": "./sound/harp/102.ogg","G7": "./sound/harp/103.ogg","G#7": "./sound/harp/104.ogg","A7": "./sound/harp/105.ogg","A#7": "./sound/harp/106.ogg","B7": "./sound/harp/107.ogg","C8": "./sound/harp/108.ogg"
+	  };
+	  const synthPiano = new Tone.PolySynth(Tone.Sample, {
+			urls: pianoMap,
+			release: 1.5,  // 设置释放时间
+		}).toDestination();
+	  const synthGuitar = new Tone.PolySynth(Tone.Synth, {
+			envelope: {				
+				// Guitar
+				attack: 0.005,     // 渐入时间
+				decay: 1.,       // 攻击阶段（最大音量）持续时间
+				sustain: 0,     // 衰减结束后的最小声音
+				release: 2.5,       // 从松开按键到声音彻底消失所需的时间
+			},
+		}).toDestination();
+	  const synthBass = new Tone.PolySynth(Tone.Synth, {
+			envelope: {				
+				// Bass
+				attack: 0.01,     // 渐入时间
+				decay: 0.3,       // 攻击阶段（最大音量）持续时间
+				sustain: 0,     // 衰减结束后的最小声音
+				release: 2.5,     // 从松开按键到声音彻底消失所需的时间
+			},
+		}).toDestination();
+	  const synthOther = new Tone.PolySynth(Tone.Synth, {
+			urls: harpMap,
+			release: 1.5,  // 设置释放时间
+		}).toDestination();
       // 遍历midi文件中的轨道
-      currentMidi.tracks.forEach(track => {
-        // 创建合成器作为音轨并连接至出口，音色使用Tonejs的默认音色
-        const synth = new Tone.PolySynth(Tone.Synth, {
-					envelope: {
-						// 声音的生命周期：按下按键 - 渐入 - 攻击阶段 - 衰减阶段 - 衰减结束 - 松开按键 - 声音消逝
-						
-						<!-- // 旧 -->
-						<!-- attack: 0.02,     // 渐入时间 -->
-						<!-- decay: 0.1,       // 攻击阶段（最大音量）持续时间 -->
-						<!-- sustain: 0.3,     // 衰减结束后的最小声音 -->
-						<!-- release: 1,       // 从松开按键到声音彻底消失所需的时间 -->
-						
-						// Piano
-						attack: 0.005,     // 渐入时间
-						decay: 1.5,       // 攻击阶段（最大音量）持续时间
-						sustain: 0.05,     // 衰减结束后的最小声音
-						release: 0.005,       // 从松开按键到声音彻底消失所需的时间
-					},
-				}).toDestination();
+	  const now = Tone.now() + 0.5; // 获取当前时间
+	  currentMidi.tracks.forEach(track => {
+        // 创建合成器作为音轨并连接至出口，音色使用Tonejs的默认音
+		synth = synthPiano;
+		if(track.name.toLowerCase().includes("piano")){
+			synth =  synthPiano;
+			console.log("Set " + track.name + " Piano");
+		}else if (track.name.toLowerCase().includes("guitar")){
+			synth = synthGuitar;
+			console.log("Set " + track.name + " Guitar");
+		}else if (track.name.toLowerCase().includes("bass")){
+			synth = synthBass;
+			console.log("Set " + track.name + " Bass");
+		}else{
+			synth = synthOther;
+			console.log("Set " + track.name + " None");
+		}
+		//synth = synthPiano;
 		// 将合成器存储起来，为之后停止播放的功能留下接口。
         synths.push(synth);
-
+		
         // 遍历轨道中的每个音符
         track.notes.forEach(note => {
           // 合成器发声
+		  
 		  note.velocity = note.velocity/10;
           synth.triggerAttackRelease(
 						note.name,         // 音名
@@ -119,25 +154,30 @@
 			Tone.Transport.schedule((time) => {
 				// 根据音调划分颜色，（其实应该根据轨道来划分的）
 				var color = config.color1;
-				if(note.midi < 15) {
-					color = config.color1;
-				} else if (note.midi < 30){					
-					color = config.color2;
-				} else if (note.midi < 45){
-					color = config.color3;
-				} else if (note.midi < 60){
-					color = config.color4;
+				<!-- if(note.midi < 15) { -->
+					<!-- color = config.color1; -->
+				<!-- } else if (note.midi < 30){					 -->
+					<!-- color = config.color2; -->
+				<!-- } else if (note.midi < 45){ -->
+					<!-- color = config.color3; -->
+				<!-- } else if (note.midi < 60){ -->
+					<!-- color = config.color4; -->
+				<!-- } else { -->
+					<!-- color = config.color5; -->
+				<!-- } -->
+				
+				if(track.name.toLowerCase().includes("piano")) {
+					color = 0xE2C17C;//黄
+				} else if (track.name.toLowerCase().includes("guitar")){					
+					color = 0x66A9C9;//蓝
+				} else if (track.name.toLowerCase().includes("bass")){
+					color = 0xF0C9CF;//粉
 				} else {
-					color = config.color5;
+					color = 0xFF4500;
 				}
-				//color = '0x'+ Math.random().toString(16).substr(2,6);
-				pixi.stage.addChild(new Light(color, note.duration * 150 * config.speed, (note.midi - 20) * 10))
+				pixi.stage.addChild(new Light(color, note.duration * config.speed, (note.midi - 20) * 11.23))
 				
 			}, note.time + now);
-
-			// 在代码最外层设置音频调度的模式，并启动音频调度。
-			Tone.context.latencyHint = 'fastest';
-			Tone.Transport.start();
 
         });
       });
