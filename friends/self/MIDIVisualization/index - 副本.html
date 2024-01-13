@@ -39,14 +39,14 @@
 		}
 	// 定义灯光类作为音符的可视化
 	class Light extends Graphics {
-	  constructor(color, y, height, x) {
+	  constructor(color, height, x) {
 		super();
 		this.beginFill(color);
-		this.drawRect(x, y, 8, height);
+		this.drawRect(x, 720, 8, height);
 		this.endFill();
 		// pixijs的定时器，可以实现每帧执行一次，并且十分稳定
 		pixi.ticker.add(() => {
-		  this.y += config.speed / 120 * 2;
+		  this.y -= config.speed / 120 * 2;
 		});
 	  }
 	}
@@ -142,33 +142,49 @@
         track.notes.forEach(note => {
           // 合成器发声
 		  
-			note.velocity = note.velocity/10;
-			synth.triggerAttackRelease(
+		  note.velocity = note.velocity/10;
+          synth.triggerAttackRelease(
 						note.name,         // 音名
 						note.duration,     // 持续时间
 						note.time + now,   // 开始发声时间
 						note.velocity      // 音量
 					);
-			Tone.Transport.schedule((time) => {
-					// 根据音调划分颜色，（其实应该根据轨道来划分的）
-					var color = config.color1;
-
-					if(track.name.toLowerCase().includes("piano")) {
-						color = 0xE2C17C;//黄
-					} else if (track.name.toLowerCase().includes("guitar")){					
-						color = 0x66A9C9;//蓝
-					} else if (track.name.toLowerCase().includes("bass")){
-						color = 0xF0C9CF;//粉
-					} else {
-						color = 0xFF4500;
-					}
-					pixi.stage.addChild(new Light(color, 720 * (24 - note.time) / 24.0 - note.duration * config.speed, note.duration * config.speed, (note.midi - 20) * 11.23))
 					
-				}, 0);
+			// 在播放按钮的事件中，遍历音符时，创建音频调度，实现音画同步
+			Tone.Transport.schedule((time) => {
+				// 根据音调划分颜色，（其实应该根据轨道来划分的）
+				var color = config.color1;
+				<!-- if(note.midi < 15) { -->
+					<!-- color = config.color1; -->
+				<!-- } else if (note.midi < 30){					 -->
+					<!-- color = config.color2; -->
+				<!-- } else if (note.midi < 45){ -->
+					<!-- color = config.color3; -->
+				<!-- } else if (note.midi < 60){ -->
+					<!-- color = config.color4; -->
+				<!-- } else { -->
+					<!-- color = config.color5; -->
+				<!-- } -->
+				
+				if(track.name.toLowerCase().includes("piano")) {
+					color = 0xE2C17C;//黄
+				} else if (track.name.toLowerCase().includes("guitar")){					
+					color = 0x66A9C9;//蓝
+				} else if (track.name.toLowerCase().includes("bass")){
+					color = 0xF0C9CF;//粉
+				} else {
+					color = 0xFF4500;
+				}
+				pixi.stage.addChild(new Light(color, note.duration * config.speed, (note.midi - 20) * 11.23))
+				
+			}, note.time + now);
+
         });
       });
     })
-		
+	
+	
+	
 </script>
 </body>
 </html>
