@@ -68,17 +68,17 @@
     var t = {};
     t = core;
     const e = document.createElement("template");
-    e.innerHTML = '\n<style>\n:host {\n  display: inline-block;\n  width: 300px;\n  margin: 3px;\n  vertical-align: bottom;\n  font-family: sans-serif;\n  font-size: 14px;\n}\n\n:focus:not(.focus-visible) {\n  outline: none;\n}\n\n.controls {\n  width: inherit;\n  height: inherit;\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: row;\n  position: relative;\n  overflow: hidden;\n  align-items: center;\n  border-radius: 100px;\n  background: #f2f5f6;\n  padding: 0 0.25em;\n  user-select: none;\n}\n.controls > * {\n  margin: 0.8em 0.45em;\n}\n.controls input, .controls button {\n  cursor: pointer;\n}\n.controls input:disabled, .controls button:disabled {\n  cursor: inherit;\n}\n.controls button {\n  text-align: center;\n  background: rgba(204, 204, 204, 0);\n  border: none;\n  width: 32px;\n  height: 32px;\n  border-radius: 100%;\n  transition: background-color 0.25s ease 0s;\n  padding: 0;\n}\n.controls button:not(:disabled):hover {\n  background: rgba(204, 204, 204, 0.3);\n}\n.controls button:not(:disabled):active {\n  background: rgba(204, 204, 204, 0.6);\n}\n.controls button .icon {\n  display: none;\n}\n.controls button .icon, .controls button .icon svg {\n  vertical-align: middle;\n}\n.controls button .icon svg {\n  fill: currentColor;\n}\n.controls .seek-bar {\n  flex: 1;\n  min-width: 0;\n  margin-right: 1.1em;\n  background: transparent;\n}\n.controls .seek-bar::-moz-range-track {\n  background-color: #555;\n}\n.controls.stopped .play-icon, .controls.playing .stop-icon, .controls.error .error-icon {\n  display: inherit;\n}\n.controls.frozen > div, .controls > button:disabled .icon {\n  opacity: 0.5;\n}\n.controls .overlay {\n  z-index: 0;\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  margin: 0;\n  box-sizing: border-box;\n  display: none;\n  opacity: 1;\n}\n.controls.loading .loading-overlay {\n  display: block;\n  background: linear-gradient(110deg, #92929200 5%, #92929288 25%, #92929200 45%);\n  background-size: 250% 100%;\n  background-repeat: repeat-y;\n  animation: shimmer 1.5s linear infinite;\n}\n\n@keyframes shimmer {\n  0% {\n    background-position: 125% 0;\n  }\n  100% {\n    background-position: -200% 0;\n  }\n}\n</style>\n<div class="controls stopped frozen" part="control-panel">\n  <button class="play" part="play-button" disabled>\n    <span class="icon play-icon"><svg width="24" height="24" version="1.1" viewBox="0 0 6.35 6.35" xmlns="http://www.w3.org/2000/svg">\n <path d="m4.4979 3.175-2.1167 1.5875v-3.175z" stroke-width=".70201"/>\n</svg>\n</span>\n    <span class="icon stop-icon"><svg width="24" height="24" version="1.1" viewBox="0 0 6.35 6.35" xmlns="http://www.w3.org/2000/svg">\n <path d="m1.8521 1.5875v3.175h0.92604v-3.175zm1.7198 0v3.175h0.92604v-3.175z" stroke-width=".24153"/>\n</svg>\n</span>\n    <span class="icon error-icon"><svg width="24" height="24" version="1.1" viewBox="0 0 6.35 6.35" xmlns="http://www.w3.org/2000/svg">\n <path transform="scale(.26458)" d="m12 3.5a8.4993 8.4993 0 0 0-8.5 8.5 8.4993 8.4993 0 0 0 8.5 8.5 8.4993 8.4993 0 0 0 8.5-8.5 8.4993 8.4993 0 0 0-8.5-8.5zm-1.4062 3.5h3v6h-3v-6zm0 8h3v2h-3v-2z"/>\n</svg>\n</span>\n  </button>\n  <div part="time"><span class="current-time" part="current-time">0:00</span> / <span class="total-time" part="total-time">0:00</span></div>\n  <input type="range" min="0" max="0" value="0" step="any" class="seek-bar" part="seek-bar" disabled>\n  <div class="overlay loading-overlay" part="loading-overlay"></div>\n</div>\n';
+    e.innerHTML = '\n<style>\n:host {\n  display: inline-block;\n  width: 1080px;\n  margin: 3px;\n  vertical-align: bottom;\n  font-family: sans-serif;\n  font-size: 14px;\n}\n\n:focus:not(.focus-visible) {\n  outline: none;\n}\n\n.controls {\n  width: inherit;\n  height: inherit;\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: row;\n  position: relative;\n  overflow: hidden;\n  align-items: center;\n  border-radius: 100px;\n  background: #f2f5f6;\n  padding: 0 0.25em;\n  user-select: none;\n}\n.controls > * {\n  margin: 0.8em 0.45em;\n}\n.controls input, .controls button {\n  cursor: pointer;\n}\n.controls input:disabled, .controls button:disabled {\n  cursor: inherit;\n}\n.controls button {\n  text-align: center;\n  background: rgba(204, 204, 204, 0);\n  border: none;\n  width: 32px;\n  height: 32px;\n  border-radius: 100%;\n  transition: background-color 0.25s ease 0s;\n  padding: 0;\n}\n.controls button:not(:disabled):hover {\n  background: rgba(204, 204, 204, 0.3);\n}\n.controls button:not(:disabled):active {\n  background: rgba(204, 204, 204, 0.6);\n}\n.controls button .icon {\n  display: none;\n}\n.controls button .icon, .controls button .icon svg {\n  vertical-align: middle;\n}\n.controls button .icon svg {\n  fill: currentColor;\n}\n.controls .seek-bar {\n  flex: 1;\n  min-width: 0;\n  margin-right: 1.1em;\n  background: transparent;\n}\n.controls .seek-bar::-moz-range-track {\n  background-color: #555;\n}\n.controls.stopped .play-icon, .controls.playing .stop-icon, .controls.error .error-icon {\n  display: inherit;\n}\n.controls.frozen > div, .controls > button:disabled .icon {\n  opacity: 0.5;\n}\n.controls .overlay {\n  z-index: 0;\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  margin: 0;\n  box-sizing: border-box;\n  display: none;\n  opacity: 1;\n}\n.controls.loading .loading-overlay {\n  display: block;\n  background: linear-gradient(110deg, #92929200 5%, #92929288 25%, #92929200 45%);\n  background-size: 250% 100%;\n  background-repeat: repeat-y;\n  animation: shimmer 1.5s linear infinite;\n}\n\n@keyframes shimmer {\n  0% {\n    background-position: 125% 0;\n  }\n  100% {\n    background-position: -200% 0;\n  }\n}\n</style>\n<div class="controls stopped frozen" part="control-panel">\n  <button class="play" part="play-button" disabled>\n    <span class="icon play-icon"><svg width="24" height="24" version="1.1" viewBox="0 0 6.35 6.35" xmlns="http://www.w3.org/2000/svg">\n <path d="m4.4979 3.175-2.1167 1.5875v-3.175z" stroke-width=".70201"/>\n</svg>\n</span>\n    <span class="icon stop-icon"><svg width="24" height="24" version="1.1" viewBox="0 0 6.35 6.35" xmlns="http://www.w3.org/2000/svg">\n <path d="m1.8521 1.5875v3.175h0.92604v-3.175zm1.7198 0v3.175h0.92604v-3.175z" stroke-width=".24153"/>\n</svg>\n</span>\n    <span class="icon error-icon"><svg width="24" height="24" version="1.1" viewBox="0 0 6.35 6.35" xmlns="http://www.w3.org/2000/svg">\n <path transform="scale(.26458)" d="m12 3.5a8.4993 8.4993 0 0 0-8.5 8.5 8.4993 8.4993 0 0 0 8.5 8.5 8.4993 8.4993 0 0 0 8.5-8.5 8.4993 8.4993 0 0 0-8.5-8.5zm-1.4062 3.5h3v6h-3v-6zm0 8h3v2h-3v-2z"/>\n</svg>\n</span>\n  </button>\n  <div part="time"><span class="current-time" part="current-time">0:00</span> / <span class="total-time" part="total-time">0:00</span></div>\n  <input type="range" min="0" max="0" value="0" step="any" class="seek-bar" part="seek-bar" disabled>\n  <div class="overlay loading-overlay" part="loading-overlay"></div>\n</div>\n';
     const n = document.createElement("template");
 
-    function i(t) {
+    function secondToTime(t) {
         const e = t < 0,
             n = (t = Math.floor(Math.abs(t || 0))) % 60,
             i = (t - n) / 60,
             s = (t - n - 60 * i) / 3600;
         return (e ? "-" : "") + (s ? `${s}:` : "") + (i > 9 || !s ? `${i}:` : `0${i}:`) + (n > 9 ? `${n}` : `0${n}`)
     }
-    n.innerHTML = "\n<style>\n:host {\n  display: block;\n}\n\n::slotted(.piano-roll-visualizer) {\n  overflow-x: auto;\n}\n</style>\n<slot>\n</slot>\n";
+    n.innerHTML = "\n<style>\n:host {\n  display: block;\n  height: 720px;\n  width: 1080px;\n}\n\n::slotted(.piano-roll-visualizer) {\n  overflow-x: auto;\n}\n</style>\n<slot>\n</slot>\n";
     const s = ["piano-roll", "waterfall", "staff"];
     class o extends HTMLElement {
         constructor() {
@@ -90,7 +90,12 @@
         connectedCallback() {
             this.attachShadow({
                 mode: "open"
-            }), this.shadowRoot.appendChild(n.content.cloneNode(!0)), this.domInitialized || (this.domInitialized = !0, this.wrapper = document.createElement("div"), this.appendChild(this.wrapper), this.initVisualizerNow())
+            }), 
+			this.shadowRoot.appendChild(n.content.cloneNode(!0)), 
+			this.domInitialized || (this.domInitialized = !0, 
+			this.wrapper = document.createElement("div"), 
+			this.appendChild(this.wrapper), 
+			this.initVisualizerNow())
         }
         attributeChangedCallback(t, e, n) {
             "src" !== t && "type" !== t || this.initVisualizer()
@@ -103,8 +108,12 @@
                 if ("piano-roll" === this.type) {
                     this.wrapper.classList.add("piano-roll-visualizer");
                     const e = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                    this.wrapper.appendChild(e), this.visualizer = new t.PianoRollSVGVisualizer(this.ns, e, this._config)
-                } else if ("waterfall" === this.type) this.wrapper.classList.add("waterfall-visualizer"), this.visualizer = new t.WaterfallSVGVisualizer(this.ns, this.wrapper, this._config);
+                    this.wrapper.appendChild(e);
+					this.visualizer = new t.PianoRollSVGVisualizer(this.ns, e, this._config)
+                } else if ("waterfall" === this.type) {
+					this.wrapper.classList.add("waterfall-visualizer");
+					this.visualizer = new t.WaterfallSVGVisualizer(this.ns, this.wrapper, this._config);
+				}
             else if ("staff" === this.type) {
                 this.wrapper.classList.add("staff-visualizer");
                 const e = document.createElement("div");
@@ -153,7 +162,12 @@
         constructor() {
             super(), this.domInitialized = !1, this.needInitNs = !1, this.visualizerListeners = new Map, this.ns = null, this._playing = !1, this.seeking = !1, this.attachShadow({
                 mode: "open"
-            }), this.shadowRoot.appendChild(e.content.cloneNode(!0)), this.controlPanel = this.shadowRoot.querySelector(".controls"), this.playButton = this.controlPanel.querySelector(".play"), this.currentTimeLabel = this.controlPanel.querySelector(".current-time"), this.totalTimeLabel = this.controlPanel.querySelector(".total-time"), this.seekBar = this.controlPanel.querySelector(".seek-bar")
+            }), this.shadowRoot.appendChild(e.content.cloneNode(!0)), 
+			this.controlPanel = this.shadowRoot.querySelector(".controls"), 
+			this.playButton = this.controlPanel.querySelector(".play"), 
+			this.currentTimeLabel = this.controlPanel.querySelector(".current-time"), 
+			this.totalTimeLabel = this.controlPanel.querySelector(".total-time"), 
+			this.seekBar = this.controlPanel.querySelector(".seek-bar")
         }
         static get observedAttributes() {
             return ["sound-font", "src", "visualizer"]
@@ -168,7 +182,8 @@
                 this.seeking = !0, this.player && "started" === this.player.getPlayState() && this.player.pause()
             })), this.seekBar.addEventListener("change", (() => {
                 const t = this.currentTime;
-                this.currentTimeLabel.textContent = i(t), this.player && this.player.isPlaying() && (this.player.seekTo(t), "paused" === this.player.getPlayState() && this.player.resume()), this.seeking = !1
+                this.currentTimeLabel.textContent = secondToTime(t), 
+				this.player && this.player.isPlaying() && (this.player.seekTo(t), "paused" === this.player.getPlayState() && this.player.resume()), this.seeking = !1
             })), this.initPlayerNow()
         }
         attributeChangedCallback(t, e, n) {
@@ -186,8 +201,8 @@
         async initPlayerNow(e = !0) {
             if (this.initTimeout = null, this.needInitNs = !1, this.domInitialized) try {
                 let n = null;
-                if (e && (this.src && (this.ns = null, this.ns = await t.urlToNoteSequence(this.src)), this.currentTime = 0, this.ns || this.setError("No content loaded")), n = this.ns, !n) return this.seekBar.max = "0", void(this.totalTimeLabel.textContent = i(0));
-                this.seekBar.max = String(n.totalTime), this.totalTimeLabel.textContent = i(n.totalTime);
+                if (e && (this.src && (this.ns = null, this.ns = await t.urlToNoteSequence(this.src)), this.currentTime = 0, this.ns || this.setError("No content loaded")), n = this.ns, !n) return this.seekBar.max = "0", void(this.totalTimeLabel.textContent = secondToTime(0));
+                this.seekBar.max = String(n.totalTime), this.totalTimeLabel.textContent = secondToTime(n.totalTime);
                 let s = this.soundFont;
                 const o = {
                     run: t => this.ns === n && this.noteCallback(t),
@@ -251,7 +266,9 @@
                 detail: {
                     note: t
                 }
-            })), this.seeking || (this.seekBar.value = String(t.startTime), this.currentTimeLabel.textContent = i(t.startTime)))
+            })), this.seeking || (this.seekBar.value = String(t.startTime), 
+			//↓播放时时间记录
+			this.currentTimeLabel.textContent = secondToTime(t.startTime)))
         }
         handleStop(t = !1) {
             t && (this.currentTime = this.duration), this.controlPanel.classList.remove("playing"), this.controlPanel.classList.add("stopped"), this._playing && (this._playing = !1, this.dispatchEvent(new CustomEvent("stop", {
@@ -297,7 +314,10 @@
             return parseFloat(this.seekBar.value)
         }
         set currentTime(t) {
-            this.seekBar.value = String(t), this.currentTimeLabel.textContent = i(this.currentTime), this.player && this.player.isPlaying() && this.player.seekTo(t)
+            this.seekBar.value = String(t), 
+			//↓播放前时间记录0:00
+			this.currentTimeLabel.textContent = secondToTime(this.currentTime), 
+			this.player && this.player.isPlaying() && this.player.seekTo(t)
         }
         get duration() {
             return parseFloat(this.seekBar.max)
@@ -309,7 +329,9 @@
             null == e ? this.removeAttribute(t) : this.setAttribute(t, e)
         }
     }
-    window.customElements.define("midi-player", l), window.customElements.define("midi-visualizer", o), window.addEventListener("DOMContentLoaded", (() => {
+    window.customElements.define("midi-player", l), 
+	window.customElements.define("midi-visualizer", o), 
+	window.addEventListener("DOMContentLoaded", (() => {
         const e = document.getElementById("midiFile");
         e && e.addEventListener("change", (e => {
             t.blobToNoteSequence(e.target.files[0]).then((t => {

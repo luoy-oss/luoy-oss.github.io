@@ -19490,20 +19490,58 @@
         }
         class U extends R {
             constructor(t, e, n = {}) {
-                if (super(t, n), this.NOTES_PER_OCTAVE = 12, this.WHITE_NOTES_PER_OCTAVE = 7, this.LOW_C = 24, this.firstDrawnOctave = 0, this.lastDrawnOctave = 6, !(e instanceof HTMLDivElement)) throw new Error("This visualizer requires a <div> element to display the visualization");
-                this.config.whiteNoteWidth = n.whiteNoteWidth || 20, this.config.blackNoteWidth = n.blackNoteWidth || 2 * this.config.whiteNoteWidth / 3, this.config.whiteNoteHeight = n.whiteNoteHeight || 70, this.config.blackNoteHeight = n.blackNoteHeight || 140 / 3, this.config.showOnlyOctavesUsed = n.showOnlyOctavesUsed, this.setupDOM(e);
+				super(t, n), 
+				this.NOTES_PER_OCTAVE = 12, 
+				this.WHITE_NOTES_PER_OCTAVE = 7, 
+				this.LOW_C = 24, 
+				this.firstDrawnOctave = 0, 
+				this.lastDrawnOctave = 6;
+                if (!(e instanceof HTMLDivElement)) 
+					throw new Error("This visualizer requires a <div> element to display the visualization");
+                this.config.whiteNoteWidth = n.whiteNoteWidth || 20, 
+				this.config.blackNoteWidth = n.blackNoteWidth || 2 * this.config.whiteNoteWidth / 3, 
+				this.config.whiteNoteHeight = n.whiteNoteHeight || 70, 
+				this.config.blackNoteHeight = n.blackNoteHeight || 140 / 3, 
+				this.config.showOnlyOctavesUsed = n.showOnlyOctavesUsed, 
+				this.setupDOM(e);
+				
                 const r = this.getSize();
-                this.width = r.width, this.height = r.height, this.svg.style.width = this.width + "px", this.svg.style.height = this.height + "px", this.svgPiano.style.width = this.width + "px", this.svgPiano.style.height = this.config.whiteNoteHeight + "px", this.parentElement.style.width = this.width + this.config.whiteNoteWidth + "px", this.parentElement.scrollTop = this.parentElement.scrollHeight, this.clear(), this.drawPiano(), this.draw()
+                this.width = r.width, 
+				this.height = r.height, 
+				this.svg.style.width = this.width + "px", 
+				this.svg.style.height = this.height + "px", 
+				this.svgPiano.style.width = this.width + "px", 
+				this.svgPiano.style.height = this.config.whiteNoteHeight + "px", 
+				this.parentElement.style.width = this.width + this.config.whiteNoteWidth + "px", 
+				this.parentElement.scrollTop = this.parentElement.scrollHeight, 
+				this.clear(), 
+				this.drawPiano(), 
+				this.draw();
+
             }
             setupDOM(t) {
                 this.parentElement = document.createElement("div"), this.parentElement.classList.add("waterfall-notes-container");
-                const e = Math.max(t.getBoundingClientRect().height, 200);
-                this.parentElement.style.paddingTop = e - this.config.whiteNoteHeight + "px", this.parentElement.style.height = e - this.config.whiteNoteHeight + "px", this.parentElement.style.boxSizing = "border-box", this.parentElement.style.overflowX = "hidden", this.parentElement.style.overflowY = "auto", this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"), this.svgPiano = document.createElementNS("http://www.w3.org/2000/svg", "svg"), this.svg.classList.add("waterfall-notes"), this.svgPiano.classList.add("waterfall-piano"), this.parentElement.appendChild(this.svg), t.innerHTML = "", t.appendChild(this.parentElement), t.appendChild(this.svgPiano)
+                const e = Math.max(t.getBoundingClientRect().height, 720);
+                this.parentElement.style.paddingTop = e - this.config.whiteNoteHeight + "px", 
+				this.parentElement.style.height = e - this.config.whiteNoteHeight + "px", 
+				this.parentElement.style.boxSizing = "border-box", 
+				this.parentElement.style.overflowX = "hidden", 
+				this.parentElement.style.overflowY = "auto", 
+				this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"), 
+				this.svgPiano = document.createElementNS("http://www.w3.org/2000/svg", "svg"), 
+				this.svg.classList.add("waterfall-notes"), 
+				this.svgPiano.classList.add("waterfall-piano"), 
+				this.parentElement.appendChild(this.svg), 
+				t.innerHTML = "", 
+				t.appendChild(this.parentElement), 
+				t.appendChild(this.svgPiano);
             }
             redraw(t, e) {
                 if (this.drawn || this.draw(), !t) return null;
-                this.clearActiveNotes(), this.parentElement.style.paddingTop = this.parentElement.style.height;
-                for (let e = 0; e < this.noteSequence.notes.length; e++) {
+                this.clearActiveNotes(), 
+				this.parentElement.style.paddingTop = this.parentElement.style.height;
+               
+			   for (let e = 0; e < this.noteSequence.notes.length; e++) {
                     const n = this.noteSequence.notes[e];
                     if (!(t && this.isPaintingActiveNote(n, t))) continue;
                     const r = this.svg.querySelector(`rect[data-index="${e}"]`);
@@ -19559,19 +19597,46 @@
                     r = 0;
                 this.config.showOnlyOctavesUsed ? r = this.firstDrawnOctave * this.NOTES_PER_OCTAVE + this.LOW_C : (r = this.LOW_C - 3, this.drawWhiteKey(r, n), this.drawWhiteKey(r + 2, this.config.whiteNoteWidth), r += 3, n = 2 * this.config.whiteNoteWidth);
                 for (let t = this.firstDrawnOctave; t <= this.lastDrawnOctave; t++)
-                    for (let t = 0; t < this.NOTES_PER_OCTAVE; t++) - 1 === e.indexOf(t) && (this.drawWhiteKey(r, n), n += this.config.whiteNoteWidth), r++;
+                    for (let t = 0; t < this.NOTES_PER_OCTAVE; t++) 
+						- 1 === e.indexOf(t) && (this.drawWhiteKey(r, n), n += this.config.whiteNoteWidth), r++;
                 this.config.showOnlyOctavesUsed ? (r = this.firstDrawnOctave * this.NOTES_PER_OCTAVE + this.LOW_C, n = -this.config.whiteNoteWidth) : (this.drawWhiteKey(r, n), r = this.LOW_C - 3, this.drawBlackKey(r + 1, t), r += 3, n = this.config.whiteNoteWidth);
+
                 for (let i = this.firstDrawnOctave; i <= this.lastDrawnOctave; i++)
-                    for (let i = 0; i < this.NOTES_PER_OCTAVE; i++) - 1 !== e.indexOf(i) ? this.drawBlackKey(r, n + t) : n += this.config.whiteNoteWidth, r++
+                    for (let i = 0; i < this.NOTES_PER_OCTAVE; i++)
+						- 1 !== e.indexOf(i) ? this.drawBlackKey(r, n + t) : n += this.config.whiteNoteWidth, r++
             }
             drawWhiteKey(t, e) {
                 const n = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                return n.dataset.pitch = String(t), n.setAttribute("x", String(e)), n.setAttribute("y", "0"), n.setAttribute("width", String(this.config.whiteNoteWidth)), n.setAttribute("height", String(this.config.whiteNoteHeight)), n.setAttribute("fill", "white"), n.setAttribute("original-fill", "white"), n.setAttribute("stroke", "black"), n.setAttribute("stroke-width", "3px"), n.classList.add("white"), this.svgPiano.appendChild(n), n
-            }
+                n.dataset.pitch = String(t), 
+				n.setAttribute("x", String(e)), 
+				n.setAttribute("y", "0"), 
+				n.setAttribute("width", 
+				String(this.config.whiteNoteWidth)), 
+				n.setAttribute("height", String(this.config.whiteNoteHeight)), 
+				n.setAttribute("fill", "white"), 
+				n.setAttribute("original-fill", "white"), 
+				n.setAttribute("stroke", "black"), 
+				n.setAttribute("stroke-width", "3px"), 
+				n.classList.add("white"), 
+				this.svgPiano.appendChild(n);
+				return n;
+			}
             drawBlackKey(t, e) {
                 const n = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                return n.dataset.pitch = String(t), n.setAttribute("x", String(e)), n.setAttribute("y", "0"), n.setAttribute("width", String(this.config.blackNoteWidth)), n.setAttribute("height", String(this.config.blackNoteHeight)), n.setAttribute("fill", "black"), n.setAttribute("original-fill", "black"), n.setAttribute("stroke", "black"), n.setAttribute("stroke-width", "3px"), n.classList.add("black"), this.svgPiano.appendChild(n), n
-            }
+                n.dataset.pitch = String(t), 
+				n.setAttribute("x", String(e)), 
+				n.setAttribute("y", "0"), 
+				n.setAttribute("width", 
+				String(this.config.blackNoteWidth)), 
+				n.setAttribute("height", String(this.config.blackNoteHeight)), 
+				n.setAttribute("fill", "black"), 
+				n.setAttribute("original-fill", "black"), 
+				n.setAttribute("stroke", "black"), 
+				n.setAttribute("stroke-width", "3px"),
+				n.classList.add("black"), 
+				this.svgPiano.appendChild(n);
+				return n;
+			}
             clearActiveNotes() {
                 super.unfillActiveRect(this.svg);
                 const t = this.svgPiano.querySelectorAll("rect.active");
