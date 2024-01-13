@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Midi可视化</title>
+
+    <link 	rel="stylesheet" 		href="./css/style.css">
+    <script type="text/javascript" 	src="./js/core.js"></script>
+	<script type="text/javascript" 	src="./js/index.js"></script>
+</head>
+<body>
+	<main id="content" class="main-content" role="main">
+		<div>
+			<midi-visualizer type="piano-roll" id="mainVisualizer" 
+			src="https://cdn.jsdelivr.net/gh/cifkao/html-midi-player@2b12128/jazz.mid">
+			</midi-visualizer>
+
+			<midi-player 
+			src="https://cdn.jsdelivr.net/gh/cifkao/html-midi-player@2b12128/jazz.mid" 
+			sound-font="" visualizer="#mainVisualizer" id="mainPlayer" data-js-focus-visible="">
+
+
+				<!-- 播放/暂停进度条 -->
+				<div class="controls stopped" part="control-panel">
+				  <button class="play" part="play-button">
+					<span class="icon play-icon"><svg width="24" height="24" version="1.1" viewBox="0 0 6.35 6.35" xmlns="http://www.w3.org/2000/svg">
+				 <path d="m4.4979 3.175-2.1167 1.5875v-3.175z" stroke-width=".70201"></path>
+				</svg>
+				</span>
+					<span class="icon stop-icon"><svg width="24" height="24" version="1.1" viewBox="0 0 6.35 6.35" xmlns="http://www.w3.org/2000/svg">
+				 <path d="m1.8521 1.5875v3.175h0.92604v-3.175zm1.7198 0v3.175h0.92604v-3.175z" stroke-width=".24153"></path>
+				</svg>
+				</span>
+					<span class="icon error-icon"><svg width="24" height="24" version="1.1" viewBox="0 0 6.35 6.35" xmlns="http://www.w3.org/2000/svg">
+				 <path transform="scale(.26458)" d="m12 3.5a8.4993 8.4993 0 0 0-8.5 8.5 8.4993 8.4993 0 0 0 8.5 8.5 8.4993 8.4993 0 0 0 8.5-8.5 8.4993 8.4993 0 0 0-8.5-8.5zm-1.4062 3.5h3v6h-3v-6zm0 8h3v2h-3v-2z"></path>
+				</svg>
+				</span>
+				  </button>
+				  <div part="time"><span class="current-time" part="current-time">0:00</span> / <span class="total-time" part="total-time">0:15</span></div>
+				  <input type="range" min="0" max="15.999984" value="0" step="any" class="seek-bar" part="seek-bar">
+				  <div class="overlay loading-overlay" part="loading-overlay"></div>
+				</div>
+
+				<!-- 播放/暂停进度条 -->
+			</midi-player>
+			
+		</div>
+
+		<p>
+			<label for="midiFile">选择Midi文件:</label>
+			<input type="file" id="midiFile" name="midiFile" accept="audio/midi, audio/x-midi">
+		</p>
+	
+	</main>
+  
+
+</body>
+</html>
