@@ -253,6 +253,58 @@
       </tags>
   </entry>
   <entry>
+    <title>CSP-S 2021游记</title>
+    <url>/posts/8713.html</url>
+    <content><![CDATA[<hr>
+<blockquote>
+<p><strong>结构体指针三目乱飞，球体体积交怼脸，手算 base64，现学四毛子算法，欢迎来到 CSP2021-S1。</strong></p>
+</blockquote>
+<p>身为蒟蒻的咱，心态平和🤔走的很安详</p>
+<blockquote>
+<p><strong>这里，我想用一下<a href="https://www.luogu.com.cn/user/486119">Naptie</a>大佬的概括</strong></p>
+<p><strong>《平凡的单选题》</strong><br>
+<strong>《acos(0.5)》</strong><br>
+<strong>《d1, d2表示半径》</strong><br>
+<strong>《两球体积交》</strong><br>
+<strong>《含四个整型的结构体重载加号》</strong><br>
+<strong>《int(char(0f))》</strong><br>
+<strong>《Cg==》</strong><br>
+<strong>《手算Base64编解码》</strong><br>
+<strong>《121行代码》</strong><br>
+<strong>《四毛子算法课》</strong><br>
+<strong>《结构体与指针的复杂应用》</strong></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>CH32(F10X F20X)</title>
+    <url>/posts/57388.html</url>
+    <content><![CDATA[<h1>对于WCH-link的接线</h1>
+<h2 id="F103">F103</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">U	-&gt;	板上SWD区域<br>Rx	-&gt;	PA9(Tx)<br>Tx	-&gt;	PA10(Rx)<br>GND	-&gt;	GND<br>3V3	-&gt;	VCC<br>SWDIO-&gt;	PA13<br>SWDLK-&gt;	PA14<br></code></pre></td></tr></table></figure>
+<h2 id="F207">F207</h2>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">U	-&gt;	板上SWD区域<br>Rx	-&gt;	TXD<br>Tx	-&gt;	RXD<br>GND	-&gt;	GND<br>3V3	-&gt;	VDD<br>SWDIO	-&gt;	SWIO<br>SWDLK	-&gt;	SWCK<br></code></pre></td></tr></table></figure>
+<h1>对于096 OLED屏幕接线</h1>
+<h2 id="F207-2">F207</h2>
+<blockquote>
+<p>GND 电源地<br>
+VCC 电源正（3.3～5V）<br>
+D0(SCL) SCK管脚<br>
+D1(SDA) MOSI管脚<br>
+RES(RST) 用来复位（低电平复位）<br>
+DC(D/C) 数据和命令控制管脚 1表示数据 0表示命令<br>
+CS(NSS) 片选管脚</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">GND	-&gt;	GND<br>VCC	-&gt;	3V3<br>D0	-&gt;	PA5<br>D1	-&gt;	PA7<br>RES	-&gt;	PA4<br>DC	-&gt;	PA6<br>CS	-&gt;	NONE<br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>CH32</category>
+      </categories>
+  </entry>
+  <entry>
     <title>C++药品管理系统</title>
     <url>/posts/32231.html</url>
     <content><![CDATA[<blockquote>
@@ -312,58 +364,6 @@
       </categories>
   </entry>
   <entry>
-    <title>CH32(F10X F20X)</title>
-    <url>/posts/57388.html</url>
-    <content><![CDATA[<h1>对于WCH-link的接线</h1>
-<h2 id="F103">F103</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">U	-&gt;	板上SWD区域<br>Rx	-&gt;	PA9(Tx)<br>Tx	-&gt;	PA10(Rx)<br>GND	-&gt;	GND<br>3V3	-&gt;	VCC<br>SWDIO-&gt;	PA13<br>SWDLK-&gt;	PA14<br></code></pre></td></tr></table></figure>
-<h2 id="F207">F207</h2>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">U	-&gt;	板上SWD区域<br>Rx	-&gt;	TXD<br>Tx	-&gt;	RXD<br>GND	-&gt;	GND<br>3V3	-&gt;	VDD<br>SWDIO	-&gt;	SWIO<br>SWDLK	-&gt;	SWCK<br></code></pre></td></tr></table></figure>
-<h1>对于096 OLED屏幕接线</h1>
-<h2 id="F207-2">F207</h2>
-<blockquote>
-<p>GND 电源地<br>
-VCC 电源正（3.3～5V）<br>
-D0(SCL) SCK管脚<br>
-D1(SDA) MOSI管脚<br>
-RES(RST) 用来复位（低电平复位）<br>
-DC(D/C) 数据和命令控制管脚 1表示数据 0表示命令<br>
-CS(NSS) 片选管脚</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">GND	-&gt;	GND<br>VCC	-&gt;	3V3<br>D0	-&gt;	PA5<br>D1	-&gt;	PA7<br>RES	-&gt;	PA4<br>DC	-&gt;	PA6<br>CS	-&gt;	NONE<br></code></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>CH32</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>CSP-S 2021游记</title>
-    <url>/posts/8713.html</url>
-    <content><![CDATA[<hr>
-<blockquote>
-<p><strong>结构体指针三目乱飞，球体体积交怼脸，手算 base64，现学四毛子算法，欢迎来到 CSP2021-S1。</strong></p>
-</blockquote>
-<p>身为蒟蒻的咱，心态平和🤔走的很安详</p>
-<blockquote>
-<p><strong>这里，我想用一下<a href="https://www.luogu.com.cn/user/486119">Naptie</a>大佬的概括</strong></p>
-<p><strong>《平凡的单选题》</strong><br>
-<strong>《acos(0.5)》</strong><br>
-<strong>《d1, d2表示半径》</strong><br>
-<strong>《两球体积交》</strong><br>
-<strong>《含四个整型的结构体重载加号》</strong><br>
-<strong>《int(char(0f))》</strong><br>
-<strong>《Cg==》</strong><br>
-<strong>《手算Base64编解码》</strong><br>
-<strong>《121行代码》</strong><br>
-<strong>《四毛子算法课》</strong><br>
-<strong>《结构体与指针的复杂应用》</strong></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-  </entry>
-  <entry>
     <title>C、C++其他关键字详解</title>
     <url>/posts/28732.html</url>
     <content><![CDATA[<h1>其它关键字</h1>
@@ -413,6 +413,59 @@ CS(NSS) 片选管脚</p>
 <p><strong>一般来说，应该尽量避免使用 <code>goto</code>，因为它可以导致代码难以理解和维护</strong>。</p>
 <p><strong>初学者通常不需要使用 <code>volatile</code>，而应当谨慎使用 <code>typedef</code></strong></p>
 <p>const<code>和</code>sizeof` 是C语言中非常常见和有用的关键字</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C语言</tag>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C、C++存储类型关键字详解</title>
+    <url>/posts/229.html</url>
+    <content><![CDATA[<h1>存储类型关键字</h1>
+<h2 id="auto">auto</h2>
+<ul>
+<li><code>auto</code> 是默认的存储类别关键字，它用于定义自动变量。</li>
+<li>自动变量的生命周期仅限于定义它们的代码块，当代码块执行结束时，它们会被销毁。</li>
+</ul>
+<p>示例代码（<strong>记作代码1</strong>）：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">auto</span> <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>; <span class="hljs-comment">// 可以省略 &quot;auto&quot;，因为它是默认的存储类别</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x: %d\n&quot;</span>, x);<br>    <span class="hljs-comment">// x 的生命周期仅限于 main 函数</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在上方代码1中，<code>auto int x = 10;</code>和<code>int x = 10;</code>是等效的：</p>
+<p>这是因为 <code>int x = 10;</code> 默认就是一个自动变量，编译器会根据上下文自动识别它为自动变量。</p>
+<p>同样，例如下方代码（<strong>记作代码2</strong>）：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">auto</span> <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>; <span class="hljs-comment">// 可以省略 &quot;auto&quot;，因为它是默认的存储类别</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x: %d\n&quot;</span>, x);<br><br>    <span class="hljs-keyword">auto</span> y = x;		 <span class="hljs-comment">// 使用auto类型定义变量y</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;y: %d\n&quot;</span>, y);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>当你写 <code>auto y = x;</code> 时，编译器也会将 <code>y</code> 类型设置为 <code>int</code>，因为 <code>x</code> 是 <code>int</code> 类型，所以 <code>y</code> 也被赋予了相同的类型。</p>
+<p>C语言的类型系统会<strong>根据右侧表达式的类型来确定左侧变量的类型</strong>，这就是类型推断。</p>
+<p>因此，在<strong>代码2</strong>中，<code>y</code> 被推断为 <code>int</code> 类型，与 <code>x</code> 相同。</p>
+<h2 id="extern">extern</h2>
+<ul>
+<li><code>extern</code> 用于声明一个全局变量，它表明<strong>该变量在当前文件中并没有被定义，而是在其他文件中定义的</strong>。</li>
+<li>这允许<strong>多个文件共享同一个全局变量</strong>，该变量可以被多个文件调用，并修改其值。</li>
+</ul>
+<p>示例代码（<code>extern</code>使用时，对应着多文件场景）：</p>
+<p>文件1.c:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> globalVar; <span class="hljs-comment">// 定义全局变量</span><br></code></pre></td></tr></table></figure>
+<p>文件2.c:</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> globalVar; <span class="hljs-comment">// 声明全局变量，以便在其他文件中使用</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;globalVar: %d\n&quot;</span>, globalVar);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="register">register</h2>
+<ul>
+<li><code>register</code> 用于请求编译器将变量存储在CPU寄存器中，以加快对变量的访问速度。</li>
+<li>这是一个建议（编译阶段请求将register存储在CPU寄存器中），<strong>编译器可能会忽略它</strong>，特别是在如今的编译器中（因为如今的编译器已经非常智能，它们能够更好地管理寄存器分配，从而提高代码的性能，通常来说，如今的编译器比程序员更了解如何优化代码）。</li>
+</ul>
+<p>示例代码：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">register</span> <span class="hljs-type">int</span> i = <span class="hljs-number">5</span>; <span class="hljs-comment">// 请求将变量 i 存储在寄存器中</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i: %d\n&quot;</span>, i);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="static">static</h2>
+<ul>
+<li><code>static</code> 用于改变变量的存储期和可见性。</li>
+<li>在函数内部使用 <code>static</code> 声明的变量具有持久的存储期，而在如今的使用 <code>static</code> 声明的变量<strong>只在当前文件中可见</strong>。</li>
+</ul>
+<p>示例代码：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">demo</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">static</span> <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">// 持久性的局部变量</span><br>    count++;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count: %d\n&quot;</span>, count);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    demo(); <span class="hljs-comment">// 输出 count: 2</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如果上述代码不加<code>static</code>：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">demo</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">// 持久性的局部变量</span><br>    count++;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count: %d\n&quot;</span>, count);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>C/C++</category>
@@ -560,59 +613,6 @@ CS(NSS) 片选管脚</p>
 <p>可以留意程序执行后弹出的窗口，在出现错误时，程序的返回值是一个非0数。</p>
 <p>你也可以修改这里的返回值，留意弹出后的窗口所返回的值，可以发现与此处设置的值相同。（前提是你的程序没有错误）</p>
 </blockquote>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C语言</tag>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C、C++存储类型关键字详解</title>
-    <url>/posts/229.html</url>
-    <content><![CDATA[<h1>存储类型关键字</h1>
-<h2 id="auto">auto</h2>
-<ul>
-<li><code>auto</code> 是默认的存储类别关键字，它用于定义自动变量。</li>
-<li>自动变量的生命周期仅限于定义它们的代码块，当代码块执行结束时，它们会被销毁。</li>
-</ul>
-<p>示例代码（<strong>记作代码1</strong>）：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">auto</span> <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>; <span class="hljs-comment">// 可以省略 &quot;auto&quot;，因为它是默认的存储类别</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x: %d\n&quot;</span>, x);<br>    <span class="hljs-comment">// x 的生命周期仅限于 main 函数</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>在上方代码1中，<code>auto int x = 10;</code>和<code>int x = 10;</code>是等效的：</p>
-<p>这是因为 <code>int x = 10;</code> 默认就是一个自动变量，编译器会根据上下文自动识别它为自动变量。</p>
-<p>同样，例如下方代码（<strong>记作代码2</strong>）：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">auto</span> <span class="hljs-type">int</span> x = <span class="hljs-number">10</span>; <span class="hljs-comment">// 可以省略 &quot;auto&quot;，因为它是默认的存储类别</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x: %d\n&quot;</span>, x);<br><br>    <span class="hljs-keyword">auto</span> y = x;		 <span class="hljs-comment">// 使用auto类型定义变量y</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;y: %d\n&quot;</span>, y);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>当你写 <code>auto y = x;</code> 时，编译器也会将 <code>y</code> 类型设置为 <code>int</code>，因为 <code>x</code> 是 <code>int</code> 类型，所以 <code>y</code> 也被赋予了相同的类型。</p>
-<p>C语言的类型系统会<strong>根据右侧表达式的类型来确定左侧变量的类型</strong>，这就是类型推断。</p>
-<p>因此，在<strong>代码2</strong>中，<code>y</code> 被推断为 <code>int</code> 类型，与 <code>x</code> 相同。</p>
-<h2 id="extern">extern</h2>
-<ul>
-<li><code>extern</code> 用于声明一个全局变量，它表明<strong>该变量在当前文件中并没有被定义，而是在其他文件中定义的</strong>。</li>
-<li>这允许<strong>多个文件共享同一个全局变量</strong>，该变量可以被多个文件调用，并修改其值。</li>
-</ul>
-<p>示例代码（<code>extern</code>使用时，对应着多文件场景）：</p>
-<p>文件1.c:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> globalVar; <span class="hljs-comment">// 定义全局变量</span><br></code></pre></td></tr></table></figure>
-<p>文件2.c:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-keyword">extern</span> <span class="hljs-type">int</span> globalVar; <span class="hljs-comment">// 声明全局变量，以便在其他文件中使用</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;globalVar: %d\n&quot;</span>, globalVar);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="register">register</h2>
-<ul>
-<li><code>register</code> 用于请求编译器将变量存储在CPU寄存器中，以加快对变量的访问速度。</li>
-<li>这是一个建议（编译阶段请求将register存储在CPU寄存器中），<strong>编译器可能会忽略它</strong>，特别是在如今的编译器中（因为如今的编译器已经非常智能，它们能够更好地管理寄存器分配，从而提高代码的性能，通常来说，如今的编译器比程序员更了解如何优化代码）。</li>
-</ul>
-<p>示例代码：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">register</span> <span class="hljs-type">int</span> i = <span class="hljs-number">5</span>; <span class="hljs-comment">// 请求将变量 i 存储在寄存器中</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;i: %d\n&quot;</span>, i);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="static">static</h2>
-<ul>
-<li><code>static</code> 用于改变变量的存储期和可见性。</li>
-<li>在函数内部使用 <code>static</code> 声明的变量具有持久的存储期，而在如今的使用 <code>static</code> 声明的变量<strong>只在当前文件中可见</strong>。</li>
-</ul>
-<p>示例代码：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">demo</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">static</span> <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">// 持久性的局部变量</span><br>    count++;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count: %d\n&quot;</span>, count);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    demo(); <span class="hljs-comment">// 输出 count: 2</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>如果上述代码不加<code>static</code>：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">demo</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> count = <span class="hljs-number">0</span>; <span class="hljs-comment">// 持久性的局部变量</span><br>    count++;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;count: %d\n&quot;</span>, count);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    demo(); <span class="hljs-comment">// 输出 count: 1</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>C/C++</category>
@@ -943,56 +943,6 @@ CS(NSS) 片选管脚</p>
       </tags>
   </entry>
   <entry>
-    <title>C、C++的大括号是必须的部分吗？</title>
-    <url>/posts/57353.html</url>
-    <content><![CDATA[<p>在作为一名初学者，你可能看到一些课程中，对于判断或者循环部分，会使用类似这样的两种方式：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 方式1</span><br><span class="hljs-keyword">if</span>(a &gt; <span class="hljs-number">1</span>)&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a &gt; 1&quot;</span>);<br>&#125;<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i&lt; <span class="hljs-number">10</span>; i++) &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, i);<br>&#125;<br><span class="hljs-comment">// 方式2</span><br><span class="hljs-keyword">if</span>(a &gt; <span class="hljs-number">1</span>) <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a &gt; 1&quot;</span>);<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i&lt; <span class="hljs-number">10</span>; i++)<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, i);<br></code></pre></td></tr></table></figure>
-<p>并且你会发现，对于这两种方式，他们的效果一样。</p>
-<p>那么大括号{}括起来和不括起来有什么区别呢？</p>
-<hr>
-<p>在C语言中，<code>if</code>语句后面的圆括号<code>()</code>内的表达式决定了条件是否为真。</p>
-<p>当条件为真时，<code>if</code>语句后面的代码块将被执行。</p>
-<p>这个代码块可以是<strong>单个语句</strong>，也可以是用大括号<code>&#123;&#125;</code><strong>括起来的多个语句</strong>。</p>
-<p>下面我来解释两种写法的差异：</p>
- <figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++">  <span class="hljs-keyword">if</span>(a &gt; <span class="hljs-number">1</span>) &#123; <br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;条件为真时执行的代码&quot;</span>); <br>  &#125;<br></code></pre></td></tr></table></figure>
-<blockquote>
-<p>这种写法使用了大括号<code>&#123;&#125;</code>，将一组语句组成了一个代码块。如果条件<code>a &gt; 1</code>为真，那么大括号内的所有语句都将被执行。</p>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">if</span>(a &gt; <span class="hljs-number">1</span>) <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;条件为真时执行的代码&quot;</span>);<br></code></pre></td></tr></table></figure>
-<blockquote>
-<p>这种写法没有使用大括号<code>&#123;&#125;</code>，只包含了一个单独的语句。如果条件<code>a &gt; 1</code>为真，那么仅仅执行紧随其后的这个语句。</p>
-</blockquote>
-<p>所以，对于<strong>这种情况</strong>，两种写法的效果是一样的，只不过一种是用大括号明确地定义了一个代码块，另一种是单独的语句。</p>
-<p>这种用大括号括起来的部分通常被称为代码块或语句块，它可以包含一个或多个语句，用于组织多条语句以在特定条件下执行。使用大括号可以增加代码的可读性，并避免潜在的歧义，特别是在多条语句的情况下。</p>
-<p>不过在<strong>某些简单情况下</strong>，可以选择不使用大括号，但这通常<strong>不被推荐</strong>，因为它可能导致代码在以后的修改中出现问题。</p>
-<p>如果在 <code>if</code> 语句中不使用大括号括起来代码块，你可能会遇到以下问题：</p>
-<ol>
-<li>
-<p><strong>逻辑错误</strong>：最常见的问题是逻辑错误。如果你不小心缩进了代码，以使其看起来好像属于 <code>if</code> 语句，但实际上不是，这可能会导致代码不按预期运行。</p>
-</li>
-<li>
-<p><strong>可读性差</strong>：缺少大括号会使代码的结构不够清晰，降低了可读性。其他开发人员阅读代码时可能会难以理解哪些代码是条件成立时执行的。</p>
-</li>
-<li>
-<p><strong>维护问题</strong>：如果以后需要在条件成立时执行多个语句，你可能会忘记添加大括号，从而导致错误。这种错误很难发现，并且可能导致严重的问题。</p>
-</li>
-</ol>
-<p>例如，考虑以下代码：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">10</span>)<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x 大于 10&quot;</span>);<br>    y = x * <span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure>
-<p>在这个示例中，<code>printf</code> 看起来好像是条件成立时执行的，但实际上，只有 <code>printf</code> 会受到 <code>if</code> 语句的条件影响。<code>y = x * 2</code> 不受条件控制，这可能不是你的意图。</p>
-<p>为了避免这种潜在的问题，建议始终使用大括号来明确地定义代码块，即使在 <code>if</code> 语句中只有一个语句也是如此，这样可以提高代码的可读性和健壮性，降低出错的可能性。例如：</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">10</span>) &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x 大于 10&quot;</span>);<br>    y = x * <span class="hljs-number">2</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>这种方式更清晰，更容易维护，且不容易出现潜在错误。</p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C语言</tag>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C、C++预处理详解</title>
     <url>/posts/1746.html</url>
     <content><![CDATA[<h1>什么是预处理？</h1>
@@ -1295,6 +1245,56 @@ CS(NSS) 片选管脚</p>
       </categories>
   </entry>
   <entry>
+    <title>C、C++的大括号是必须的部分吗？</title>
+    <url>/posts/57353.html</url>
+    <content><![CDATA[<p>在作为一名初学者，你可能看到一些课程中，对于判断或者循环部分，会使用类似这样的两种方式：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 方式1</span><br><span class="hljs-keyword">if</span>(a &gt; <span class="hljs-number">1</span>)&#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a &gt; 1&quot;</span>);<br>&#125;<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i&lt; <span class="hljs-number">10</span>; i++) &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, i);<br>&#125;<br><span class="hljs-comment">// 方式2</span><br><span class="hljs-keyword">if</span>(a &gt; <span class="hljs-number">1</span>) <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;a &gt; 1&quot;</span>);<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i&lt; <span class="hljs-number">10</span>; i++)<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, i);<br></code></pre></td></tr></table></figure>
+<p>并且你会发现，对于这两种方式，他们的效果一样。</p>
+<p>那么大括号{}括起来和不括起来有什么区别呢？</p>
+<hr>
+<p>在C语言中，<code>if</code>语句后面的圆括号<code>()</code>内的表达式决定了条件是否为真。</p>
+<p>当条件为真时，<code>if</code>语句后面的代码块将被执行。</p>
+<p>这个代码块可以是<strong>单个语句</strong>，也可以是用大括号<code>&#123;&#125;</code><strong>括起来的多个语句</strong>。</p>
+<p>下面我来解释两种写法的差异：</p>
+ <figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++">  <span class="hljs-keyword">if</span>(a &gt; <span class="hljs-number">1</span>) &#123; <br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;条件为真时执行的代码&quot;</span>); <br>  &#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>这种写法使用了大括号<code>&#123;&#125;</code>，将一组语句组成了一个代码块。如果条件<code>a &gt; 1</code>为真，那么大括号内的所有语句都将被执行。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">if</span>(a &gt; <span class="hljs-number">1</span>) <br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;条件为真时执行的代码&quot;</span>);<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>这种写法没有使用大括号<code>&#123;&#125;</code>，只包含了一个单独的语句。如果条件<code>a &gt; 1</code>为真，那么仅仅执行紧随其后的这个语句。</p>
+</blockquote>
+<p>所以，对于<strong>这种情况</strong>，两种写法的效果是一样的，只不过一种是用大括号明确地定义了一个代码块，另一种是单独的语句。</p>
+<p>这种用大括号括起来的部分通常被称为代码块或语句块，它可以包含一个或多个语句，用于组织多条语句以在特定条件下执行。使用大括号可以增加代码的可读性，并避免潜在的歧义，特别是在多条语句的情况下。</p>
+<p>不过在<strong>某些简单情况下</strong>，可以选择不使用大括号，但这通常<strong>不被推荐</strong>，因为它可能导致代码在以后的修改中出现问题。</p>
+<p>如果在 <code>if</code> 语句中不使用大括号括起来代码块，你可能会遇到以下问题：</p>
+<ol>
+<li>
+<p><strong>逻辑错误</strong>：最常见的问题是逻辑错误。如果你不小心缩进了代码，以使其看起来好像属于 <code>if</code> 语句，但实际上不是，这可能会导致代码不按预期运行。</p>
+</li>
+<li>
+<p><strong>可读性差</strong>：缺少大括号会使代码的结构不够清晰，降低了可读性。其他开发人员阅读代码时可能会难以理解哪些代码是条件成立时执行的。</p>
+</li>
+<li>
+<p><strong>维护问题</strong>：如果以后需要在条件成立时执行多个语句，你可能会忘记添加大括号，从而导致错误。这种错误很难发现，并且可能导致严重的问题。</p>
+</li>
+</ol>
+<p>例如，考虑以下代码：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">10</span>)<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x 大于 10&quot;</span>);<br>    y = x * <span class="hljs-number">2</span>;<br></code></pre></td></tr></table></figure>
+<p>在这个示例中，<code>printf</code> 看起来好像是条件成立时执行的，但实际上，只有 <code>printf</code> 会受到 <code>if</code> 语句的条件影响。<code>y = x * 2</code> 不受条件控制，这可能不是你的意图。</p>
+<p>为了避免这种潜在的问题，建议始终使用大括号来明确地定义代码块，即使在 <code>if</code> 语句中只有一个语句也是如此，这样可以提高代码的可读性和健壮性，降低出错的可能性。例如：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">10</span>) &#123;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;x 大于 10&quot;</span>);<br>    y = x * <span class="hljs-number">2</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这种方式更清晰，更容易维护，且不容易出现潜在错误。</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C语言</tag>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C语言神经网络房价预测系统</title>
     <url>/posts/29111.html</url>
     <content><![CDATA[<blockquote>
@@ -1432,6 +1432,27 @@ CS(NSS) 片选管脚</p>
 ]]></content>
       <categories>
         <category>STM32</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Linux普通用户不能使用TAB键、上下键</title>
+    <url>/posts/40823.html</url>
+    <content><![CDATA[<h3 id="出发点">出发点</h3>
+<blockquote>
+<p>通过shell远程连接linux的时候发现tab键命令不能补全<br>
+结合ubuntu,因默认ubuntu创建的普通帐号，默认shell为<code>/bin/sh</code>，而这不支持tab等键的，所以将「指定用户」帐号的shell改为<code>/bin/bash</code>就可以</p>
+</blockquote>
+<h3 id="操作">操作</h3>
+<blockquote>
+<p>1.查看当前的shell：<br>
+<code># echo $SHELL</code><br>
+<code>/bin/sh</code><br>
+2.修改shell为<code>/bin/bash</code>：<br>
+(切换到root用户执行) <code># usermod -s /bin/bash 用户名</code></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
       </categories>
   </entry>
   <entry>
@@ -2052,27 +2073,6 @@ CS(NSS) 片选管脚</p>
       </categories>
   </entry>
   <entry>
-    <title>Linux普通用户不能使用TAB键、上下键</title>
-    <url>/posts/40823.html</url>
-    <content><![CDATA[<h3 id="出发点">出发点</h3>
-<blockquote>
-<p>通过shell远程连接linux的时候发现tab键命令不能补全<br>
-结合ubuntu,因默认ubuntu创建的普通帐号，默认shell为<code>/bin/sh</code>，而这不支持tab等键的，所以将「指定用户」帐号的shell改为<code>/bin/bash</code>就可以</p>
-</blockquote>
-<h3 id="操作">操作</h3>
-<blockquote>
-<p>1.查看当前的shell：<br>
-<code># echo $SHELL</code><br>
-<code>/bin/sh</code><br>
-2.修改shell为<code>/bin/bash</code>：<br>
-(切换到root用户执行) <code># usermod -s /bin/bash 用户名</code></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-  </entry>
-  <entry>
     <title>NOIonline</title>
     <url>/posts/34336.html</url>
     <content><![CDATA[<h2 id="愤怒的小-N（angry）-CCF-NOI-Online-能力测试-提高组-2021第一题">愤怒的小 N（angry）-	CCF NOI Online 能力测试 提高组 2021第一题</h2>
@@ -2112,6 +2112,104 @@ CS(NSS) 片选管脚</p>
       <categories>
         <category>C++</category>
       </categories>
+  </entry>
+  <entry>
+    <title>Paddle环境搭建</title>
+    <url>/posts/50624.html</url>
+    <content><![CDATA[<blockquote>
+<p><strong>此文章以python的搭建为例</strong></p>
+</blockquote>
+<hr>
+<h1>一、安装Anaconda</h1>
+<p><a href="https://www.anaconda.com/">https://www.anaconda.com</a></p>
+<p><img src="/img/page/%E7%99%BE%E5%BA%A6Paddle/anaconda1.png" alt=""></p>
+<p><strong>注意勾选All User</strong></p>
+<p><img src="/img/page/%E7%99%BE%E5%BA%A6Paddle/anaconda1.png" alt=""></p>
+<p>这里<strong>最好是勾选第一个选项</strong>，其目的是将anaconda添加到系统变量中，这样我们可以直接通过cmd调用conda，更加方便</p>
+<p>然后你就可以使用anaconda来设置不同的环境</p>
+<p>比如这里我们建一个专门用于Paddle的环境(控制台输入)</p>
+<p><code>conda create -n PaddleDetection python==3.7</code>创建PaddleDetection环境，并要求其为python3.7版本</p>
+<p><code>conda activate PaddleDetection</code>进入所创建的PaddleDetection环境中</p>
+<p>![](/img/page/百度Paddle/conda activate.png)</p>
+<p>当目录左侧有（xxxxx）显示时，就表明你已进入该环境，可以基于该环境进行操作，pip install  / pip uninstall的操作也只会影响该环境</p>
+<p>注意：当左侧显示(base)时，这是默认环境</p>
+<hr>
+<h1>二、安装CUDA</h1>
+<h2 id="你的显卡必须是NVDIA显卡！！！">你的显卡必须是NVDIA显卡！！！</h2>
+<blockquote>
+<p>你可以在<a href="https://developer.nvidia.com/%E6%89%BE%E5%88%B0CUDA%E7%9A%84%E4%B8%8B%E8%BD%BD">https://developer.nvidia.com/找到CUDA的下载</a></p>
+<p>但是请注意<strong>30系列的显卡必须使用CUDA11.0以上的版本</strong>，百度Paddle支持的版本为：CUDA 11.7 11.6 11.2 10.2</p>
+</blockquote>
+<p>CUDA安装时，请注意该界面：</p>
+<p><img src="/img/page/%E7%99%BE%E5%BA%A6Paddle/cuda.png" alt=""></p>
+<p>对于其中的展开项，如果<strong>当前版本比新版本要高</strong>，<strong>不需要勾选</strong></p>
+<p>当你完成的CUDA的安装，你还需要下载相应CUDA版本的cudnn，这样CUDA才能正常工作</p>
+<p><a href="https://developer.nvidia.cn/rdp/cudnn-archive">cuDNN Archive | NVIDIA 开发者</a></p>
+<p>将所下载的cudnn解压后的四个文件，复制到cuda的安装路径即可</p>
+<p><strong>请注意cudnn和CUDA版本的对应关系</strong></p>
+<p><img src="/img/page/%E7%99%BE%E5%BA%A6Paddle/cudnn.png" alt=""></p>
+<p>当你完成了上述安装步骤后，可以在cmd中输入<code>nvcc -V</code>来检验CUDA是否安装成功</p>
+<hr>
+<h1>三、安装Paddle</h1>
+<p><a href="https://www.paddlepaddle.org.cn/">飞桨PaddlePaddle-源于产业实践的开源深度学习平台</a></p>
+<p><img src="/img/page/%E7%99%BE%E5%BA%A6Paddle/paddle.png" alt=""></p>
+<p>复制所给命令运行即可**（最好是在我们第一步创建的PaddleDetection的独立环境中运行，这样可以保证环境之间的互不干扰）**</p>
+<p>执行命令，等待安装</p>
+<p>安装完成后，执行以下的Python代码，检查是否成功调用GPU资源</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle<br>paddle.utils.run_check()<br></code></pre></td></tr></table></figure>
+<p>出现：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">PaddlePaddle works well on 1 GPU.<br>PaddlePaddle works well on 1 GPUs.<br>PaddlePaddle is installed successfully! Let&#x27;s start deep learning with PaddlePaddle now.<br></code></pre></td></tr></table></figure>
+<p><strong>意味着你已经完成了以上所有环境的配置！</strong></p>
+]]></content>
+      <categories>
+        <category>Paddle</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>深度学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PaddleDetection</title>
+    <url>/posts/5959.html</url>
+    <content><![CDATA[<blockquote>
+<p>爱来自ZZULI❤<a href="https://luoy-oss.github.io">drluo</a></p>
+</blockquote>
+<p><img src="/img/page/ZZULI.webp" alt=""></p>
+<h1>1. Config 类定义<a href="https://www.paddlepaddle.org.cn/inference/api_reference/python_api_doc/Config/ConfigClass.html#config">¶</a></h1>
+<p><code>Config</code> 类为用于配置构建 <code>Predictor</code> 对象的配置信息，如模型路径、是否开启 gpu 等等。</p>
+<p>构造函数定义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># Config 类定义，输入为 None<br>class paddle.inference.Config()<br><br># Config 类定义，输入为其他 Config 对象<br>class paddle.inference.Config(config: Config)<br><br># Config 类定义，输入分别为模型文件路径和参数文件路径<br>class paddle.inference.Config(prog_file: str, params_file: str)<br></code></pre></td></tr></table></figure>
+<p>代码示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># 引用 paddle inference 预测库<br>import paddle.inference as paddle_infer<br><br># 创建 config<br>config = paddle_infer.Config(&quot;./mobilenet.pdmodel&quot;, &quot;./mobilenet.pdiparams&quot;)<br><br># 根据 config 创建 predictor<br>predictor = paddle_infer.create_predictor(config)<br></code></pre></td></tr></table></figure>
+<h1>2. 设置预测模型<a href="https://www.paddlepaddle.org.cn/inference/api_reference/python_api_doc/Config/ModelConfig.html#shezhiyucemoxing">¶</a></h1>
+<h2 id="2-1-从文件中加载预测模型¶">2.1. 从文件中加载预测模型<a href="https://www.paddlepaddle.org.cn/inference/api_reference/python_api_doc/Config/ModelConfig.html#congwenjianzhongjiazaiyucemoxing">¶</a></h2>
+<p>API定义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># 设置模型文件路径，当需要从磁盘加载模型时使用<br># 参数：prog_file_path - 模型文件路径<br>#      params_file_path - 参数文件路径<br># 返回：None<br>paddle.inference.Config.set_model(prog_file_path: str, params_file_path: str)<br><br># 设置模型文件路径<br># 参数：x - 模型文件路径<br># 返回：None<br>paddle.inference.Config.set_prog_file(x: str)<br><br># 设置参数文件路径<br># 参数：x - 参数文件路径<br># 返回：None<br>paddle.inference.Config.set_params_file(x: str)<br><br># 获取模型文件路径<br># 参数：None<br># 返回：str - 模型文件路径<br>paddle.inference.Config.prog_file()<br><br># 获取参数文件路径<br># 参数：None<br># 返回：str - 参数文件路径<br>paddle.inference.Config.params_file()<br></code></pre></td></tr></table></figure>
+<p>代码示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># 引用 paddle inference 预测库<br>import paddle.inference as paddle_infer<br><br># 创建 config<br>config = paddle_infer.Config()<br><br># 通过 API 设置模型文件夹路径<br>config.set_prog_file(&quot;./mobilenet_v2.pdmodel&quot;)<br>config.set_params_file(&quot;./mobilenet_v2.pdiparams&quot;)<br><br># 通过 API 获取 config 中的模型文件和参数文件路径<br>print(config.prog_file())<br>print(config.params_file())<br><br># 根据 config 创建 predictor<br>predictor = paddle_infer.create_predictor(config)<br></code></pre></td></tr></table></figure>
+<h2 id="2-2-从内存中加载预测模型¶">2.2. 从内存中加载预测模型<a href="https://www.paddlepaddle.org.cn/inference/api_reference/python_api_doc/Config/ModelConfig.html#congneicunzhongjiazaiyucemoxing">¶</a></h2>
+<p>API定义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># 从内存加载模型<br># 参数：prog_buffer - 内存中模型结构数据<br>#      prog_buffer_size - 内存中模型结构数据的大小<br>#      params_buffer - 内存中模型参数数据<br>#      params_buffer_size - 内存中模型参数数据的大小<br># 返回：None<br>paddle.inference.Config.set_model_buffer(prog_buffer: str, prog_buffer_size: int, <br>                                         params_buffer: str, params_buffer_size: int)<br><br># 判断是否从内存中加载模型<br># 参数：None<br># 返回：bool - 是否从内存中加载模型<br>paddle.inference.Config.model_from_memory()<br></code></pre></td></tr></table></figure>
+<p>代码示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># 引用 paddle inference 预测库<br>import paddle.inference as paddle_infer<br><br># 创建 config<br>config = paddle_infer.Config()<br><br># 加载模型文件到内存<br>with open(&#x27;./mobilenet_v2.pdmodel&#x27;, &#x27;rb&#x27;) as prog_file:<br>    prog_data=prog_file.read()<br>    <br>with open(&#x27;./mobilenet_v2.pdiparams&#x27;, &#x27;rb&#x27;) as params_file:<br>    params_data=params_file.read()<br><br># 从内存中加载模型<br>config.set_model_buffer(prog_data, len(prog_data), params_data, len(params_data))<br><br># 通过 API 获取 config 中 model_from_memory 的值 - True<br>print(config.model_from_memory())<br><br># 根据 config 创建 predictor<br>predictor = paddle_infer.create_predictor(config)<br></code></pre></td></tr></table></figure>
+<h1>重要内容</h1>
+<h2 id="paddlepaddle中">paddlepaddle中</h2>
+<ul>
+<li>DynamicDimension ：表示动态维度，一般是1</li>
+<li>im_shape：图像经过resize后的大小，表示为H,W, DynamicDimension 表示batch维度</li>
+<li>image：输入网络的图像，DynamicDimension 表示batch维度，如果输入图像大小为变长，则H,W为None</li>
+<li>scale_factor：输入图像大小比真实图像大小，表示为scale_y, scale_x</li>
+<li>multiclass_nms3_0.tmp_0：bbox, NMS的输出，形状为[N, 6], 其中N为预测框的个数，6为[class_id, score, x1, y1, x2, y2]</li>
+<li>multiclass_nms3_0.tmp_2：bbox_num, 每张图片对应预测框的个数，例如batch_size为2，输出为[N1, N2], 表示第一张图包含N1个预测框，第二张图包含N2个预测框，并且预测框的总个数和NMS输出的第一维N相同</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Paddle</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
   </entry>
   <entry>
     <title>C语言实现波士顿房价预测</title>
@@ -2222,104 +2320,6 @@ $$</p>
       </categories>
       <tags>
         <tag>神经网络</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PaddleDetection</title>
-    <url>/posts/5959.html</url>
-    <content><![CDATA[<blockquote>
-<p>爱来自ZZULI❤<a href="https://luoy-oss.github.io">drluo</a></p>
-</blockquote>
-<p><img src="/img/page/ZZULI.webp" alt=""></p>
-<h1>1. Config 类定义<a href="https://www.paddlepaddle.org.cn/inference/api_reference/python_api_doc/Config/ConfigClass.html#config">¶</a></h1>
-<p><code>Config</code> 类为用于配置构建 <code>Predictor</code> 对象的配置信息，如模型路径、是否开启 gpu 等等。</p>
-<p>构造函数定义如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># Config 类定义，输入为 None<br>class paddle.inference.Config()<br><br># Config 类定义，输入为其他 Config 对象<br>class paddle.inference.Config(config: Config)<br><br># Config 类定义，输入分别为模型文件路径和参数文件路径<br>class paddle.inference.Config(prog_file: str, params_file: str)<br></code></pre></td></tr></table></figure>
-<p>代码示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># 引用 paddle inference 预测库<br>import paddle.inference as paddle_infer<br><br># 创建 config<br>config = paddle_infer.Config(&quot;./mobilenet.pdmodel&quot;, &quot;./mobilenet.pdiparams&quot;)<br><br># 根据 config 创建 predictor<br>predictor = paddle_infer.create_predictor(config)<br></code></pre></td></tr></table></figure>
-<h1>2. 设置预测模型<a href="https://www.paddlepaddle.org.cn/inference/api_reference/python_api_doc/Config/ModelConfig.html#shezhiyucemoxing">¶</a></h1>
-<h2 id="2-1-从文件中加载预测模型¶">2.1. 从文件中加载预测模型<a href="https://www.paddlepaddle.org.cn/inference/api_reference/python_api_doc/Config/ModelConfig.html#congwenjianzhongjiazaiyucemoxing">¶</a></h2>
-<p>API定义如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># 设置模型文件路径，当需要从磁盘加载模型时使用<br># 参数：prog_file_path - 模型文件路径<br>#      params_file_path - 参数文件路径<br># 返回：None<br>paddle.inference.Config.set_model(prog_file_path: str, params_file_path: str)<br><br># 设置模型文件路径<br># 参数：x - 模型文件路径<br># 返回：None<br>paddle.inference.Config.set_prog_file(x: str)<br><br># 设置参数文件路径<br># 参数：x - 参数文件路径<br># 返回：None<br>paddle.inference.Config.set_params_file(x: str)<br><br># 获取模型文件路径<br># 参数：None<br># 返回：str - 模型文件路径<br>paddle.inference.Config.prog_file()<br><br># 获取参数文件路径<br># 参数：None<br># 返回：str - 参数文件路径<br>paddle.inference.Config.params_file()<br></code></pre></td></tr></table></figure>
-<p>代码示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># 引用 paddle inference 预测库<br>import paddle.inference as paddle_infer<br><br># 创建 config<br>config = paddle_infer.Config()<br><br># 通过 API 设置模型文件夹路径<br>config.set_prog_file(&quot;./mobilenet_v2.pdmodel&quot;)<br>config.set_params_file(&quot;./mobilenet_v2.pdiparams&quot;)<br><br># 通过 API 获取 config 中的模型文件和参数文件路径<br>print(config.prog_file())<br>print(config.params_file())<br><br># 根据 config 创建 predictor<br>predictor = paddle_infer.create_predictor(config)<br></code></pre></td></tr></table></figure>
-<h2 id="2-2-从内存中加载预测模型¶">2.2. 从内存中加载预测模型<a href="https://www.paddlepaddle.org.cn/inference/api_reference/python_api_doc/Config/ModelConfig.html#congneicunzhongjiazaiyucemoxing">¶</a></h2>
-<p>API定义如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># 从内存加载模型<br># 参数：prog_buffer - 内存中模型结构数据<br>#      prog_buffer_size - 内存中模型结构数据的大小<br>#      params_buffer - 内存中模型参数数据<br>#      params_buffer_size - 内存中模型参数数据的大小<br># 返回：None<br>paddle.inference.Config.set_model_buffer(prog_buffer: str, prog_buffer_size: int, <br>                                         params_buffer: str, params_buffer_size: int)<br><br># 判断是否从内存中加载模型<br># 参数：None<br># 返回：bool - 是否从内存中加载模型<br>paddle.inference.Config.model_from_memory()<br></code></pre></td></tr></table></figure>
-<p>代码示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"># 引用 paddle inference 预测库<br>import paddle.inference as paddle_infer<br><br># 创建 config<br>config = paddle_infer.Config()<br><br># 加载模型文件到内存<br>with open(&#x27;./mobilenet_v2.pdmodel&#x27;, &#x27;rb&#x27;) as prog_file:<br>    prog_data=prog_file.read()<br>    <br>with open(&#x27;./mobilenet_v2.pdiparams&#x27;, &#x27;rb&#x27;) as params_file:<br>    params_data=params_file.read()<br><br># 从内存中加载模型<br>config.set_model_buffer(prog_data, len(prog_data), params_data, len(params_data))<br><br># 通过 API 获取 config 中 model_from_memory 的值 - True<br>print(config.model_from_memory())<br><br># 根据 config 创建 predictor<br>predictor = paddle_infer.create_predictor(config)<br></code></pre></td></tr></table></figure>
-<h1>重要内容</h1>
-<h2 id="paddlepaddle中">paddlepaddle中</h2>
-<ul>
-<li>DynamicDimension ：表示动态维度，一般是1</li>
-<li>im_shape：图像经过resize后的大小，表示为H,W, DynamicDimension 表示batch维度</li>
-<li>image：输入网络的图像，DynamicDimension 表示batch维度，如果输入图像大小为变长，则H,W为None</li>
-<li>scale_factor：输入图像大小比真实图像大小，表示为scale_y, scale_x</li>
-<li>multiclass_nms3_0.tmp_0：bbox, NMS的输出，形状为[N, 6], 其中N为预测框的个数，6为[class_id, score, x1, y1, x2, y2]</li>
-<li>multiclass_nms3_0.tmp_2：bbox_num, 每张图片对应预测框的个数，例如batch_size为2，输出为[N1, N2], 表示第一张图包含N1个预测框，第二张图包含N2个预测框，并且预测框的总个数和NMS输出的第一维N相同</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Paddle</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Paddle环境搭建</title>
-    <url>/posts/50624.html</url>
-    <content><![CDATA[<blockquote>
-<p><strong>此文章以python的搭建为例</strong></p>
-</blockquote>
-<hr>
-<h1>一、安装Anaconda</h1>
-<p><a href="https://www.anaconda.com/">https://www.anaconda.com</a></p>
-<p><img src="/img/page/%E7%99%BE%E5%BA%A6Paddle/anaconda1.png" alt=""></p>
-<p><strong>注意勾选All User</strong></p>
-<p><img src="/img/page/%E7%99%BE%E5%BA%A6Paddle/anaconda1.png" alt=""></p>
-<p>这里<strong>最好是勾选第一个选项</strong>，其目的是将anaconda添加到系统变量中，这样我们可以直接通过cmd调用conda，更加方便</p>
-<p>然后你就可以使用anaconda来设置不同的环境</p>
-<p>比如这里我们建一个专门用于Paddle的环境(控制台输入)</p>
-<p><code>conda create -n PaddleDetection python==3.7</code>创建PaddleDetection环境，并要求其为python3.7版本</p>
-<p><code>conda activate PaddleDetection</code>进入所创建的PaddleDetection环境中</p>
-<p>![](/img/page/百度Paddle/conda activate.png)</p>
-<p>当目录左侧有（xxxxx）显示时，就表明你已进入该环境，可以基于该环境进行操作，pip install  / pip uninstall的操作也只会影响该环境</p>
-<p>注意：当左侧显示(base)时，这是默认环境</p>
-<hr>
-<h1>二、安装CUDA</h1>
-<h2 id="你的显卡必须是NVDIA显卡！！！">你的显卡必须是NVDIA显卡！！！</h2>
-<blockquote>
-<p>你可以在<a href="https://developer.nvidia.com/%E6%89%BE%E5%88%B0CUDA%E7%9A%84%E4%B8%8B%E8%BD%BD">https://developer.nvidia.com/找到CUDA的下载</a></p>
-<p>但是请注意<strong>30系列的显卡必须使用CUDA11.0以上的版本</strong>，百度Paddle支持的版本为：CUDA 11.7 11.6 11.2 10.2</p>
-</blockquote>
-<p>CUDA安装时，请注意该界面：</p>
-<p><img src="/img/page/%E7%99%BE%E5%BA%A6Paddle/cuda.png" alt=""></p>
-<p>对于其中的展开项，如果<strong>当前版本比新版本要高</strong>，<strong>不需要勾选</strong></p>
-<p>当你完成的CUDA的安装，你还需要下载相应CUDA版本的cudnn，这样CUDA才能正常工作</p>
-<p><a href="https://developer.nvidia.cn/rdp/cudnn-archive">cuDNN Archive | NVIDIA 开发者</a></p>
-<p>将所下载的cudnn解压后的四个文件，复制到cuda的安装路径即可</p>
-<p><strong>请注意cudnn和CUDA版本的对应关系</strong></p>
-<p><img src="/img/page/%E7%99%BE%E5%BA%A6Paddle/cudnn.png" alt=""></p>
-<p>当你完成了上述安装步骤后，可以在cmd中输入<code>nvcc -V</code>来检验CUDA是否安装成功</p>
-<hr>
-<h1>三、安装Paddle</h1>
-<p><a href="https://www.paddlepaddle.org.cn/">飞桨PaddlePaddle-源于产业实践的开源深度学习平台</a></p>
-<p><img src="/img/page/%E7%99%BE%E5%BA%A6Paddle/paddle.png" alt=""></p>
-<p>复制所给命令运行即可**（最好是在我们第一步创建的PaddleDetection的独立环境中运行，这样可以保证环境之间的互不干扰）**</p>
-<p>执行命令，等待安装</p>
-<p>安装完成后，执行以下的Python代码，检查是否成功调用GPU资源</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle<br>paddle.utils.run_check()<br></code></pre></td></tr></table></figure>
-<p>出现：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">PaddlePaddle works well on 1 GPU.<br>PaddlePaddle works well on 1 GPUs.<br>PaddlePaddle is installed successfully! Let&#x27;s start deep learning with PaddlePaddle now.<br></code></pre></td></tr></table></figure>
-<p><strong>意味着你已经完成了以上所有环境的配置！</strong></p>
-]]></content>
-      <categories>
-        <category>Paddle</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>深度学习</tag>
       </tags>
   </entry>
   <entry>
@@ -2452,35 +2452,6 @@ $$</p>
       </tags>
   </entry>
   <entry>
-    <title>STM32GPIO八种输入输出模式</title>
-    <url>/posts/36643.html</url>
-    <content><![CDATA[<h2 id="STM32-GPIO"><strong>STM32</strong> GPIO</h2>
-<p><img src="/img/page/stm32GPIO/gpio.png" alt="img"></p>
-<h2 id="1-GPIO-MODE-AIN-模拟输入">1. GPIO_MODE_AIN 模拟输入</h2>
-<p>输入信号不经施密特触发器直接接入，<strong>输入信号为模拟量</strong>而非数字量，其余输入方式输入数字量。</p>
-<h2 id="2-GPIO-MODE-IN-FLOATING-浮空输入">2. GPIO_MODE_IN_FLOATING 浮空输入</h2>
-<p>输入信号经过施密特触发器接入输入数据存储器。<strong>当无信号输入时，电压不确定</strong>。因为浮空输入既<strong>高阻输入</strong>，可以认为输入端口阻抗无穷大，这样可以检测到微弱的信号。（相当于电压表测电压，如果电压表内阻不够大而外部阻抗比较大，则电压表分压会比较小）。此时输入高电平即高电平，输入低电平即低电平。但是外界没有输入时输入电平却容易受到外界电磁以及各种玄学干扰的影响。如按键采用浮空输入，则在按键按下时输入电平为低，但是当松开按键时输入端口悬空，外界有微弱的干扰都会被端口检测到。此时端口可能高，也可能低。</p>
-<h2 id="3-GPIO-MODE-IPD-下拉输入">3. GPIO_MODE_IPD 下拉输入</h2>
-<p>浮空输入在外界没有输入时状态不确定，可能对电路造成干扰。为了使得电路更加稳定，不出现没有输入时端口的输入数据被干扰 （比如手碰一下电压就发生变化）。这时就需要下拉电阻（或上拉电阻）,此电阻与端口输入阻抗相比仍然较小。有输入信号时端口读取输入信号，<strong>无输入信号时端口电平被拉到低电平（高电平）</strong>。</p>
-<h2 id="4-GPIO-MODE-IPU-上拉输入">4. GPIO_MODE_IPU 上拉输入</h2>
-<p>上拉输入与下拉输入类似，只是<strong>无输入信号时端口电平被拉到高电平</strong>。例如按键信号，当按下时输入低电平，松开时电平被拉到高电平。这样就不会出现按键松开时端口电平不确定的情况。即不知道时按下还是松开。</p>
-<h2 id="5-GPIO-MODE-OUT-OD-开漏输出">5. GPIO-MODE_OUT_OD 开漏输出</h2>
-<p><img src="/img/page/stm32GPIO/od.png" alt="img"></p>
-<p>开漏输出即<strong>漏极开路输出</strong>。这种输出方式指场效应管漏极开路输出。<strong>需要接上拉电阻才能输出1</strong>。漏极经上拉电阻接到电源，栅极输出0时，场效应管截止（阻抗无线大），电压被分到场效应管上，此时输出为1。当栅极输出1时，场效应管导通，输出端口相当于接地，此时输出0。开漏输出高电平时是由外接电源输出的，因此可以实现高于输出端口电压的输出。可以实现电平的转换。<strong>开漏输出可以实现线与功能</strong>，方法是多个输出共接一个上拉电阻。但是漏极开路输出<strong>上升沿慢</strong>，因为上升沿是外接电源对上拉电阻以及外接负载充电。当上拉电阻较大或者负载容性较大时时间常数较大，充电较慢。<strong>需要较快反映时可以采用下降沿触发</strong>，此时没有电阻接入，电路的时间常数较小，充电较快。</p>
-<h2 id="6-GPIO-MODE-OUT-PP-推挽输出">6. GPIO_MODE_OUT_PP 推挽输出</h2>
-<p><img src="/img/page/stm32GPIO/pp.png" alt="img"></p>
-<p><strong>推挽输出既可以输出1，又可以输出0</strong>。但是无法调节输出电压，因为输出高低电平均为三极管输入端电压，此电压在由芯片内部供电，无法改变。推挽输出任意时刻只有一路工作。上图为输出高电平时电路工作状态。只有三极管导通电阻，无外接电阻。因此推挽输出<strong>损耗小、速度快</strong>。</p>
-<h2 id="7-GPIO-MODE-AF-OD-复用开漏输出">7. GPIO_MODE_AF_OD 复用开漏输出</h2>
-<p>STM32单片机内部有其他的外设，比如定时器、DAC等。复用开漏输出与普通开漏输出区别在于，开漏输出输出的是输出数据寄存器中的数据，<strong>复用开漏输出输出的是来自外设的数据</strong>。</p>
-<h2 id="8-GOIO-MODE-AF-PP-复用推挽输出">8. GOIO_MODE_AF_PP 复用推挽输出</h2>
-<p><strong>复用推挽输出原理与复用开漏输出原理相同</strong></p>
-<p>文章转载自知乎<a href="https://zhuanlan.zhihu.com/p/113367004">STM32 GPIO八种输入输出模式 - 知乎 (zhihu.com)</a></p>
-]]></content>
-      <categories>
-        <category>STM32</category>
-      </categories>
-  </entry>
-  <entry>
     <title>STM32开发相关</title>
     <url>/posts/9904.html</url>
     <content><![CDATA[<h1>开发准备</h1>
@@ -2596,6 +2567,35 @@ $$</p>
       </categories>
   </entry>
   <entry>
+    <title>STM32GPIO八种输入输出模式</title>
+    <url>/posts/36643.html</url>
+    <content><![CDATA[<h2 id="STM32-GPIO"><strong>STM32</strong> GPIO</h2>
+<p><img src="/img/page/stm32GPIO/gpio.png" alt="img"></p>
+<h2 id="1-GPIO-MODE-AIN-模拟输入">1. GPIO_MODE_AIN 模拟输入</h2>
+<p>输入信号不经施密特触发器直接接入，<strong>输入信号为模拟量</strong>而非数字量，其余输入方式输入数字量。</p>
+<h2 id="2-GPIO-MODE-IN-FLOATING-浮空输入">2. GPIO_MODE_IN_FLOATING 浮空输入</h2>
+<p>输入信号经过施密特触发器接入输入数据存储器。<strong>当无信号输入时，电压不确定</strong>。因为浮空输入既<strong>高阻输入</strong>，可以认为输入端口阻抗无穷大，这样可以检测到微弱的信号。（相当于电压表测电压，如果电压表内阻不够大而外部阻抗比较大，则电压表分压会比较小）。此时输入高电平即高电平，输入低电平即低电平。但是外界没有输入时输入电平却容易受到外界电磁以及各种玄学干扰的影响。如按键采用浮空输入，则在按键按下时输入电平为低，但是当松开按键时输入端口悬空，外界有微弱的干扰都会被端口检测到。此时端口可能高，也可能低。</p>
+<h2 id="3-GPIO-MODE-IPD-下拉输入">3. GPIO_MODE_IPD 下拉输入</h2>
+<p>浮空输入在外界没有输入时状态不确定，可能对电路造成干扰。为了使得电路更加稳定，不出现没有输入时端口的输入数据被干扰 （比如手碰一下电压就发生变化）。这时就需要下拉电阻（或上拉电阻）,此电阻与端口输入阻抗相比仍然较小。有输入信号时端口读取输入信号，<strong>无输入信号时端口电平被拉到低电平（高电平）</strong>。</p>
+<h2 id="4-GPIO-MODE-IPU-上拉输入">4. GPIO_MODE_IPU 上拉输入</h2>
+<p>上拉输入与下拉输入类似，只是<strong>无输入信号时端口电平被拉到高电平</strong>。例如按键信号，当按下时输入低电平，松开时电平被拉到高电平。这样就不会出现按键松开时端口电平不确定的情况。即不知道时按下还是松开。</p>
+<h2 id="5-GPIO-MODE-OUT-OD-开漏输出">5. GPIO-MODE_OUT_OD 开漏输出</h2>
+<p><img src="/img/page/stm32GPIO/od.png" alt="img"></p>
+<p>开漏输出即<strong>漏极开路输出</strong>。这种输出方式指场效应管漏极开路输出。<strong>需要接上拉电阻才能输出1</strong>。漏极经上拉电阻接到电源，栅极输出0时，场效应管截止（阻抗无线大），电压被分到场效应管上，此时输出为1。当栅极输出1时，场效应管导通，输出端口相当于接地，此时输出0。开漏输出高电平时是由外接电源输出的，因此可以实现高于输出端口电压的输出。可以实现电平的转换。<strong>开漏输出可以实现线与功能</strong>，方法是多个输出共接一个上拉电阻。但是漏极开路输出<strong>上升沿慢</strong>，因为上升沿是外接电源对上拉电阻以及外接负载充电。当上拉电阻较大或者负载容性较大时时间常数较大，充电较慢。<strong>需要较快反映时可以采用下降沿触发</strong>，此时没有电阻接入，电路的时间常数较小，充电较快。</p>
+<h2 id="6-GPIO-MODE-OUT-PP-推挽输出">6. GPIO_MODE_OUT_PP 推挽输出</h2>
+<p><img src="/img/page/stm32GPIO/pp.png" alt="img"></p>
+<p><strong>推挽输出既可以输出1，又可以输出0</strong>。但是无法调节输出电压，因为输出高低电平均为三极管输入端电压，此电压在由芯片内部供电，无法改变。推挽输出任意时刻只有一路工作。上图为输出高电平时电路工作状态。只有三极管导通电阻，无外接电阻。因此推挽输出<strong>损耗小、速度快</strong>。</p>
+<h2 id="7-GPIO-MODE-AF-OD-复用开漏输出">7. GPIO_MODE_AF_OD 复用开漏输出</h2>
+<p>STM32单片机内部有其他的外设，比如定时器、DAC等。复用开漏输出与普通开漏输出区别在于，开漏输出输出的是输出数据寄存器中的数据，<strong>复用开漏输出输出的是来自外设的数据</strong>。</p>
+<h2 id="8-GOIO-MODE-AF-PP-复用推挽输出">8. GOIO_MODE_AF_PP 复用推挽输出</h2>
+<p><strong>复用推挽输出原理与复用开漏输出原理相同</strong></p>
+<p>文章转载自知乎<a href="https://zhuanlan.zhihu.com/p/113367004">STM32 GPIO八种输入输出模式 - 知乎 (zhihu.com)</a></p>
+]]></content>
+      <categories>
+        <category>STM32</category>
+      </categories>
+  </entry>
+  <entry>
     <title>STM32阵列按键</title>
     <url>/posts/47966.html</url>
     <content><![CDATA[<h1>阵列按键</h1>
@@ -2626,25 +2626,6 @@ $$</p>
       <tags>
         <tag>C++</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/posts/16107.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start">Quick Start</h2>
-<h3 id="Create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>edgeboardFZ3A相关问题</title>
@@ -2691,6 +2672,25 @@ set(SERIAL_INCLUDE_DIR “/usr/include/serial”)</p>
         <tag>Linux</tag>
         <tag>edgeboard-FZ3A</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/posts/16107.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start">Quick Start</h2>
+<h3 id="Create-a-new-post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
   <entry>
     <title>yolo和paddle模型常见输出参数</title>
@@ -2743,117 +2743,6 @@ set(SERIAL_INCLUDE_DIR “/usr/include/serial”)</p>
       <tags>
         <tag>Paddle</tag>
         <tag>yolo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【LeetCode 1617】统计子树中城市之间最大距离</title>
-    <url>/posts/5491.html</url>
-    <content><![CDATA[<h2 id="题目描述">题目描述</h2>
-<p>给你 n 个城市，编号为从 1 到 n 。同时给你一个大小为 n-1 的数组 edges ，其中 edges[i] = [ui, vi] 表示城市 ui 和 vi 之间有一条双向边。题目保证任意城市之间只有唯一的一条路径。换句话说，所有城市形成了一棵 树 。</p>
-<p>一棵 子树 是城市的一个子集，且子集中任意城市之间可以通过子集中的其他城市和边到达。两个子树被认为不一样的条件是至少有一个城市在其中一棵子树中存在，但在另一棵子树中不存在。</p>
-<p>对于 d 从 1 到 n-1 ，请你找到城市间 最大距离 恰好为 d 的所有子树数目。</p>
-<p>请你返回一个大小为 n-1 的数组，其中第 d 个元素（下标从 1 开始）是城市间 最大距离 恰好等于 d 的子树数目。</p>
-<p>请注意，两个城市间距离定义为它们之间需要经过的边的数目。</p>
-<h3 id="示例-1：">示例 1：</h3>
-<blockquote>
-<p>输入：n = 4, edges = [[1,2],[2,3],[2,4]]<br>
-输出：[3,4,0]<br>
-解释：<br>
-子树 {1,2}, {2,3} 和 {2,4} 最大距离都是 1 。<br>
-子树 {1,2,3}, {1,2,4}, {2,3,4} 和 {1,2,3,4} 最大距离都为 2 。<br>
-不存在城市间最大距离为 3 的子树。</p>
-</blockquote>
-<h3 id="示例-2：">示例 2：</h3>
-<blockquote>
-<p>输入：n = 2, edges = [[1,2]]<br>
-输出：[1]</p>
-</blockquote>
-<h3 id="示例-3：">示例 3：</h3>
-<blockquote>
-<p>输入：n = 3, edges = [[1,2],[2,3]]<br>
-输出：[2,1]</p>
-</blockquote>
-<h3 id="提示：">提示：</h3>
-<p>$2 &lt;= n &lt;= 15$<br>
-$edges.length == n-1$<br>
-$edges[i].length == 2$<br>
-$1 &lt;= ui, vi &lt;= n$<br>
-$题目保证 (ui, vi) 所表示的边互不相同。$</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">countSubgraphsForEachDiameter</span><span class="hljs-params">(<span class="hljs-type">int</span> n, vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt;&amp; edges)</span> </span>&#123;<br>		<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(n - <span class="hljs-number">1</span>)</span></span>;<br>		vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; <span class="hljs-built_in">G</span>(n + <span class="hljs-number">1</span>);<br>		<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">vis</span><span class="hljs-params">(n + <span class="hljs-number">1</span>)</span></span>;	<span class="hljs-comment">//访问树</span><br>		<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ins</span><span class="hljs-params">(n + <span class="hljs-number">1</span>)</span></span>;	<span class="hljs-comment">//子树</span><br>		<span class="hljs-type">int</span> dim = <span class="hljs-number">0</span>;<span class="hljs-comment">//直径</span><br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; e : edges) &#123;<br>			G[e[<span class="hljs-number">0</span>]].<span class="hljs-built_in">push_back</span>(e[<span class="hljs-number">1</span>]);<br>			G[e[<span class="hljs-number">1</span>]].<span class="hljs-built_in">push_back</span>(e[<span class="hljs-number">0</span>]);<br>		&#125;<br>		<br>        <span class="hljs-comment">//深搜，用于统计直径</span><br>        <span class="hljs-comment">//depu是当前节点u的深度，depv是遍历子节点v后返回的子树的深度</span><br>		function&lt;<span class="hljs-type">int</span>(<span class="hljs-type">int</span>)&gt; DFS = [&amp;](<span class="hljs-type">int</span> u) &#123;<br>			<span class="hljs-type">int</span> depu = <span class="hljs-number">0</span>;<br>			vis[u] = <span class="hljs-literal">true</span>;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; v : G[u]) &#123;<br>				<span class="hljs-keyword">if</span> (!vis[v] &amp;&amp; ins[v]) &#123;<br>					<span class="hljs-type">int</span> depv = <span class="hljs-built_in">DFS</span>(v) + <span class="hljs-number">1</span>;<span class="hljs-comment">//depv为子树的长度</span><br>					dim = <span class="hljs-built_in">max</span>(dim, depu + depv);	<span class="hljs-comment">//如果子树深度+节点u深度&gt;当前直径，更新当前直径，确保最终含有节点u的子树的直径为最大直径</span><br>					depu = <span class="hljs-built_in">max</span>(depu, depv);		<span class="hljs-comment">//子树深度若增加，更新节点u深度</span><br><br>				&#125;<br>			&#125;<br>			<span class="hljs-keyword">return</span> depu;<br>		&#125;;<br>		<br>        <span class="hljs-comment">//回溯函数，用于枚举子树选择</span><br>		function&lt;<span class="hljs-type">void</span>(<span class="hljs-type">int</span>)&gt; _stat = [&amp;](<span class="hljs-type">int</span> i) &#123;<br>			<span class="hljs-keyword">if</span> (i &gt; n) &#123;<span class="hljs-comment">//完成所有节点的0(不在子树中) 1((在子树中)枚举</span><br>				<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> v = <span class="hljs-number">1</span>; v &lt;= n; v++)<br>					<span class="hljs-keyword">if</span> (ins[v]) &#123;<br>						<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; vs : vis)vs = <span class="hljs-literal">false</span>;<br>						dim = <span class="hljs-number">0</span>;<span class="hljs-comment">//直径</span><br>						<span class="hljs-built_in">DFS</span>(v);<span class="hljs-comment">//获取子树直径</span><br>						<span class="hljs-keyword">break</span>;<br>					&#125;<br>				<span class="hljs-keyword">if</span> (dim &amp;&amp; vis == ins)<span class="hljs-comment">//获取到直径，且所 选择的树 与 访问树 相同</span><br>					ans[dim - <span class="hljs-number">1</span>]++;<br>				<span class="hljs-keyword">return</span>;<br>			&#125;<br><br>			_stat(i + <span class="hljs-number">1</span>);<span class="hljs-comment">//子树，不选择节点i</span><br>			ins[i] = <span class="hljs-literal">true</span>;<br>			_stat(i + <span class="hljs-number">1</span>);<span class="hljs-comment">//子树，选择节点i</span><br>			ins[i] = <span class="hljs-literal">false</span>;<span class="hljs-comment">//回溯</span><br>		&#125;;<br><br>		_stat(<span class="hljs-number">1</span>);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; i : ans) &#123;<br>			cout &lt;&lt; i &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>		&#125;<br>		<span class="hljs-keyword">return</span> ans;<br>	&#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>树</tag>
-        <tag>回溯</tag>
-        <tag>枚举</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一个特别的日子</title>
-    <url>/posts/21795.html</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>我</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>二叉搜索树(BST)</title>
-    <url>/posts/45841.html</url>
-    <content><![CDATA[<p>[TOC]</p>
-<h1>性质</h1>
-<p>二叉搜索树本质上还是一棵二叉树，其满足以下性质（习惯性定义为）：</p>
-<ul>
-<li>非空<strong>左子树</strong>的所有<strong>键值小于其根结点</strong>的键值</li>
-<li>非空<strong>右子树</strong>的所有<strong>键值大于其根结点</strong>的键值</li>
-<li>左右子树都是二叉搜索树</li>
-</ul>
-<h2 id="基本函数">基本函数</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//从二叉搜索树BST中查找x，返回结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">Find</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br><br><span class="hljs-comment">//从二叉搜索树BST中查找最小元素的结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">FindMin</span><span class="hljs-params">(BinTree BST)</span></span>;<br><br><span class="hljs-comment">//从二叉搜索树BST中查找最大元素结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">FindMax</span><span class="hljs-params">(BinTree BST)</span></span>;<br><br><span class="hljs-comment">//向二叉搜索树BST插入值为x的结点</span><br><span class="hljs-function">BinTree <span class="hljs-title">Insert</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br><br><span class="hljs-comment">//向二叉搜索树BST删除值为x的结点</span><br><span class="hljs-function">BinTree <span class="hljs-title">Delete</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br></code></pre></td></tr></table></figure>
-<h2 id="Find">Find</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Find</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (!BST) <span class="hljs-keyword">return</span> <span class="hljs-literal">nullptr</span>;<br><br>	<span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>		<span class="hljs-built_in">Find</span>(x, BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>		<span class="hljs-built_in">Find</span>(x, BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-keyword">return</span> BST;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="FindMin">FindMin</h2>
-<p>最小元素一定在树的最左分支的结点</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::FindMin</span><span class="hljs-params">(BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;left)<span class="hljs-keyword">return</span> <span class="hljs-built_in">FindMin</span>(BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="FindMax">FindMax</h2>
-<p>最大元素一定在树的最右分支的结点</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::FindMax</span><span class="hljs-params">(BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;right)<span class="hljs-keyword">return</span> <span class="hljs-built_in">FindMin</span>(BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-<h2 id="Insert">Insert</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Insert</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>			<span class="hljs-comment">//向左子树</span><br>			BST-&gt;left = <span class="hljs-built_in">Insert</span>(x, BST-&gt;left);<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>			<span class="hljs-comment">//向右子树</span><br>			BST-&gt;right = <span class="hljs-built_in">Insert</span>(x, BST-&gt;right);<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-comment">//根即为当前数</span><br>			BST-&gt;cnt++;<br>		&#125;<br>	&#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-comment">//构造新节点用于存储</span><br>		BST = <span class="hljs-keyword">new</span> BiNode;<br>		BST-&gt;data = x;<br>		BST-&gt;left = BST-&gt;right = <span class="hljs-literal">nullptr</span>;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="Delete">Delete</h2>
-<p>需要考虑<strong>三种情况</strong></p>
-<ul>
-<li>
-<p>要删除的是<strong>叶结点</strong>：直接删除，再修改其父结点指针NULL</p>
-</li>
-<li>
-<p>要删除的结点<strong>只有一个&quot;孩子&quot;</strong>：将其<strong>父结点的指针</strong>指向要删除的&quot;孩子&quot;结点</p>
-</li>
-<li>
-<p>要删除的结点有<strong>左右两棵子树</strong>：用另一结点替代被删除的结点（<strong>右子树的最小元素</strong> 或 <strong>左子树的最大元素</strong>）----- 这样做的好处是：右子树的最小值和左子树的最大值<strong>一定不会有两个</strong>&quot;孩子&quot;的结点</p>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Delete</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	BiNode* tmp = <span class="hljs-literal">nullptr</span>;<br>	<span class="hljs-keyword">if</span> (!BST) &#123;<br>		cout &lt;&lt; <span class="hljs-string">&quot;未找到相应元素&quot;</span> &lt;&lt; endl;<br>	&#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>		BST-&gt;left = <span class="hljs-built_in">Delete</span>(x, BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>		BST-&gt;right = <span class="hljs-built_in">Delete</span>(x, BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">else</span>&#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;left &amp;&amp; BST-&gt;right) &#123;<br>			tmp = <span class="hljs-built_in">FindMax</span>(BST-&gt;left);<br><br>			BST-&gt;data = tmp-&gt;data;<br>			BST-&gt;left = <span class="hljs-built_in">Delete</span>(BST-&gt;data, BST-&gt;left);<br>            <br>            <span class="hljs-comment">/*这里也可以选择选取右子树最小值</span><br><span class="hljs-comment">            tmp = FindMin(BST-&gt;right);</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">			BST-&gt;data = tmp-&gt;data;</span><br><span class="hljs-comment">			BST-&gt;right = Delete(BST-&gt;data, BST-&gt;right);</span><br><span class="hljs-comment">            */</span><br><br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			tmp = BST;<br>			<span class="hljs-keyword">if</span> (!BST-&gt;left) &#123;<br>				BST = BST-&gt;left;<br>			&#125;<br>			<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!BST-&gt;right) &#123;<br>				BST = BST-&gt;right;<br>			&#125;<br><br>			<span class="hljs-keyword">delete</span> tmp;<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h1>平衡二叉树(AVLTree)</h1>
-<ul>
-<li>给定结点数为n的平衡二叉树的最大高度为$log_2n$</li>
-</ul>
-<p>插入一个新结点后，如果树的平衡结构被破坏</p>
-<ul>
-<li>被破坏的是右侧结构：称这次插入为<strong>RR插入</strong> 应对这种不平衡的调整称为<strong>RR旋转（右旋）</strong></li>
-</ul>
-<p>↓插入NOV，Mar右侧结构被破坏，需要进行调整</p>
-<p>/!/[/]/(/img/page/tree/AVLRR.wepb)</p>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>树</tag>
-        <tag>二叉树</tag>
-        <tag>二叉搜索树</tag>
-        <tag>平衡二叉树</tag>
       </tags>
   </entry>
   <entry>
@@ -3116,6 +3005,150 @@ $$</p>
       </tags>
   </entry>
   <entry>
+    <title>【LeetCode 1617】统计子树中城市之间最大距离</title>
+    <url>/posts/5491.html</url>
+    <content><![CDATA[<h2 id="题目描述">题目描述</h2>
+<p>给你 n 个城市，编号为从 1 到 n 。同时给你一个大小为 n-1 的数组 edges ，其中 edges[i] = [ui, vi] 表示城市 ui 和 vi 之间有一条双向边。题目保证任意城市之间只有唯一的一条路径。换句话说，所有城市形成了一棵 树 。</p>
+<p>一棵 子树 是城市的一个子集，且子集中任意城市之间可以通过子集中的其他城市和边到达。两个子树被认为不一样的条件是至少有一个城市在其中一棵子树中存在，但在另一棵子树中不存在。</p>
+<p>对于 d 从 1 到 n-1 ，请你找到城市间 最大距离 恰好为 d 的所有子树数目。</p>
+<p>请你返回一个大小为 n-1 的数组，其中第 d 个元素（下标从 1 开始）是城市间 最大距离 恰好等于 d 的子树数目。</p>
+<p>请注意，两个城市间距离定义为它们之间需要经过的边的数目。</p>
+<h3 id="示例-1：">示例 1：</h3>
+<blockquote>
+<p>输入：n = 4, edges = [[1,2],[2,3],[2,4]]<br>
+输出：[3,4,0]<br>
+解释：<br>
+子树 {1,2}, {2,3} 和 {2,4} 最大距离都是 1 。<br>
+子树 {1,2,3}, {1,2,4}, {2,3,4} 和 {1,2,3,4} 最大距离都为 2 。<br>
+不存在城市间最大距离为 3 的子树。</p>
+</blockquote>
+<h3 id="示例-2：">示例 2：</h3>
+<blockquote>
+<p>输入：n = 2, edges = [[1,2]]<br>
+输出：[1]</p>
+</blockquote>
+<h3 id="示例-3：">示例 3：</h3>
+<blockquote>
+<p>输入：n = 3, edges = [[1,2],[2,3]]<br>
+输出：[2,1]</p>
+</blockquote>
+<h3 id="提示：">提示：</h3>
+<p>$2 &lt;= n &lt;= 15$<br>
+$edges.length == n-1$<br>
+$edges[i].length == 2$<br>
+$1 &lt;= ui, vi &lt;= n$<br>
+$题目保证 (ui, vi) 所表示的边互不相同。$</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">countSubgraphsForEachDiameter</span><span class="hljs-params">(<span class="hljs-type">int</span> n, vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt;&amp; edges)</span> </span>&#123;<br>		<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(n - <span class="hljs-number">1</span>)</span></span>;<br>		vector&lt;vector&lt;<span class="hljs-type">int</span>&gt;&gt; <span class="hljs-built_in">G</span>(n + <span class="hljs-number">1</span>);<br>		<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">vis</span><span class="hljs-params">(n + <span class="hljs-number">1</span>)</span></span>;	<span class="hljs-comment">//访问树</span><br>		<span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ins</span><span class="hljs-params">(n + <span class="hljs-number">1</span>)</span></span>;	<span class="hljs-comment">//子树</span><br>		<span class="hljs-type">int</span> dim = <span class="hljs-number">0</span>;<span class="hljs-comment">//直径</span><br><br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; e : edges) &#123;<br>			G[e[<span class="hljs-number">0</span>]].<span class="hljs-built_in">push_back</span>(e[<span class="hljs-number">1</span>]);<br>			G[e[<span class="hljs-number">1</span>]].<span class="hljs-built_in">push_back</span>(e[<span class="hljs-number">0</span>]);<br>		&#125;<br>		<br>        <span class="hljs-comment">//深搜，用于统计直径</span><br>        <span class="hljs-comment">//depu是当前节点u的深度，depv是遍历子节点v后返回的子树的深度</span><br>		function&lt;<span class="hljs-type">int</span>(<span class="hljs-type">int</span>)&gt; DFS = [&amp;](<span class="hljs-type">int</span> u) &#123;<br>			<span class="hljs-type">int</span> depu = <span class="hljs-number">0</span>;<br>			vis[u] = <span class="hljs-literal">true</span>;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; v : G[u]) &#123;<br>				<span class="hljs-keyword">if</span> (!vis[v] &amp;&amp; ins[v]) &#123;<br>					<span class="hljs-type">int</span> depv = <span class="hljs-built_in">DFS</span>(v) + <span class="hljs-number">1</span>;<span class="hljs-comment">//depv为子树的长度</span><br>					dim = <span class="hljs-built_in">max</span>(dim, depu + depv);	<span class="hljs-comment">//如果子树深度+节点u深度&gt;当前直径，更新当前直径，确保最终含有节点u的子树的直径为最大直径</span><br>					depu = <span class="hljs-built_in">max</span>(depu, depv);		<span class="hljs-comment">//子树深度若增加，更新节点u深度</span><br><br>				&#125;<br>			&#125;<br>			<span class="hljs-keyword">return</span> depu;<br>		&#125;;<br>		<br>        <span class="hljs-comment">//回溯函数，用于枚举子树选择</span><br>		function&lt;<span class="hljs-type">void</span>(<span class="hljs-type">int</span>)&gt; _stat = [&amp;](<span class="hljs-type">int</span> i) &#123;<br>			<span class="hljs-keyword">if</span> (i &gt; n) &#123;<span class="hljs-comment">//完成所有节点的0(不在子树中) 1((在子树中)枚举</span><br>				<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> v = <span class="hljs-number">1</span>; v &lt;= n; v++)<br>					<span class="hljs-keyword">if</span> (ins[v]) &#123;<br>						<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; vs : vis)vs = <span class="hljs-literal">false</span>;<br>						dim = <span class="hljs-number">0</span>;<span class="hljs-comment">//直径</span><br>						<span class="hljs-built_in">DFS</span>(v);<span class="hljs-comment">//获取子树直径</span><br>						<span class="hljs-keyword">break</span>;<br>					&#125;<br>				<span class="hljs-keyword">if</span> (dim &amp;&amp; vis == ins)<span class="hljs-comment">//获取到直径，且所 选择的树 与 访问树 相同</span><br>					ans[dim - <span class="hljs-number">1</span>]++;<br>				<span class="hljs-keyword">return</span>;<br>			&#125;<br><br>			_stat(i + <span class="hljs-number">1</span>);<span class="hljs-comment">//子树，不选择节点i</span><br>			ins[i] = <span class="hljs-literal">true</span>;<br>			_stat(i + <span class="hljs-number">1</span>);<span class="hljs-comment">//子树，选择节点i</span><br>			ins[i] = <span class="hljs-literal">false</span>;<span class="hljs-comment">//回溯</span><br>		&#125;;<br><br>		_stat(<span class="hljs-number">1</span>);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; i : ans) &#123;<br>			cout &lt;&lt; i &lt;&lt; <span class="hljs-string">&quot; &quot;</span>;<br>		&#125;<br>		<span class="hljs-keyword">return</span> ans;<br>	&#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>树</tag>
+        <tag>回溯</tag>
+        <tag>枚举</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一个特别的日子</title>
+    <url>/posts/21795.html</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>我</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>二叉搜索树(BST)</title>
+    <url>/posts/45841.html</url>
+    <content><![CDATA[<p>[TOC]</p>
+<h1>性质</h1>
+<p>二叉搜索树本质上还是一棵二叉树，其满足以下性质（习惯性定义为）：</p>
+<ul>
+<li>非空<strong>左子树</strong>的所有<strong>键值小于其根结点</strong>的键值</li>
+<li>非空<strong>右子树</strong>的所有<strong>键值大于其根结点</strong>的键值</li>
+<li>左右子树都是二叉搜索树</li>
+</ul>
+<h2 id="基本函数">基本函数</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//从二叉搜索树BST中查找x，返回结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">Find</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br><br><span class="hljs-comment">//从二叉搜索树BST中查找最小元素的结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">FindMin</span><span class="hljs-params">(BinTree BST)</span></span>;<br><br><span class="hljs-comment">//从二叉搜索树BST中查找最大元素结点地址</span><br><span class="hljs-function">Poi <span class="hljs-title">FindMax</span><span class="hljs-params">(BinTree BST)</span></span>;<br><br><span class="hljs-comment">//向二叉搜索树BST插入值为x的结点</span><br><span class="hljs-function">BinTree <span class="hljs-title">Insert</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br><br><span class="hljs-comment">//向二叉搜索树BST删除值为x的结点</span><br><span class="hljs-function">BinTree <span class="hljs-title">Delete</span><span class="hljs-params">(ElementType x, BinTree BST)</span></span>;<br></code></pre></td></tr></table></figure>
+<h2 id="Find">Find</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Find</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (!BST) <span class="hljs-keyword">return</span> <span class="hljs-literal">nullptr</span>;<br><br>	<span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>		<span class="hljs-built_in">Find</span>(x, BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>		<span class="hljs-built_in">Find</span>(x, BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-keyword">return</span> BST;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="FindMin">FindMin</h2>
+<p>最小元素一定在树的最左分支的结点</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::FindMin</span><span class="hljs-params">(BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;left)<span class="hljs-keyword">return</span> <span class="hljs-built_in">FindMin</span>(BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="FindMax">FindMax</h2>
+<p>最大元素一定在树的最右分支的结点</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::FindMax</span><span class="hljs-params">(BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;right)<span class="hljs-keyword">return</span> <span class="hljs-built_in">FindMin</span>(BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h2 id="Insert">Insert</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Insert</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	<span class="hljs-keyword">if</span> (BST) &#123;<br>		<span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>			<span class="hljs-comment">//向左子树</span><br>			BST-&gt;left = <span class="hljs-built_in">Insert</span>(x, BST-&gt;left);<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>			<span class="hljs-comment">//向右子树</span><br>			BST-&gt;right = <span class="hljs-built_in">Insert</span>(x, BST-&gt;right);<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-comment">//根即为当前数</span><br>			BST-&gt;cnt++;<br>		&#125;<br>	&#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-comment">//构造新节点用于存储</span><br>		BST = <span class="hljs-keyword">new</span> BiNode;<br>		BST-&gt;data = x;<br>		BST-&gt;left = BST-&gt;right = <span class="hljs-literal">nullptr</span>;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="Delete">Delete</h2>
+<p>需要考虑<strong>三种情况</strong></p>
+<ul>
+<li>
+<p>要删除的是<strong>叶结点</strong>：直接删除，再修改其父结点指针NULL</p>
+</li>
+<li>
+<p>要删除的结点<strong>只有一个&quot;孩子&quot;</strong>：将其<strong>父结点的指针</strong>指向要删除的&quot;孩子&quot;结点</p>
+</li>
+<li>
+<p>要删除的结点有<strong>左右两棵子树</strong>：用另一结点替代被删除的结点（<strong>右子树的最小元素</strong> 或 <strong>左子树的最大元素</strong>）----- 这样做的好处是：右子树的最小值和左子树的最大值<strong>一定不会有两个</strong>&quot;孩子&quot;的结点</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function">BiNode* <span class="hljs-title">BiSearchTree::Delete</span><span class="hljs-params">(<span class="hljs-type">int</span> x, BiNode* BST)</span></span>&#123;<br>	BiNode* tmp = <span class="hljs-literal">nullptr</span>;<br>	<span class="hljs-keyword">if</span> (!BST) &#123;<br>		cout &lt;&lt; <span class="hljs-string">&quot;未找到相应元素&quot;</span> &lt;&lt; endl;<br>	&#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &lt; BST-&gt;data) &#123;<br>		BST-&gt;left = <span class="hljs-built_in">Delete</span>(x, BST-&gt;left);<br>	&#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x &gt; BST-&gt;data) &#123;<br>		BST-&gt;right = <span class="hljs-built_in">Delete</span>(x, BST-&gt;right);<br>	&#125;<br>	<span class="hljs-keyword">else</span>&#123;<br>		<span class="hljs-keyword">if</span> (BST-&gt;left &amp;&amp; BST-&gt;right) &#123;<br>			tmp = <span class="hljs-built_in">FindMax</span>(BST-&gt;left);<br><br>			BST-&gt;data = tmp-&gt;data;<br>			BST-&gt;left = <span class="hljs-built_in">Delete</span>(BST-&gt;data, BST-&gt;left);<br>            <br>            <span class="hljs-comment">/*这里也可以选择选取右子树最小值</span><br><span class="hljs-comment">            tmp = FindMin(BST-&gt;right);</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">			BST-&gt;data = tmp-&gt;data;</span><br><span class="hljs-comment">			BST-&gt;right = Delete(BST-&gt;data, BST-&gt;right);</span><br><span class="hljs-comment">            */</span><br><br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			tmp = BST;<br>			<span class="hljs-keyword">if</span> (!BST-&gt;left) &#123;<br>				BST = BST-&gt;left;<br>			&#125;<br>			<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!BST-&gt;right) &#123;<br>				BST = BST-&gt;right;<br>			&#125;<br><br>			<span class="hljs-keyword">delete</span> tmp;<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> BST;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1>平衡二叉树(AVLTree)</h1>
+<ul>
+<li>给定结点数为n的平衡二叉树的最大高度为$log_2n$</li>
+</ul>
+<p>插入一个新结点后，如果树的平衡结构被破坏</p>
+<ul>
+<li>被破坏的是右侧结构：称这次插入为<strong>RR插入</strong> 应对这种不平衡的调整称为<strong>RR旋转（右旋）</strong></li>
+</ul>
+<p>↓插入NOV，Mar右侧结构被破坏，需要进行调整</p>
+<p>/!/[/]/(/img/page/tree/AVLRR.wepb)</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>树</tag>
+        <tag>二叉树</tag>
+        <tag>二叉搜索树</tag>
+        <tag>平衡二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二叉树的遍历</title>
+    <url>/posts/63105.html</url>
+    <content><![CDATA[<h1>先序遍历</h1>
+<blockquote>
+<p>根-&gt;左子树-&gt;右子树</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::PreOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (B) &#123;<br>		cout &lt;&lt; B-&gt;data &lt;&lt; endl;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;left);<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;right);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1>中序遍历</h1>
+<blockquote>
+<p>左子树-&gt;根-&gt;右子树</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::InOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (B) &#123;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;left);<br>		cout &lt;&lt; B-&gt;data &lt;&lt; endl;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;right);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1>后序遍历</h1>
+<blockquote>
+<p>左子树-&gt;右子树-&gt;根</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::PostOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (B) &#123;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;left);<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;right);<br>		cout &lt;&lt; B-&gt;data &lt;&lt; endl;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1>层序遍历</h1>
+<blockquote>
+<p>第一层-&gt;第二层-&gt;…-&gt;最后一层</p>
+</blockquote>
+<p>通常的遍历，结点在访问后便被丢弃</p>
+<p>要想做到层序的效果，我们需要在访问一个结点时，要注意存下其左右结点（注意判空）</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::LevelOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	BiNode* BQ[<span class="hljs-number">100</span>]; 	<span class="hljs-comment">//队列，用于存放结点</span><br>	BiNode* p;			<span class="hljs-comment">//取出的当前队列最前方结点</span><br>	<span class="hljs-type">int</span> l = <span class="hljs-number">0</span>, r = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">if</span>(B) BQ[r++] = B;	<span class="hljs-comment">//判空</span><br><br>	<span class="hljs-keyword">while</span> (l != r) &#123;	<span class="hljs-comment">//跳出循环的条件是队列为空（左右相遇即为空）</span><br>		p = BQ[l++];<br>		cout &lt;&lt; p-&gt;data &lt;&lt; endl;<br>		<span class="hljs-keyword">if</span> (p-&gt;left)BQ[r++] = p-&gt;left;		<span class="hljs-comment">//存入左结点</span><br>		<span class="hljs-keyword">if</span> (p-&gt;right)BQ[r++] = p-&gt;right;	<span class="hljs-comment">//存入右结点</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>树</tag>
+        <tag>二叉树</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>二叉树的同构</title>
     <url>/posts/50176.html</url>
     <content><![CDATA[<h1>关于二叉树的同构</h1>
@@ -3160,39 +3193,6 @@ $$</p>
 <h1>后序中序转前序(和上方概念类似)</h1>
 <figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++">stack&lt;<span class="hljs-type">char</span>&gt; st;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	string InOrderStr;<br>	string PreOrderStr;<br>	cin &gt;&gt; InOrderStr &gt;&gt; PreOrderStr;<br>	<br>	_find2(InOrderStr, PreOrderStr);<br>	<span class="hljs-keyword">while</span> (!st.<span class="hljs-built_in">empty</span>()) &#123;<br>		cout &lt;&lt; st.<span class="hljs-built_in">top</span>();<br>		st.<span class="hljs-built_in">pop</span>();<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-type">void</span> _find2(string InOrderStr, string PostOrderStr)&#123;<br>	<span class="hljs-keyword">if</span> (PostOrderStr.<span class="hljs-built_in">empty</span>())<span class="hljs-keyword">return</span>;<br>	<span class="hljs-type">char</span> root = PostOrderStr[PostOrderStr.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>];<br>	PostOrderStr.<span class="hljs-built_in">pop_back</span>();<br><br>	<span class="hljs-type">int</span> rootidx = InOrderStr.<span class="hljs-built_in">find</span>(root);<br><br>	string leftIn = InOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, rootidx);<br>	string leftPost = PostOrderStr.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, rootidx);<br><br>	string rightIn = InOrderStr.<span class="hljs-built_in">substr</span>(rootidx + <span class="hljs-number">1</span>);<br>	string rightPost = PostOrderStr.<span class="hljs-built_in">substr</span>(rootidx);<br><br><br>	_find2(rightIn, rightPost);<br>	_find2(leftIn, leftPost);<br><br>	st.<span class="hljs-built_in">push</span>(root);<br>&#125;<br><br></code></pre></td></tr></table></figure>
 ]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>树</tag>
-        <tag>二叉树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>二叉树的遍历</title>
-    <url>/posts/63105.html</url>
-    <content><![CDATA[<h1>先序遍历</h1>
-<blockquote>
-<p>根-&gt;左子树-&gt;右子树</p>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::PreOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (B) &#123;<br>		cout &lt;&lt; B-&gt;data &lt;&lt; endl;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;left);<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;right);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h1>中序遍历</h1>
-<blockquote>
-<p>左子树-&gt;根-&gt;右子树</p>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::InOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (B) &#123;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;left);<br>		cout &lt;&lt; B-&gt;data &lt;&lt; endl;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;right);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h1>后序遍历</h1>
-<blockquote>
-<p>左子树-&gt;右子树-&gt;根</p>
-</blockquote>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::PostOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (B) &#123;<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;left);<br>		<span class="hljs-built_in">PreOrder</span>(B-&gt;right);<br>		cout &lt;&lt; B-&gt;data &lt;&lt; endl;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h1>层序遍历</h1>
-<blockquote>
-<p>第一层-&gt;第二层-&gt;…-&gt;最后一层</p>
-</blockquote>
-<p>通常的遍历，结点在访问后便被丢弃</p>
-<p>要想做到层序的效果，我们需要在访问一个结点时，要注意存下其左右结点（注意判空）</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BiTree::LevelOrder</span><span class="hljs-params">(BiNode* B)</span> </span>&#123;<br>	BiNode* BQ[<span class="hljs-number">100</span>]; 	<span class="hljs-comment">//队列，用于存放结点</span><br>	BiNode* p;			<span class="hljs-comment">//取出的当前队列最前方结点</span><br>	<span class="hljs-type">int</span> l = <span class="hljs-number">0</span>, r = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">if</span>(B) BQ[r++] = B;	<span class="hljs-comment">//判空</span><br><br>	<span class="hljs-keyword">while</span> (l != r) &#123;	<span class="hljs-comment">//跳出循环的条件是队列为空（左右相遇即为空）</span><br>		p = BQ[l++];<br>		cout &lt;&lt; p-&gt;data &lt;&lt; endl;<br>		<span class="hljs-keyword">if</span> (p-&gt;left)BQ[r++] = p-&gt;left;		<span class="hljs-comment">//存入左结点</span><br>		<span class="hljs-keyword">if</span> (p-&gt;right)BQ[r++] = p-&gt;right;	<span class="hljs-comment">//存入右结点</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>C++</category>
       </categories>
@@ -3268,6 +3268,19 @@ $$</p>
       </tags>
   </entry>
   <entry>
+    <title>图的表示</title>
+    <url>/posts/3155.html</url>
+    <content><![CDATA[<h1>邻接矩阵实现</h1>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXN 10001</span><br><span class="hljs-type">int</span> G[MAXN][MAXN], Nv, Ne;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BuildG</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> u, v, w;<br>	cin &gt;&gt; Nv;<br>	<span class="hljs-comment">/*CreateGraph*/</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; Nv; i++) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; Nv; j++) &#123;<br>			G[i][j] = <span class="hljs-number">0</span>;<br>		&#125;<br>	&#125;<br>	cin &gt;&gt; Ne;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; Ne; i++) &#123;<br>		cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;<br>		<span class="hljs-comment">/*InsertEdge*/</span><br>		G[u][v] = w;<br>		G[v][u] = w;<span class="hljs-comment">//针对无向图，双向建边</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>图</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>回溯</title>
     <url>/posts/60046.html</url>
     <content><![CDATA[<h1>1</h1>
@@ -3325,21 +3338,8 @@ $$</p>
         <category>C++</category>
       </categories>
       <tags>
-        <tag>回溯</tag>
         <tag>pta</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>图的表示</title>
-    <url>/posts/3155.html</url>
-    <content><![CDATA[<h1>邻接矩阵实现</h1>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXN 10001</span><br><span class="hljs-type">int</span> G[MAXN][MAXN], Nv, Ne;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BuildG</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-type">int</span> u, v, w;<br>	cin &gt;&gt; Nv;<br>	<span class="hljs-comment">/*CreateGraph*/</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; Nv; i++) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; Nv; j++) &#123;<br>			G[i][j] = <span class="hljs-number">0</span>;<br>		&#125;<br>	&#125;<br>	cin &gt;&gt; Ne;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; Ne; i++) &#123;<br>		cin &gt;&gt; u &gt;&gt; v &gt;&gt; w;<br>		<span class="hljs-comment">/*InsertEdge*/</span><br>		G[u][v] = w;<br>		G[v][u] = w;<span class="hljs-comment">//针对无向图，双向建边</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>图</tag>
+        <tag>回溯</tag>
       </tags>
   </entry>
   <entry>
@@ -3417,6 +3417,58 @@ $$</p>
       </categories>
       <tags>
         <tag>夸父计划</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>拓扑排序</title>
+    <url>/posts/22315.html</url>
+    <content><![CDATA[<h1>什么是拓扑排序？</h1>
+<p>在图论中，<strong>拓扑排序</strong>（Topological Sorting）是一个有向无环图（DAG, Directed Acyclic Graph）的所有顶点的线性序列。且该序列必须满足下面两个条件：</p>
+<p>每个顶点出现且只出现一次</p>
+<p>若存在一条从顶点 A 到顶点 B 的路径，那么在序列中顶点 A 出现在顶点 B 的前面</p>
+<p><strong>有向无环图（DAG）才有拓扑排序，非DAG图没有拓扑排序一说</strong></p>
+<h1>拓扑排序有什么用？</h1>
+<blockquote>
+<p><strong>它可以用来解决形如：</strong></p>
+<p>有n个任务需要完成，每个任务有一个耗时和一个前置任务列表，前置任务完成后才能开始当前任务。求完成所有任务的最短时间</p>
+<p>这样<strong>具有依赖关系</strong>的问题</p>
+</blockquote>
+<h1>拓扑排序的实现</h1>
+<blockquote>
+<p>实现拓扑排序的关键就是<strong>维护一个入度为0的顶点的集合</strong></p>
+</blockquote>
+<hr>
+<h2 id="Eg：P1113-杂务">Eg：<a href="https://www.luogu.com.cn/problem/P1113">P1113 杂务</a></h2>
+<h2 id="题目描述">题目描述</h2>
+<p><code>John</code>的农场在给奶牛挤奶前有很多杂务要完成，每一项杂务都需要一定的时间来完成它。比如：他们要将奶牛集合起来，将他们赶进牛棚，为奶牛清洗乳房以及一些其它工作。尽早将所有杂务完成是必要的，因为这样才有更多时间挤出更多的牛奶。当然，有些杂务必须在另一些杂务完成的情况下才能进行。比如：只有将奶牛赶进牛棚才能开始为它清洗乳房，还有在未给奶牛清洗乳房之前不能挤奶。我们把这些工作称为完成本项工作的准备工作。至少有一项杂务不要求有准备工作，这个可以最早着手完成的工作，标记为杂务$1$。<code>John</code>有需要完成的$n$个杂务的清单，并且这份清单是有一定顺序的，杂务$k(k&gt;1)$的准备工作只可能在杂务$1$至$k-1$中。</p>
+<p>写一个程序从$1$到$n$读入每个杂务的工作说明。计算出所有杂务都被完成的最短时间。当然互相没有关系的杂务可以同时工作，并且，你可以假定<code>John</code>的农场有足够多的工人来同时完成任意多项任务。</p>
+<h2 id="输入格式">输入格式</h2>
+<p>第1行：一个整数$n$，必须完成的杂务的数目($3 \le n \le 10,000$)；</p>
+<p>第$2$至$(n+1)$行： 共有$n$行，每行有一些用$1$个空格隔开的整数，分别表示：</p>
+<p>* 工作序号($1$至$n$,在输入文件中是有序的)；</p>
+<p>* 完成工作所需要的时间$len(1 \le len \le 100)$；</p>
+<p>* 一些必须完成的准备工作，总数不超过$100$个，由一个数字$0$结束。有些杂务没有需要准备的工作只描述一个单独的$0$，整个输入文件中不会出现多余的空格。</p>
+<h2 id="输出格式">输出格式</h2>
+<p>一个整数，表示完成所有杂务所需的最短时间。</p>
+<h2 id="样例-1">样例 #1</h2>
+<h3 id="样例输入-1">样例输入 #1</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">7<br>1 5 0<br>2 2 1 0<br>3 3 2 0<br>4 6 1 0<br>5 1 2 4 0<br>6 8 2 4 0<br>7 4 3 5 6 0<br></code></pre></td></tr></table></figure>
+<h3 id="样例输出-1">样例输出 #1</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">23<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXN 10001		</span><br>vector&lt;<span class="hljs-type">int</span>&gt; followUpTask[MAXN];<span class="hljs-comment">//邻接表存图，对于下标为i的节点，其存储的为i的后续任务</span><br><span class="hljs-type">int</span> inDrgee[MAXN];	<span class="hljs-comment">//入度</span><br><span class="hljs-type">int</span> timeNeed[MAXN];	<span class="hljs-comment">//任务所需时间</span><br><span class="hljs-type">int</span> timeOver[MAXN];	<span class="hljs-comment">//第i号任务总耗时</span><br><br><span class="hljs-type">int</span> n;	<span class="hljs-comment">//图的节点数</span><br><br><span class="hljs-type">int</span> _max(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b) &#123;<br>	<span class="hljs-keyword">return</span> a &gt; b ? a : b;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">tuopu</span><span class="hljs-params">()</span> </span>&#123;<br>	queue&lt;<span class="hljs-type">int</span>&gt; q;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		<span class="hljs-keyword">if</span> (!inDrgee[i]) &#123;	<span class="hljs-comment">//统计入度为0的点，放入队列，准备拓扑排序</span><br>			q.<span class="hljs-built_in">push</span>(i);<br>			timeOver[i] = timeNeed[i];	<span class="hljs-comment">//对于入度为0的点，它的总耗时就是自己任务所需时间</span><br>		&#125;<br>	&#125;<br><br>	<span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>()) &#123;<br>		<span class="hljs-comment">//pre 存取的是入度为0的点(任务可以独立进行，或任务前置任务已经完成的任务点)</span><br>		<span class="hljs-type">int</span> pre = q.<span class="hljs-built_in">front</span>(); q.<span class="hljs-built_in">pop</span>();<br><br>		<span class="hljs-comment">//对于pre的后续任务，我们进行一个遍历</span><br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; crt : followUpTask[pre]) &#123;<br>			<span class="hljs-comment">//后续任务的耗时等于：max( 后续任务耗时 , pre任务+后续任务耗时 )</span><br>			timeOver[crt] = _max(timeOver[crt], timeOver[pre] + timeNeed[crt]);<br><br>			<span class="hljs-comment">//如果该后续任务的所有前置均完成（入度为0），将该后续任务放入队列，作为拓扑排序的新节点</span><br>			<span class="hljs-keyword">if</span> (!--inDrgee[crt])q.<span class="hljs-built_in">push</span>(crt);<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		ans = _max(ans, timeOver[i]);<br>	&#125;<br><br><br>	<span class="hljs-keyword">return</span> ans;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>	cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>	cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>	cin &gt;&gt; n;<br><br>	<span class="hljs-type">int</span> idx;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		cin &gt;&gt; idx &gt;&gt; timeNeed[i];<br><br>		<span class="hljs-type">int</span> preTask;<br>		cin &gt;&gt; preTask;<br>		<span class="hljs-keyword">while</span> (preTask) &#123;<br>			<span class="hljs-comment">//反向存储</span><br>			<span class="hljs-comment">//对于前置任务preTask，存储其后续任务</span><br>			followUpTask[preTask].<span class="hljs-built_in">push_back</span>(i);<br>			inDrgee[i]++;	<span class="hljs-comment">//后续任务入度加一</span><br>			cin &gt;&gt; preTask;<br>		&#125;<br>	&#125;<br><br>	cout &lt;&lt; <span class="hljs-built_in">tuopu</span>();<br>	<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>自问自答：</p>
+<blockquote>
+<p>Q：为什么是取max？</p>
+<p>A：因为任务是<strong>不限制人数的可并行完成模式</strong>，在已经计算出每个任务所需耗时后，所有任务中的最大耗时即为完成所有任务的最短耗时</p>
+</blockquote>
+<h2 id="利用拓扑排序思维的不建图实现（硬性要求1号任务不需要前置任务）">利用拓扑排序思维的不建图实现（硬性要求1号任务不需要前置任务）</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-type">int</span> itime[<span class="hljs-number">10001</span>];<br><span class="hljs-type">int</span> finishTime[<span class="hljs-number">10001</span>];<br>vector&lt;<span class="hljs-type">int</span>&gt; prepare[<span class="hljs-number">10001</span>];<br><br><span class="hljs-type">int</span> _max(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b) &#123;<br>	<span class="hljs-keyword">return</span> a &gt; b ? a : b;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>	cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>	cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>	<span class="hljs-type">int</span> n;<br>	cin &gt;&gt; n;<br><br>	<span class="hljs-type">int</span> idx;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		cin &gt;&gt; idx &gt;&gt; itime[i];<br><br>		<span class="hljs-type">int</span> prepa;<br>		cin &gt;&gt; prepa;<br>		<span class="hljs-keyword">while</span> (prepa) &#123;<br>			prepare[i].<span class="hljs-built_in">push_back</span>(prepa);<br>			cin &gt;&gt; prepa;<br>		&#125;<br>	&#125;<br><br><br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>	finishTime[<span class="hljs-number">1</span>] = itime[<span class="hljs-number">1</span>];<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; t : prepare[i]) &#123;<br>			finishTime[i] = _max(finishTime[i], finishTime[t] + itime[i]);<br>		&#125;<br>		ans = _max(ans, finishTime[i]);<br>	&#125;<br><br>	cout &lt;&lt; ans;<br>	<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>图</tag>
       </tags>
   </entry>
   <entry>
@@ -3572,58 +3624,6 @@ $$</p>
       </tags>
   </entry>
   <entry>
-    <title>拓扑排序</title>
-    <url>/posts/22315.html</url>
-    <content><![CDATA[<h1>什么是拓扑排序？</h1>
-<p>在图论中，<strong>拓扑排序</strong>（Topological Sorting）是一个有向无环图（DAG, Directed Acyclic Graph）的所有顶点的线性序列。且该序列必须满足下面两个条件：</p>
-<p>每个顶点出现且只出现一次</p>
-<p>若存在一条从顶点 A 到顶点 B 的路径，那么在序列中顶点 A 出现在顶点 B 的前面</p>
-<p><strong>有向无环图（DAG）才有拓扑排序，非DAG图没有拓扑排序一说</strong></p>
-<h1>拓扑排序有什么用？</h1>
-<blockquote>
-<p><strong>它可以用来解决形如：</strong></p>
-<p>有n个任务需要完成，每个任务有一个耗时和一个前置任务列表，前置任务完成后才能开始当前任务。求完成所有任务的最短时间</p>
-<p>这样<strong>具有依赖关系</strong>的问题</p>
-</blockquote>
-<h1>拓扑排序的实现</h1>
-<blockquote>
-<p>实现拓扑排序的关键就是<strong>维护一个入度为0的顶点的集合</strong></p>
-</blockquote>
-<hr>
-<h2 id="Eg：P1113-杂务">Eg：<a href="https://www.luogu.com.cn/problem/P1113">P1113 杂务</a></h2>
-<h2 id="题目描述">题目描述</h2>
-<p><code>John</code>的农场在给奶牛挤奶前有很多杂务要完成，每一项杂务都需要一定的时间来完成它。比如：他们要将奶牛集合起来，将他们赶进牛棚，为奶牛清洗乳房以及一些其它工作。尽早将所有杂务完成是必要的，因为这样才有更多时间挤出更多的牛奶。当然，有些杂务必须在另一些杂务完成的情况下才能进行。比如：只有将奶牛赶进牛棚才能开始为它清洗乳房，还有在未给奶牛清洗乳房之前不能挤奶。我们把这些工作称为完成本项工作的准备工作。至少有一项杂务不要求有准备工作，这个可以最早着手完成的工作，标记为杂务$1$。<code>John</code>有需要完成的$n$个杂务的清单，并且这份清单是有一定顺序的，杂务$k(k&gt;1)$的准备工作只可能在杂务$1$至$k-1$中。</p>
-<p>写一个程序从$1$到$n$读入每个杂务的工作说明。计算出所有杂务都被完成的最短时间。当然互相没有关系的杂务可以同时工作，并且，你可以假定<code>John</code>的农场有足够多的工人来同时完成任意多项任务。</p>
-<h2 id="输入格式">输入格式</h2>
-<p>第1行：一个整数$n$，必须完成的杂务的数目($3 \le n \le 10,000$)；</p>
-<p>第$2$至$(n+1)$行： 共有$n$行，每行有一些用$1$个空格隔开的整数，分别表示：</p>
-<p>* 工作序号($1$至$n$,在输入文件中是有序的)；</p>
-<p>* 完成工作所需要的时间$len(1 \le len \le 100)$；</p>
-<p>* 一些必须完成的准备工作，总数不超过$100$个，由一个数字$0$结束。有些杂务没有需要准备的工作只描述一个单独的$0$，整个输入文件中不会出现多余的空格。</p>
-<h2 id="输出格式">输出格式</h2>
-<p>一个整数，表示完成所有杂务所需的最短时间。</p>
-<h2 id="样例-1">样例 #1</h2>
-<h3 id="样例输入-1">样例输入 #1</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">7<br>1 5 0<br>2 2 1 0<br>3 3 2 0<br>4 6 1 0<br>5 1 2 4 0<br>6 8 2 4 0<br>7 4 3 5 6 0<br></code></pre></td></tr></table></figure>
-<h3 id="样例输出-1">样例输出 #1</h3>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">23<br></code></pre></td></tr></table></figure>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAXN 10001		</span><br>vector&lt;<span class="hljs-type">int</span>&gt; followUpTask[MAXN];<span class="hljs-comment">//邻接表存图，对于下标为i的节点，其存储的为i的后续任务</span><br><span class="hljs-type">int</span> inDrgee[MAXN];	<span class="hljs-comment">//入度</span><br><span class="hljs-type">int</span> timeNeed[MAXN];	<span class="hljs-comment">//任务所需时间</span><br><span class="hljs-type">int</span> timeOver[MAXN];	<span class="hljs-comment">//第i号任务总耗时</span><br><br><span class="hljs-type">int</span> n;	<span class="hljs-comment">//图的节点数</span><br><br><span class="hljs-type">int</span> _max(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b) &#123;<br>	<span class="hljs-keyword">return</span> a &gt; b ? a : b;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">tuopu</span><span class="hljs-params">()</span> </span>&#123;<br>	queue&lt;<span class="hljs-type">int</span>&gt; q;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		<span class="hljs-keyword">if</span> (!inDrgee[i]) &#123;	<span class="hljs-comment">//统计入度为0的点，放入队列，准备拓扑排序</span><br>			q.<span class="hljs-built_in">push</span>(i);<br>			timeOver[i] = timeNeed[i];	<span class="hljs-comment">//对于入度为0的点，它的总耗时就是自己任务所需时间</span><br>		&#125;<br>	&#125;<br><br>	<span class="hljs-keyword">while</span> (q.<span class="hljs-built_in">size</span>()) &#123;<br>		<span class="hljs-comment">//pre 存取的是入度为0的点(任务可以独立进行，或任务前置任务已经完成的任务点)</span><br>		<span class="hljs-type">int</span> pre = q.<span class="hljs-built_in">front</span>(); q.<span class="hljs-built_in">pop</span>();<br><br>		<span class="hljs-comment">//对于pre的后续任务，我们进行一个遍历</span><br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; crt : followUpTask[pre]) &#123;<br>			<span class="hljs-comment">//后续任务的耗时等于：max( 后续任务耗时 , pre任务+后续任务耗时 )</span><br>			timeOver[crt] = _max(timeOver[crt], timeOver[pre] + timeNeed[crt]);<br><br>			<span class="hljs-comment">//如果该后续任务的所有前置均完成（入度为0），将该后续任务放入队列，作为拓扑排序的新节点</span><br>			<span class="hljs-keyword">if</span> (!--inDrgee[crt])q.<span class="hljs-built_in">push</span>(crt);<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		ans = _max(ans, timeOver[i]);<br>	&#125;<br><br><br>	<span class="hljs-keyword">return</span> ans;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>	cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>	cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>	cin &gt;&gt; n;<br><br>	<span class="hljs-type">int</span> idx;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		cin &gt;&gt; idx &gt;&gt; timeNeed[i];<br><br>		<span class="hljs-type">int</span> preTask;<br>		cin &gt;&gt; preTask;<br>		<span class="hljs-keyword">while</span> (preTask) &#123;<br>			<span class="hljs-comment">//反向存储</span><br>			<span class="hljs-comment">//对于前置任务preTask，存储其后续任务</span><br>			followUpTask[preTask].<span class="hljs-built_in">push_back</span>(i);<br>			inDrgee[i]++;	<span class="hljs-comment">//后续任务入度加一</span><br>			cin &gt;&gt; preTask;<br>		&#125;<br>	&#125;<br><br>	cout &lt;&lt; <span class="hljs-built_in">tuopu</span>();<br>	<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>自问自答：</p>
-<blockquote>
-<p>Q：为什么是取max？</p>
-<p>A：因为任务是<strong>不限制人数的可并行完成模式</strong>，在已经计算出每个任务所需耗时后，所有任务中的最大耗时即为完成所有任务的最短耗时</p>
-</blockquote>
-<h2 id="利用拓扑排序思维的不建图实现（硬性要求1号任务不需要前置任务）">利用拓扑排序思维的不建图实现（硬性要求1号任务不需要前置任务）</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;vector&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-type">int</span> itime[<span class="hljs-number">10001</span>];<br><span class="hljs-type">int</span> finishTime[<span class="hljs-number">10001</span>];<br>vector&lt;<span class="hljs-type">int</span>&gt; prepare[<span class="hljs-number">10001</span>];<br><br><span class="hljs-type">int</span> _max(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b) &#123;<br>	<span class="hljs-keyword">return</span> a &gt; b ? a : b;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>	cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>	cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br>	<span class="hljs-type">int</span> n;<br>	cin &gt;&gt; n;<br><br>	<span class="hljs-type">int</span> idx;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i++) &#123;<br>		cin &gt;&gt; idx &gt;&gt; itime[i];<br><br>		<span class="hljs-type">int</span> prepa;<br>		cin &gt;&gt; prepa;<br>		<span class="hljs-keyword">while</span> (prepa) &#123;<br>			prepare[i].<span class="hljs-built_in">push_back</span>(prepa);<br>			cin &gt;&gt; prepa;<br>		&#125;<br>	&#125;<br><br><br>	<span class="hljs-type">int</span> ans = <span class="hljs-number">0</span>;<br>	finishTime[<span class="hljs-number">1</span>] = itime[<span class="hljs-number">1</span>];<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= n; i++) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; t : prepare[i]) &#123;<br>			finishTime[i] = _max(finishTime[i], finishTime[t] + itime[i]);<br>		&#125;<br>		ans = _max(ans, finishTime[i]);<br>	&#125;<br><br>	cout &lt;&lt; ans;<br>	<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>图</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>易语言json操作</title>
     <url>/posts/7608.html</url>
     <content><![CDATA[<h1>易语言 操作json</h1>
@@ -3737,6 +3737,25 @@ $$</p>
       </tags>
   </entry>
   <entry>
+    <title>树的表示</title>
+    <url>/posts/30396.html</url>
+    <content><![CDATA[<h1>链表实现</h1>
+<p><img src="/img/page/tree!%5Bimg%5D(file:///C:%5CUsers%5Cdrluo%5CAppData%5CRoaming%5CTencent%5CQQTempSys)A%5BY)I~%5D(ZC9Z%5B3Y)IDK7LK.gif" alt="">stDo.webp)</p>
+<p>图中右下角的样式不统一，若统一为3项，则有大量空间浪费，不妨如此这般</p>
+<p><img src="/img/page/tree/SonAndBro.webp" alt=""></p>
+<p><img src="/img/page/tree/SonAndBroEG.webp" alt=""></p>
+<p>左侧结点存储<strong>儿子</strong>，右侧结点存储<strong>兄弟</strong></p>
+<p>这样的表示方式为：<strong>二叉树</strong></p>
+<p><img src="/img/page/tree/Binarytree.webp" alt=""></p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>树</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>杂谈</title>
     <url>/posts/12326.html</url>
     <content><![CDATA[<h1>开始于2022年4月24日</h1>
@@ -3789,25 +3808,6 @@ $$</p>
       </categories>
       <tags>
         <tag>与我有关</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>树的表示</title>
-    <url>/posts/30396.html</url>
-    <content><![CDATA[<h1>链表实现</h1>
-<p><img src="/img/page/tree!%5Bimg%5D(file:///C:%5CUsers%5Cdrluo%5CAppData%5CRoaming%5CTencent%5CQQTempSys)A%5BY)I~%5D(ZC9Z%5B3Y)IDK7LK.gif" alt="">stDo.webp)</p>
-<p>图中右下角的样式不统一，若统一为3项，则有大量空间浪费，不妨如此这般</p>
-<p><img src="/img/page/tree/SonAndBro.webp" alt=""></p>
-<p><img src="/img/page/tree/SonAndBroEG.webp" alt=""></p>
-<p>左侧结点存储<strong>儿子</strong>，右侧结点存储<strong>兄弟</strong></p>
-<p>这样的表示方式为：<strong>二叉树</strong></p>
-<p><img src="/img/page/tree/Binarytree.webp" alt=""></p>
-]]></content>
-      <categories>
-        <category>C++</category>
-      </categories>
-      <tags>
-        <tag>树</tag>
       </tags>
   </entry>
   <entry>
@@ -3993,6 +3993,65 @@ int main() &#123;
       </categories>
   </entry>
   <entry>
+    <title>记一次gitee本地推送</title>
+    <url>/posts/1022.html</url>
+    <content><![CDATA[<h1>序言</h1>
+<p>上传项目到gitee的时候，遇到了一些奇奇怪怪的BUG，导致最终无法正确上传项目<br>
+此文章旨在利用Git命令行(用cmd也可以)的方式将代码从本地仓库上传到远程仓库</p>
+<h1>第一步 本地目录进入git</h1>
+<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/1.png" alt=""></p>
+<p>然后用下方代码初始化git，输入完以后就可以看到该目录下多了一个*.git*的隐藏文件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git init<br></code></pre></td></tr></table></figure>
+<h1>第二步 将本地项目工作区的所有文件添加到暂存区</h1>
+<p>小数点 <strong>.</strong> ，意为添加文件夹下的所有文件<br>
+把 <strong>.</strong> 改为指定文件名即可添加项目中的指定文件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git add .<br></code></pre></td></tr></table></figure>
+<h1>第三步 将暂存区的文件提交到本地仓库</h1>
+<p>这里的注释一般用作  <strong>提醒用户此次代码提交做的更改</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git commit -m <span class="hljs-string">&quot;此次提交的注释&quot;</span><br></code></pre></td></tr></table></figure>
+<h1>创建gitee仓库</h1>
+<p>此步骤可以先做好</p>
+<h1>第五步 将本地代码仓库关联到 gitee 上</h1>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git remote add origin 仓库地址<br></code></pre></td></tr></table></figure>
+<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/2.png" alt="仓库地址"></p>
+<p>这此处的地址即为仓库地址</p>
+<p>在这一步时如果出现错误<code>error:remote origin already exists</code></p>
+<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/3.png" alt="仓库地址"></p>
+<p>输入：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git remote rm origin<br>git remote add origin 仓库地址<br></code></pre></td></tr></table></figure>
+<p>即可解决</p>
+<h1>第六步 将代码由本地仓库上传到 gitee远程仓库</h1>
+<h2 id="6-1-获取远程库与本地同步合并">6.1 获取远程库与本地同步合并</h2>
+<p>如果远程库不为空必须做这一步，否则后面的提交可能会失败</p>
+<p>原因是  gitee 中的 <a href="http://README.md">README.md</a> 文件不在本地仓库中，可以通过该命令进行代码合并</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git pull --rebase origin master  <br></code></pre></td></tr></table></figure>
+<p>可能会遇到：</p>
+<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/4.png" alt="仓库地址"></p>
+<p>这时输入<code>git rebase --continue</code>后再输入<code>git pull --rebase origin master  </code>即可</p>
+<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/5.png" alt="仓库地址"></p>
+<h2 id="6-2-把当前分支-master-推送到远程">6.2 把当前分支 master 推送到远程</h2>
+<p>执行此命令后有可能会让输入用户名、密码</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git push -u origin master<br></code></pre></td></tr></table></figure>
+<p>执行完之后如果无错误就上传成功了（这里的 master 是 gitee 默认的分支</p>
+<blockquote>
+<p>如果本地的当前分支不是master，就用<code>git checkout master</code>切换到master分支</p>
+</blockquote>
+<blockquote>
+<p>如果想用本地当前分支上传代码，就用<code>git checkout 当前分支名称</code>切换成当前分支名即可</p>
+</blockquote>
+<h1>第七步 完成</h1>
+<h1>后记</h1>
+<p>如果后续仓库内容做了更新，就只需：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git add .<br>git commit -m <span class="hljs-string">&quot;此次提交的注释&quot;</span><br>git remote rm origin<br>git remote add origin 仓库地址<br>git pull --rebase origin master  <br>git push -u origin master<br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>gitee</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>百度Paddle模型训练</title>
     <url>/posts/62432.html</url>
     <content><![CDATA[<blockquote>
@@ -4080,65 +4139,6 @@ int main() &#123;
       <tags>
         <tag>Python</tag>
         <tag>深度学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>记一次gitee本地推送</title>
-    <url>/posts/1022.html</url>
-    <content><![CDATA[<h1>序言</h1>
-<p>上传项目到gitee的时候，遇到了一些奇奇怪怪的BUG，导致最终无法正确上传项目<br>
-此文章旨在利用Git命令行(用cmd也可以)的方式将代码从本地仓库上传到远程仓库</p>
-<h1>第一步 本地目录进入git</h1>
-<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/1.png" alt=""></p>
-<p>然后用下方代码初始化git，输入完以后就可以看到该目录下多了一个*.git*的隐藏文件</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git init<br></code></pre></td></tr></table></figure>
-<h1>第二步 将本地项目工作区的所有文件添加到暂存区</h1>
-<p>小数点 <strong>.</strong> ，意为添加文件夹下的所有文件<br>
-把 <strong>.</strong> 改为指定文件名即可添加项目中的指定文件</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git add .<br></code></pre></td></tr></table></figure>
-<h1>第三步 将暂存区的文件提交到本地仓库</h1>
-<p>这里的注释一般用作  <strong>提醒用户此次代码提交做的更改</strong></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git commit -m <span class="hljs-string">&quot;此次提交的注释&quot;</span><br></code></pre></td></tr></table></figure>
-<h1>创建gitee仓库</h1>
-<p>此步骤可以先做好</p>
-<h1>第五步 将本地代码仓库关联到 gitee 上</h1>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git remote add origin 仓库地址<br></code></pre></td></tr></table></figure>
-<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/2.png" alt="仓库地址"></p>
-<p>这此处的地址即为仓库地址</p>
-<p>在这一步时如果出现错误<code>error:remote origin already exists</code></p>
-<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/3.png" alt="仓库地址"></p>
-<p>输入：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git remote rm origin<br>git remote add origin 仓库地址<br></code></pre></td></tr></table></figure>
-<p>即可解决</p>
-<h1>第六步 将代码由本地仓库上传到 gitee远程仓库</h1>
-<h2 id="6-1-获取远程库与本地同步合并">6.1 获取远程库与本地同步合并</h2>
-<p>如果远程库不为空必须做这一步，否则后面的提交可能会失败</p>
-<p>原因是  gitee 中的 <a href="http://README.md">README.md</a> 文件不在本地仓库中，可以通过该命令进行代码合并</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git pull --rebase origin master  <br></code></pre></td></tr></table></figure>
-<p>可能会遇到：</p>
-<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/4.png" alt="仓库地址"></p>
-<p>这时输入<code>git rebase --continue</code>后再输入<code>git pull --rebase origin master  </code>即可</p>
-<p><img src="/img/page/%E8%AE%B0%E4%B8%80%E6%AC%A1gitee%E6%9C%AC%E5%9C%B0%E6%8E%A8%E9%80%81/5.png" alt="仓库地址"></p>
-<h2 id="6-2-把当前分支-master-推送到远程">6.2 把当前分支 master 推送到远程</h2>
-<p>执行此命令后有可能会让输入用户名、密码</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git push -u origin master<br></code></pre></td></tr></table></figure>
-<p>执行完之后如果无错误就上传成功了（这里的 master 是 gitee 默认的分支</p>
-<blockquote>
-<p>如果本地的当前分支不是master，就用<code>git checkout master</code>切换到master分支</p>
-</blockquote>
-<blockquote>
-<p>如果想用本地当前分支上传代码，就用<code>git checkout 当前分支名称</code>切换成当前分支名即可</p>
-</blockquote>
-<h1>第七步 完成</h1>
-<h1>后记</h1>
-<p>如果后续仓库内容做了更新，就只需：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">git add .<br>git commit -m <span class="hljs-string">&quot;此次提交的注释&quot;</span><br>git remote rm origin<br>git remote add origin 仓库地址<br>git pull --rebase origin master  <br>git push -u origin master<br></code></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>gitee</tag>
       </tags>
   </entry>
   <entry>
@@ -4386,7 +4386,7 @@ int main() &#123;
 <h2 id="字符串分段排序">字符串分段排序</h2>
 <figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> common;<br><br><span class="hljs-keyword">import</span> java.util.ArrayList;<br><span class="hljs-keyword">import</span> java.util.Collections;<br><span class="hljs-keyword">import</span> java.util.List;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Sort</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * sort StringList</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> strArr split array.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> seqStr For split strings, if you need take some content before the seqStr, then this item needs to be adjusted.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> interval inserting content between results.</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> sorted ans.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">stringSort</span><span class="hljs-params">(String[] strArr, String seqStr, String interval)</span>&#123;<br>        <span class="hljs-comment">//分割后字符串子串列表</span><br>        <span class="hljs-comment">//[P1012, John Li, 01/01/2000, C001, T001]</span><br>        List&lt;List&lt;String&gt;&gt; splitList = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        List&lt;String&gt; stringList = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br><br>        <span class="hljs-keyword">for</span> (String str : strArr)&#123;<br>            splitList.add(List.of(str.split(seqStr)));<br>            stringList.add(str);<br>        &#125;<br><br>        quickSort(stringList,splitList,<span class="hljs-number">0</span>,stringList.size()-<span class="hljs-number">1</span>);<br><br>        <span class="hljs-type">WordUtil</span> <span class="hljs-variable">words</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WordUtil</span>(interval, stringList, <span class="hljs-literal">false</span>);<br>        <span class="hljs-keyword">return</span> words.getResult();<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">quickSort</span><span class="hljs-params">(List&lt;String&gt; stringList, List&lt;List&lt;String&gt;&gt; splitList, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span>&#123;<br>        <span class="hljs-keyword">if</span>(left &lt; right)&#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">pivot</span> <span class="hljs-operator">=</span> partition(stringList, splitList, left, right);<br>            quickSort(stringList, splitList, left, pivot-<span class="hljs-number">1</span>);<br>            quickSort(stringList, splitList, pivot+<span class="hljs-number">1</span>, right);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">partition</span><span class="hljs-params">(List&lt;String&gt; stringList, List&lt;List&lt;String&gt;&gt; splitList, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span>&#123;<br>        List&lt;String&gt; pivot = splitList.get(left);<br>        <span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> left + <span class="hljs-number">1</span>, j = right;<br>        <span class="hljs-keyword">while</span>(i &lt;= j)&#123;<br>            <span class="hljs-keyword">while</span>(i &lt;= j &amp;&amp; strListCmp(splitList.get(i),pivot) &lt;= <span class="hljs-number">0</span>) i++;<br>            <span class="hljs-keyword">while</span>(i &lt;= j &amp;&amp; strListCmp(splitList.get(j),pivot) &gt; <span class="hljs-number">0</span>) j--;<br>            <span class="hljs-keyword">if</span>(i &lt; j)&#123;<br>                Collections.swap(splitList, i, j);<br>                Collections.swap(stringList, i, j);<br>            &#125;<br>        &#125;<br>        Collections.swap(splitList, left, j);<br>        Collections.swap(stringList, left, j);<br>        <span class="hljs-keyword">return</span> j;<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">strListCmp</span><span class="hljs-params">(List&lt;String&gt; str1, List&lt;String&gt; str2)</span>&#123;<br>        <span class="hljs-keyword">if</span>(str1.size() &gt; str2.size())&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>        &#125;<br>        <span class="hljs-keyword">if</span>(str1.size() &lt; str2.size())&#123;<br>            <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; str1.size(); i++) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">error</span> <span class="hljs-operator">=</span> str1.get(i).compareTo(str2.get(i));<br>            <span class="hljs-keyword">if</span> (error != <span class="hljs-number">0</span>) &#123;<br>                <span class="hljs-keyword">return</span> error;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 <h1>HTML</h1>
-<h2 id="midi播放可视化">midi播放可视化</h2>
+<h2 id="midi播放可视化1">midi播放可视化1</h2>
 <p>参考文章：</p>
 <p><a href="https://blog.csdn.net/m0_66711291/article/details/131724443">Pixi + Tone 实现简单midi音频可视化_tone.js节拍器-CSDN博客</a></p>
 <p>代码实现效果：</p>
@@ -4397,11 +4397,13 @@ int main() &#123;
 <p><a href="https://www.drluo.top/friends/self/midivisualization/js/Tone.js">https://www.drluo.top/friends/self/midivisualization/js/Tone.js</a></p>
 <p><a href="https://www.drluo.top/friends/self/midivisualization/js/Midi.js">https://www.drluo.top/friends/self/midivisualization/js/Midi.js</a></p>
 <p><a href="https://www.drluo.top/friends/self/midivisualization/js/pixi.js">https://www.drluo.top/friends/self/midivisualization/js/pixi.js</a></p>
-<hr>
+<h2 id="midi播放可视化2">midi播放可视化2</h2>
+<p><strong>由于<a href="https://storage.googleapis.xn--com-rz1ek4i97fjs5adlmrw4a3ljwseky4blx1a">https://storage.googleapis.com网站国内可能无法访问</a>，所以此代码可能因为缺失音效而无法播放，暂未找到相关镜像替代，请等待后续修改。</strong></p>
 <p>由于上面的代码效果不好，找了几圈，看到了<a href="https://cifkao.github.io/html-midi-player/">html-midi-player | Play and display MIDI files online (cifkao.github.io)</a></p>
 <figure class="highlight html"><table><tr><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;en&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;X-UA-Compatible&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;IE=edge&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewport&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Midi可视化<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> 	<span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> 		<span class="hljs-attr">href</span>=<span class="hljs-string">&quot;./css/style.css&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> 	<span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./js/core.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> 	<span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./js/index.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">main</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;content&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;main-content&quot;</span> <span class="hljs-attr">role</span>=<span class="hljs-string">&quot;main&quot;</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">midi-visualizer</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;piano-roll&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mainVisualizer&quot;</span> </span><br><span class="hljs-tag">			<span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/cifkao/html-midi-player@2b12128/jazz.mid&quot;</span>&gt;</span><br>			<span class="hljs-tag">&lt;/<span class="hljs-name">midi-visualizer</span>&gt;</span><br><br>			<span class="hljs-tag">&lt;<span class="hljs-name">midi-player</span> </span><br><span class="hljs-tag">			<span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/cifkao/html-midi-player@2b12128/jazz.mid&quot;</span> </span><br><span class="hljs-tag">			<span class="hljs-attr">sound-font</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">visualizer</span>=<span class="hljs-string">&quot;#mainVisualizer&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;mainPlayer&quot;</span> <span class="hljs-attr">data-js-focus-visible</span>=<span class="hljs-string">&quot;&quot;</span>&gt;</span><br><br><br>				<span class="hljs-comment">&lt;!-- 播放/暂停进度条 --&gt;</span><br>				<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;controls stopped&quot;</span> <span class="hljs-attr">part</span>=<span class="hljs-string">&quot;control-panel&quot;</span>&gt;</span><br>				  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;play&quot;</span> <span class="hljs-attr">part</span>=<span class="hljs-string">&quot;play-button&quot;</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;icon play-icon&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;24&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;24&quot;</span> <span class="hljs-attr">version</span>=<span class="hljs-string">&quot;1.1&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 6.35 6.35&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span><br>				 <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;m4.4979 3.175-2.1167 1.5875v-3.175z&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;.70201&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span><br>				<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span><br>				<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;icon stop-icon&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;24&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;24&quot;</span> <span class="hljs-attr">version</span>=<span class="hljs-string">&quot;1.1&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 6.35 6.35&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span><br>				 <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;m1.8521 1.5875v3.175h0.92604v-3.175zm1.7198 0v3.175h0.92604v-3.175z&quot;</span> <span class="hljs-attr">stroke-width</span>=<span class="hljs-string">&quot;.24153&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span><br>				<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span><br>				<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>					<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;icon error-icon&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;24&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;24&quot;</span> <span class="hljs-attr">version</span>=<span class="hljs-string">&quot;1.1&quot;</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">&quot;0 0 6.35 6.35&quot;</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</span><br>				 <span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">transform</span>=<span class="hljs-string">&quot;scale(.26458)&quot;</span> <span class="hljs-attr">d</span>=<span class="hljs-string">&quot;m12 3.5a8.4993 8.4993 0 0 0-8.5 8.5 8.4993 8.4993 0 0 0 8.5 8.5 8.4993 8.4993 0 0 0 8.5-8.5 8.4993 8.4993 0 0 0-8.5-8.5zm-1.4062 3.5h3v6h-3v-6zm0 8h3v2h-3v-2z&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span><br>				<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span><br>				<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>				  <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br>				  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">part</span>=<span class="hljs-string">&quot;time&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;current-time&quot;</span> <span class="hljs-attr">part</span>=<span class="hljs-string">&quot;current-time&quot;</span>&gt;</span>0:00<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span> / <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;total-time&quot;</span> <span class="hljs-attr">part</span>=<span class="hljs-string">&quot;total-time&quot;</span>&gt;</span>0:15<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>				  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;range&quot;</span> <span class="hljs-attr">min</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">max</span>=<span class="hljs-string">&quot;15.999984&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">step</span>=<span class="hljs-string">&quot;any&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;seek-bar&quot;</span> <span class="hljs-attr">part</span>=<span class="hljs-string">&quot;seek-bar&quot;</span>&gt;</span><br>				  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;overlay loading-overlay&quot;</span> <span class="hljs-attr">part</span>=<span class="hljs-string">&quot;loading-overlay&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>				<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><br>				<span class="hljs-comment">&lt;!-- 播放/暂停进度条 --&gt;</span><br>			<span class="hljs-tag">&lt;/<span class="hljs-name">midi-player</span>&gt;</span><br>			<br>		<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><br>		<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;midiFile&quot;</span>&gt;</span>选择Midi文件:<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;file&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;midiFile&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;midiFile&quot;</span> <span class="hljs-attr">accept</span>=<span class="hljs-string">&quot;audio/midi, audio/x-midi&quot;</span>&gt;</span><br>		<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>	<br>	<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span><br>  <br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
 <p>代码实现效果：</p>
 <p><a href="https://www.drluo.top/friends/self/midivisualization/index2.html">网页详情</a></p>
+<p>由于<a href="https://storage.googleapis.xn--com-rz1ek4i97fjs5adlmrw4a3ljwseky4blx1a">https://storage.googleapis.com网站国内可能无法访问</a>，所以此代码可能因为缺失音效而无法播放，暂未找到相关镜像替代，请等待后续修改。</p>
 <p>style.css文件，core.js文件，index.js文件：</p>
 <p><a href="https://www.drluo.top/friends/self/midivisualization/css/style.css">https://www.drluo.top/friends/self/midivisualization/css/style.css</a></p>
 <p><a href="https://www.drluo.top/friends/self/midivisualization/js/core.js">https://www.drluo.top/friends/self/midivisualization/js/core.js</a></p>
