@@ -198,36 +198,28 @@
 <blockquote>
 <p>前端Hexo插件：<a target="_blank" rel="noopener" href="https://github.com/Barry-Flynn/hexo-github-calendar">https://github.com/Barry-Flynn/hexo-github-calendar</a></p>
 <p>后端API部署：<a target="_blank" rel="noopener" href="https://github.com/Barry-Flynn/python_github_calendar_api">https://github.com/Barry-Flynn/python_github_calendar_api</a></p>
-<p>作者: 百里飞洋 Barry-Flynn<br>
-链接: <a target="_blank" rel="noopener" href="https://blog.meta-code.top/2022/03/15/2022-41/">https://blog.meta-code.top/2022/03/15/2022-41/</a><br>
-来源: 百里飞洋</p>
+<p>作者: 百里飞洋 Barry-Flynn<br>链接: <a target="_blank" rel="noopener" href="https://blog.meta-code.top/2022/03/15/2022-41/">https://blog.meta-code.top/2022/03/15/2022-41/</a><br>来源: 百里飞洋</p>
 </blockquote>
 <hr>
-<h2 id="安装依赖">安装依赖</h2>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm i @barry-flynn/hexo-github-calendar --save<br></code></pre></td></tr></table></figure>
+<h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm i @barry-flynn/hexo-github-calendar --save<br></code></pre></td></tr></table></figure>
 <p>或者 使用 cnpm ,速度更快</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">cnpm i @barry-flynn/hexo-github-calendar --save<br></code></pre></td></tr></table></figure>
 <hr>
-<h2 id="添加配置">添加配置</h2>
-<p>在 Hexo 项目<strong>根目录</strong>的 <code>_config.yml</code> 文件最后面添加如下配置</p>
+<h2 id="添加配置"><a href="#添加配置" class="headerlink" title="添加配置"></a>添加配置</h2><p>在 Hexo 项目<strong>根目录</strong>的 <code>_config.yml</code> 文件最后面添加如下配置</p>
 <p><strong>注意：在 Hexo 的配置文件中添加，而不是主题的配置文件</strong></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># hexo-github-canlendar</span><br><span class="hljs-comment"># 贡献度热力图插件 https://github.com/Barry-Flynn/hexo-github-calendar</span><br><span class="hljs-attr">githubcalendar:</span><br>  <span class="hljs-attr">enable:</span> <span class="hljs-literal">true</span>        <span class="hljs-comment"># 是否启用本插件</span><br>  <span class="hljs-attr">enable_page:</span> <span class="hljs-string">/</span>      <span class="hljs-comment"># 要生效的页面，如 / 首页，/about/ 介绍页等</span><br>  <span class="hljs-attr">user:</span> <span class="hljs-string">luoy-oss</span>      <span class="hljs-comment"># GitHub 用户名</span><br>  <span class="hljs-attr">layout:</span><br>    <span class="hljs-attr">type:</span> <span class="hljs-string">id</span><br>    <span class="hljs-attr">name:</span> <span class="hljs-string">recent-posts</span><br>    <span class="hljs-attr">index:</span> <span class="hljs-number">0</span><br>  <span class="hljs-attr">githubcalendar_html:</span> <span class="hljs-string">&#x27;&lt;div class=&quot;recent-post-item&quot; style=&quot;width:100%;height:auto;padding:10px;&quot;&gt;&lt;div id=&quot;github_loading&quot; style=&quot;width:10%;height:100%;margin:0 auto;display: block&quot;&gt;&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;  viewBox=&quot;0 0 50 50&quot; style=&quot;enable-background:new 0 0 50 50&quot; xml:space=&quot;preserve&quot;&gt;&lt;path fill=&quot;#d0d0d0&quot; d=&quot;M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z&quot; transform=&quot;rotate(275.098 25 25)&quot;&gt;&lt;animateTransform attributeType=&quot;xml&quot; attributeName=&quot;transform&quot; type=&quot;rotate&quot; from=&quot;0 25 25&quot; to=&quot;360 25 25&quot; dur=&quot;0.6s&quot; repeatCount=&quot;indefinite&quot;&gt;&lt;/animateTransform&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div id=&quot;github_container&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;</span><br>  <span class="hljs-attr">pc_minheight:</span> <span class="hljs-string">280px</span><br>  <span class="hljs-attr">mobile_minheight:</span> <span class="hljs-string">0px</span><br>  <span class="hljs-comment"># 贡献统计的梯度色卡值，可自行调整</span><br>  <span class="hljs-attr">color:</span> <span class="hljs-string">&quot;[&#x27;#ebedf0&#x27;, &#x27;#fdcdec&#x27;, &#x27;#fc9bd9&#x27;, &#x27;#fa6ac5&#x27;, &#x27;#f838b2&#x27;, &#x27;#f5089f&#x27;, &#x27;#c4067e&#x27;, &#x27;#92055e&#x27;, &#x27;#540336&#x27;, &#x27;#48022f&#x27;, &#x27;#30021f&#x27;]&quot;</span><br>  <span class="hljs-attr">api:</span> <span class="hljs-string">https://github-calendar.drluo.top/api</span><br>  <span class="hljs-comment"># 推荐填写你自建的API接口，公用api随时可能会失效</span><br>  <span class="hljs-attr">api:</span> <span class="hljs-string">https://github-calendar.drluo.top/api</span><br>  <span class="hljs-comment"># 推荐下载后使用本地文件</span><br>  <span class="hljs-attr">calendar_js:</span> <span class="hljs-string">/js/hexo_githubcalendar.js</span> <span class="hljs-comment"># 本地文件，请下载到主题文件夹的source目录下</span><br>  <span class="hljs-attr">plus_style:</span> <span class="hljs-string">&quot;&quot;</span><br></code></pre></td></tr></table></figure>
 <p>下载 <a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/barry-flynn/hexo-github-calendar/hexo_githubcalendar.js">hexo_githubcalendar.js</a> 到你的主题文件夹的 source目录，如 <code>themes\butterfly\source\js</code></p>
 <p>然后执行hexo三连</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s<br></code></pre></td></tr></table></figure>
 <hr>
-<h2 id="完成部署">完成部署</h2>
-<h4 id="不绑定自己的域名">不绑定自己的域名</h4>
-<blockquote>
+<h2 id="完成部署"><a href="#完成部署" class="headerlink" title="完成部署"></a>完成部署</h2><h4 id="不绑定自己的域名"><a href="#不绑定自己的域名" class="headerlink" title="不绑定自己的域名"></a>不绑定自己的域名</h4><blockquote>
 <p>可以直接不进行api配置，这时会使用默认的api</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">githubcalendar:</span><br><span class="hljs-comment">#	api: 注释掉api部分</span><br></code></pre></td></tr></table></figure>
 </blockquote>
 <hr>
-<h4 id="绑定自己的域名">绑定自己的域名</h4>
-<p>如果追求稳定性，可以选择绑定自己的域名：</p>
+<h4 id="绑定自己的域名"><a href="#绑定自己的域名" class="headerlink" title="绑定自己的域名"></a>绑定自己的域名</h4><p>如果追求稳定性，可以选择绑定自己的域名：</p>
 <blockquote>
-<h5 id="1-自建API接口">1. 自建API接口</h5>
-<p>由于公共API随时可能失效，所以推荐自建API接口，使用<a target="_blank" rel="noopener" href="https://vercel.com/">Vercel</a>部署。</p>
+<h5 id="1-自建API接口"><a href="#1-自建API接口" class="headerlink" title="1. 自建API接口"></a>1. 自建API接口</h5><p>由于公共API随时可能失效，所以推荐自建API接口，使用<a target="_blank" rel="noopener" href="https://vercel.com/">Vercel</a>部署。</p>
 <p>先将 <a target="_blank" rel="noopener" href="https://github.com/Barry-Flynn/python_github_calendar_api">python_github_calendar_api By Barry-Flynn</a> Fork 到自己的Github</p>
 <p><img src="/img/page/hexo/github-calendar/fork.webp" alt=""></p>
 <p>登录 Vercel 后，点击<code>Add New.. =&gt; Project</code></p>
