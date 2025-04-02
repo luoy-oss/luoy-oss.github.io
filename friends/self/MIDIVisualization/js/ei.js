@@ -1,1 +1,269 @@
-(n=>{var r={};function o(e){var t;return(r[e]||(t=r[e]={i:e,l:!1,exports:{}},n[e].call(t.exports,t,t.exports,o),t.l=!0,t)).exports}o.m=n,o.c=r,o.d=function(e,t,n){o.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},o.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},o.t=function(t,e){if(1&e&&(t=o(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var n=Object.create(null);if(o.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var r in t)o.d(n,r,function(e){return t[e]}.bind(null,r));return n},o.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return o.d(t,"a",t),t},o.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},o.p="https://cpwebassets.codepen.io/assets/packs/",o(o.s=690)})({690:function(e,t,n){n.r(t);var c={_HTML_TYPES:["html","xml","haml","markdown","slim","pug","application/x-slim"],_CSS_TYPES:["css","less","scss","sass","stylus","postcss","text/css","text/x-sass","text/x-scss","text/x-less","text/x-styl"],_JS_TYPES:["js","javascript","coffeescript","livescript","typescript","babel","text/javascript","text/x-coffeescript","text/x-livescript","text/typescript"],_CUSTOM_EDITOR_TYPES:{vue:"js",flutter:"js"},cmModeToType:function(e){e=this._getSafeInputMode(e);return this._getType(e)},_getSafeInputMode:function(e){return("string"==typeof e?e:e.name).toLowerCase()},syntaxToType:function(e){return this._getType(e)},_getType:function(e){return this._HTML_TYPES.includes(e)?"html":this._CSS_TYPES.includes(e)?"css":this._JS_TYPES.includes(e)?"js":this._CUSTOM_EDITOR_TYPES[e]||"unknown"}};function p(e,t){var n,r,o,a,i="undefined"!=typeof Symbol&&e[Symbol.iterator]||e["@@iterator"];if(i)return o=!(r=!0),{s:function(){i=i.call(e)},n:function(){var e=i.next();return r=e.done,e},e:function(e){o=!0,n=e},f:function(){try{r||null==i.return||i.return()}finally{if(o)throw n}}};if(Array.isArray(e)||(i=(e=>{var t;if(e)return"string"==typeof e?s(e,void 0):"Map"===(t="Object"===(t=Object.prototype.toString.call(e).slice(8,-1))&&e.constructor?e.constructor.name:t)||"Set"===t?Array.from(e):"Arguments"===t||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t)?s(e,void 0):void 0})(e))||t&&e&&"number"==typeof e.length)return i&&(e=i),a=0,{s:t=function(){},n:function(){return a>=e.length?{done:!0}:{done:!1,value:e[a++]}},e:function(e){throw e},f:t};throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}function s(e,t){(null==t||t>e.length)&&(t=e.length);for(var n=0,r=new Array(t);n<t;n++)r[n]=e[n];return r}function r(e){"loading"===document.readyState?setTimeout(function(){r(e)},9):e()}var f=new Set(["title","description","tags","html_classes","head","stylesheets","scripts"]),l=function(e,t){if("string"==typeof e.user)return e.user;for(var n=0,r=t.children.length;n<r;n++){var o=(t.children[n].href||"").match(/codepen\.(io|dev)\/(\w+)\/pen\//i);if(o)return o[2]}return"anon"},u=function(e){return"prefill"in e||e["slug-hash"]},d=function(e){return e.href&&(e["slug-hash"]=e.href),e.type&&(e["default-tab"]=e.type),e.safe&&(e.animations="true"===e.safe?"run":"stop-after-5"),e},o=function(e){var t,n,r,o=i(e),a=e.preview&&"true"===e.preview?"embed/preview":"embed";return"prefill"in e?[o,a,"prefill"].join("/"):(t=m(e),n=e.user||"anon",r=e["slug-hash"],void 0!==e.token&&(r+="/"+e.token),[o,n,a,r+"?"+t].join("/").replace(/\/\//g,"//"))},i=function(e){return e.host?a(e.host):"https://codepen.io"},a=function(e){return e.match(/^\/\//)||!e.match(/https?:/)?document.location.protocol+"//"+e:e},m=function(e){var t,n="";for(t in e)"prefill"!==t&&(""!==n&&(n+="&"),n+=t+"="+encodeURIComponent(e[t]));return n},y=function(e){return e.height||300},h=function(e,t){var n,r=document.createElement(e);for(n in t)Object.prototype.hasOwnProperty.call(t,n)&&r.setAttribute(n,t[n]);return r},_=function(e,t){var n,r=h("form",{class:"cp_embed_form",style:"display: none;",method:"post",action:o(e),target:e.name});for(n in e.data=(e=>{if(Object.hasOwn(e.dataset,"prefill")){var t,n={},r=e.dataset.prefill;for(t in r=JSON.parse(decodeURI(r)||"{}"))f.has(t)&&(n[t]=r[t]);var o,a=p(e.querySelectorAll("[data-lang]"));try{for(a.s();!(o=a.n()).done;){var i=o.value,s=i.dataset.lang,l=(i.dataset.optionsAutoprefixer&&(n.css_prefix="autoprefixer"),c.syntaxToType(s)),u=(n[l]=i.innerText,s!==l&&(n[l+"_pre_processor"]=s),i.dataset.langVersion);u&&(n[l+"_version"]=u)}}catch(e){a.e(e)}finally{a.f()}return JSON.stringify(n)}})(t),e)"prefill"!==n&&r.append(h("input",{type:"hidden",name:n,value:e[n]}));return r},v=function(e){var t=o(e),n=e["pen-title"]||"CodePen Embed",t={allowfullscreen:"true",allowpaymentrequest:"true",allowTransparency:"true",class:"cp_embed_iframe "+(e.class||""),frameborder:"0",height:y(e),width:"100%",name:e.name||"CodePen Embed",scrolling:"no",src:t,style:"width: 100%; overflow:hidden; display:block;",title:n};return"prefill"in e==0&&(t.loading="lazy"),e["slug-hash"]&&(t.id="cp_embed_"+e["slug-hash"].replace("/","_")),h("iframe",t)},g=function(e,t){var n;return e.parentNode?((n=document.createElement("div")).className="cp_embed_wrapper",n.append(t),e.parentNode.replaceChild(n,e),n):(e.append(t),e)},b=1;function S(e){e="string"==typeof e?e:".codepen";for(var t,n,r=document.querySelectorAll(e),o=0,a=r.length;o<a;o++){var i=r[o],s=(e=>{for(var t={},n=e.attributes,r=0,o=n.length;r<o;r++){var a=n[r].name;0===a.indexOf("data-")&&(t[a.replace("data-","")]=n[r].value)}return t=d(t),u(t)?(t.user=l(t,e),t):null})(i);s&&(s.name="cp_embed_"+b++,s=s,i=i,n=t=void 0,(n=document.createDocumentFragment()).append(v(s)),"prefill"in s&&(t=_(s,i),n.append(t)),g(i,n),t)&&t.submit()}"function"==typeof __CodePenIFrameAddedToPage&&__CodePenIFrameAddedToPage()}(window.__cp_domReady=r)(window.__CPEmbed=S)}});
+! function(e) {
+    var t = {};
+
+    function r(n) {
+        if (t[n]) return t[n].exports;
+        var o = t[n] = {
+            i: n,
+            l: !1,
+            exports: {}
+        };
+        return e[n].call(o.exports, o, o.exports, r), o.l = !0, o.exports
+    }
+    r.m = e, r.c = t, r.d = function(e, t, n) {
+        r.o(e, t) || Object.defineProperty(e, t, {
+            enumerable: !0,
+            get: n
+        })
+    }, r.r = function(e) {
+        "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(e, Symbol.toStringTag, {
+            value: "Module"
+        }), Object.defineProperty(e, "__esModule", {
+            value: !0
+        })
+    }, r.t = function(e, t) {
+        if (1 & t && (e = r(e)), 8 & t) return e;
+        if (4 & t && "object" == typeof e && e && e.__esModule) return e;
+        var n = Object.create(null);
+        if (r.r(n), Object.defineProperty(n, "default", {
+                enumerable: !0,
+                value: e
+            }), 2 & t && "string" != typeof e)
+            for (var o in e) r.d(n, o, function(t) {
+                return e[t]
+            }.bind(null, o));
+        return n
+    }, r.n = function(e) {
+        var t = e && e.__esModule ? function() {
+            return e.default
+        } : function() {
+            return e
+        };
+        return r.d(t, "a", t), t
+    }, r.o = function(e, t) {
+        return Object.prototype.hasOwnProperty.call(e, t)
+    }, r.p = "https://cpwebassets.codepen.io/assets/packs/", r(r.s = 690)
+}({
+    690: function(e, t, r) {
+        "use strict";
+        r.r(t);
+        var n = {
+            _HTML_TYPES: ["html", "xml", "haml", "markdown", "slim", "pug", "application/x-slim"],
+            _CSS_TYPES: ["css", "less", "scss", "sass", "stylus", "postcss", "text/css", "text/x-sass", "text/x-scss", "text/x-less", "text/x-styl"],
+            _JS_TYPES: ["js", "javascript", "coffeescript", "livescript", "typescript", "babel", "text/javascript", "text/x-coffeescript", "text/x-livescript", "text/typescript"],
+            _CUSTOM_EDITOR_TYPES: {
+                vue: "js",
+                flutter: "js"
+            },
+            cmModeToType: function(e) {
+                var t = this._getSafeInputMode(e);
+                return this._getType(t)
+            },
+            _getSafeInputMode: function(e) {
+                return ("string" == typeof e ? e : e.name).toLowerCase()
+            },
+            syntaxToType: function(e) {
+                return this._getType(e)
+            },
+            _getType: function(e) {
+                return this._HTML_TYPES.includes(e) ? "html" : this._CSS_TYPES.includes(e) ? "css" : this._JS_TYPES.includes(e) ? "js" : this._CUSTOM_EDITOR_TYPES[e] ? this._CUSTOM_EDITOR_TYPES[e] : "unknown"
+            }
+        };
+
+        function o(e, t) {
+            var r = "undefined" != typeof Symbol && e[Symbol.iterator] || e["@@iterator"];
+            if (!r) {
+                if (Array.isArray(e) || (r = function(e, t) {
+                        if (!e) return;
+                        if ("string" == typeof e) return a(e, t);
+                        var r = Object.prototype.toString.call(e).slice(8, -1);
+                        "Object" === r && e.constructor && (r = e.constructor.name);
+                        if ("Map" === r || "Set" === r) return Array.from(e);
+                        if ("Arguments" === r || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)) return a(e, t)
+                    }(e)) || t && e && "number" == typeof e.length) {
+                    r && (e = r);
+                    var n = 0,
+                        o = function() {};
+                    return {
+                        s: o,
+                        n: function() {
+                            return n >= e.length ? {
+                                done: !0
+                            } : {
+                                done: !1,
+                                value: e[n++]
+                            }
+                        },
+                        e: function(e) {
+                            throw e
+                        },
+                        f: o
+                    }
+                }
+                throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")
+            }
+            var i, s = !0,
+                u = !1;
+            return {
+                s: function() {
+                    r = r.call(e)
+                },
+                n: function() {
+                    var e = r.next();
+                    return s = e.done, e
+                },
+                e: function(e) {
+                    u = !0, i = e
+                },
+                f: function() {
+                    try {
+                        s || null == r.return || r.return()
+                    } finally {
+                        if (u) throw i
+                    }
+                }
+            }
+        }
+
+        function a(e, t) {
+            (null == t || t > e.length) && (t = e.length);
+            for (var r = 0, n = new Array(t); r < t; r++) n[r] = e[r];
+            return n
+        }
+        var i = function e(t) {
+                "loading" === document.readyState ? setTimeout((function() {
+                    e(t)
+                }), 9) : t()
+            },
+            s = new Set(["title", "description", "tags", "html_classes", "head", "stylesheets", "scripts"]),
+            u = function(e) {
+                for (var t = {}, r = e.attributes, n = 0, o = r.length; n < o; n++) {
+                    var a = r[n].name;
+                    0 === a.indexOf("data-") && (t[a.replace("data-", "")] = r[n].value)
+                }
+                return t = f(t), c(t) ? (t.user = l(t, e), t) : null
+            },
+            l = function(e, t) {
+                if ("string" == typeof e.user) return e.user;
+                for (var r = 0, n = t.children.length; r < n; r++) {
+                    var o = (t.children[r].href || "").match(/codepen\.(io|dev)\/(\w+)\/pen\//i);
+                    if (o) return o[2]
+                }
+                return "anon"
+            },
+            c = function(e) {
+                return "prefill" in e || e["slug-hash"]
+            },
+            f = function(e) {
+                return e.href && (e["slug-hash"] = e.href), e.type && (e["default-tab"] = e.type), e.safe && (e.animations = "true" === e.safe ? "run" : "stop-after-5"), e
+            },
+            p = function(e) {
+                var t = d(e),
+                    r = e.preview && "true" === e.preview ? "embed/preview" : "embed";
+                if ("prefill" in e) return [t, r, "prefill"].join("/");
+                var n = h(e),
+                    o = e.user || "anon",
+                    a = e["slug-hash"];
+                return void 0 !== e.token && (a += "/" + e.token), [t, o, r, a + "?" + n].join("/").replace(/\/\//g, "//")
+            },
+            d = function(e) {
+                return e.host ? m(e.host) : "https://codepen.io"
+            },
+            m = function(e) {
+                return e.match(/^\/\//) || !e.match(/https?:/) ? document.location.protocol + "//" + e : e
+            },
+            h = function(e) {
+                var t = "";
+                for (var r in e) "prefill" !== r && ("" !== t && (t += "&"), t += r + "=" + encodeURIComponent(e[r]));
+                return t
+            },
+            y = function(e) {
+                return e.height || 300
+            },
+            v = function(e, t) {
+                var r, n = document.createDocumentFragment();
+                n.append(b(e)), "prefill" in e && (r = g(e, t), n.append(r)), S(t, n), r && r.submit()
+            },
+            _ = function(e, t) {
+                var r = document.createElement(e);
+                for (var n in t) Object.prototype.hasOwnProperty.call(t, n) && r.setAttribute(n, t[n]);
+                return r
+            },
+            g = function(e, t) {
+                var r = _("form", {
+                    class: "cp_embed_form",
+                    style: "display: none;",
+                    method: "post",
+                    action: p(e),
+                    target: e.name
+                });
+                for (var a in e.data = function(e) {
+                        if (Object.hasOwn(e.dataset, "prefill")) {
+                            var t = {},
+                                r = e.dataset.prefill;
+                            for (var a in r = JSON.parse(decodeURI(r) || "{}")) s.has(a) && (t[a] = r[a]);
+                            var i, u = o(e.querySelectorAll("[data-lang]"));
+                            try {
+                                for (u.s(); !(i = u.n()).done;) {
+                                    var l = i.value,
+                                        c = l.dataset.lang;
+                                    l.dataset.optionsAutoprefixer && (t.css_prefix = "autoprefixer");
+                                    var f = n.syntaxToType(c);
+                                    t[f] = l.innerText, c !== f && (t[f + "_pre_processor"] = c);
+                                    var p = l.dataset.langVersion;
+                                    p && (t[f + "_version"] = p)
+                                }
+                            } catch (e) {
+                                u.e(e)
+                            } finally {
+                                u.f()
+                            }
+                            return JSON.stringify(t)
+                        }
+                    }(t), e) "prefill" !== a && r.append(_("input", {
+                    type: "hidden",
+                    name: a,
+                    value: e[a]
+                }));
+                return r
+            },
+            b = function(e) {
+                var t, r = p(e);
+                t = e["pen-title"] || "CodePen Embed";
+                var n = {
+                    allowfullscreen: "true",
+                    allowpaymentrequest: "true",
+                    allowTransparency: "true",
+                    class: "cp_embed_iframe " + (e.class || ""),
+                    frameborder: "0",
+                    height: y(e),
+                    width: "100%",
+                    name: e.name || "CodePen Embed",
+                    scrolling: "no",
+                    src: r,
+                    style: "width: 100%; overflow:hidden; display:block;",
+                    title: t
+                };
+                return "prefill" in e == !1 && (n.loading = "lazy"), e["slug-hash"] && (n.id = "cp_embed_" + e["slug-hash"].replace("/", "_")), _("iframe", n)
+            },
+            S = function(e, t) {
+                if (e.parentNode) {
+                    var r = document.createElement("div");
+                    return r.className = "cp_embed_wrapper", r.append(t), e.parentNode.replaceChild(r, e), r
+                }
+                return e.append(t), e
+            },
+            T = 1;
+
+        function x(e) {
+            e = "string" == typeof e ? e : ".codepen";
+            for (var t = document.querySelectorAll(e), r = 0, n = t.length; r < n; r++) {
+                var o = t[r],
+                    a = u(o);
+                a && (a.name = "cp_embed_" + T++, v(a, o))
+            }
+            "function" == typeof __CodePenIFrameAddedToPage && __CodePenIFrameAddedToPage()
+        }
+        window.__cp_domReady = i, window.__CPEmbed = x, i(x)
+    }
+});

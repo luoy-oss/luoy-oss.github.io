@@ -1,1 +1,298 @@
-THREE.EffectComposer=function(e,t){var s,i;this.renderer=e,void 0===t?(s={minFilter:THREE.LinearFilter,magFilter:THREE.LinearFilter,format:THREE.RGBAFormat,stencilBuffer:!1},i=e.getSize(new THREE.Vector2),this._pixelRatio=e.getPixelRatio(),this._width=i.width,this._height=i.height,(t=new THREE.WebGLRenderTarget(this._width*this._pixelRatio,this._height*this._pixelRatio,s)).texture.name="EffectComposer.rt1"):(this._pixelRatio=1,this._width=t.width,this._height=t.height),this.renderTarget1=t,this.renderTarget2=t.clone(),this.renderTarget2.texture.name="EffectComposer.rt2",this.writeBuffer=this.renderTarget1,this.readBuffer=this.renderTarget2,this.renderToScreen=!0,this.passes=[],void 0===THREE.CopyShader&&console.error("THREE.EffectComposer relies on THREE.CopyShader"),void 0===THREE.ShaderPass&&console.error("THREE.EffectComposer relies on THREE.ShaderPass"),this.copyPass=new THREE.ShaderPass(THREE.CopyShader),this.clock=new THREE.Clock},Object.assign(THREE.EffectComposer.prototype,{swapBuffers:function(){var e=this.readBuffer;this.readBuffer=this.writeBuffer,this.writeBuffer=e},addPass:function(e){this.passes.push(e),e.setSize(this._width*this._pixelRatio,this._height*this._pixelRatio)},insertPass:function(e,t){this.passes.splice(t,0,e)},isLastEnabledPass:function(e){for(var t=e+1;t<this.passes.length;t++)if(this.passes[t].enabled)return!1;return!0},render:function(e){void 0===e&&(e=this.clock.getDelta());for(var t,s,i,r=this.renderer.getRenderTarget(),h=!1,n=this.passes.length,a=0;a<n;a++)!1!==(i=this.passes[a]).enabled&&(i.renderToScreen=this.renderToScreen&&this.isLastEnabledPass(a),i.render(this.renderer,this.writeBuffer,this.readBuffer,e,h),i.needsSwap&&(h&&(t=this.renderer.getContext(),(s=this.renderer.state.buffers.stencil).setFunc(t.NOTEQUAL,1,4294967295),this.copyPass.render(this.renderer,this.writeBuffer,this.readBuffer,e),s.setFunc(t.EQUAL,1,4294967295)),this.swapBuffers()),void 0!==THREE.MaskPass)&&(i instanceof THREE.MaskPass?h=!0:i instanceof THREE.ClearMaskPass&&(h=!1));this.renderer.setRenderTarget(r)},reset:function(e){var t;void 0===e&&(t=this.renderer.getSize(new THREE.Vector2),this._pixelRatio=this.renderer.getPixelRatio(),this._width=t.width,this._height=t.height,(e=this.renderTarget1.clone()).setSize(this._width*this._pixelRatio,this._height*this._pixelRatio)),this.renderTarget1.dispose(),this.renderTarget2.dispose(),this.renderTarget1=e,this.renderTarget2=e.clone(),this.writeBuffer=this.renderTarget1,this.readBuffer=this.renderTarget2},setSize:function(e,t){this._width=e,this._height=t;var s=this._width*this._pixelRatio,i=this._height*this._pixelRatio;this.renderTarget1.setSize(s,i),this.renderTarget2.setSize(s,i);for(var r=0;r<this.passes.length;r++)this.passes[r].setSize(s,i)},setPixelRatio:function(e){this._pixelRatio=e,this.setSize(this._width,this._height)}}),THREE.Pass=function(){this.enabled=!0,this.needsSwap=!0,this.clear=!1,this.renderToScreen=!1},Object.assign(THREE.Pass.prototype,{setSize:function(){},render:function(){console.error("THREE.Pass: .render() must be implemented in derived pass.")}}),THREE.Pass.FullScreenQuad=(()=>{function e(e){this._mesh=new THREE.Mesh(s,e)}var t=new THREE.OrthographicCamera(-1,1,1,-1,0,1),s=new THREE.PlaneBufferGeometry(2,2);return Object.defineProperty(e.prototype,"material",{get:function(){return this._mesh.material},set:function(e){this._mesh.material=e}}),Object.assign(e.prototype,{dispose:function(){this._mesh.geometry.dispose()},render:function(e){e.render(this._mesh,t)}}),e})();
+/**
+ * @author alteredq / http://alteredqualia.com/
+ */
+
+THREE.EffectComposer = function ( renderer, renderTarget ) {
+
+	this.renderer = renderer;
+
+	if ( renderTarget === undefined ) {
+
+		var parameters = {
+			minFilter: THREE.LinearFilter,
+			magFilter: THREE.LinearFilter,
+			format: THREE.RGBAFormat,
+			stencilBuffer: false
+		};
+
+		var size = renderer.getSize( new THREE.Vector2() );
+		this._pixelRatio = renderer.getPixelRatio();
+		this._width = size.width;
+		this._height = size.height;
+
+		renderTarget = new THREE.WebGLRenderTarget( this._width * this._pixelRatio, this._height * this._pixelRatio, parameters );
+		renderTarget.texture.name = 'EffectComposer.rt1';
+
+	} else {
+
+		this._pixelRatio = 1;
+		this._width = renderTarget.width;
+		this._height = renderTarget.height;
+
+	}
+
+	this.renderTarget1 = renderTarget;
+	this.renderTarget2 = renderTarget.clone();
+	this.renderTarget2.texture.name = 'EffectComposer.rt2';
+
+	this.writeBuffer = this.renderTarget1;
+	this.readBuffer = this.renderTarget2;
+
+	this.renderToScreen = true;
+
+	this.passes = [];
+
+	// dependencies
+
+	if ( THREE.CopyShader === undefined ) {
+
+		console.error( 'THREE.EffectComposer relies on THREE.CopyShader' );
+
+	}
+
+	if ( THREE.ShaderPass === undefined ) {
+
+		console.error( 'THREE.EffectComposer relies on THREE.ShaderPass' );
+
+	}
+
+	this.copyPass = new THREE.ShaderPass( THREE.CopyShader );
+
+	this.clock = new THREE.Clock();
+
+};
+
+Object.assign( THREE.EffectComposer.prototype, {
+
+	swapBuffers: function () {
+
+		var tmp = this.readBuffer;
+		this.readBuffer = this.writeBuffer;
+		this.writeBuffer = tmp;
+
+	},
+
+	addPass: function ( pass ) {
+
+		this.passes.push( pass );
+		pass.setSize( this._width * this._pixelRatio, this._height * this._pixelRatio );
+
+	},
+
+	insertPass: function ( pass, index ) {
+
+		this.passes.splice( index, 0, pass );
+
+	},
+
+	isLastEnabledPass: function ( passIndex ) {
+
+		for ( var i = passIndex + 1; i < this.passes.length; i ++ ) {
+
+			if ( this.passes[ i ].enabled ) {
+
+				return false;
+
+			}
+
+		}
+
+		return true;
+
+	},
+
+	render: function ( deltaTime ) {
+
+		// deltaTime value is in seconds
+
+		if ( deltaTime === undefined ) {
+
+			deltaTime = this.clock.getDelta();
+
+		}
+
+		var currentRenderTarget = this.renderer.getRenderTarget();
+
+		var maskActive = false;
+
+		var pass, i, il = this.passes.length;
+
+		for ( i = 0; i < il; i ++ ) {
+
+			pass = this.passes[ i ];
+
+			if ( pass.enabled === false ) continue;
+
+			pass.renderToScreen = ( this.renderToScreen && this.isLastEnabledPass( i ) );
+			pass.render( this.renderer, this.writeBuffer, this.readBuffer, deltaTime, maskActive );
+
+			if ( pass.needsSwap ) {
+
+				if ( maskActive ) {
+
+					var context = this.renderer.getContext();
+					var stencil = this.renderer.state.buffers.stencil;
+
+					//context.stencilFunc( context.NOTEQUAL, 1, 0xffffffff );
+					stencil.setFunc( context.NOTEQUAL, 1, 0xffffffff );
+
+					this.copyPass.render( this.renderer, this.writeBuffer, this.readBuffer, deltaTime );
+
+					//context.stencilFunc( context.EQUAL, 1, 0xffffffff );
+					stencil.setFunc( context.EQUAL, 1, 0xffffffff );
+
+				}
+
+				this.swapBuffers();
+
+			}
+
+			if ( THREE.MaskPass !== undefined ) {
+
+				if ( pass instanceof THREE.MaskPass ) {
+
+					maskActive = true;
+
+				} else if ( pass instanceof THREE.ClearMaskPass ) {
+
+					maskActive = false;
+
+				}
+
+			}
+
+		}
+
+		this.renderer.setRenderTarget( currentRenderTarget );
+
+	},
+
+	reset: function ( renderTarget ) {
+
+		if ( renderTarget === undefined ) {
+
+			var size = this.renderer.getSize( new THREE.Vector2() );
+			this._pixelRatio = this.renderer.getPixelRatio();
+			this._width = size.width;
+			this._height = size.height;
+
+			renderTarget = this.renderTarget1.clone();
+			renderTarget.setSize( this._width * this._pixelRatio, this._height * this._pixelRatio );
+
+		}
+
+		this.renderTarget1.dispose();
+		this.renderTarget2.dispose();
+		this.renderTarget1 = renderTarget;
+		this.renderTarget2 = renderTarget.clone();
+
+		this.writeBuffer = this.renderTarget1;
+		this.readBuffer = this.renderTarget2;
+
+	},
+
+	setSize: function ( width, height ) {
+
+		this._width = width;
+		this._height = height;
+
+		var effectiveWidth = this._width * this._pixelRatio;
+		var effectiveHeight = this._height * this._pixelRatio;
+
+		this.renderTarget1.setSize( effectiveWidth, effectiveHeight );
+		this.renderTarget2.setSize( effectiveWidth, effectiveHeight );
+
+		for ( var i = 0; i < this.passes.length; i ++ ) {
+
+			this.passes[ i ].setSize( effectiveWidth, effectiveHeight );
+
+		}
+
+	},
+
+	setPixelRatio: function ( pixelRatio ) {
+
+		this._pixelRatio = pixelRatio;
+
+		this.setSize( this._width, this._height );
+
+	}
+
+} );
+
+
+THREE.Pass = function () {
+
+	// if set to true, the pass is processed by the composer
+	this.enabled = true;
+
+	// if set to true, the pass indicates to swap read and write buffer after rendering
+	this.needsSwap = true;
+
+	// if set to true, the pass clears its buffer before rendering
+	this.clear = false;
+
+	// if set to true, the result of the pass is rendered to screen. This is set automatically by EffectComposer.
+	this.renderToScreen = false;
+
+};
+
+Object.assign( THREE.Pass.prototype, {
+
+	setSize: function ( /* width, height */ ) {},
+
+	render: function ( /* renderer, writeBuffer, readBuffer, deltaTime, maskActive */ ) {
+
+		console.error( 'THREE.Pass: .render() must be implemented in derived pass.' );
+
+	}
+
+} );
+
+// Helper for passes that need to fill the viewport with a single quad.
+THREE.Pass.FullScreenQuad = ( function () {
+
+	var camera = new THREE.OrthographicCamera( - 1, 1, 1, - 1, 0, 1 );
+	var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
+
+	var FullScreenQuad = function ( material ) {
+
+		this._mesh = new THREE.Mesh( geometry, material );
+
+	};
+
+	Object.defineProperty( FullScreenQuad.prototype, 'material', {
+
+		get: function () {
+
+			return this._mesh.material;
+
+		},
+
+		set: function ( value ) {
+
+			this._mesh.material = value;
+
+		}
+
+	} );
+
+	Object.assign( FullScreenQuad.prototype, {
+
+		dispose: function () {
+
+			this._mesh.geometry.dispose();
+
+		},
+
+		render: function ( renderer ) {
+
+			renderer.render( this._mesh, camera );
+
+		}
+
+	} );
+
+	return FullScreenQuad;
+
+} )();

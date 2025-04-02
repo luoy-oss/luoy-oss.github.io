@@ -1,1 +1,88 @@
-(()=>{let e=document.getElementById("canvas_nest");if("false"===e.getAttribute("mobile")&&/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent))return;function n(e,n,t){return e.getAttribute(n)||t}function t(){r=o.width=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth,x=o.height=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight}function l(){u.clearRect(0,0,r,x);let n=[y].concat(s),t,i,o,a,d,c;s.forEach(function(e){for(e.x+=e.xa,e.y+=e.ya,e.xa*=e.x>r||e.x<0?-1:1,e.ya*=e.y>x||e.y<0?-1:1,u.fillRect(e.x-.5,e.y-.5,1,1),i=0;i<n.length;i++)e!==(t=n[i])&&null!==t.x&&null!==t.y&&(a=e.x-t.x,d=e.y-t.y,(c=a*a+d*d)<t.max)&&(t===y&&c>=t.max/2&&(e.x-=.03*a,e.y-=.03*d),o=(t.max-c)/t.max,u.beginPath(),u.lineWidth=o/2,u.strokeStyle="rgba("+m.c+","+(o+.2)+")",u.moveTo(e.x,e.y),u.lineTo(t.x,t.y),u.stroke());n.splice(n.indexOf(e),1)}),w(l)}var i,o=document.createElement("canvas"),m={z:n(i=e,"zIndex",-1),o:n(i,"opacity",.5),c:n(i,"color","0,0,0"),n:n(i,"count",99)},u=o.getContext("2d");let r,x;var w=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||function(e){window.setTimeout(e,1e3/45)},a=Math.random,y={x:null,y:null,max:2e4};o.style.cssText="position:fixed;top:0;left:0;z-index:"+m.z+";opacity:"+m.o,document.getElementsByTagName("body")[0].appendChild(o),t(),window.onresize=t,window.onmousemove=function(e){e=e||window.event,y.x=e.clientX,y.y=e.clientY},window.onmouseout=function(){y.x=null,y.y=null};for(var s=[],d=0;d<m.n;d++){var c=a()*r,f=a()*x,h=2*a()-1,g=2*a()-1;s.push({x:c,y:f,xa:h,ya:g,max:6e3})}setTimeout(function(){l()},100)})();
+/**
+ * From https://github.com/disjukr/activate-power-mode
+ * Modify by Jerry
+ */
+
+(function () {
+  const cn = document.getElementById('canvas_nest')
+  const mb = cn.getAttribute('mobile')
+
+  if (mb === 'false' && (/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent))) {
+    return
+  }
+
+  function o (w, v, i) {
+    return w.getAttribute(v) || i
+  }
+
+  function j (i) {
+    return document.getElementsByTagName(i)
+  }
+
+  function l () {
+    const v = cn
+    return {
+      z: o(v, 'zIndex', -1),
+      o: o(v, 'opacity', 0.5),
+      c: o(v, 'color', '0,0,0'),
+      n: o(v, 'count', 99)
+    }
+  }
+
+  function k () {
+    r = u.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, n = u.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+  }
+
+  function b () {
+    e.clearRect(0, 0, r, n)
+    const w = [f].concat(t)
+    let x, v, A, B, z, y
+    t.forEach(function (i) {
+      i.x += i.xa, i.y += i.ya, i.xa *= i.x > r || i.x < 0 ? -1 : 1, i.ya *= i.y > n || i.y < 0 ? -1 : 1, e.fillRect(i.x - 0.5, i.y - 0.5, 1, 1)
+      for (v = 0; v < w.length; v++) {
+        x = w[v]
+        if (i !== x && x.x !== null && x.y !== null) {
+          B = i.x - x.x, z = i.y - x.y, y = B * B + z * z
+          y < x.max && (x === f && y >= x.max / 2 && (i.x -= 0.03 * B, i.y -= 0.03 * z), A = (x.max - y) / x.max, e.beginPath(), e.lineWidth = A / 2, e.strokeStyle = 'rgba(' + s.c + ',' + (A + 0.2) + ')', e.moveTo(i.x, i.y), e.lineTo(x.x, x.y), e.stroke())
+        }
+      }
+      w.splice(w.indexOf(i), 1)
+    }), m(b)
+  }
+  var u = document.createElement('canvas')
+  var s = l()
+  var e = u.getContext('2d')
+  let r; let n; var m = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (i) {
+    window.setTimeout(i, 1000 / 45)
+  }
+  const a = Math.random
+  var f = {
+    x: null,
+    y: null,
+    max: 20000
+  }
+  u.style.cssText = 'position:fixed;top:0;left:0;z-index:' + s.z + ';opacity:' + s.o
+  j('body')[0].appendChild(u)
+  k(), window.onresize = k
+  window.onmousemove = function (i) {
+    i = i || window.event, f.x = i.clientX, f.y = i.clientY
+  }, window.onmouseout = function () {
+    f.x = null, f.y = null
+  }
+  for (var t = [], p = 0; s.n > p; p++) {
+    const h = a() * r
+    const g = a() * n
+    const q = 2 * a() - 1
+    const d = 2 * a() - 1
+    t.push({
+      x: h,
+      y: g,
+      xa: q,
+      ya: d,
+      max: 6000
+    })
+  }
+  setTimeout(function () {
+    b()
+  }, 100)
+})()
