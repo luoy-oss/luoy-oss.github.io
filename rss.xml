@@ -110,8 +110,7 @@
       <description>&lt;hr&gt;
 &lt;p&gt;Proteus版本：Proteus 8.9&lt;/p&gt;
 &lt;p&gt;使用Proteus中ne555仿真时，遇到了仿真报错：&lt;/p&gt;
-&lt;p&gt;[SPICE] Too many iterations without convergence.&lt;br&gt;
-Real Time Simul</description>
+&lt;p&gt;[SPICE] Too many iterations without convergence.&lt;br&gt;Real Time Simula</description>
         
       
       
@@ -134,11 +133,8 @@ Real Time Simul</description>
         
         
       <description>&lt;hr&gt;
-&lt;h1&gt;Python&lt;/h1&gt;
-&lt;br&gt;
-&lt;h2 id=&quot;Timeout装饰器&quot;&gt;Timeout装饰器&lt;/h2&gt;
-&lt;p&gt;timeout装饰器实现了超时回调的功能&lt;/p&gt;
-&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td cl</description>
+&lt;h1 id=&quot;Python&quot;&gt;&lt;a href=&quot;#Python&quot; class=&quot;headerlink&quot; title=&quot;Python&quot;&gt;&lt;/a&gt;Python&lt;/h1&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Timeout装饰器&quot;&gt;&lt;a href=&quot;#Timeout装饰器</description>
         
       
       
@@ -240,7 +236,7 @@ Real Time Simul</description>
 &lt;p&gt;爱来自洛屿❤&lt;a href=&quot;https://luoy-oss.github.io&quot;&gt;drluo&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&quot;/img/drluoLogo.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;h1&gt;登出操作</description>
+&lt;h1 id=&quot;</description>
         
       
       
@@ -300,8 +296,7 @@ Real Time Simul</description>
       
         
         
-      <description>&lt;h1&gt;问题已解决&lt;/h1&gt;
-&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;b</description>
+      <description>&lt;h1 id=&quot;问题已解决&quot;&gt;&lt;a href=&quot;#问题已解决&quot; class=&quot;headerlink&quot; title=&quot;问题已解决&quot;&gt;&lt;/a&gt;问题已解决&lt;/h1&gt;&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;</description>
         
       
       
@@ -330,8 +325,7 @@ Real Time Simul</description>
       <description>&lt;blockquote&gt;
 &lt;p&gt;爱来自ZZULI❤&lt;a href=&quot;https://luoy-oss.github.io&quot;&gt;drluo&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1&gt;从Github下载PaddleLite库&lt;/h1&gt;
-&lt;h1&gt;根据机型选择arm 或 x86编</description>
+&lt;h1 id=&quot;从Github下载PaddleLite库&quot;&gt;&lt;a href=&quot;#从Github下载P</description>
         
       
       
@@ -358,7 +352,7 @@ Real Time Simul</description>
       <description>&lt;p&gt;&lt;strong&gt;注意：代码实现的题目，需要提交实现代码&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意：代码实现的题目，需要提交实现代码&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意：代码实现的题目，需要提交实现代码&lt;/strong&gt;&lt;/p&gt;
-&lt;h1&gt;task</description>
+&lt;h1 id=&quot;</description>
         
       
       
@@ -530,9 +524,7 @@ Real Time Simul</description>
       
         
         
-      <description>&lt;h2 id=&quot;C、C-数组，指针，指针数组，数组指针的区别&quot;&gt;C、C++数组，指针，指针数组，数组指针的区别&lt;/h2&gt;
-&lt;p&gt;C语言中的数组、指针、指针数组和数组指针是不同的概念，它们在用途和定义上有明显的区别。&lt;/p&gt;
-&lt;h3 id=&quot;数组-Array&quot;&gt;数组 (Array)</description>
+      <description>&lt;h2 id=&quot;C、C-数组，指针，指针数组，数组指针的区别&quot;&gt;&lt;a href=&quot;#C、C-数组，指针，指针数组，数组指针的区别&quot; class=&quot;headerlink&quot; title=&quot;C、C++数组，指针，指针数组，数组指针的区别&quot;&gt;&lt;/a&gt;C、C++数组，指针，指针数组，数组指</description>
         
       
       
@@ -574,6 +566,807 @@ Real Time Simul</description>
       
       
       <comments>https://www.drluo.top/posts/57353#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>C、C++预处理详解</title>
+      <link>https://www.drluo.top/posts/1746</link>
+      <guid>https://www.drluo.top/posts/1746</guid>
+      <pubDate>Tue, 10 Oct 2023 12:42:17 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;什么是预处理？&quot;&gt;&lt;a href=&quot;#什么是预处理？&quot; class=&quot;headerlink&quot; title=&quot;什么是预处理？&quot;&gt;&lt;/a&gt;什么是预处理？&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;C 预处理器&lt;/strong&gt;不是编译器的组成部分，但是它是编译过程中一个单独的步骤</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C-C/">C/C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/C%E8%AF%AD%E8%A8%80/">C语言</category>
+      
+      <category domain="https://www.drluo.top/tags/C/">C++</category>
+      
+      
+      <comments>https://www.drluo.top/posts/1746#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>C、C++其他关键字详解</title>
+      <link>https://www.drluo.top/posts/28732</link>
+      <guid>https://www.drluo.top/posts/28732</guid>
+      <pubDate>Tue, 10 Oct 2023 12:41:06 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;其它关键字&quot;&gt;&lt;a href=&quot;#其它关键字&quot; class=&quot;headerlink&quot; title=&quot;其它关键字&quot;&gt;&lt;/a&gt;其它关键字&lt;/h1&gt;&lt;h2 id=&quot;const&quot;&gt;&lt;a href=&quot;#const&quot; class=&quot;headerlink&quot; title=&quot;con</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C-C/">C/C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/C%E8%AF%AD%E8%A8%80/">C语言</category>
+      
+      <category domain="https://www.drluo.top/tags/C/">C++</category>
+      
+      
+      <comments>https://www.drluo.top/posts/28732#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>C、C++存储类型关键字详解</title>
+      <link>https://www.drluo.top/posts/229</link>
+      <guid>https://www.drluo.top/posts/229</guid>
+      <pubDate>Tue, 10 Oct 2023 12:40:06 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;存储类型关键字&quot;&gt;&lt;a href=&quot;#存储类型关键字&quot; class=&quot;headerlink&quot; title=&quot;存储类型关键字&quot;&gt;&lt;/a&gt;存储类型关键字&lt;/h1&gt;&lt;h2 id=&quot;auto&quot;&gt;&lt;a href=&quot;#auto&quot; class=&quot;headerlink&quot; titl</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C-C/">C/C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/C%E8%AF%AD%E8%A8%80/">C语言</category>
+      
+      <category domain="https://www.drluo.top/tags/C/">C++</category>
+      
+      
+      <comments>https://www.drluo.top/posts/229#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>C、C++控制语句关键字详解</title>
+      <link>https://www.drluo.top/posts/23650</link>
+      <guid>https://www.drluo.top/posts/23650</guid>
+      <pubDate>Tue, 10 Oct 2023 12:39:06 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;控制语句关键字&quot;&gt;&lt;a href=&quot;#控制语句关键字&quot; class=&quot;headerlink&quot; title=&quot;控制语句关键字&quot;&gt;&lt;/a&gt;控制语句关键字&lt;/h1&gt;&lt;p&gt;下面是关于循环语句和条件语句的详细解释，包括特性、用法以及示例代码。我将注释来解释每个示例的执行流程</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C-C/">C/C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/C%E8%AF%AD%E8%A8%80/">C语言</category>
+      
+      <category domain="https://www.drluo.top/tags/C/">C++</category>
+      
+      
+      <comments>https://www.drluo.top/posts/23650#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>C、C++数据类型关键字详解</title>
+      <link>https://www.drluo.top/posts/48531</link>
+      <guid>https://www.drluo.top/posts/48531</guid>
+      <pubDate>Tue, 10 Oct 2023 12:38:16 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;数据类型关键字&quot;&gt;&lt;a href=&quot;#数据类型关键字&quot; class=&quot;headerlink&quot; title=&quot;数据类型关键字&quot;&gt;&lt;/a&gt;数据类型关键字&lt;/h1&gt;&lt;p&gt;以下是对每个C语言数据类型关键字的详细解释，包括其包括特性、用法以及可能的范围和精度限制。&lt;/p&gt;
+</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C-C/">C/C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/C%E8%AF%AD%E8%A8%80/">C语言</category>
+      
+      <category domain="https://www.drluo.top/tags/C/">C++</category>
+      
+      
+      <comments>https://www.drluo.top/posts/48531#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>C、C++关键字</title>
+      <link>https://www.drluo.top/posts/7618</link>
+      <guid>https://www.drluo.top/posts/7618</guid>
+      <pubDate>Tue, 10 Oct 2023 12:37:06 GMT</pubDate>
+      
+        
+        
+      <description>&lt;blockquote&gt;
+&lt;p&gt; 本文章面向初学者问题：对C语言中的相应字符和单词用法不理解&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;初学者第一次接触到的程序大都是打印hello world&lt;/p&gt;
+&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;t</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C-C/">C/C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/C%E8%AF%AD%E8%A8%80/">C语言</category>
+      
+      <category domain="https://www.drluo.top/tags/C/">C++</category>
+      
+      
+      <comments>https://www.drluo.top/posts/7618#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>C++药品管理系统</title>
+      <link>https://www.drluo.top/posts/32231</link>
+      <guid>https://www.drluo.top/posts/32231</guid>
+      <pubDate>Thu, 28 Sep 2023 14:13:56 GMT</pubDate>
+      
+        
+        
+      <description>&lt;blockquote&gt;
+&lt;p&gt;爱来自ZZULI❤&lt;a href=&quot;https://luoy-oss.github.io&quot;&gt;drluo&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;/img/page/ZZULI.webp&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;bl</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C-C/">C/C++</category>
+      
+      
+      
+      <comments>https://www.drluo.top/posts/32231#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Bi-LSTM(Attention)的PyTorch实现</title>
+      <link>https://www.drluo.top/posts/633</link>
+      <guid>https://www.drluo.top/posts/633</guid>
+      <pubDate>Wed, 26 Jul 2023 12:06:57 GMT</pubDate>
+      
+        
+        
+      <description>&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;实现如下，代码解释以注释的方式呈现&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;li</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/Python/">Python</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/PyTorch/">PyTorch</category>
+      
+      <category domain="https://www.drluo.top/tags/Python/">Python</category>
+      
+      <category domain="https://www.drluo.top/tags/NLP/">NLP</category>
+      
+      
+      <comments>https://www.drluo.top/posts/633#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>C语言实现波士顿房价预测</title>
+      <link>https://www.drluo.top/posts/37594</link>
+      <guid>https://www.drluo.top/posts/37594</guid>
+      <pubDate>Wed, 26 Jul 2023 02:15:17 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;波士顿房价预测是一个经典的机器学习任务，类似于程序员世界的“Hello World”。和大家对房价的普遍认知相同，波士顿地区的房价受诸多因素影响。该数据集统计了13种可能影响房价的因素和该类型房屋的均价，期望构建一个基于13个因素进行房价预测的模型，如 下图所示。&lt;/p&gt;
+</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C-C/">C/C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">神经网络</category>
+      
+      
+      <comments>https://www.drluo.top/posts/37594#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>easy库的使用</title>
+      <link>https://www.drluo.top/posts/3766</link>
+      <guid>https://www.drluo.top/posts/3766</guid>
+      <pubDate>Mon, 12 Jun 2023 02:48:32 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;C-easy库&quot;&gt;&lt;a href=&quot;#C-easy库&quot; class=&quot;headerlink&quot; title=&quot;C++easy库&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://easyx.cn/&quot;&gt;C++easy库&lt;/a&gt;&lt;/h1&gt;&lt;h2 id=&quot;加载动画&quot;&gt;&lt;a hr</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/easyx/">easyx</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/C/">C++</category>
+      
+      
+      <comments>https://www.drluo.top/posts/3766#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>edgeboardFZ3A相关问题</title>
+      <link>https://www.drluo.top/posts/31267</link>
+      <guid>https://www.drluo.top/posts/31267</guid>
+      <pubDate>Fri, 09 Jun 2023 06:03:48 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;FZ3A&quot;&gt;&lt;a href=&quot;#FZ3A&quot; class=&quot;headerlink&quot; title=&quot;FZ3A&quot;&gt;&lt;/a&gt;FZ3A&lt;/h1&gt;&lt;p&gt;Q：在程序make阶段，出现了串口库库文件缺失导致的函数定义未被实现的报错：&lt;br&gt;&lt;img src=&quot;/img/page/</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/Baidu/">Baidu</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/Linux/">Linux</category>
+      
+      <category domain="https://www.drluo.top/tags/edgeboard-FZ3A/">edgeboard-FZ3A</category>
+      
+      
+      <comments>https://www.drluo.top/posts/31267#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Predict.py的编写</title>
+      <link>https://www.drluo.top/posts/2410</link>
+      <guid>https://www.drluo.top/posts/2410</guid>
+      <pubDate>Tue, 11 Apr 2023 11:51:01 GMT</pubDate>
+      
+        
+        
+      <description>&lt;blockquote&gt;
+&lt;p&gt;你需要注意的是：&lt;/p&gt;
+&lt;p&gt;​    &lt;strong&gt;此文章仅为ChatGpt的回答，是本人用于理解paddle相应模块而CV过来的，并不一定具有实际效益&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;一种可行的Pred</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/Paddle/">Paddle</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/Python/">Python</category>
+      
+      <category domain="https://www.drluo.top/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</category>
+      
+      
+      <comments>https://www.drluo.top/posts/2410#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Paddle环境搭建</title>
+      <link>https://www.drluo.top/posts/50624</link>
+      <guid>https://www.drluo.top/posts/50624</guid>
+      <pubDate>Tue, 04 Apr 2023 11:12:02 GMT</pubDate>
+      
+        
+        
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;此文章以python的搭建为例&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h1 id=&quot;一、安装Anaconda&quot;&gt;&lt;a href=&quot;#一、安装Anaconda&quot; class=&quot;headerlink&quot; tit</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/Paddle/">Paddle</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/Python/">Python</category>
+      
+      <category domain="https://www.drluo.top/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</category>
+      
+      
+      <comments>https://www.drluo.top/posts/50624#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>百度Paddle模型训练</title>
+      <link>https://www.drluo.top/posts/62432</link>
+      <guid>https://www.drluo.top/posts/62432</guid>
+      <pubDate>Tue, 04 Apr 2023 07:06:56 GMT</pubDate>
+      
+        
+        
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意：本说明并没有详细谈及各参数的调整&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;对于多卡训练，只需要将python  tools/trainxxxx改为：&lt;/p&gt;
+&lt;p&gt;python -m paddle.distributed.launch</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/Paddle/">Paddle</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/Python/">Python</category>
+      
+      <category domain="https://www.drluo.top/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</category>
+      
+      
+      <comments>https://www.drluo.top/posts/62432#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>GMD09601-0.96OLED显示屏</title>
+      <link>https://www.drluo.top/posts/24495</link>
+      <guid>https://www.drluo.top/posts/24495</guid>
+      <pubDate>Tue, 14 Mar 2023 11:23:23 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;GMD09601-0-96OLED显示屏&quot;&gt;&lt;a href=&quot;#GMD09601-0-96OLED显示屏&quot; class=&quot;headerlink&quot; title=&quot;GMD09601-0.96OLED显示屏&quot;&gt;&lt;/a&gt;GMD09601-0.96OLED显示屏&lt;/h1&gt;&lt;</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/STM32/">STM32</category>
+      
+      
+      
+      <comments>https://www.drluo.top/posts/24495#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>【LeetCode 1617】统计子树中城市之间最大距离</title>
+      <link>https://www.drluo.top/posts/5491</link>
+      <guid>https://www.drluo.top/posts/5491</guid>
+      <pubDate>Sun, 12 Mar 2023 09:08:27 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h2 id=&quot;题目描述&quot;&gt;&lt;a href=&quot;#题目描述&quot; class=&quot;headerlink&quot; title=&quot;题目描述&quot;&gt;&lt;/a&gt;题目描述&lt;/h2&gt;&lt;p&gt;给你 n 个城市，编号为从 1 到 n 。同时给你一个大小为 n-1 的数组 edges ，其中 edges[i] = [u</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E6%A0%91/">树</category>
+      
+      <category domain="https://www.drluo.top/tags/%E5%9B%9E%E6%BA%AF/">回溯</category>
+      
+      <category domain="https://www.drluo.top/tags/%E6%9E%9A%E4%B8%BE/">枚举</category>
+      
+      
+      <comments>https://www.drluo.top/posts/5491#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>C语言学习相关</title>
+      <link>https://www.drluo.top/posts/27662</link>
+      <guid>https://www.drluo.top/posts/27662</guid>
+      <pubDate>Sun, 12 Mar 2023 04:39:23 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h2 id=&quot;函数递归&quot;&gt;&lt;a href=&quot;#函数递归&quot; class=&quot;headerlink&quot; title=&quot;函数递归&quot;&gt;&lt;/a&gt;函数递归&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;函数递归，简单的理解就是，自己调用自己，直到遇到边界条件，停止递归&lt;/p&gt;
+&lt;/blockquot</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      
+      <comments>https://www.drluo.top/posts/27662#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>STM32阵列按键</title>
+      <link>https://www.drluo.top/posts/47966</link>
+      <guid>https://www.drluo.top/posts/47966</guid>
+      <pubDate>Sat, 11 Mar 2023 16:37:23 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;阵列按键&quot;&gt;&lt;a href=&quot;#阵列按键&quot; class=&quot;headerlink&quot; title=&quot;阵列按键&quot;&gt;&lt;/a&gt;阵列按键&lt;/h1&gt;&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/STM32/">STM32</category>
+      
+      
+      
+      <comments>https://www.drluo.top/posts/47966#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>CH32(F10X F20X)</title>
+      <link>https://www.drluo.top/posts/57388</link>
+      <guid>https://www.drluo.top/posts/57388</guid>
+      <pubDate>Sat, 11 Mar 2023 14:01:12 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;对于WCH-link的接线&quot;&gt;&lt;a href=&quot;#对于WCH-link的接线&quot; class=&quot;headerlink&quot; title=&quot;对于WCH-link的接线&quot;&gt;&lt;/a&gt;对于WCH-link的接线&lt;/h1&gt;&lt;h2 id=&quot;F103&quot;&gt;&lt;a href=&quot;#F103&quot;</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/CH32/">CH32</category>
+      
+      
+      
+      <comments>https://www.drluo.top/posts/57388#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>最短路</title>
+      <link>https://www.drluo.top/posts/19070</link>
+      <guid>https://www.drluo.top/posts/19070</guid>
+      <pubDate>Sat, 04 Mar 2023 02:03:02 GMT</pubDate>
+      
+        
+        
+      <description>&lt;blockquote&gt;
+&lt;p&gt;最短的求解一般会遇到多种情况&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;有向无环图&lt;ul&gt;
+&lt;li&gt;权值为正&lt;/li&gt;
+&lt;li&gt;权值&lt;strong&gt;有&lt;/strong&gt;负&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;有向有环图&lt;ul&gt;
+&lt;li&gt;权值为正&lt;/li&gt;
+&lt;</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E5%9B%BE/">图</category>
+      
+      
+      <comments>https://www.drluo.top/posts/19070#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>拓扑排序</title>
+      <link>https://www.drluo.top/posts/22315</link>
+      <guid>https://www.drluo.top/posts/22315</guid>
+      <pubDate>Fri, 03 Mar 2023 12:39:54 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;什么是拓扑排序？&quot;&gt;&lt;a href=&quot;#什么是拓扑排序？&quot; class=&quot;headerlink&quot; title=&quot;什么是拓扑排序？&quot;&gt;&lt;/a&gt;什么是拓扑排序？&lt;/h1&gt;&lt;p&gt;在图论中，&lt;strong&gt;拓扑排序&lt;/strong&gt;（Topological Sorting</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E5%9B%BE/">图</category>
+      
+      
+      <comments>https://www.drluo.top/posts/22315#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>图的表示</title>
+      <link>https://www.drluo.top/posts/3155</link>
+      <guid>https://www.drluo.top/posts/3155</guid>
+      <pubDate>Thu, 02 Mar 2023 13:18:54 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;邻接矩阵实现&quot;&gt;&lt;a href=&quot;#邻接矩阵实现&quot; class=&quot;headerlink&quot; title=&quot;邻接矩阵实现&quot;&gt;&lt;/a&gt;邻接矩阵实现&lt;/h1&gt;&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutte</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E5%9B%BE/">图</category>
+      
+      
+      <comments>https://www.drluo.top/posts/3155#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>AutoCAD</title>
+      <link>https://www.drluo.top/posts/51510</link>
+      <guid>https://www.drluo.top/posts/51510</guid>
+      <pubDate>Thu, 02 Mar 2023 12:37:32 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;[TOC]&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;CAD是先设置相关样式，后绘制&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;命令&quot;&gt;&lt;a href=&quot;#命令&quot; class=&quot;headerlink&quot; title=&quot;命令&quot;&gt;&lt;/a&gt;命令&lt;/h1&gt;&lt;h2 id=&quot;ME</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/CAD/">CAD</category>
+      
+      
+      
+      <comments>https://www.drluo.top/posts/51510#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>二叉搜索树(BST)</title>
+      <link>https://www.drluo.top/posts/45841</link>
+      <guid>https://www.drluo.top/posts/45841</guid>
+      <pubDate>Sat, 18 Feb 2023 08:27:13 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h1 id=&quot;性质&quot;&gt;&lt;a href=&quot;#性质&quot; class=&quot;headerlink&quot; title=&quot;性质&quot;&gt;&lt;/a&gt;性质&lt;/h1&gt;&lt;p&gt;二叉搜索树本质上还是一棵二叉树，其满足以下性质（习惯性定义为）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;非空&lt;strong&gt;左</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E6%A0%91/">树</category>
+      
+      <category domain="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</category>
+      
+      <category domain="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">二叉搜索树</category>
+      
+      <category domain="https://www.drluo.top/tags/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/">平衡二叉树</category>
+      
+      
+      <comments>https://www.drluo.top/posts/45841#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>二叉树的遍历序列转换</title>
+      <link>https://www.drluo.top/posts/57450</link>
+      <guid>https://www.drluo.top/posts/57450</guid>
+      <pubDate>Sat, 18 Feb 2023 03:23:01 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;前序中序转后序&quot;&gt;&lt;a href=&quot;#前序中序转后序&quot; class=&quot;headerlink&quot; title=&quot;前序中序转后序&quot;&gt;&lt;/a&gt;前序中序转后序&lt;/h1&gt;&lt;h2 id=&quot;输入-1&quot;&gt;&lt;a href=&quot;#输入-1&quot; class=&quot;headerlink&quot; titl</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E6%A0%91/">树</category>
+      
+      <category domain="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</category>
+      
+      
+      <comments>https://www.drluo.top/posts/57450#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>二叉树的同构</title>
+      <link>https://www.drluo.top/posts/50176</link>
+      <guid>https://www.drluo.top/posts/50176</guid>
+      <pubDate>Tue, 14 Feb 2023 11:57:32 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;关于二叉树的同构&quot;&gt;&lt;a href=&quot;#关于二叉树的同构&quot; class=&quot;headerlink&quot; title=&quot;关于二叉树的同构&quot;&gt;&lt;/a&gt;关于二叉树的同构&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;/img/page/tree/Isomorphism.webp&quot; alt</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E6%A0%91/">树</category>
+      
+      <category domain="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</category>
+      
+      
+      <comments>https://www.drluo.top/posts/50176#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>二叉树的遍历</title>
+      <link>https://www.drluo.top/posts/63105</link>
+      <guid>https://www.drluo.top/posts/63105</guid>
+      <pubDate>Tue, 14 Feb 2023 11:57:32 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;先序遍历&quot;&gt;&lt;a href=&quot;#先序遍历&quot; class=&quot;headerlink&quot; title=&quot;先序遍历&quot;&gt;&lt;/a&gt;先序遍历&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;根-&amp;gt;左子树-&amp;gt;右子树&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E6%A0%91/">树</category>
+      
+      <category domain="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</category>
+      
+      
+      <comments>https://www.drluo.top/posts/63105#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>树的表示</title>
+      <link>https://www.drluo.top/posts/30396</link>
+      <guid>https://www.drluo.top/posts/30396</guid>
+      <pubDate>Tue, 14 Feb 2023 11:47:54 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;链表实现&quot;&gt;&lt;a href=&quot;#链表实现&quot; class=&quot;headerlink&quot; title=&quot;链表实现&quot;&gt;&lt;/a&gt;链表实现&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;/img/page/tree![img](file:///C:\Users\drluo\AppData\</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E6%A0%91/">树</category>
+      
+      
+      <comments>https://www.drluo.top/posts/30396#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>单调栈</title>
+      <link>https://www.drluo.top/posts/33564</link>
+      <guid>https://www.drluo.top/posts/33564</guid>
+      <pubDate>Tue, 14 Feb 2023 07:27:59 GMT</pubDate>
+      
+        
+        
+      <description>&lt;blockquote&gt;
+&lt;p&gt;帮助群友&lt;del&gt;♂♂&lt;/del&gt;(AC)，就是帮助自己&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&quot;单调栈&quot;&gt;&lt;a href=&quot;#单调栈&quot; class=&quot;headerlink&quot; title=&quot;单调栈&quot;&gt;&lt;/a&gt;单调栈&lt;/h1&gt;&lt;ul&gt;
+&lt;</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E6%A0%88/">栈</category>
+      
+      
+      <comments>https://www.drluo.top/posts/33564#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>《树》</title>
+      <link>https://www.drluo.top/posts/11924</link>
+      <guid>https://www.drluo.top/posts/11924</guid>
+      <pubDate>Tue, 14 Feb 2023 06:28:32 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1 id=&quot;树-Tree&quot;&gt;&lt;a href=&quot;#树-Tree&quot; class=&quot;headerlink&quot; title=&quot;树(Tree)&quot;&gt;&lt;/a&gt;树(Tree)&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;n(n≥0)个结点构成的有限集合&lt;/p&gt;
+&lt;p&gt;n=0时，称为&lt;strong&gt;</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/tree/">tree</category>
+      
+      
+      <comments>https://www.drluo.top/posts/11924#disqus_thread</comments>
       
     </item>
     
