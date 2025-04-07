@@ -1,31 +1,43 @@
-<h1 id="CHANGELOG"><a href="#CHANGELOG" class="headerlink" title="CHANGELOG"></a>CHANGELOG</h1><h2 id="Version-19"><a href="#Version-19" class="headerlink" title="Version 19"></a>Version 19</h2><h4 id="19-1-3"><a href="#19-1-3" class="headerlink" title="19.1.3"></a>19.1.3</h4><ul>
+<h1>CHANGELOG</h1>
+<h2 id="Version-19">Version 19</h2>
+<h4 id="19-1-3">19.1.3</h4>
+<ul>
 <li>File <code>CHANGELOG.md</code> is now included in the package and installed along with it</li>
 <li>Updated Babel, Rollup and Playwright to the latest versions</li>
 </ul>
-<h4 id="19-1-2"><a href="#19-1-2" class="headerlink" title="19.1.2"></a>19.1.2</h4><ul>
+<h4 id="19-1-2">19.1.2</h4>
+<ul>
 <li>Modernized code and smaller file bundles, everything is now shipped as in the ES2015 format.</li>
 </ul>
-<h4 id="19-1-1"><a href="#19-1-1" class="headerlink" title="19.1.1"></a>19.1.1</h4><ul>
+<h4 id="19-1-1">19.1.1</h4>
+<ul>
 <li>Removed code to support image-set on legacy versions of Chromium browsers</li>
 <li>Added coverage with 2 more demos for images with single src and a placeholder image</li>
 </ul>
-<h4 id="19-1-0"><a href="#19-1-0" class="headerlink" title="19.1.0"></a>19.1.0</h4><ul>
+<h4 id="19-1-0">19.1.0</h4>
+<ul>
 <li>Added end to end tests to expand test coverage to more use cases and cross browser</li>
 </ul>
-<h4 id="19-0-5"><a href="#19-0-5" class="headerlink" title="19.0.5"></a>19.0.5</h4><ul>
+<h4 id="19-0-5">19.0.5</h4>
+<ul>
 <li>Removed <code>.eslintrc.json</code>, <code>LICENSE</code>, <code>CHANGELOG.md</code>, <code>CODE_OF_CONDUCT.md</code>, <code>README.md</code>, <code>package.json</code> from the package files, as they didn’t have any impact on <a href="https://docs.npmjs.com/searching-for-and-choosing-packages-to-download#quality">code quality</a>.</li>
 </ul>
-<h4 id="19-0-4"><a href="#19-0-4" class="headerlink" title="19.0.4"></a>19.0.4</h4><ul>
+<h4 id="19-0-4">19.0.4</h4>
+<ul>
 <li>Removed Babel plugin to polyfill <code>Object.assign()</code>, as suggested in #611.</li>
 </ul>
-<h4 id="19-0-3"><a href="#19-0-3" class="headerlink" title="19.0.3"></a>19.0.3</h4><ul>
+<h4 id="19-0-3">19.0.3</h4>
+<ul>
 <li>Files <code>.eslintrc.json</code>, <code>LICENSE</code>, <code>CHANGELOG.md</code>, <code>CODE_OF_CONDUCT.md</code>, <code>README.md</code>, <code>package.json</code> are now included in the package</li>
 </ul>
-<h4 id="19-0-1"><a href="#19-0-1" class="headerlink" title="19.0.1"></a>19.0.1</h4><ul>
+<h4 id="19-0-1">19.0.1</h4>
+<ul>
 <li>Restored compatibility for bundlers that used this module, see #609</li>
 </ul>
-<h4 id="19-0-0"><a href="#19-0-0" class="headerlink" title="19.0.0"></a>19.0.0</h4><ul>
-<li>Rollup setup enhancement <ul>
+<h4 id="19-0-0">19.0.0</h4>
+<ul>
+<li>Rollup setup enhancement
+<ul>
 <li>Refactored the Rollup setup to improve performance and maintainability.</li>
 <li>Switched to ES6 module format for better compatibility and readability.</li>
 <li>Enabled tree shaking and module preservation to optimize the build output.</li>
@@ -36,84 +48,111 @@
 <li>Removed AMD module from the <code>/dist</code> folder, as it’s been unused since version 11</li>
 <li>Removed AMD-related demos</li>
 </ul>
-<h2 id="Version-18"><a href="#Version-18" class="headerlink" title="Version 18"></a>Version 18</h2><h4 id="18-0-0"><a href="#18-0-0" class="headerlink" title="18.0.0"></a>18.0.0</h4><ul>
+<h2 id="Version-18">Version 18</h2>
+<h4 id="18-0-0">18.0.0</h4>
+<ul>
 <li><strong>Dropped support for Internet Explorer 11</strong></li>
 <li>Modernized code</li>
 <li>Smaller file</li>
 </ul>
-<h2 id="Version-17"><a href="#Version-17" class="headerlink" title="Version 17"></a>Version 17</h2><h4 id="17-9-0"><a href="#17-9-0" class="headerlink" title="17.9.0"></a>17.9.0</h4><ul>
+<h2 id="Version-17">Version 17</h2>
+<h4 id="17-9-0">17.9.0</h4>
+<ul>
 <li>Allowing to pass empty string (<code>&quot;&quot;</code>) as value for class options (<code>class_loading</code>, <code>class_applied</code>, <code>class_loaded</code>, <code>class_error</code>, <code>class_entered</code>, <code>class_exited</code>) so that no DOM mutation will happen if not necessary. This is a potential performance improvement. Suggested in <a href="https://github.com/verlok/vanilla-lazyload/issues/605">#605</a>.</li>
 </ul>
-<h4 id="17-8-8"><a href="#17-8-8" class="headerlink" title="17.8.8"></a>17.8.8</h4><ul>
+<h4 id="17-8-8">17.8.8</h4>
+<ul>
 <li>Fixed dependency issues detected by <code>npm audit</code></li>
 </ul>
-<h4 id="17-8-5"><a href="#17-8-5" class="headerlink" title="17.8.5"></a>17.8.5</h4><ul>
+<h4 id="17-8-5">17.8.5</h4>
+<ul>
 <li>Improved callbacks check by introducing type check (must be <code>function</code>)</li>
 </ul>
-<h4 id="17-8-4"><a href="#17-8-4" class="headerlink" title="17.8.4"></a>17.8.4</h4><ul>
+<h4 id="17-8-4">17.8.4</h4>
+<ul>
 <li>Updated link to demos in the documentation.</li>
 </ul>
-<h4 id="17-8-3"><a href="#17-8-3" class="headerlink" title="17.8.3"></a>17.8.3</h4><ul>
+<h4 id="17-8-3">17.8.3</h4>
+<ul>
 <li>Fixed <code>callback_error</code> in background images demos, like suggested in #573. Thanks to @Soul244.</li>
 </ul>
-<h4 id="17-8-2"><a href="#17-8-2" class="headerlink" title="17.8.2"></a>17.8.2</h4><ul>
+<h4 id="17-8-2">17.8.2</h4>
+<ul>
 <li>Fixed a bug which occurred if the network connection went off and on again after a LazyLoad instance was destroyed</li>
 </ul>
-<h4 id="17-8-1"><a href="#17-8-1" class="headerlink" title="17.8.1"></a>17.8.1</h4><ul>
+<h4 id="17-8-1">17.8.1</h4>
+<ul>
 <li>Updated Typescript typings</li>
 </ul>
-<h4 id="17-8-0"><a href="#17-8-0" class="headerlink" title="17.8.0"></a>17.8.0</h4><ul>
+<h4 id="17-8-0">17.8.0</h4>
+<ul>
 <li>Added the ability to lazyload background images with CSS <code>image-set()</code> via <code>data-bg-set</code>.</li>
 </ul>
-<h4 id="17-7-0"><a href="#17-7-0" class="headerlink" title="17.7.0"></a>17.7.0</h4><ul>
+<h4 id="17-7-0">17.7.0</h4>
+<ul>
 <li>Added the new option <code>restore_on_error</code> to restore original attributes on error.</li>
 </ul>
-<h4 id="17-6-1"><a href="#17-6-1" class="headerlink" title="17.6.1"></a>17.6.1</h4><ul>
+<h4 id="17-6-1">17.6.1</h4>
+<ul>
 <li>Removed nasty “debugger” from code (sorry about that rookie mistake!)</li>
 </ul>
-<h4 id="17-6-0"><a href="#17-6-0" class="headerlink" title="17.6.0"></a>17.6.0</h4><ul>
+<h4 id="17-6-0">17.6.0</h4>
+<ul>
 <li>Added ability to lazily load the <code>&lt;object&gt;</code> tag, as requested in #177. Useful to lazily load animated SVGs.</li>
 </ul>
-<h4 id="17-5-1"><a href="#17-5-1" class="headerlink" title="17.5.1"></a>17.5.1</h4><ul>
+<h4 id="17-5-1">17.5.1</h4>
+<ul>
 <li>Updated Typescript typings</li>
 </ul>
-<h4 id="17-5-0"><a href="#17-5-0" class="headerlink" title="17.5.0"></a>17.5.0</h4><ul>
+<h4 id="17-5-0">17.5.0</h4>
+<ul>
 <li>Added the ability to restore DOM to its original state through the <code>restoreAll()</code> method.</li>
 <li>Destroy demo became <a href="demos/restore_destroy.html">restore and destroy demo</a></li>
 </ul>
-<h4 id="17-4-0"><a href="#17-4-0" class="headerlink" title="17.4.0"></a>17.4.0</h4><ul>
+<h4 id="17-4-0">17.4.0</h4>
+<ul>
 <li>Adding native lazy loading for videos, as discussed in #527. Thanks to @saschaeggi.</li>
 <li>Updated the <code>native_lazyload_conditional.html</code> demo with the new best practice for cross browser native lazy loading.</li>
 </ul>
-<h4 id="17-3-2"><a href="#17-3-2" class="headerlink" title="17.3.2"></a>17.3.2</h4><ul>
+<h4 id="17-3-2">17.3.2</h4>
+<ul>
 <li>Fixes double trigger of <code>callback_load</code> after a watched image was loaded using the static <code>load()</code> method (#526). Thanks to @nick-vincent.</li>
 </ul>
-<h4 id="17-3-1"><a href="#17-3-1" class="headerlink" title="17.3.1"></a>17.3.1</h4><ul>
+<h4 id="17-3-1">17.3.1</h4>
+<ul>
 <li>Removed <code>caniuse-lite</code> from dependencies. Fixes #505. Thanks to @ar53n.</li>
 </ul>
-<h4 id="17-3-0"><a href="#17-3-0" class="headerlink" title="17.3.0"></a>17.3.0</h4><ul>
+<h4 id="17-3-0">17.3.0</h4>
+<ul>
 <li>Added <code>class_entered</code> and <code>class_exited</code> options to apply a class when an element entered and/or exited the viewport</li>
 </ul>
-<h4 id="17-2-0"><a href="#17-2-0" class="headerlink" title="17.2.0"></a>17.2.0</h4><ul>
+<h4 id="17-2-0">17.2.0</h4>
+<ul>
 <li>Rolling back the “<code>data</code> attribute cleanup” feature that was released on 16.1.0 and was causing issues like <a href="https://github.com/verlok/vanilla-lazyload/issues/484">#484</a> when more than one instance of LazyLoad were working on the same elements of the page - the script is also 500 bytes lighter now</li>
 </ul>
-<h4 id="17-1-3"><a href="#17-1-3" class="headerlink" title="17.1.3"></a>17.1.3</h4><ul>
+<h4 id="17-1-3">17.1.3</h4>
+<ul>
 <li>Added missing types (#480), thanks to @ar53n (#482)</li>
 </ul>
-<h4 id="17-1-2"><a href="#17-1-2" class="headerlink" title="17.1.2"></a>17.1.2</h4><ul>
+<h4 id="17-1-2">17.1.2</h4>
+<ul>
 <li>Fixed TypeScript typings (#475), thanks to @ar53n (#477)</li>
 </ul>
-<h4 id="17-1-1"><a href="#17-1-1" class="headerlink" title="17.1.1"></a>17.1.1</h4><ul>
+<h4 id="17-1-1">17.1.1</h4>
+<ul>
 <li>Fixing npm audit vulnerabilities</li>
 </ul>
-<h4 id="17-1-0"><a href="#17-1-0" class="headerlink" title="17.1.0"></a>17.1.0</h4><ul>
+<h4 id="17-1-0">17.1.0</h4>
+<ul>
 <li>Unobserve all elements on <code>loadAll()</code> call. It’s better for performance, and it solves #469.</li>
 <li>Added some hidden images in the <code>load_all.html</code> demo</li>
 </ul>
-<h4 id="17-0-1"><a href="#17-0-1" class="headerlink" title="17.0.1"></a>17.0.1</h4><ul>
+<h4 id="17-0-1">17.0.1</h4>
+<ul>
 <li>Bug fix: <code>callback_exit()</code> was not being called on non-image elements (#468).</li>
 </ul>
-<h4 id="17-0-0"><a href="#17-0-0" class="headerlink" title="17.0.0"></a>17.0.0</h4><ul>
+<h4 id="17-0-0">17.0.0</h4>
+<ul>
 <li>The <code>elements_selector</code> option now defaults to  <code>.lazy</code> (was <code>img</code>)</li>
 <li>The <code>cancel_on_exit</code> option now defaults to <code>true</code> (was <code>false</code>)</li>
 </ul>
@@ -121,7 +160,9 @@
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="Version-16"><a href="#Version-16" class="headerlink" title="Version 16"></a>Version 16</h2><h4 id="16-1-0"><a href="#16-1-0" class="headerlink" title="16.1.0"></a>16.1.0</h4><p>Improved speed, cleaning DOM, better working destroy, and also fixed 2 bugs.</p>
+<h2 id="Version-16">Version 16</h2>
+<h4 id="16-1-0">16.1.0</h4>
+<p>Improved speed, cleaning DOM, better working destroy, and also fixed 2 bugs.</p>
 <ul>
 <li>Cleaning up <code>data</code> attributes from the DOM when finished using them (mainly when elements have finished loading)</li>
 <li>Improved <code>destroy</code> method, which now also removes lazyload’s additions to the DOM elements</li>
@@ -130,7 +171,8 @@
 <li>Bugfix: when lazily loading videos, the error <code>_poster_ is undefined</code> was thrown</li>
 <li>Bugfix: when selecting native lazy loading, the <code>loading</code> class was added without knowing whether or not the loading had started</li>
 </ul>
-<h4 id="16-0-0"><a href="#16-0-0" class="headerlink" title="16.0.0"></a>16.0.0</h4><p>Functional changes:</p>
+<h4 id="16-0-0">16.0.0</h4>
+<p>Functional changes:</p>
 <ul>
 <li>Removed call to deprecated <code>callback_reveal</code></li>
 <li>Removed deprecated instance <code>load()</code> method in favor of the static <code>LazyLoad.load()</code> method</li>
@@ -151,13 +193,16 @@
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="Version-15"><a href="#Version-15" class="headerlink" title="Version 15"></a>Version 15</h2><h4 id="15-2-0"><a href="#15-2-0" class="headerlink" title="15.2.0"></a>15.2.0</h4><p>OPTIMIZE FOR SLOW CONNECTIONS WITH <code>cancel_on_exit</code></p>
+<h2 id="Version-15">Version 15</h2>
+<h4 id="15-2-0">15.2.0</h4>
+<p>OPTIMIZE FOR SLOW CONNECTIONS WITH <code>cancel_on_exit</code></p>
 <p>Want to optimize speed for users who scroll down fast on a slow connection? Just set <code>cancel_on_exit: true</code> and LazyLoad will cancel the download of images exiting the viewport while still loading, eventually restoring the original attributes.</p>
 <ul>
 <li>Introduced the new <code>cancel_on_exit</code> option.</li>
 <li>Introduced the <code>callback_cancel</code> option, just in case you want to perform any additional action whenever a download gets canceled by <code>cancel_on_exit</code>.</li>
 <li>Created a new demo named <code>cancel_on_exit.html</code> so you can try the new <code>cancel_on_exit</code> option live.</li>
-<li>Set <code>cancel_on_exit</code> to <code>true</code> in the following demos, so you can test how it behaves…<ul>
+<li>Set <code>cancel_on_exit</code> to <code>true</code> in the following demos, so you can test how it behaves…
+<ul>
 <li><code>image_ph_inline.html</code>, with an inline SVG placeholder</li>
 <li><code>image_ph_external.html</code>, with an external SVG placeholder</li>
 <li><code>delay_test.html</code>, in conjuction with the <code>delay_load</code> option</li>
@@ -180,14 +225,20 @@
 <li>Improved script performance by reducing the number of event listeners used for loading elements.</li>
 <li>Changed the values that the (internally used) <code>data-ll-status</code> attribute can take. Removed the status <code>&quot;observed&quot;</code> (it was useless) and introduced status <code>&quot;delayed&quot;</code>.</li>
 </ul>
-<h4 id="15-1-1"><a href="#15-1-1" class="headerlink" title="15.1.1"></a>15.1.1</h4><p>Fixed a bug when loading lazy background images on HiDPI screens, <code>data-bg-hidpi</code> was mandatory, not it fallbacks to <code>data-bg</code>. #430</p>
-<h4 id="15-1-0"><a href="#15-1-0" class="headerlink" title="15.1.0"></a>15.1.0</h4><p>Lazy background images just gained support for hiDPI (“retina”) screens!<br>Place your standard resolution images in the <code>data-bg</code> attribute and your hiDPI images in <code>data-bg-hidpi</code>.<br>Same for <code>data-bg-multi</code> and <code>data-bg-multi-hidpi</code>.</p>
-<h4 id="15-0-0"><a href="#15-0-0" class="headerlink" title="15.0.0"></a>15.0.0</h4><p><strong>Lazy background images gained loaded/error classes and callbacks! 🎉</strong></p>
+<h4 id="15-1-1">15.1.1</h4>
+<p>Fixed a bug when loading lazy background images on HiDPI screens, <code>data-bg-hidpi</code> was mandatory, not it fallbacks to <code>data-bg</code>. #430</p>
+<h4 id="15-1-0">15.1.0</h4>
+<p>Lazy background images just gained support for hiDPI (“retina”) screens!<br>
+Place your standard resolution images in the <code>data-bg</code> attribute and your hiDPI images in <code>data-bg-hidpi</code>.<br>
+Same for <code>data-bg-multi</code> and <code>data-bg-multi-hidpi</code>.</p>
+<h4 id="15-0-0">15.0.0</h4>
+<p><strong>Lazy background images gained loaded/error classes and callbacks! 🎉</strong></p>
 <p><strong>Breaking changes impacting lazy background images!</strong> ⚠ See <a href="UPGRADE.md">UPGRADE.md</a> to understand <strong>if</strong> you are impacted and <strong>how</strong> to upgrade from previous versions.</p>
 <ul>
 <li>Lazy loading of <strong>one background image</strong> using the <code>data-bg</code> attribute, now manages the <code>load</code> and <code>error</code> events, so they are applied the classes defined in the <code>class_loading</code>/<code>class_loaded</code>/<code>class_error</code>, and the callbacks defined in <code>callback_loading</code>/<code>callback_loaded</code>/<code>callback_error</code>.</li>
 <li>Lazy loading of <strong>multiple background images</strong> is still possible via the <code>data-bg-multi</code> attribute. In this case, the <code>load</code> and <code>error</code> events are not managed. The <code>class_applied</code> and <code>callback_applied</code> can be used to understand when the multiple background was applied to the element.</li>
-<li>Updated background images demos:<ul>
+<li>Updated background images demos:
+<ul>
 <li>background-images.html -&gt; single background images</li>
 <li>background-images-multi.html -&gt; multiple background images</li>
 </ul>
@@ -197,8 +248,12 @@
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="Version-14"><a href="#Version-14" class="headerlink" title="Version 14"></a>Version 14</h2><h4 id="14-0-1"><a href="#14-0-1" class="headerlink" title="14.0.1"></a>14.0.1</h4><p>Fixed error TS1036: Statements are not allowed in ambient contexts. Closes #427</p>
-<h4 id="14-0-0"><a href="#14-0-0" class="headerlink" title="14.0.0"></a>14.0.0</h4><p>🎉 <strong>Major refactoring and performance improvement!</strong><br>🔍 File size stays tiny: only 2.07 KB gZipped</p>
+<h2 id="Version-14">Version 14</h2>
+<h4 id="14-0-1">14.0.1</h4>
+<p>Fixed error TS1036: Statements are not allowed in ambient contexts. Closes #427</p>
+<h4 id="14-0-0">14.0.0</h4>
+<p>🎉 <strong>Major refactoring and performance improvement!</strong><br>
+🔍 File size stays tiny: only 2.07 KB gZipped</p>
 <p><strong>Settings</strong></p>
 <ul>
 <li><code>callback_loading</code> is called when an element started loading</li>
@@ -226,11 +281,14 @@
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="Version-13"><a href="#Version-13" class="headerlink" title="Version 13"></a>Version 13</h2><h4 id="13-0-1"><a href="#13-0-1" class="headerlink" title="13.0.1"></a>13.0.1</h4><ul>
+<h2 id="Version-13">Version 13</h2>
+<h4 id="13-0-1">13.0.1</h4>
+<ul>
 <li>Fixed a JS error that could happen to IE11 users after going offline and back online</li>
 <li>Minor refactoring for better readibility and lighter code (and files)!</li>
 </ul>
-<h4 id="13-0-0"><a href="#13-0-0" class="headerlink" title="13.0.0"></a>13.0.0</h4><ul>
+<h4 id="13-0-0">13.0.0</h4>
+<ul>
 <li>Added the minified version of <code>dist/lazyload.esm.js</code> as <code>dist/lazyload.esm.min.js</code>, so now you can effortlessly use it with an ES module <code>import</code> statement when using <code>type=&quot;module&quot;</code></li>
 <li>Reduced files weight even more! <code>dist/lazyload.iife.min.js</code> now weights only 2.03 KB GZipped</li>
 <li>Removed the <code>callback_set</code> callback that was <strong>deprecated</strong> since version 11 in favour of <code>callback_reveal</code></li>
@@ -238,11 +296,17 @@
 <li>Hidden the <code>_extends</code> function inside LazyLoad’s scope (it was global before)</li>
 <li>Updated build tooling: removed Gulp, now using Rollup &amp; Babel only</li>
 </ul>
-<h2 id="Version-12"><a href="#Version-12" class="headerlink" title="Version 12"></a>Version 12</h2><h4 id="12-5-1"><a href="#12-5-1" class="headerlink" title="12.5.1"></a>12.5.1</h4><p>Restored IE 11 compatibility, which was broken since 12.2.0. See #414.<br>Thanks to @ninosaurus for reporting.</p>
-<h4 id="12-5-0"><a href="#12-5-0" class="headerlink" title="12.5.0"></a>12.5.0</h4><p>The once-private <code>_loadingCount</code> property is now public and renamed to <code>loadingCount</code>. This property contains the number of images that are currently downloading from the network, limitedly to the ones managed by an instance of LazyLoad. This is particularly useful to understand whether or not is safe to destroy an instance of LazyLoad. See implementation in the <a href="demos/destroy.html">destroy demo</a>.</p>
+<h2 id="Version-12">Version 12</h2>
+<h4 id="12-5-1">12.5.1</h4>
+<p>Restored IE 11 compatibility, which was broken since 12.2.0. See #414.<br>
+Thanks to @ninosaurus for reporting.</p>
+<h4 id="12-5-0">12.5.0</h4>
+<p>The once-private <code>_loadingCount</code> property is now public and renamed to <code>loadingCount</code>. This property contains the number of images that are currently downloading from the network, limitedly to the ones managed by an instance of LazyLoad. This is particularly useful to understand whether or not is safe to destroy an instance of LazyLoad. See implementation in the <a href="demos/destroy.html">destroy demo</a>.</p>
 <p>Thanks to @wzhscript and @eugene-stativka.</p>
-<h4 id="12-4-0"><a href="#12-4-0" class="headerlink" title="12.4.0"></a>12.4.0</h4><p>Video <code>poster</code>s can now be loaded lazily, as requested in #365</p>
-<h4 id="12-3-0"><a href="#12-3-0" class="headerlink" title="12.3.0"></a>12.3.0</h4><p>Callbacks now pass more arguments!</p>
+<p>#### 12.4.0</p>
+<p>Video <code>poster</code>s can now be loaded lazily, as requested in #365</p>
+<p>#### 12.3.0</p>
+<p>Callbacks now pass more arguments!</p>
 <p><code>callback_enter</code>, <code>callback_exit</code> now pass:</p>
 <ol>
 <li>the DOM element that entered / exited the viewport</li>
@@ -259,40 +323,58 @@
 <li>the LazyLoad instance</li>
 </ol>
 <p>The README file has been updated accordingly.</p>
-<h4 id="12-2-0"><a href="#12-2-0" class="headerlink" title="12.2.0"></a>12.2.0</h4><p>Released new feature “retry when back online”. Now if your users lose the internet connection causing errors on images loading, this script tries and loads those images again when the connection is restored.</p>
-<h4 id="12-1-1"><a href="#12-1-1" class="headerlink" title="12.1.1"></a>12.1.1</h4><p>Solved a bug with Internet Explorer 11 and the W3C polyfill, as reported in #383.</p>
-<h4 id="12-1-0"><a href="#12-1-0" class="headerlink" title="12.1.0"></a>12.1.0</h4><ul>
+<h4 id="12-2-0">12.2.0</h4>
+<p>Released new feature “retry when back online”. Now if your users lose the internet connection causing errors on images loading, this script tries and loads those images again when the connection is restored.</p>
+<h4 id="12-1-1">12.1.1</h4>
+<p>Solved a bug with Internet Explorer 11 and the W3C polyfill, as reported in #383.</p>
+<h4 id="12-1-0">12.1.0</h4>
+<ul>
 <li>Updated npm dev dependencies</li>
 <li>Added the new <code>image_ph_inline.html</code>, with an inline SVG placeholder</li>
 <li>Added the new <code>image_ph_external.html</code>, with an external SVG placeholder</li>
 </ul>
-<h4 id="12-0-3"><a href="#12-0-3" class="headerlink" title="12.0.3"></a>12.0.3</h4><p>Updated the IntersectionObserver polyfill to version 0.7.0</p>
-<h4 id="12-0-2"><a href="#12-0-2" class="headerlink" title="12.0.2"></a>12.0.2</h4><p>Improved detection of browser support of IntersectionObserver, as suggested in #362. Thanks to @kaldonir</p>
-<h4 id="12-0-1"><a href="#12-0-1" class="headerlink" title="12.0.1"></a>12.0.1</h4><p>Updated CHANGELOG.md and README.md to mention the change of the option name <code>callback_load</code> which is called <code>callback_loaded</code> in versions 11.0.0 and above.</p>
-<h4 id="12-0-0"><a href="#12-0-0" class="headerlink" title="12.0.0"></a>12.0.0</h4><ul>
+<h4 id="12-0-3">12.0.3</h4>
+<p>Updated the IntersectionObserver polyfill to version 0.7.0</p>
+<h4 id="12-0-2">12.0.2</h4>
+<p>Improved detection of browser support of IntersectionObserver, as suggested in #362. Thanks to @kaldonir</p>
+<h4 id="12-0-1">12.0.1</h4>
+<p>Updated <a href="http://CHANGELOG.md">CHANGELOG.md</a> and <a href="http://README.md">README.md</a> to mention the change of the option name <code>callback_load</code> which is called <code>callback_loaded</code> in versions 11.0.0 and above.</p>
+<h4 id="12-0-0">12.0.0</h4>
+<ul>
 <li>Reorganized code</li>
 <li>Improved native lazy loading demos</li>
 <li>Aligned console messages throughout all demos.</li>
 </ul>
-<h4 id="12-0-0-beta-0"><a href="#12-0-0-beta-0" class="headerlink" title="12.0.0-beta.0"></a>12.0.0-beta.0</h4><ul>
+<h4 id="12-0-0-beta-0">12.0.0-beta.0</h4>
+<ul>
 <li>Added the <code>use_native</code> option which enables <em>native lazy loading</em> (where supported) with the <code>loading=&quot;lazy&quot;</code> attribute. See #331</li>
-<li>Added two demos:<ul>
+<li>Added two demos:
+<ul>
 <li>native_lazyload_conditional.html which you can use to test the <code>use_native</code> option</li>
 <li>native_lazyload.html which always uses native lazy loading (without JS) just to test how it works beyond the LazyLoad script</li>
 </ul>
 </li>
 <li>Refactored the constructor and the <code>update</code> method</li>
 </ul>
-<h2 id="Version-11"><a href="#Version-11" class="headerlink" title="Version 11"></a>Version 11</h2><h4 id="11-0-6"><a href="#11-0-6" class="headerlink" title="11.0.6"></a>11.0.6</h4><p>Restored the <code>callback_set</code> callback as <strong>deprecated</strong>, in order to make the upgrade from v.10 easier.</p>
-<h4 id="11-0-5"><a href="#11-0-5" class="headerlink" title="11.0.5"></a>11.0.5</h4><p>Fixed the <code>module</code> property of this package.json, which was pointing to a non-existing dist file.</p>
-<h4 id="11-0-4"><a href="#11-0-4" class="headerlink" title="11.0.4"></a>11.0.4</h4><p>Fixed the <code>main</code> property of this package.json, which was pointing to a non-existing dist file.</p>
-<h4 id="11-0-3"><a href="#11-0-3" class="headerlink" title="11.0.3"></a>11.0.3</h4><p>Rollback of the patch applied in 11.0.2 since it gave strange results in some cases. See #293. Thanks to @davejamesmiller for the analysis and the report.</p>
-<h4 id="11-0-2"><a href="#11-0-2" class="headerlink" title="11.0.2"></a>11.0.2</h4><p>Applied a patch to resolve #293 a <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=910741#c13">Chromium bug</a> already fixed in Chrome 72. Thanks to @dverbovyi for the analysis and the report.</p>
-<h4 id="11-0-1"><a href="#11-0-1" class="headerlink" title="11.0.1"></a>11.0.1</h4><p>Squashed a nasty bug that occurred on IE 11 and Safari when the <code>IntersectionObserver</code> polyfill wasn’t loaded before LazyLoad.</p>
-<h4 id="11-0-0"><a href="#11-0-0" class="headerlink" title="11.0.0"></a>11.0.0</h4><ul>
+<h2 id="Version-11">Version 11</h2>
+<h4 id="11-0-6">11.0.6</h4>
+<p>Restored the <code>callback_set</code> callback as <strong>deprecated</strong>, in order to make the upgrade from v.10 easier.</p>
+<h4 id="11-0-5">11.0.5</h4>
+<p>Fixed the <code>module</code> property of this package.json, which was pointing to a non-existing dist file.</p>
+<h4 id="11-0-4">11.0.4</h4>
+<p>Fixed the <code>main</code> property of this package.json, which was pointing to a non-existing dist file.</p>
+<h4 id="11-0-3">11.0.3</h4>
+<p>Rollback of the patch applied in 11.0.2 since it gave strange results in some cases. See #293. Thanks to @davejamesmiller for the analysis and the report.</p>
+<h4 id="11-0-2">11.0.2</h4>
+<p>Applied a patch to resolve #293 a <a href="https://bugs.chromium.org/p/chromium/issues/detail?id=910741#c13">Chromium bug</a> already fixed in Chrome 72. Thanks to @dverbovyi for the analysis and the report.</p>
+<h4 id="11-0-1">11.0.1</h4>
+<p>Squashed a nasty bug that occurred on IE 11 and Safari when the <code>IntersectionObserver</code> polyfill wasn’t loaded before LazyLoad.</p>
+<h4 id="11-0-0">11.0.0</h4>
+<ul>
 <li>Changed bundle file name of ES Module from <code>lazyload.es2015.js</code> to <code>lazyload.esm.js</code></li>
 <li>Removed the <code>to_webp</code> option (see issue #288)</li>
-<li>Ceased support and development of LazyLoad v.8 (see issue #306)<br>version. If you were using it, please update your code to use <code>callback_reveal</code> instead.</li>
+<li>Ceased support and development of LazyLoad v.8 (see issue #306)<br>
+version. If you were using it, please update your code to use <code>callback_reveal</code> instead.</li>
 <li>Private methods like <code>_setObserver</code>, <code>_onIntersection</code> etc. are now hidden from the outside.</li>
 <li>Added the <code>auto_unobserve</code> boolean option, see API.</li>
 <li>Bugfix: <code>loadAll()</code> didn’t unobserve elements.</li>
@@ -309,34 +391,47 @@
 <li><strong>Deprecated</strong> <code>callback_set</code>. This callback still works*, but will be removed in the next major</li>
 </ul>
 <p>* it didn’t work from versions 11.0.0 to 11.0.5, it still works from 11.0.6.</p>
-<h2 id="Version-10"><a href="#Version-10" class="headerlink" title="Version 10"></a>Version 10</h2><h4 id="10-20-1"><a href="#10-20-1" class="headerlink" title="10.20.1"></a>10.20.1</h4><p>Fixed a bug for which LazyLoad didn’t copy the <code>data-sizes</code> attribute value to <code>sizes</code> in <code>source</code> tags inside <code>picture</code>. See #307.</p>
-<h4 id="10-20-0"><a href="#10-20-0" class="headerlink" title="10.20.0"></a>10.20.0</h4><p>Improved WebP detection to work correctly on Firefox too, see #298.</p>
+<h2 id="Version-10">Version 10</h2>
+<h4 id="10-20-1">10.20.1</h4>
+<p>Fixed a bug for which LazyLoad didn’t copy the <code>data-sizes</code> attribute value to <code>sizes</code> in <code>source</code> tags inside <code>picture</code>. See #307.</p>
+<h4 id="10-20-0">10.20.0</h4>
+<p>Improved WebP detection to work correctly on Firefox too, see #298.</p>
 <p>Thanks to @ipernet for contributing.</p>
-<h4 id="10-19-1"><a href="#10-19-1" class="headerlink" title="10.19.1"></a>10.19.1</h4><ul>
+<h4 id="10-19-1">10.19.1</h4>
+<ul>
 <li>Fixed build for those using React + SSR, see #287</li>
 <li>TypeScript definitions clearified, see #283</li>
 <li>Gulp updated to v.4.0.0 to make it work with node 10</li>
 </ul>
 <p>Thanks to @AlexCSR and @muturgan for contributing.</p>
-<h4 id="10-19-0"><a href="#10-19-0" class="headerlink" title="10.19.0"></a>10.19.0</h4><ul>
+<h4 id="10-19-0">10.19.0</h4>
+<ul>
 <li>Added the ability to know when all images have been downloaded through the <code>callback_finish</code> callback.</li>
 <li>Added the file <code>demos/print.html</code> to demo how to print lazy images.</li>
 </ul>
-<h4 id="10-18-0"><a href="#10-18-0" class="headerlink" title="10.18.0"></a>10.18.0</h4><p>Added the ability to have multiple background images, through the new <code>data_bg</code> option.</p>
-<h4 id="10-17-0"><a href="#10-17-0" class="headerlink" title="10.17.0"></a>10.17.0</h4><p>Added the ability to set different thresholds for the scrolling area, through the new <code>thresholds</code> option.</p>
-<h4 id="10-16-2"><a href="#10-16-2" class="headerlink" title="10.16.2"></a>10.16.2</h4><p><strong>BUGFIX</strong>: Class <code>loaded</code> was not applied to a loaded video (issue #239).</p>
-<h4 id="10-16-1"><a href="#10-16-1" class="headerlink" title="10.16.1"></a>10.16.1</h4><p><strong>BUGFIX</strong>: Autoplaying video not loaded correctly after entering the viewport (issue #240). Thanks to @maeligg.</p>
-<h4 id="10-16-0"><a href="#10-16-0" class="headerlink" title="10.16.0"></a>10.16.0</h4><p>Added new option <code>load_delay</code> to skip loading when fast scrolling occurs, as requested in issues #235 and #166.<br>Pass in a number of milliseconds, and each image will be loaded after it stayed inside that viewport for that time.</p>
-<h4 id="10-15-0"><a href="#10-15-0" class="headerlink" title="10.15.0"></a>10.15.0</h4><ul>
+<h4 id="10-18-0">10.18.0</h4>
+<p>Added the ability to have multiple background images, through the new <code>data_bg</code> option.</p>
+<h4 id="10-17-0">10.17.0</h4>
+<p>Added the ability to set different thresholds for the scrolling area, through the new <code>thresholds</code> option.</p>
+<h4 id="10-16-2">10.16.2</h4>
+<p><strong>BUGFIX</strong>: Class <code>loaded</code> was not applied to a loaded video (issue #239).</p>
+<h4 id="10-16-1">10.16.1</h4>
+<p><strong>BUGFIX</strong>: Autoplaying video not loaded correctly after entering the viewport (issue #240). Thanks to @maeligg.</p>
+<h4 id="10-16-0">10.16.0</h4>
+<p>Added new option <code>load_delay</code> to skip loading when fast scrolling occurs, as requested in issues #235 and #166.<br>
+Pass in a number of milliseconds, and each image will be loaded after it stayed inside that viewport for that time.</p>
+<h4 id="10-15-0">10.15.0</h4>
+<ul>
 <li>Refactorized code &amp; improved script performance</li>
 <li><strong>BUGFIX</strong>: Fixed webpack import (issue #230) <code>TypeError: default is not a constructor</code></li>
 </ul>
-<h4 id="10-14-0"><a href="#10-14-0" class="headerlink" title="10.14.0"></a>10.14.0</h4><p>Now supporting WebP through dynamic extension rename if the user browser is compatible.</p>
-<h4 id="10-13-0"><a href="#10-13-0" class="headerlink" title="10.13.0"></a>10.13.0</h4><ul>
+<h4 id="10-14-0">10.14.0</h4>
+<p>Now supporting WebP through dynamic extension rename if the user browser is compatible.</p>
+<h4 id="10-13-0">10.13.0</h4>
+<ul>
 <li>Shortened the RegEx for crawlers detection (shaved a few bytes)</li>
 <li>Released LazyLoad in new module types! Enjoy the new flavours :)</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -368,71 +463,107 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h4 id="10-12-0"><a href="#10-12-0" class="headerlink" title="10.12.0"></a>10.12.0</h4><p>SEO! Expanded SEO-friendliness to more crawlers, Bingbot included.</p>
-<h4 id="10-11-1"><a href="#10-11-1" class="headerlink" title="10.11.1"></a>10.11.1</h4><p><strong>BUGFIX</strong>: Fixed issue #225. Due to mistyped BOT detection, in version 10.11.0 all images were loaded as soon as <code>LazyLoad</code> was created.</p>
-<h4 id="10-11-0"><a href="#10-11-0" class="headerlink" title="10.11.0"></a>10.11.0</h4><p>SEO! Version 10.x is now as SEO-friendly as version 8.x.</p>
-<h4 id="10-10-0"><a href="#10-10-0" class="headerlink" title="10.10.0"></a>10.10.0</h4><p>Added a public <code>load</code> method to lazyload any element.</p>
-<h4 id="10-9-0"><a href="#10-9-0" class="headerlink" title="10.9.0"></a>10.9.0</h4><p>Added the ability to lazily set the <code>sizes</code> attribute via a <code>data-sizes</code> attribute.<br>See the <a href="README.md">README</a> file for more information.</p>
-<h4 id="10-8-0"><a href="#10-8-0" class="headerlink" title="10.8.0"></a>10.8.0</h4><p>Added a public <code>loadAll</code> method to loading all the images at once, as asked in #193.</p>
-<h4 id="10-7-0"><a href="#10-7-0" class="headerlink" title="10.7.0"></a>10.7.0</h4><ul>
-<li>Added support for the <code>&lt;video&gt;</code> HTML tag and descending <code>&lt;source&gt;</code> tags.<br>Now you can lazily load your videos too!</li>
+<h4 id="10-12-0">10.12.0</h4>
+<p>SEO! Expanded SEO-friendliness to more crawlers, Bingbot included.</p>
+<h4 id="10-11-1">10.11.1</h4>
+<p><strong>BUGFIX</strong>: Fixed issue #225. Due to mistyped BOT detection, in version 10.11.0 all images were loaded as soon as <code>LazyLoad</code> was created.</p>
+<h4 id="10-11-0">10.11.0</h4>
+<p>SEO! Version 10.x is now as SEO-friendly as version 8.x.</p>
+<h4 id="10-10-0">10.10.0</h4>
+<p>Added a public <code>load</code> method to lazyload any element.</p>
+<h4 id="10-9-0">10.9.0</h4>
+<p>Added the ability to lazily set the <code>sizes</code> attribute via a <code>data-sizes</code> attribute.<br>
+See the <a href="README.md">README</a> file for more information.</p>
+<h4 id="10-8-0">10.8.0</h4>
+<p>Added a public <code>loadAll</code> method to loading all the images at once, as asked in #193.</p>
+<h4 id="10-7-0">10.7.0</h4>
+<ul>
+<li>Added support for the <code>&lt;video&gt;</code> HTML tag and descending <code>&lt;source&gt;</code> tags.<br>
+Now you can lazily load your videos too!</li>
 <li>Created the <code>video.html</code> demo.</li>
 </ul>
-<h4 id="10-6-0"><a href="#10-6-0" class="headerlink" title="10.6.0"></a>10.6.0</h4><ul>
+<h4 id="10-6-0">10.6.0</h4>
+<ul>
 <li>Added a demo with a popup layer and images injected after popup open, to help with #196.</li>
 <li>Updated the <code>background_images</code> demo with a custom management of the loading class and the loaded event callback.</li>
 </ul>
-<h4 id="10-5-2"><a href="#10-5-2" class="headerlink" title="10.5.2"></a>10.5.2</h4><p>Added a security check on lazy elements’ parents.</p>
-<h4 id="10-5-1"><a href="#10-5-1" class="headerlink" title="10.5.1"></a>10.5.1</h4><p>Just a refactoring over previous version.</p>
-<h4 id="10-5-0"><a href="#10-5-0" class="headerlink" title="10.5.0"></a>10.5.0</h4><p>Added node support by merging pull request #188, “node-support” by @klarstrup.</p>
+<h4 id="10-5-2">10.5.2</h4>
+<p>Added a security check on lazy elements’ parents.</p>
+<h4 id="10-5-1">10.5.1</h4>
+<p>Just a refactoring over previous version.</p>
+<h4 id="10-5-0">10.5.0</h4>
+<p>Added node support by merging pull request #188, “node-support” by @klarstrup.</p>
 <p>With these changes in place, simply importing vanilla-lazyload without using it won’t crash Node by itself. This is important for isomorphic/universal/server rendered setups where the same code runs on both the server and the browser.</p>
-<h4 id="10-4-2"><a href="#10-4-2" class="headerlink" title="10.4.2"></a>10.4.2</h4><p>Fixed a bug for which sometimes images wouldn’t reveal on Chrome 65 (see issue #165).</p>
-<h4 id="10-4-1"><a href="#10-4-1" class="headerlink" title="10.4.1"></a>10.4.1</h4><p>Updated <code>dist</code> folder.</p>
-<h4 id="10-4-0"><a href="#10-4-0" class="headerlink" title="10.4.0"></a>10.4.0</h4><p>Added the <code>callback_enter</code> callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.</p>
-<h4 id="10-3-6"><a href="#10-3-6" class="headerlink" title="10.3.6"></a>10.3.6</h4><p>Fixed tests to match dataset revert made in 10.3 and 8.2 (oopsy).</p>
-<h4 id="10-3-5"><a href="#10-3-5" class="headerlink" title="10.3.5"></a>10.3.5</h4><p>Fixed a bug that could occur on older versions of IE when trying to access an image’s parent node.</p>
-<h4 id="10-3-4"><a href="#10-3-4" class="headerlink" title="10.3.4"></a>10.3.4</h4><p>Fixed a CustomEvent bug which occurred on IE when using async object initialization.</p>
-<h4 id="10-3-3"><a href="#10-3-3" class="headerlink" title="10.3.3"></a>10.3.3</h4><p>Fixed <code>supportsClassList</code> test to work even when the <code>document</code> object isn’t yet there. Thanks to @Spone and his pull request #145.</p>
-<h4 id="10-3-1"><a href="#10-3-1" class="headerlink" title="10.3.1"></a>10.3.1</h4><p>Introduced a workaround for an issue of Microsoft Edge documented <a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12156111/">here</a></p>
-<h4 id="10-3-0"><a href="#10-3-0" class="headerlink" title="10.3.0"></a>10.3.0</h4><p>Restored support to IE9 and IE10, as requested in #118 and #132.</p>
-<h4 id="10-2-0"><a href="#10-2-0" class="headerlink" title="10.2.0"></a>10.2.0</h4><p>To solve cases when you can’t select the elements to load using a string, added the ability to pass a <code>NodeList</code> object…</p>
+<h4 id="10-4-2">10.4.2</h4>
+<p>Fixed a bug for which sometimes images wouldn’t reveal on Chrome 65 (see issue #165).</p>
+<h4 id="10-4-1">10.4.1</h4>
+<p>Updated <code>dist</code> folder.</p>
+<h4 id="10-4-0">10.4.0</h4>
+<p>Added the <code>callback_enter</code> callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.</p>
+<h4 id="10-3-6">10.3.6</h4>
+<p>Fixed tests to match dataset revert made in 10.3 and 8.2 (oopsy).</p>
+<h4 id="10-3-5">10.3.5</h4>
+<p>Fixed a bug that could occur on older versions of IE when trying to access an image’s parent node.</p>
+<h4 id="10-3-4">10.3.4</h4>
+<p>Fixed a CustomEvent bug which occurred on IE when using async object initialization.</p>
+<h4 id="10-3-3">10.3.3</h4>
+<p>Fixed <code>supportsClassList</code> test to work even when the <code>document</code> object isn’t yet there. Thanks to @Spone and his pull request #145.</p>
+<h4 id="10-3-1">10.3.1</h4>
+<p>Introduced a workaround for an issue of Microsoft Edge documented <a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12156111/">here</a></p>
+<h4 id="10-3-0">10.3.0</h4>
+<p>Restored support to IE9 and IE10, as requested in #118 and #132.</p>
+<h4 id="10-2-0">10.2.0</h4>
+<p>To solve cases when you can’t select the elements to load using a string, added the ability to pass a <code>NodeList</code> object…</p>
 <ul>
 <li>as a second parameter in the constructor, after the regular option object, e.g. <code>var ll = new Lazyload({}, myNodeList)</code></li>
 <li>as a single parameter to the <code>update()</code> method, e.g. <code>ll.update(myNodeList)</code></li>
 </ul>
-<h4 id="10-1-0"><a href="#10-1-0" class="headerlink" title="10.1.0"></a>10.1.0</h4><p>To solve cases when you can’t select the elements to load using a string, added the ability to pass a <code>NodeList</code> object to the <code>elements_selector</code> option, as suggested by @SassNinja in #130.</p>
-<h4 id="10-0-1"><a href="#10-0-1" class="headerlink" title="10.0.1"></a>10.0.1</h4><p>Solved a problem with cdnjs.com: version 10.0.0 was pointing to 9.0.0.</p>
-<h4 id="10-0-0"><a href="#10-0-0" class="headerlink" title="10.0.0"></a>10.0.0</h4><ul>
-<li>Change in default options:<ul>
+<h4 id="10-1-0">10.1.0</h4>
+<p>To solve cases when you can’t select the elements to load using a string, added the ability to pass a <code>NodeList</code> object to the <code>elements_selector</code> option, as suggested by @SassNinja in #130.</p>
+<h4 id="10-0-1">10.0.1</h4>
+<p>Solved a problem with <a href="http://cdnjs.com">cdnjs.com</a>: version 10.0.0 was pointing to 9.0.0.</p>
+<h4 id="10-0-0">10.0.0</h4>
+<ul>
+<li>Change in default options:
+<ul>
 <li>default for <code>data_src</code> is now <code>src</code> (was <code>original</code>)</li>
 <li>default for <code>data_srcset</code> is now <code>srcset</code> (was <code>original-set</code>)</li>
 </ul>
 </li>
 </ul>
-<h2 id="Version-9"><a href="#Version-9" class="headerlink" title="Version 9"></a>Version 9</h2><h4 id="9-0-1"><a href="#9-0-1" class="headerlink" title="9.0.1"></a>9.0.1</h4><ul>
+<h2 id="Version-9">Version 9</h2>
+<h4 id="9-0-1">9.0.1</h4>
+<ul>
 <li>Restored tests using Jest</li>
 <li>Squashed a bug which didn’t make images inside <code>picture</code> load correctly</li>
 </ul>
-<h4 id="9-0-0"><a href="#9-0-0" class="headerlink" title="9.0.0"></a>9.0.0</h4><p>LazyLoad is now <em>faster</em> thanks to the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">Intersection Observer API</a>.</p>
+<h4 id="9-0-0">9.0.0</h4>
+<p>LazyLoad is now <em>faster</em> thanks to the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">Intersection Observer API</a>.</p>
 <p><strong>IMPORTANT!</strong> Browser support changed. Find more information in the <a href="README.md">README</a> file.</p>
-<h2 id="Version-8"><a href="#Version-8" class="headerlink" title="Version 8"></a>Version 8</h2><h4 id="8-17-0"><a href="#8-17-0" class="headerlink" title="8.17.0"></a>8.17.0</h4><ul>
+<h2 id="Version-8">Version 8</h2>
+<h4 id="8-17-0">8.17.0</h4>
+<ul>
 <li>Added the ability to know when all images have been downloaded through the <code>callback_finish</code> callback.</li>
 <li>Added the file <code>demos/print.html</code> to demo how to print lazy images.</li>
 </ul>
-<h4 id="8-16-0"><a href="#8-16-0" class="headerlink" title="8.16.0"></a>8.16.0</h4><p>Added the ability to have multiple background images, through the new <code>data_bg</code> option.</p>
-<h4 id="8-15-2"><a href="#8-15-2" class="headerlink" title="8.15.2"></a>8.15.2</h4><p><strong>BUGFIX</strong>: Class <code>loaded</code> was not applied to a loaded video (issue #239).</p>
-<h4 id="8-15-1"><a href="#8-15-1" class="headerlink" title="8.15.1"></a>8.15.1</h4><p><strong>BUGFIX</strong>: Autoplaying video not loaded correctly after entering the viewport (issue #240). Thanks to @maeligg.</p>
-<h4 id="8-15-0"><a href="#8-15-0" class="headerlink" title="8.15.0"></a>8.15.0</h4><ul>
+<h4 id="8-16-0">8.16.0</h4>
+<p>Added the ability to have multiple background images, through the new <code>data_bg</code> option.</p>
+<h4 id="8-15-2">8.15.2</h4>
+<p><strong>BUGFIX</strong>: Class <code>loaded</code> was not applied to a loaded video (issue #239).</p>
+<h4 id="8-15-1">8.15.1</h4>
+<p><strong>BUGFIX</strong>: Autoplaying video not loaded correctly after entering the viewport (issue #240). Thanks to @maeligg.</p>
+<h4 id="8-15-0">8.15.0</h4>
+<ul>
 <li>Refactorized code &amp; improved script performance</li>
 <li><strong>BUGFIX</strong>: Fixed webpack import (issue #230) <code>TypeError: default is not a constructor</code></li>
 </ul>
-<h4 id="8-14-0"><a href="#8-14-0" class="headerlink" title="8.14.0"></a>8.14.0</h4><p>Now supporting WebP through dynamic extension rename if the user browser is compatible.</p>
-<h4 id="8-13-0"><a href="#8-13-0" class="headerlink" title="8.13.0"></a>8.13.0</h4><ul>
+<h4 id="8-14-0">8.14.0</h4>
+<p>Now supporting WebP through dynamic extension rename if the user browser is compatible.</p>
+<h4 id="8-13-0">8.13.0</h4>
+<ul>
 <li>Shortened the RegEx for crawlers detection (shaved a few bytes)</li>
 <li>Released LazyLoad in new module types! Enjoy the new flavours :)</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -464,36 +595,58 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h4 id="8-12-0"><a href="#8-12-0" class="headerlink" title="8.12.0"></a>8.12.0</h4><p>SEO! Expanded SEO-friendliness to more crawlers, Bingbot included.</p>
-<h4 id="8-11-0"><a href="#8-11-0" class="headerlink" title="8.11.0"></a>8.11.0</h4><p>Added a public <code>load</code> method to lazyload any element.</p>
-<h4 id="8-10-0"><a href="#8-10-0" class="headerlink" title="8.10.0"></a>8.10.0</h4><p>Added the ability to lazily set the <code>sizes</code> attribute via a <code>data-sizes</code> attribute.<br>See the <a href="README.md">README</a> file for more information.</p>
-<h4 id="8-9-0"><a href="#8-9-0" class="headerlink" title="8.9.0"></a>8.9.0</h4><p>Added a public <code>loadAll</code> method to load all the images, as asked in #193.</p>
-<h4 id="8-8-0"><a href="#8-8-0" class="headerlink" title="8.8.0"></a>8.8.0</h4><p>Added support for the <code>video</code> tag. Closes #209.<br>Created the <code>video.html</code> demo.</p>
-<h4 id="8-7-1"><a href="#8-7-1" class="headerlink" title="8.7.1"></a>8.7.1</h4><p>Added a security check on lazy elements’ parents.</p>
-<h4 id="8-7-0"><a href="#8-7-0" class="headerlink" title="8.7.0"></a>8.7.0</h4><p>Added node support by merging pull request #188, “node-support” by @klarstrup.</p>
+<h4 id="8-12-0">8.12.0</h4>
+<p>SEO! Expanded SEO-friendliness to more crawlers, Bingbot included.</p>
+<h4 id="8-11-0">8.11.0</h4>
+<p>Added a public <code>load</code> method to lazyload any element.</p>
+<h4 id="8-10-0">8.10.0</h4>
+<p>Added the ability to lazily set the <code>sizes</code> attribute via a <code>data-sizes</code> attribute.<br>
+See the <a href="README.md">README</a> file for more information.</p>
+<h4 id="8-9-0">8.9.0</h4>
+<p>Added a public <code>loadAll</code> method to load all the images, as asked in #193.</p>
+<h4 id="8-8-0">8.8.0</h4>
+<p>Added support for the <code>video</code> tag. Closes #209.<br>
+Created the <code>video.html</code> demo.</p>
+<h4 id="8-7-1">8.7.1</h4>
+<p>Added a security check on lazy elements’ parents.</p>
+<h4 id="8-7-0">8.7.0</h4>
+<p>Added node support by merging pull request #188, “node-support” by @klarstrup.</p>
 <p>With these changes in place, simply importing vanilla-lazyload without using it won’t crash Node by itself. This is important for isomorphic/universal/server rendered setups where the same code runs on both the server and the browser.</p>
-<h4 id="8-6-0"><a href="#8-6-0" class="headerlink" title="8.6.0"></a>8.6.0</h4><p>Added the <code>callback_enter</code> callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.</p>
-<h4 id="8-5-2"><a href="#8-5-2" class="headerlink" title="8.5.2"></a>8.5.2</h4><p>Fixed a bug that could occur on older versions of IE when trying to access an image’s parent node.</p>
-<h4 id="8-5-1"><a href="#8-5-1" class="headerlink" title="8.5.1"></a>8.5.1</h4><p>Fixed a CustomEvent bug which occured on IE when using async object initialization.</p>
-<h4 id="8-5-0"><a href="#8-5-0" class="headerlink" title="8.5.0"></a>8.5.0</h4><ul>
-<li>Change in default options, in order to be aligned with version 10<ul>
+<h4 id="8-6-0">8.6.0</h4>
+<p>Added the <code>callback_enter</code> callback, which is called whenevery any element managed by LazyLoad enters the viewport, as requested in #159. Thanks to @alvarotrigo.</p>
+<h4 id="8-5-2">8.5.2</h4>
+<p>Fixed a bug that could occur on older versions of IE when trying to access an image’s parent node.</p>
+<h4 id="8-5-1">8.5.1</h4>
+<p>Fixed a CustomEvent bug which occured on IE when using async object initialization.</p>
+<h4 id="8-5-0">8.5.0</h4>
+<ul>
+<li>Change in default options, in order to be aligned with version 10
+<ul>
 <li>default for <code>data_src</code> is now <code>src</code> (was <code>original</code>)</li>
 <li>default for <code>data_srcset</code> is now <code>srcset</code> (was <code>original-set</code>)</li>
 </ul>
 </li>
 </ul>
-<h4 id="8-2-1"><a href="#8-2-1" class="headerlink" title="8.2.1"></a>8.2.1</h4><p>Fixed <code>supportsClassList</code> test to work even when the <code>document</code> object isn’t yet there. Thanks to @Spone and his #145.</p>
-<h4 id="8-2-0"><a href="#8-2-0" class="headerlink" title="8.2.0"></a>8.2.0</h4><p>Restored support to IE9 and IE10, as requested in #118 and #132.</p>
-<h4 id="8-1-0"><a href="#8-1-0" class="headerlink" title="8.1.0"></a>8.1.0</h4><p>Updated from grunt to gulp (run with gulp scripts).</p>
-<h4 id="8-0-3"><a href="#8-0-3" class="headerlink" title="8.0.3"></a>8.0.3</h4><p>Added quotes in background image URLs, as suggested in #114 (thanks to @vseva).</p>
-<h4 id="8-0-2"><a href="#8-0-2" class="headerlink" title="8.0.2"></a>8.0.2</h4><p>Fixed a bug that affected performance.</p>
-<h4 id="8-0-1"><a href="#8-0-1" class="headerlink" title="8.0.1"></a>8.0.1</h4><p>Fixed reference to old names in demo files.</p>
-<h4 id="8-0-0"><a href="#8-0-0" class="headerlink" title="8.0.0"></a>8.0.0</h4><ul>
+<h4 id="8-2-1">8.2.1</h4>
+<p>Fixed <code>supportsClassList</code> test to work even when the <code>document</code> object isn’t yet there. Thanks to @Spone and his #145.</p>
+<h4 id="8-2-0">8.2.0</h4>
+<p>Restored support to IE9 and IE10, as requested in #118 and #132.</p>
+<h4 id="8-1-0">8.1.0</h4>
+<p>Updated from grunt to gulp (run with gulp scripts).</p>
+<h4 id="8-0-3">8.0.3</h4>
+<p>Added quotes in background image URLs, as suggested in #114 (thanks to @vseva).</p>
+<h4 id="8-0-2">8.0.2</h4>
+<p>Fixed a bug that affected performance.</p>
+<h4 id="8-0-1">8.0.1</h4>
+<p>Fixed reference to old names in demo files.</p>
+<h4 id="8-0-0">8.0.0</h4>
+<ul>
 <li>The main file to include is now <strong><code>dist/lazyload.min.js</code></strong> as you would expect, and no longer <code>dist/lazyload.transpiled.min.js</code>.</li>
 <li>The non-transpiled version is now named lazyload.es2015.js</li>
 </ul>
-<h2 id="Version-7"><a href="#Version-7" class="headerlink" title="Version 7"></a>Version 7</h2><h4 id="7-2-0"><a href="#7-2-0" class="headerlink" title="7.2.0"></a>7.2.0</h4><ul>
+<h2 id="Version-7">Version 7</h2>
+<h4 id="7-2-0">7.2.0</h4>
+<ul>
 <li>Now using <code>element.dataset</code> to read data attributes</li>
 <li>New readme! New website!</li>
 </ul>
@@ -502,43 +655,56 @@
 <li>Fixed #87</li>
 </ul>
 <p><strong>IMPORTANT!</strong> Browser support changed. Find more information in the <a href="README.md">README</a> file.</p>
-<h4 id="7-1-0"><a href="#7-1-0" class="headerlink" title="7.1.0"></a>7.1.0</h4><ul>
+<h4 id="7-1-0">7.1.0</h4>
+<ul>
 <li>Refactored code now using more modules</li>
 <li>Saving ~0.5 kb of transpiled code going back from ES2015 <code>class</code> to function’s <code>prototype</code></li>
 </ul>
-<h4 id="7-0-0"><a href="#7-0-0" class="headerlink" title="7.0.0"></a>7.0.0</h4><p>Source code converted to ES2015 modules, bundled with <a href="https://rollupjs.org/">rollup.js</a> and transpiled with <a href="https://babeljs.io/">babel</a>.</p>
-<h2 id="Version-6"><a href="#Version-6" class="headerlink" title="Version 6"></a>Version 6</h2><h4 id="6-3-x"><a href="#6-3-x" class="headerlink" title="6.3.x"></a>6.3.x</h4><p>Added the class initial to all images (or iframes) inside the viewport at the moment of script initialization</p>
-<h4 id="6-2-x"><a href="#6-2-x" class="headerlink" title="6.2.x"></a>6.2.x</h4><ul>
+<h4 id="7-0-0">7.0.0</h4>
+<p>Source code converted to ES2015 modules, bundled with <a href="https://rollupjs.org/">rollup.js</a> and transpiled with <a href="https://babeljs.io/">babel</a>.</p>
+<h2 id="Version-6">Version 6</h2>
+<h4 id="6-3-x">6.3.x</h4>
+<p>Added the class initial to all images (or iframes) inside the viewport at the moment of script initialization</p>
+<h4 id="6-2-x">6.2.x</h4>
+<ul>
 <li>Added the ability to load LazyLoad using an async script</li>
 </ul>
-<h4 id="6-1-x"><a href="#6-1-x" class="headerlink" title="6.1.x"></a>6.1.x</h4><p>SEO improvements for lazily loaded images</p>
-<h4 id="6-0-x"><a href="#6-0-x" class="headerlink" title="6.0.x"></a>6.0.x</h4><ul>
+<h4 id="6-1-x">6.1.x</h4>
+<p>SEO improvements for lazily loaded images</p>
+<h4 id="6-0-x">6.0.x</h4>
+<ul>
 <li>Source code migrated to ES6 / ES2015</li>
 <li>Serving both minified ES6 version and minified transpiled-to-ES5 version</li>
 </ul>
-<h2 id="Version-5"><a href="#Version-5" class="headerlink" title="Version 5"></a>Version 5</h2><ul>
+<h2 id="Version-5">Version 5</h2>
+<ul>
 <li>Exposed private functions for test coverage</li>
 <li>Test coverage</li>
 </ul>
-<h2 id="Version-4"><a href="#Version-4" class="headerlink" title="Version 4"></a>Version 4</h2><ul>
+<h2 id="Version-4">Version 4</h2>
+<ul>
 <li>Lighter constructor</li>
 <li>Performance improvements</li>
 <li>Bugfix: null on background images</li>
 <li>Removed code for legacy browsers - now supporting IE10+</li>
 </ul>
-<h2 id="Version-3"><a href="#Version-3" class="headerlink" title="Version 3"></a>Version 3</h2><ul>
+<h2 id="Version-3">Version 3</h2>
+<ul>
 <li>Added support to the picture tag</li>
-<li>Removed the “show image only when fully loaded” mode<ul>
+<li>Removed the “show image only when fully loaded” mode
+<ul>
 <li>Dumped the show_while_loading and placeholder options</li>
 </ul>
 </li>
 </ul>
-<h2 id="Version-2"><a href="#Version-2" class="headerlink" title="Version 2"></a>Version 2</h2><ul>
+<h2 id="Version-2">Version 2</h2>
+<ul>
 <li>Added support to lazily load iframes and background images</li>
 <li>Added error management callback and error class option</li>
 <li>Performance improvements</li>
 </ul>
-<h2 id="Version-1"><a href="#Version-1" class="headerlink" title="Version 1"></a>Version 1</h2><ul>
+<h2 id="Version-1">Version 1</h2>
+<ul>
 <li>Added support to the srcset attribute for images</li>
 <li>Added typescript typings + updated dist folder files</li>
 <li>Performance improvements</li>
