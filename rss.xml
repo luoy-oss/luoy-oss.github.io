@@ -15,8 +15,33 @@
     <atom:link href="https://www.drluo.top/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description>洛屿的小站 - 一个分享编程技术和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。</description>
-    <pubDate>Wed, 02 Apr 2025 15:31:06 GMT</pubDate>
+    <pubDate>Thu, 15 May 2025 13:00:36 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>三角洲行动ID映射表</title>
+      <link>https://www.drluo.top/posts/55524</link>
+      <guid>https://www.drluo.top/posts/55524</guid>
+      <pubDate>Thu, 15 May 2025 12:19:49 GMT</pubDate>
+      
+        
+        
+      <description>&lt;blockquote&gt;
+&lt;p&gt;三角洲行动id映射表，角色、枪械、积分等。&lt;/p&gt;
+&lt;p&gt;你可以在github上找到本页面相应数据以及后续更新：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/luoy-oss/deltaforce_id&quot;&gt;luoy-oss</description>
+        
+      
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/tags/deltaforce/">deltaforce</category>
+      
+      
+      <comments>https://www.drluo.top/posts/55524#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>洛玖SDK说明</title>
@@ -1404,36 +1429,6 @@ Real Time Simul</description>
       
       
       <comments>https://www.drluo.top/posts/33564#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>《树》</title>
-      <link>https://www.drluo.top/posts/11924</link>
-      <guid>https://www.drluo.top/posts/11924</guid>
-      <pubDate>Tue, 14 Feb 2023 06:28:32 GMT</pubDate>
-      
-        
-        
-      <description>&lt;h1&gt;树(Tree)&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;p&gt;n(n≥0)个结点构成的有限集合&lt;/p&gt;
-&lt;p&gt;n=0时，称为&lt;strong&gt;空树&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;对于任意一颗&lt;strong&gt;非空树&lt;/strong&gt;，它具有以下性质：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;</description>
-        
-      
-      
-      
-      
-      <category domain="https://www.drluo.top/categories/C/">C++</category>
-      
-      
-      <category domain="https://www.drluo.top/tags/tree/">tree</category>
-      
-      
-      <comments>https://www.drluo.top/posts/11924#disqus_thread</comments>
       
     </item>
     

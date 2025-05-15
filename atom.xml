@@ -6,7 +6,7 @@
   <link href="https://www.drluo.top/atom.xml" rel="self"/>
   
   <link href="https://www.drluo.top/"/>
-  <updated>2025-04-02T15:31:06.668Z</updated>
+  <updated>2025-05-15T13:00:36.455Z</updated>
   <id>https://www.drluo.top/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>三角洲行动ID映射表</title>
+    <link href="https://www.drluo.top/posts/55524"/>
+    <id>https://www.drluo.top/posts/55524</id>
+    <published>2025-05-15T12:19:49.000Z</published>
+    <updated>2025-05-15T13:00:36.455Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;三角洲行动id映射表，角色、枪械、积分等。&lt;/p&gt;
+&lt;p&gt;你可以在github上找到本页面相应数据以及后续更新：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/luoy-oss/deltaforce_id&quot;&gt;luoy-oss</summary>
+      
+    
+    
+    
+    
+    <category term="deltaforce" scheme="https://www.drluo.top/tags/deltaforce/"/>
+    
+  </entry>
   
   <entry>
     <title>洛玖SDK说明</title>
@@ -1304,34 +1327,6 @@ Real Time Simul</summary>
     
     
     <category term="栈" scheme="https://www.drluo.top/tags/%E6%A0%88/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《树》</title>
-    <link href="https://www.drluo.top/posts/11924"/>
-    <id>https://www.drluo.top/posts/11924</id>
-    <published>2023-02-14T06:28:32.000Z</published>
-    <updated>2023-10-09T12:06:33.894Z</updated>
-    
-    
-      
-      
-    <summary type="html">&lt;h1&gt;树(Tree)&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;p&gt;n(n≥0)个结点构成的有限集合&lt;/p&gt;
-&lt;p&gt;n=0时，称为&lt;strong&gt;空树&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;对于任意一颗&lt;strong&gt;非空树&lt;/strong&gt;，它具有以下性质：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;</summary>
-      
-    
-    
-    
-    <category term="C++" scheme="https://www.drluo.top/categories/C/"/>
-    
-    
-    <category term="tree" scheme="https://www.drluo.top/tags/tree/"/>
     
   </entry>
   
