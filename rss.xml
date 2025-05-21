@@ -15,7 +15,7 @@
     <atom:link href="https://www.drluo.top/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description>洛屿的小站 - 一个分享编程技术和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。</description>
-    <pubDate>Wed, 21 May 2025 14:32:16 GMT</pubDate>
+    <pubDate>Wed, 21 May 2025 14:43:33 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -36,6 +36,8 @@
       
       
       <category domain="https://www.drluo.top/tags/Trae/">Trae</category>
+      
+      <category domain="https://www.drluo.top/tags/%E6%B3%A8%E5%86%8C%E8%A1%A8/">注册表</category>
       
       
       <comments>https://www.drluo.top/posts/32731#disqus_thread</comments>
