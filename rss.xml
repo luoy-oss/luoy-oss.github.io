@@ -15,8 +15,32 @@
     <atom:link href="https://www.drluo.top/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description>洛屿的小站 - 一个分享编程技术和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。</description>
-    <pubDate>Thu, 15 May 2025 13:01:33 GMT</pubDate>
+    <pubDate>Wed, 21 May 2025 14:32:16 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>右键菜单加入用Trae打开文件和文件夹</title>
+      <link>https://www.drluo.top/posts/32731</link>
+      <guid>https://www.drluo.top/posts/32731</guid>
+      <pubDate>Wed, 21 May 2025 14:07:32 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h2 id=&quot;效果如下&quot;&gt;效果如下&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;/img/page/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%8A%A0%E5%85%A5%E7%94%A8Trae%E6%89%93%E5%</description>
+        
+      
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/tags/Trae/">Trae</category>
+      
+      
+      <comments>https://www.drluo.top/posts/32731#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>三角洲行动ID映射表</title>
@@ -1400,35 +1424,6 @@ Real Time Simul</description>
       
       
       <comments>https://www.drluo.top/posts/30396#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>单调栈</title>
-      <link>https://www.drluo.top/posts/33564</link>
-      <guid>https://www.drluo.top/posts/33564</guid>
-      <pubDate>Tue, 14 Feb 2023 07:27:59 GMT</pubDate>
-      
-        
-        
-      <description>&lt;blockquote&gt;
-&lt;p&gt;帮助群友&lt;s&gt;♂♂&lt;/s&gt;(AC)，就是帮助自己&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1&gt;单调栈&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;单调递增栈：单调递增栈就是从&lt;strong&gt;栈底到栈顶&lt;/strong&gt;数据是&lt;strong&gt;从小到大&lt;/strong</description>
-        
-      
-      
-      
-      
-      <category domain="https://www.drluo.top/categories/C/">C++</category>
-      
-      
-      <category domain="https://www.drluo.top/tags/%E6%A0%88/">栈</category>
-      
-      
-      <comments>https://www.drluo.top/posts/33564#disqus_thread</comments>
       
     </item>
     

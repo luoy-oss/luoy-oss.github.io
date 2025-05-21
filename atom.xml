@@ -6,7 +6,7 @@
   <link href="https://www.drluo.top/atom.xml" rel="self"/>
   
   <link href="https://www.drluo.top/"/>
-  <updated>2025-05-15T13:01:33.016Z</updated>
+  <updated>2025-05-21T14:32:16.695Z</updated>
   <id>https://www.drluo.top/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>右键菜单加入用Trae打开文件和文件夹</title>
+    <link href="https://www.drluo.top/posts/32731"/>
+    <id>https://www.drluo.top/posts/32731</id>
+    <published>2025-05-21T14:07:32.000Z</published>
+    <updated>2025-05-21T14:32:16.695Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;效果如下&quot;&gt;效果如下&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;/img/page/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%8A%A0%E5%85%A5%E7%94%A8Trae%E6%89%93%E5%</summary>
+      
+    
+    
+    
+    
+    <category term="Trae" scheme="https://www.drluo.top/tags/Trae/"/>
+    
+  </entry>
   
   <entry>
     <title>三角洲行动ID映射表</title>
@@ -782,7 +804,7 @@ Real Time Simul</summary>
     <link href="https://www.drluo.top/posts/37594"/>
     <id>https://www.drluo.top/posts/37594</id>
     <published>2023-07-26T02:15:17.000Z</published>
-    <updated>2025-05-21T13:41:56.483Z</updated>
+    <updated>2025-05-21T14:10:58.570Z</updated>
     
     
       
@@ -1300,33 +1322,6 @@ Real Time Simul</summary>
     
     
     <category term="树" scheme="https://www.drluo.top/tags/%E6%A0%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>单调栈</title>
-    <link href="https://www.drluo.top/posts/33564"/>
-    <id>https://www.drluo.top/posts/33564</id>
-    <published>2023-02-14T07:27:59.000Z</published>
-    <updated>2023-10-09T12:06:33.902Z</updated>
-    
-    
-      
-      
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;帮助群友&lt;s&gt;♂♂&lt;/s&gt;(AC)，就是帮助自己&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1&gt;单调栈&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;单调递增栈：单调递增栈就是从&lt;strong&gt;栈底到栈顶&lt;/strong&gt;数据是&lt;strong&gt;从小到大&lt;/strong</summary>
-      
-    
-    
-    
-    <category term="C++" scheme="https://www.drluo.top/categories/C/"/>
-    
-    
-    <category term="栈" scheme="https://www.drluo.top/tags/%E6%A0%88/"/>
     
   </entry>
   
