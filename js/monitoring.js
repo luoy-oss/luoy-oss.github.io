@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // 获取配置信息
   const monitoringConfig = window.MONITORING_CONFIG || {};
   const apiUrl = monitoringConfig.apiUrl || 'https://blog-link-monitoring.drluo.top';
+  const friend_link_url = monitoringConfig.friend_link_url || '';
   const limit = monitoringConfig.limit || 10;
   const days = monitoringConfig.days || 30;
   const additionalLinks = monitoringConfig.links || [];
@@ -124,8 +125,9 @@ document.addEventListener('DOMContentLoaded', function() {
    * @returns {Promise<Array>} 友链数据数组
    */
   async function getFriendLinks() {
+    if (!friend_link_url) return [];
     try {
-      const response = await fetch('https://api.github.com/repos/luoy-oss/friend_link/issues?sort=created&direction=asc&state=all&page=1&per_page=100&labels=active');
+      const response = await fetch(friend_link_url);
       if (!response.ok) {
         throw new Error(`GitHub API 请求失败: ${response.status}`);
       }
