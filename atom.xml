@@ -489,11 +489,11 @@ Real Time Simul</summary>
     <category term="我" scheme="https://www.drluo.top/categories/%E6%88%91/"/>
     
     
-    <category term="Python" scheme="https://www.drluo.top/tags/Python/"/>
-    
     <category term="C语言" scheme="https://www.drluo.top/tags/C%E8%AF%AD%E8%A8%80/"/>
     
     <category term="C++" scheme="https://www.drluo.top/tags/C/"/>
+    
+    <category term="Python" scheme="https://www.drluo.top/tags/Python/"/>
     
     <category term="Java" scheme="https://www.drluo.top/tags/Java/"/>
     
@@ -1236,13 +1236,13 @@ Real Time Simul</summary>
     <category term="C++" scheme="https://www.drluo.top/categories/C/"/>
     
     
-    <category term="树" scheme="https://www.drluo.top/tags/%E6%A0%91/"/>
-    
     <category term="二叉树" scheme="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
     
     <category term="二叉搜索树" scheme="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/"/>
     
     <category term="平衡二叉树" scheme="https://www.drluo.top/tags/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    
+    <category term="树" scheme="https://www.drluo.top/tags/%E6%A0%91/"/>
     
   </entry>
   
@@ -1266,9 +1266,37 @@ Real Time Simul</summary>
     <category term="C++" scheme="https://www.drluo.top/categories/C/"/>
     
     
+    <category term="二叉树" scheme="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    
     <category term="树" scheme="https://www.drluo.top/tags/%E6%A0%91/"/>
     
+  </entry>
+  
+  <entry>
+    <title>二叉树的遍历</title>
+    <link href="https://www.drluo.top/posts/63105"/>
+    <id>https://www.drluo.top/posts/63105</id>
+    <published>2023-02-14T11:57:32.000Z</published>
+    <updated>2023-10-09T12:06:33.898Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;h1&gt;先序遍历&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;根-&amp;gt;左子树-&amp;gt;右子树&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span cla</summary>
+      
+    
+    
+    
+    <category term="C++" scheme="https://www.drluo.top/categories/C/"/>
+    
+    
     <category term="二叉树" scheme="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    
+    <category term="树" scheme="https://www.drluo.top/tags/%E6%A0%91/"/>
     
   </entry>
   
@@ -1295,37 +1323,9 @@ Real Time Simul</summary>
     <category term="C++" scheme="https://www.drluo.top/categories/C/"/>
     
     
-    <category term="树" scheme="https://www.drluo.top/tags/%E6%A0%91/"/>
-    
     <category term="二叉树" scheme="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
     
-  </entry>
-  
-  <entry>
-    <title>二叉树的遍历</title>
-    <link href="https://www.drluo.top/posts/63105"/>
-    <id>https://www.drluo.top/posts/63105</id>
-    <published>2023-02-14T11:57:32.000Z</published>
-    <updated>2023-10-09T12:06:33.898Z</updated>
-    
-    
-      
-      
-    <summary type="html">&lt;h1&gt;先序遍历&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;p&gt;根-&amp;gt;左子树-&amp;gt;右子树&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span cla</summary>
-      
-    
-    
-    
-    <category term="C++" scheme="https://www.drluo.top/categories/C/"/>
-    
-    
     <category term="树" scheme="https://www.drluo.top/tags/%E6%A0%91/"/>
-    
-    <category term="二叉树" scheme="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
     
   </entry>
   
