@@ -1,209 +1,400 @@
-// 存储所有链接的状态数据
-let linksData = [];
-let filteredLinks = [];
+/**
+ * 监控页面脚本
+ * 用于获取友链状态并显示监控数据
+ */
 
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', () => {
-  // 从本地存储加载数据（如果有）
-  const savedData = localStorage.getItem('monitoringData');
-  if (savedData) {
-    try {
-      linksData = JSON.parse(savedData);
-      updateUI();
-    } catch (e) {
-      console.error('无法解析保存的监测数据', e);
+document.addEventListener('DOMContentLoaded', function() {
+  // 获取配置信息
+  const monitoringConfig = window.MONITORING_CONFIG || {};
+  const apiUrl = monitoringConfig.apiUrl || 'https://blog-link-monitoring.drluo.top';
+  const limit = monitoringConfig.limit || 10;
+  const days = monitoringConfig.days || 30;
+  const additionalLinks = monitoringConfig.links || [];
+  
+  /**
+   * 创建空的监控项元素
+   * @param {Object} link 友链数据
+   * @returns {HTMLElement} 监控项元素
+   */
+  function createEmptyMonitorItem(link) {
+    const itemEl = document.createElement('div');
+    itemEl.className = 'monitor-item';
+    
+    // 站点信息
+    const siteInfoEl = document.createElement('div');
+    siteInfoEl.className = 'site-info';
+    
+    // 头像
+    const avatarEl = document.createElement('div');
+    avatarEl.className = 'site-avatar';
+    if (link.avatar) {
+      const imgEl = document.createElement('img');
+      imgEl.src = link.avatar;
+      imgEl.alt = link.title;
+      avatarEl.appendChild(imgEl);
     }
+    siteInfoEl.appendChild(avatarEl);
+    
+    // 站点元数据
+    const metaEl = document.createElement('div');
+    metaEl.className = 'site-meta';
+    
+    const titleEl = document.createElement('div');
+    titleEl.className = 'site-title';
+    titleEl.textContent = link.title;
+    metaEl.appendChild(titleEl);
+    
+    const urlEl = document.createElement('div');
+    urlEl.className = 'site-url';
+    urlEl.textContent = link.url;
+    metaEl.appendChild(urlEl);
+    
+    siteInfoEl.appendChild(metaEl);
+    itemEl.appendChild(siteInfoEl);
+    
+    // 状态信息（加载中）
+    const statusEl = document.createElement('div');
+    statusEl.className = 'site-status';
+    
+    // 状态信息
+    const statusInfoEl = document.createElement('div');
+    statusInfoEl.className = 'status-info loading';
+    statusInfoEl.innerHTML = '<span class="loading-message">正在获取监控数据...</span>';
+    statusEl.appendChild(statusInfoEl);
+    
+    // 创建固定数量的灰色状态格
+    const statusBarEl = document.createElement('div');
+    statusBarEl.className = 'status-bar';
+    
+    for (let i = 0; i < days; i++) {
+      const barItemEl = document.createElement('div');
+      barItemEl.className = 'bar-item no-data';
+      barItemEl.title = '暂无监控数据';
+      if (i > 0) {
+        barItemEl.classList.add('gap');
+      }
+      statusBarEl.appendChild(barItemEl);
+    }
+    
+    statusEl.appendChild(statusBarEl);
+    itemEl.appendChild(statusEl);
+    
+    return itemEl;
   }
   
-  // 获取友情链接数据
-  fetchLinks();
-});
-
-/**
- * 获取友情链接数据
- */
-async function fetchLinks() {
-  try {
-    // 这里应该替换为实际获取友链的API或方法
-    // 示例：从 /links/data.json 获取数据
-    const response = await fetch('/links/data.json');
-    if (!response.ok) throw new Error('无法获取友链数据');
-    
-    const data = await response.json();
-    
-    // 处理数据格式，确保与我们的结构匹配
-    linksData = data.map(link => ({
-      name: link.name,
+  // 获取友链数据并合并额外的监测链接
+  getFriendLinks().then(friendLinks => {
+    // 合并配置文件中的额外链接
+    const extraLinks = additionalLinks.map(link => ({
+      title: link.title,
       url: link.url,
-      status: 'unknown',
-      responseTime: null,
-      lastChecked: null
+      avatar: link.avatar,
+      description: link.description
     }));
+    // 创建监控面板并立即显示所有链接
+    const allLinks = [...extraLinks, ...friendLinks];
+    const container = document.getElementById('monitoring-container');
+    if (!container) return;
+
+    // 清空容器
+    container.innerHTML = '';
     
-    // 更新UI并检查所有链接状态
-    updateUI();
-    refreshAllStatus();
-  } catch (error) {
+    // 为每个链接创建面板并异步加载状态
+    allLinks.forEach(link => {
+      const itemEl = createEmptyMonitorItem(link);
+      container.appendChild(itemEl);
+      
+      // 异步加载监控数据
+      getMonitoringData(link).then(updatedItemEl => {
+        if (updatedItemEl) {
+          container.replaceChild(updatedItemEl, itemEl);
+        }
+      }).catch(error => {
+        console.error(`获取 ${link.url} 的监控数据失败:`, error);
+        itemEl.querySelector('.status-bar').innerHTML = `<div class="error-message">获取监控数据失败: ${error.message}</div>`;
+      });
+    });
+  }).catch(error => {
     console.error('获取友链数据失败:', error);
-    // 如果无法获取数据，显示一些示例数据
-    showSampleData();
-  }
-}
-
-/**
- * 显示示例数据（当无法获取实际数据时）
- */
-function showSampleData() {
-  linksData = [
-    {
-      name: '示例站点 1',
-      url: 'https://www.drluo.top/',
-      status: 'online',
-      responseTime: 120,
-      lastChecked: new Date().toISOString()
-    },
-    {
-      name: '示例站点 2',
-      url: 'https://example.org',
-      status: 'offline',
-      responseTime: null,
-      lastChecked: new Date().toISOString()
-    }
-  ];
-  updateUI();
-}
-
-/**
- * 刷新所有链接状态
- */
-async function refreshAllStatus() {
-  const list = document.getElementById('monitoring-list');
-  list.innerHTML = '<div class="monitoring-loading">正在检查所有链接状态...</div>';
-  
-  // 更新每个链接的状态
-  for (let i = 0; i < linksData.length; i++) {
-    await checkLinkStatus(i);
-  }
-  
-  // 保存到本地存储
-  localStorage.setItem('monitoringData', JSON.stringify(linksData));
-  
-  // 更新UI
-  updateUI();
-}
-
-/**
- * 检查单个链接状态
- * @param {number} index - 链接在数组中的索引
- */
-async function checkLinkStatus(index) {
-  const link = linksData[index];
-  const startTime = Date.now();
-  
-  try {
-    // 使用代理服务检查链接状态，避免跨域问题
-    // 注意：实际使用时需要替换为你自己的代理服务
-    const proxyUrl = `/api/check-status?url=${encodeURIComponent(link.url)}`;
-    
-    // 模拟检查过程（实际环境中应使用真实的API）
-    // 在实际应用中，你需要创建一个服务端API来检查链接状态
-    await new Promise(resolve => setTimeout(resolve, Math.random() * 1000 + 500));
-    
-    // 随机模拟在线/离线状态（仅用于演示）
-    const isOnline = Math.random() > 0.3;
-    
-    // 更新链接状态
-    linksData[index] = {
-      ...link,
-      status: isOnline ? 'online' : 'offline',
-      responseTime: isOnline ? Math.floor(Math.random() * 500 + 100) : null,
-      lastChecked: new Date().toISOString()
-    };
-  } catch (error) {
-    console.error(`检查链接 ${link.url} 失败:`, error);
-    linksData[index] = {
-      ...link,
-      status: 'offline',
-      responseTime: null,
-      lastChecked: new Date().toISOString()
-    };
-  }
-}
-
-/**
- * 根据状态筛选链接
- */
-function filterLinks() {
-  const filter = document.getElementById('status-filter').value;
-  
-  if (filter === 'all') {
-    filteredLinks = [...linksData];
-  } else {
-    filteredLinks = linksData.filter(link => link.status === filter);
-  }
-  
-  renderLinksList();
-}
-
-/**
- * 更新UI
- */
-function updateUI() {
-  // 更新统计数据
-  const totalLinks = linksData.length;
-  const onlineLinks = linksData.filter(link => link.status === 'online').length;
-  const offlineLinks = linksData.filter(link => link.status === 'offline').length;
-  
-  document.getElementById('total-links').textContent = totalLinks;
-  document.getElementById('online-links').textContent = onlineLinks;
-  document.getElementById('offline-links').textContent = offlineLinks;
-  
-  // 应用当前筛选
-  filterLinks();
-}
-
-/**
- * 渲染链接列表
- */
-function renderLinksList() {
-  const list = document.getElementById('monitoring-list');
-  list.innerHTML = '';
-  
-  if (filteredLinks.length === 0) {
-    list.innerHTML = '<div class="monitoring-loading">没有符合条件的链接</div>';
-    return;
-  }
-  
-  filteredLinks.forEach(link => {
-    const item = document.createElement('div');
-    item.className = `monitoring-item status-${link.status}`;
-    
-    const lastCheckedTime = link.lastChecked 
-      ? new Date(link.lastChecked).toLocaleString('zh-CN', {hour: '2-digit', minute: '2-digit', second: '2-digit'}) 
-      : '未检查';
-    
-    item.innerHTML = `
-      <div class="monitoring-item-header">
-        <div class="site-name">${link.name}</div>
-        <span class="status-badge status-${link.status}">${link.status === 'online' ? '在线' : '离线'}</span>
-      </div>
-      <div class="monitoring-item-body">
-        <div class="site-url">
-          <a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.url}</a>
-        </div>
-        <div class="monitoring-details">
-          <div class="detail-item">
-            <div class="detail-value">${link.responseTime ? link.responseTime + 'ms' : 'N/A'}</div>
-            <div class="detail-label">响应时间</div>
-          </div>
-          <div class="detail-item">
-            <div class="detail-value">${lastCheckedTime}</div>
-            <div class="detail-label">最后检查</div>
-          </div>
-        </div>
-      </div>
-    `;
-    
-    list.appendChild(item);
+    document.getElementById('monitoring-container').innerHTML = `<div class="error-message">获取友链数据失败: ${error.message}</div>`;
   });
-}
+  
+  /**
+   * 获取友链数据
+   * @returns {Promise<Array>} 友链数据数组
+   */
+  async function getFriendLinks() {
+    try {
+      const response = await fetch('https://api.github.com/repos/luoy-oss/friend_link/issues?sort=created&direction=asc&state=all&page=1&per_page=100&labels=active');
+      if (!response.ok) {
+        throw new Error(`GitHub API 请求失败: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // 解析友链数据
+      return data.map(issue => {
+        // 尝试从issue.body中提取JSON数据
+        try {
+          const bodyContent = issue.body || '';
+          const jsonMatch = bodyContent.match(/```json\n([\s\S]*?)\n```/);
+          
+          if (jsonMatch && jsonMatch[1]) {
+            const linkData = JSON.parse(jsonMatch[1]);
+            return {
+              title: linkData.title || issue.title,
+              url: linkData.url || issue.title,
+              avatar: linkData.avatar || '',
+              description: linkData.description || ''
+            };
+          }
+          
+          // 如果没有找到JSON数据，使用issue标题作为URL
+          return {
+            title: issue.title.replace(/https?:\/\//, '').replace(/\/$/, ''),
+            url: issue.title,
+            avatar: '',
+            description: ''
+          };
+        } catch (e) {
+          console.error('解析友链数据失败:', e);
+          return {
+            title: issue.title.replace(/https?:\/\//, '').replace(/\/$/, ''),
+            url: issue.title,
+            avatar: '',
+            description: ''
+          };
+        }
+      });
+    } catch (error) {
+      console.error('获取友链数据失败:', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * 创建监控面板
+   * @param {Array} friendLinks 友链数据数组
+   */
+  function createMonitoringPanel(friendLinks) {
+    const container = document.getElementById('monitoring-container');
+    if (!container) return;
+    
+    // 清空容器
+    container.innerHTML = '';
+    
+    // 创建加载提示
+    const loadingEl = document.createElement('div');
+    loadingEl.className = 'loading-message';
+    loadingEl.textContent = '正在获取监控数据...';
+    container.appendChild(loadingEl);
+    
+    // 处理每个友链
+    const promises = friendLinks.map(link => getMonitoringData(link));
+    
+    Promise.all(promises).then(results => {
+      // 移除加载提示
+      container.removeChild(loadingEl);
+      
+      // 显示监控数据
+      results.forEach(result => {
+        if (result) {
+          container.appendChild(result);
+        }
+      });
+    }).catch(error => {
+      console.error('获取监控数据失败:', error);
+      loadingEl.textContent = `获取监控数据失败: ${error.message}`;
+      loadingEl.className = 'error-message';
+    });
+  }
+  
+  /**
+   * 获取单个网站的监控数据
+   * @param {Object} link 友链数据
+   * @returns {Promise<HTMLElement>} 监控面板元素
+   */
+  async function getMonitoringData(link) {
+    if (!link || !link.url) return null;
+    
+    try {
+      // 构建API URL
+      const url = link.url.startsWith('http') ? link.url : `https://${link.url}`;
+      const monitorUrl = `${apiUrl}/api/data?url=${encodeURIComponent(url)}&limit=${limit}`;
+      
+      // 设置超时
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
+      
+      const response = await fetch(monitorUrl, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`监控API请求失败: ${response.status}`);
+      }
+      
+      const monitorData = await response.json();
+      
+      // 检查数据是否为空
+      if (monitorData.success && monitorData.count === 0) {
+        const emptyItem = createEmptyMonitorItem(link);
+        const statusInfoEl = emptyItem.querySelector('.status-info');
+        statusInfoEl.classList.remove('loading');
+        statusInfoEl.innerHTML = '<span class="none-message">暂无监控数据</span>';
+        return emptyItem;
+      }
+      
+      // 创建监控面板元素
+      return createMonitorItem(link, monitorData);
+    } catch (error) {
+      console.error(`获取 ${link.url} 的监控数据失败:`, error);
+      const errorItem = createEmptyMonitorItem(link);
+      const statusInfoEl = errorItem.querySelector('.status-info');
+      statusInfoEl.classList.remove('loading');
+      statusInfoEl.innerHTML = `<span class="error-message">${error.name === 'AbortError' ? '请求超时' : '获取监控数据失败'}</span>`;
+      return errorItem;
+    }
+  }
+  
+  /**
+   * 创建监控项元素
+   * @param {Object} link 友链数据
+   * @param {Object} monitorData 监控数据
+   * @returns {HTMLElement} 监控项元素
+   */
+  function createMonitorItem(link, monitorData) {
+    if (!monitorData || !monitorData.data || !monitorData.data.length) {
+      return null;
+    }
+    
+    const itemEl = document.createElement('div');
+    itemEl.className = 'monitor-item';
+    
+    // 站点信息
+    const siteInfoEl = document.createElement('div');
+    siteInfoEl.className = 'site-info';
+    
+    // 头像
+    const avatarEl = document.createElement('div');
+    avatarEl.className = 'site-avatar';
+    if (link.avatar) {
+      const imgEl = document.createElement('img');
+      imgEl.src = link.avatar;
+      imgEl.alt = link.title;
+      avatarEl.appendChild(imgEl);
+    }
+    siteInfoEl.appendChild(avatarEl);
+    
+    // 站点元数据
+    const metaEl = document.createElement('div');
+    metaEl.className = 'site-meta';
+    
+    const titleEl = document.createElement('div');
+    titleEl.className = 'site-title';
+    titleEl.textContent = link.title;
+    metaEl.appendChild(titleEl);
+    
+    const urlEl = document.createElement('div');
+    urlEl.className = 'site-url';
+    urlEl.textContent = link.url;
+    metaEl.appendChild(urlEl);
+    
+    siteInfoEl.appendChild(metaEl);
+    itemEl.appendChild(siteInfoEl);
+    
+    // 状态信息
+    const statusEl = document.createElement('div');
+    statusEl.className = 'site-status';
+    
+    // 最新状态
+    const latestData = monitorData.data[0];
+    const isAvailable = latestData.available;
+    
+    const statusInfoEl = document.createElement('div');
+    statusInfoEl.className = `status-info ${isAvailable ? 'available' : 'unavailable'}`;
+    statusInfoEl.innerHTML = `
+      <span class="status-badge">${isAvailable ? '正常' : '异常'}</span>
+      <span class="response-time">响应时间: ${formatResponseTime(latestData.responseTime)}</span>
+      <span class="checked-time">检测时间: ${formatTime(new Date(latestData.timestamp || latestData.checkedAt))}</span>
+    `;
+    statusEl.appendChild(statusInfoEl);
+    
+    // 状态条
+    const statusBarEl = document.createElement('div');
+    statusBarEl.className = 'status-bar';
+    
+    // 获取最近days天的数据
+    const now = new Date();
+    const startDate = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+    
+    // 创建状态条项
+    if (monitorData.data.length === 0) {
+      // 无数据时显示灰色状态条
+      const barItemEl = document.createElement('div');
+      barItemEl.className = 'bar-item no-data';
+      barItemEl.title = '暂无监控数据';
+      statusBarEl.appendChild(barItemEl);
+    } else {
+      // 按时间倒序排序
+      const sortedData = monitorData.data
+        .filter(item => new Date(item.checkedAt) >= startDate)
+        .sort((a, b) => new Date(b.checkedAt) - new Date(a.checkedAt));
+      
+      // 创建分割的状态条
+      sortedData.forEach((item, index) => {
+        const barItemEl = document.createElement('div');
+        barItemEl.className = `bar-item ${item.available ? 'available' : 'unavailable'}`;
+        barItemEl.title = `${formatTime(new Date(item.checkedAt))}: ${item.available ? '正常' : '异常'} (${formatResponseTime(item.responseTime)})`;
+        
+        // 添加分隔线
+        if (index > 0) {
+          const prevDate = new Date(sortedData[index - 1].checkedAt);
+          const currDate = new Date(item.checkedAt);
+          const hoursDiff = (prevDate - currDate) / (1000 * 60 * 60);
+          
+          if (hoursDiff > 1) {
+            barItemEl.classList.add('gap');
+          }
+        }
+        
+        statusBarEl.appendChild(barItemEl);
+      });
+    }
+    
+    statusEl.appendChild(statusBarEl);
+    itemEl.appendChild(statusEl);
+    
+    return itemEl;
+  }
+  
+  /**
+   * 格式化时间
+   * @param {Date} date 日期对象
+   * @returns {string} 格式化后的时间字符串
+   */
+  function formatTime(date) {
+    return `${date.getFullYear()}-${padZero(date.getMonth() + 1)}-${padZero(date.getDate())} ${padZero(date.getHours())}:${padZero(date.getMinutes())}:${padZero(date.getSeconds())}`;
+  }
+  
+  /**
+   * 数字补零
+   * @param {number} num 数字
+   * @returns {string} 补零后的字符串
+   */
+  function padZero(num) {
+    return num < 10 ? `0${num}` : num;
+  }
+  
+  /**
+   * 格式化响应时间
+   * @param {number} ms - 毫秒数
+   * @returns {string} 格式化后的响应时间
+   */
+  function formatResponseTime(ms) {
+    if (ms < 1000) {
+      return `${ms}ms`;
+    } else {
+      return `${(ms / 1000).toFixed(2)}s`;
+    }
+  }
+});
