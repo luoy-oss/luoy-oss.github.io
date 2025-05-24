@@ -26,10 +26,10 @@
       
         
         
-      <description>&lt;p&gt;近期有为博客添加网站状态监测页面的想法，可以监测友链的存活状态等 &lt;/p&gt;
+      <description>&lt;p&gt;近期有为博客添加网站状态监测页面的想法，可以监测友链的存活状态等&lt;/p&gt;
 &lt;p&gt;但是根据搜到的，可以使用UptimeRobot进行监测。但是其中的一些操作，比如调整监测页面链接需要进行包月付费&lt;/p&gt;
 &lt;p&gt;本着能省则省的原则，便想着不如着手实现一下主动监测。&lt;/p&gt;
-&lt;</description>
+&lt;p</description>
         
       
       
@@ -53,8 +53,9 @@
       
         
         
-      <description>&lt;h2 id=&quot;效果如下&quot;&gt;&lt;a href=&quot;#效果如下&quot; class=&quot;headerlink&quot; title=&quot;效果如下&quot;&gt;&lt;/a&gt;效果如下&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;&lt;img src=&quot;/img/page/右键菜单加入用Trae打开文件和文件夹/example1.</description>
+      <description>&lt;h2 id=&quot;效果如下&quot;&gt;效果如下&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;/img/page/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E5%8A%A0%E5%85%A5%E7%94%A8Trae%E6%89%93%E5%</description>
         
       
       
@@ -187,7 +188,8 @@
       <description>&lt;hr&gt;
 &lt;p&gt;Proteus版本：Proteus 8.9&lt;/p&gt;
 &lt;p&gt;使用Proteus中ne555仿真时，遇到了仿真报错：&lt;/p&gt;
-&lt;p&gt;[SPICE] Too many iterations without convergence.&lt;br&gt;Real Time Simula</description>
+&lt;p&gt;[SPICE] Too many iterations without convergence.&lt;br&gt;
+Real Time Simul</description>
         
       
       
@@ -210,8 +212,11 @@
         
         
       <description>&lt;hr&gt;
-&lt;h1 id=&quot;Python&quot;&gt;&lt;a href=&quot;#Python&quot; class=&quot;headerlink&quot; title=&quot;Python&quot;&gt;&lt;/a&gt;Python&lt;/h1&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-&lt;h2 id=&quot;Timeout装饰器&quot;&gt;&lt;a href=&quot;#Timeout装饰器</description>
+&lt;h1&gt;Python&lt;/h1&gt;
+&lt;br&gt;
+&lt;h2 id=&quot;Timeout装饰器&quot;&gt;Timeout装饰器&lt;/h2&gt;
+&lt;p&gt;timeout装饰器实现了超时回调的功能&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td cl</description>
         
       
       
@@ -313,7 +318,7 @@
 &lt;p&gt;爱来自洛屿❤&lt;a href=&quot;https://luoy-oss.github.io&quot;&gt;drluo&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;&lt;img src=&quot;/img/drluoLogo.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;h1 id=&quot;</description>
+&lt;h1&gt;登出操作</description>
         
       
       
@@ -373,7 +378,8 @@
       
         
         
-      <description>&lt;h1 id=&quot;问题已解决&quot;&gt;&lt;a href=&quot;#问题已解决&quot; class=&quot;headerlink&quot; title=&quot;问题已解决&quot;&gt;&lt;/a&gt;问题已解决&lt;/h1&gt;&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;</description>
+      <description>&lt;h1&gt;问题已解决&lt;/h1&gt;
+&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;b</description>
         
       
       
@@ -402,7 +408,8 @@
       <description>&lt;blockquote&gt;
 &lt;p&gt;爱来自ZZULI❤&lt;a href=&quot;https://luoy-oss.github.io&quot;&gt;drluo&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&quot;从Github下载PaddleLite库&quot;&gt;&lt;a href=&quot;#从Github下载P</description>
+&lt;h1&gt;从Github下载PaddleLite库&lt;/h1&gt;
+&lt;h1&gt;根据机型选择arm 或 x86编</description>
         
       
       
@@ -429,7 +436,7 @@
       <description>&lt;p&gt;&lt;strong&gt;注意：代码实现的题目，需要提交实现代码&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意：代码实现的题目，需要提交实现代码&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意：代码实现的题目，需要提交实现代码&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&quot;</description>
+&lt;h1&gt;task</description>
         
       
       
@@ -600,7 +607,9 @@
       
         
         
-      <description>&lt;h2 id=&quot;C、C-数组，指针，指针数组，数组指针的区别&quot;&gt;&lt;a href=&quot;#C、C-数组，指针，指针数组，数组指针的区别&quot; class=&quot;headerlink&quot; title=&quot;C、C++数组，指针，指针数组，数组指针的区别&quot;&gt;&lt;/a&gt;C、C++数组，指针，指针数组，数组指</description>
+      <description>&lt;h2 id=&quot;C、C-数组，指针，指针数组，数组指针的区别&quot;&gt;C、C++数组，指针，指针数组，数组指针的区别&lt;/h2&gt;
+&lt;p&gt;C语言中的数组、指针、指针数组和数组指针是不同的概念，它们在用途和定义上有明显的区别。&lt;/p&gt;
+&lt;h3 id=&quot;数组-Array&quot;&gt;数组 (Array)</description>
         
       
       
@@ -653,7 +662,9 @@
       
         
         
-      <description>&lt;h1 id=&quot;什么是预处理？&quot;&gt;&lt;a href=&quot;#什么是预处理？&quot; class=&quot;headerlink&quot; title=&quot;什么是预处理？&quot;&gt;&lt;/a&gt;什么是预处理？&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;C 预处理器&lt;/strong&gt;不是编译器的组成部分，但是它是编译过程中一个单独的步骤</description>
+      <description>&lt;h1&gt;什么是预处理？&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;C 预处理器&lt;/strong&gt;不是编译器的组成部分，但是它是编译过程中一个单独的步骤。&lt;/p&gt;
+&lt;p&gt;简言之，&lt;strong&gt;C 预处理器&lt;/strong&gt;只不过是一个文本替换工具而已，它们会指示编译器在实际编译之前完成所需</description>
         
       
       
@@ -679,7 +690,11 @@
       
         
         
-      <description>&lt;h1 id=&quot;其它关键字&quot;&gt;&lt;a href=&quot;#其它关键字&quot; class=&quot;headerlink&quot; title=&quot;其它关键字&quot;&gt;&lt;/a&gt;其它关键字&lt;/h1&gt;&lt;h2 id=&quot;const&quot;&gt;&lt;a href=&quot;#const&quot; class=&quot;headerlink&quot; title=&quot;con</description>
+      <description>&lt;h1&gt;其它关键字&lt;/h1&gt;
+&lt;h2 id=&quot;const&quot;&gt;const&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;作用&lt;/strong&gt;：&lt;code&gt;const&lt;/code&gt; 用于声明常量，表示变量的值不可被修改。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;示例&lt;/strong&gt;：&lt;/</description>
         
       
       
@@ -705,7 +720,11 @@
       
         
         
-      <description>&lt;h1 id=&quot;存储类型关键字&quot;&gt;&lt;a href=&quot;#存储类型关键字&quot; class=&quot;headerlink&quot; title=&quot;存储类型关键字&quot;&gt;&lt;/a&gt;存储类型关键字&lt;/h1&gt;&lt;h2 id=&quot;auto&quot;&gt;&lt;a href=&quot;#auto&quot; class=&quot;headerlink&quot; titl</description>
+      <description>&lt;h1&gt;存储类型关键字&lt;/h1&gt;
+&lt;h2 id=&quot;auto&quot;&gt;auto&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;auto&lt;/code&gt; 是默认的存储类别关键字，它用于定义自动变量。&lt;/li&gt;
+&lt;li&gt;自动变量的生命周期仅限于定义它们的代码块，当代码块执行结束时，它们会被销毁。&lt;/</description>
         
       
       
@@ -731,7 +750,11 @@
       
         
         
-      <description>&lt;h1 id=&quot;控制语句关键字&quot;&gt;&lt;a href=&quot;#控制语句关键字&quot; class=&quot;headerlink&quot; title=&quot;控制语句关键字&quot;&gt;&lt;/a&gt;控制语句关键字&lt;/h1&gt;&lt;p&gt;下面是关于循环语句和条件语句的详细解释，包括特性、用法以及示例代码。我将注释来解释每个示例的执行流程</description>
+      <description>&lt;h1&gt;控制语句关键字&lt;/h1&gt;
+&lt;p&gt;下面是关于循环语句和条件语句的详细解释，包括特性、用法以及示例代码。我将注释来解释每个示例的执行流程，以及这些语句通常在哪些方面使用。&lt;/p&gt;
+&lt;h2 id=&quot;循环语句：&quot;&gt;循环语句：&lt;/h2&gt;
+&lt;h4 id=&quot;for&quot;&gt;for&lt;/h4&gt;
+</description>
         
       
       
@@ -757,8 +780,11 @@
       
         
         
-      <description>&lt;h1 id=&quot;数据类型关键字&quot;&gt;&lt;a href=&quot;#数据类型关键字&quot; class=&quot;headerlink&quot; title=&quot;数据类型关键字&quot;&gt;&lt;/a&gt;数据类型关键字&lt;/h1&gt;&lt;p&gt;以下是对每个C语言数据类型关键字的详细解释，包括其包括特性、用法以及可能的范围和精度限制。&lt;/p&gt;
-</description>
+      <description>&lt;h1&gt;数据类型关键字&lt;/h1&gt;
+&lt;p&gt;以下是对每个C语言数据类型关键字的详细解释，包括其包括特性、用法以及可能的范围和精度限制。&lt;/p&gt;
+&lt;h3 id=&quot;char&quot;&gt;char&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;特性：&lt;code&gt;char&lt;/code&gt;（字符型）用于存储单个字符，通常占</description>
         
       
       
@@ -785,10 +811,10 @@
         
         
       <description>&lt;blockquote&gt;
-&lt;p&gt; 本文章面向初学者问题：对C语言中的相应字符和单词用法不理解&lt;/p&gt;
+&lt;p&gt;本文章面向初学者问题：对C语言中的相应字符和单词用法不理解&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;初学者第一次接触到的程序大都是打印hello world&lt;/p&gt;
-&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;t</description>
+&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr</description>
         
       
       
@@ -897,7 +923,9 @@
       
         
         
-      <description>&lt;h1 id=&quot;C-easy库&quot;&gt;&lt;a href=&quot;#C-easy库&quot; class=&quot;headerlink&quot; title=&quot;C++easy库&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://easyx.cn/&quot;&gt;C++easy库&lt;/a&gt;&lt;/h1&gt;&lt;h2 id=&quot;加载动画&quot;&gt;&lt;a hr</description>
+      <description>&lt;h1&gt;&lt;a href=&quot;https://easyx.cn/&quot;&gt;C++easy库&lt;/a&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;加载动画&quot;&gt;加载动画&lt;/h2&gt;
+&lt;p&gt;easyx库本身并没有给出gif的加载函数，所以我们需要通过另一种方式实现gif的“&lt;strong&gt;播放&lt;/strong&gt;”&lt;</description>
         
       
       
@@ -921,7 +949,10 @@
       
         
         
-      <description>&lt;h1 id=&quot;FZ3A&quot;&gt;&lt;a href=&quot;#FZ3A&quot; class=&quot;headerlink&quot; title=&quot;FZ3A&quot;&gt;&lt;/a&gt;FZ3A&lt;/h1&gt;&lt;p&gt;Q：在程序make阶段，出现了串口库库文件缺失导致的函数定义未被实现的报错：&lt;br&gt;&lt;img src=&quot;/img/page/</description>
+      <description>&lt;h1&gt;FZ3A&lt;/h1&gt;
+&lt;p&gt;Q：在程序make阶段，出现了串口库库文件缺失导致的函数定义未被实现的报错：&lt;br&gt;
+&lt;img src=&quot;/img/page/%E7%99%BE%E5%BA%A6Paddle/SerialPortMISS.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;</description>
         
       
       
@@ -949,9 +980,9 @@
         
       <description>&lt;blockquote&gt;
 &lt;p&gt;你需要注意的是：&lt;/p&gt;
-&lt;p&gt;​    &lt;strong&gt;此文章仅为ChatGpt的回答，是本人用于理解paddle相应模块而CV过来的，并不一定具有实际效益&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;​	&lt;strong&gt;此文章仅为ChatGpt的回答，是本人用于理解paddle相应模块而CV过来的，并不一定具有实际效益&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&quot;一种可行的Pred</description>
+&lt;h1&gt;&lt;a href=&quot;http://</description>
         
       
       
@@ -981,7 +1012,8 @@
 &lt;p&gt;&lt;strong&gt;此文章以python的搭建为例&lt;/strong&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;hr&gt;
-&lt;h1 id=&quot;一、安装Anaconda&quot;&gt;&lt;a href=&quot;#一、安装Anaconda&quot; class=&quot;headerlink&quot; tit</description>
+&lt;h1&gt;一、安装Anaconda&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.anaconda.com/&quot;&gt;https:/</description>
         
       
       
@@ -1036,7 +1068,14 @@
       
         
         
-      <description>&lt;h1 id=&quot;GMD09601-0-96OLED显示屏&quot;&gt;&lt;a href=&quot;#GMD09601-0-96OLED显示屏&quot; class=&quot;headerlink&quot; title=&quot;GMD09601-0.96OLED显示屏&quot;&gt;&lt;/a&gt;GMD09601-0.96OLED显示屏&lt;/h1&gt;&lt;</description>
+      <description>&lt;h1&gt;GMD09601-0.96OLED显示屏&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;驱动芯片：SSD1306&lt;/p&gt;
+&lt;p&gt;支持接口：SPI/IIC&lt;/p&gt;
+&lt;p&gt;分辨率：128*64&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;接口定义&quot;&gt;接口定义&lt;/h2&gt;
+&lt;</description>
         
       
       
@@ -1058,7 +1097,8 @@
       
         
         
-      <description>&lt;h2 id=&quot;题目描述&quot;&gt;&lt;a href=&quot;#题目描述&quot; class=&quot;headerlink&quot; title=&quot;题目描述&quot;&gt;&lt;/a&gt;题目描述&lt;/h2&gt;&lt;p&gt;给你 n 个城市，编号为从 1 到 n 。同时给你一个大小为 n-1 的数组 edges ，其中 edges[i] = [u</description>
+      <description>&lt;h2 id=&quot;题目描述&quot;&gt;题目描述&lt;/h2&gt;
+&lt;p&gt;给你 n 个城市，编号为从 1 到 n 。同时给你一个大小为 n-1 的数组 edges ，其中 edges[i] = [ui, vi] 表示城市 ui 和 vi 之间有一条双向边。题目保证任意城市之间只有唯一的一条路径。换句</description>
         
       
       
@@ -1086,9 +1126,12 @@
       
         
         
-      <description>&lt;h2 id=&quot;函数递归&quot;&gt;&lt;a href=&quot;#函数递归&quot; class=&quot;headerlink&quot; title=&quot;函数递归&quot;&gt;&lt;/a&gt;函数递归&lt;/h2&gt;&lt;blockquote&gt;
+      <description>&lt;h2 id=&quot;函数递归&quot;&gt;函数递归&lt;/h2&gt;
+&lt;blockquote&gt;
 &lt;p&gt;函数递归，简单的理解就是，自己调用自己，直到遇到边界条件，停止递归&lt;/p&gt;
-&lt;/blockquot</description>
+&lt;/blockquote&gt;
+&lt;p&gt;比如我们想实现一个阶乘函数&lt;/p&gt;
+&lt;figure class=&quot;highlight c+</description>
         
       
       
@@ -1110,7 +1153,8 @@
       
         
         
-      <description>&lt;h1 id=&quot;阵列按键&quot;&gt;&lt;a href=&quot;#阵列按键&quot; class=&quot;headerlink&quot; title=&quot;阵列按键&quot;&gt;&lt;/a&gt;阵列按键&lt;/h1&gt;&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;</description>
+      <description>&lt;h1&gt;阵列按键&lt;/h1&gt;
+&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br</description>
         
       
       
@@ -1132,7 +1176,9 @@
       
         
         
-      <description>&lt;h1 id=&quot;对于WCH-link的接线&quot;&gt;&lt;a href=&quot;#对于WCH-link的接线&quot; class=&quot;headerlink&quot; title=&quot;对于WCH-link的接线&quot;&gt;&lt;/a&gt;对于WCH-link的接线&lt;/h1&gt;&lt;h2 id=&quot;F103&quot;&gt;&lt;a href=&quot;#F103&quot;</description>
+      <description>&lt;h1&gt;对于WCH-link的接线&lt;/h1&gt;
+&lt;h2 id=&quot;F103&quot;&gt;F103&lt;/h2&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/</description>
         
       
       
@@ -1157,14 +1203,15 @@
       <description>&lt;blockquote&gt;
 &lt;p&gt;最短的求解一般会遇到多种情况&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;有向无环图&lt;ul&gt;
+&lt;li&gt;有向无环图
+&lt;ul&gt;
 &lt;li&gt;权值为正&lt;/li&gt;
 &lt;li&gt;权值&lt;strong&gt;有&lt;/strong&gt;负&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;有向有环图&lt;ul&gt;
-&lt;li&gt;权值为正&lt;/li&gt;
-&lt;</description>
+&lt;li&gt;有向有环图
+&lt;ul&gt;
+&lt;li&gt;权值为正&lt;/li&gt;</description>
         
       
       
@@ -1188,7 +1235,9 @@
       
         
         
-      <description>&lt;h1 id=&quot;什么是拓扑排序？&quot;&gt;&lt;a href=&quot;#什么是拓扑排序？&quot; class=&quot;headerlink&quot; title=&quot;什么是拓扑排序？&quot;&gt;&lt;/a&gt;什么是拓扑排序？&lt;/h1&gt;&lt;p&gt;在图论中，&lt;strong&gt;拓扑排序&lt;/strong&gt;（Topological Sorting</description>
+      <description>&lt;h1&gt;什么是拓扑排序？&lt;/h1&gt;
+&lt;p&gt;在图论中，&lt;strong&gt;拓扑排序&lt;/strong&gt;（Topological Sorting）是一个有向无环图（DAG, Directed Acyclic Graph）的所有顶点的线性序列。且该序列必须满足下面两个条件：&lt;/p&gt;
+&lt;p&gt;每</description>
         
       
       
@@ -1212,7 +1261,8 @@
       
         
         
-      <description>&lt;h1 id=&quot;邻接矩阵实现&quot;&gt;&lt;a href=&quot;#邻接矩阵实现&quot; class=&quot;headerlink&quot; title=&quot;邻接矩阵实现&quot;&gt;&lt;/a&gt;邻接矩阵实现&lt;/h1&gt;&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutte</description>
+      <description>&lt;h1&gt;邻接矩阵实现&lt;/h1&gt;
+&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;</description>
         
       
       
@@ -1240,7 +1290,10 @@
 &lt;blockquote&gt;
 &lt;p&gt;CAD是先设置相关样式，后绘制&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1 id=&quot;命令&quot;&gt;&lt;a href=&quot;#命令&quot; class=&quot;headerlink&quot; title=&quot;命令&quot;&gt;&lt;/a&gt;命令&lt;/h1&gt;&lt;h2 id=&quot;ME</description>
+&lt;h1&gt;命令&lt;/h1&gt;
+&lt;h2 id=&quot;MENUBAR-菜单模式&quot;&gt;MENUBAR(菜单模式)&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;0 非标准菜单模</description>
         
       
       
@@ -1263,9 +1316,11 @@
         
         
       <description>&lt;p&gt;[TOC]&lt;/p&gt;
-&lt;h1 id=&quot;性质&quot;&gt;&lt;a href=&quot;#性质&quot; class=&quot;headerlink&quot; title=&quot;性质&quot;&gt;&lt;/a&gt;性质&lt;/h1&gt;&lt;p&gt;二叉搜索树本质上还是一棵二叉树，其满足以下性质（习惯性定义为）：&lt;/p&gt;
+&lt;h1&gt;性质&lt;/h1&gt;
+&lt;p&gt;二叉搜索树本质上还是一棵二叉树，其满足以下性质（习惯性定义为）：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;非空&lt;strong&gt;左</description>
+&lt;li&gt;非空&lt;strong&gt;左子树&lt;/strong&gt;的所有&lt;strong&gt;键值小于其根结点&lt;/strong&gt;的键值&lt;/li&gt;
+&lt;li&gt;非空&lt;</description>
         
       
       
@@ -1295,7 +1350,9 @@
       
         
         
-      <description>&lt;h1 id=&quot;前序中序转后序&quot;&gt;&lt;a href=&quot;#前序中序转后序&quot; class=&quot;headerlink&quot; title=&quot;前序中序转后序&quot;&gt;&lt;/a&gt;前序中序转后序&lt;/h1&gt;&lt;h2 id=&quot;输入-1&quot;&gt;&lt;a href=&quot;#输入-1&quot; class=&quot;headerlink&quot; titl</description>
+      <description>&lt;h1&gt;前序中序转后序&lt;/h1&gt;
+&lt;h2 id=&quot;输入-1&quot;&gt;输入#1&lt;/h2&gt;
+&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;</description>
         
       
       
@@ -1314,35 +1371,6 @@
     </item>
     
     <item>
-      <title>二叉树的遍历</title>
-      <link>https://www.drluo.top/posts/63105</link>
-      <guid>https://www.drluo.top/posts/63105</guid>
-      <pubDate>Tue, 14 Feb 2023 11:57:32 GMT</pubDate>
-      
-        
-        
-      <description>&lt;h1 id=&quot;先序遍历&quot;&gt;&lt;a href=&quot;#先序遍历&quot; class=&quot;headerlink&quot; title=&quot;先序遍历&quot;&gt;&lt;/a&gt;先序遍历&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;根-&amp;gt;左子树-&amp;gt;右子树&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;figure class</description>
-        
-      
-      
-      
-      
-      <category domain="https://www.drluo.top/categories/C/">C++</category>
-      
-      
-      <category domain="https://www.drluo.top/tags/%E6%A0%91/">树</category>
-      
-      <category domain="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</category>
-      
-      
-      <comments>https://www.drluo.top/posts/63105#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
       <title>二叉树的同构</title>
       <link>https://www.drluo.top/posts/50176</link>
       <guid>https://www.drluo.top/posts/50176</guid>
@@ -1350,7 +1378,12 @@
       
         
         
-      <description>&lt;h1 id=&quot;关于二叉树的同构&quot;&gt;&lt;a href=&quot;#关于二叉树的同构&quot; class=&quot;headerlink&quot; title=&quot;关于二叉树的同构&quot;&gt;&lt;/a&gt;关于二叉树的同构&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;/img/page/tree/Isomorphism.webp&quot; alt</description>
+      <description>&lt;h1&gt;关于二叉树的同构&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&quot;/img/page/tree/Isomorphism.webp&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;一种可行的方法(基于数组的二叉树)&lt;/strong&gt;&lt;/p&gt;
+&lt;/bl</description>
         
       
       
@@ -1365,6 +1398,36 @@
       
       
       <comments>https://www.drluo.top/posts/50176#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>二叉树的遍历</title>
+      <link>https://www.drluo.top/posts/63105</link>
+      <guid>https://www.drluo.top/posts/63105</guid>
+      <pubDate>Tue, 14 Feb 2023 11:57:32 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h1&gt;先序遍历&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;根-&amp;gt;左子树-&amp;gt;右子树&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span cla</description>
+        
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/categories/C/">C++</category>
+      
+      
+      <category domain="https://www.drluo.top/tags/%E6%A0%91/">树</category>
+      
+      <category domain="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</category>
+      
+      
+      <comments>https://www.drluo.top/posts/63105#disqus_thread</comments>
       
     </item>
     
