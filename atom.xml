@@ -6,7 +6,7 @@
   <link href="https://www.drluo.top/atom.xml" rel="self"/>
   
   <link href="https://www.drluo.top/"/>
-  <updated>2025-08-28T08:29:18.853Z</updated>
+  <updated>2025-08-28T09:41:46.398Z</updated>
   <id>https://www.drluo.top/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>stm32f4xx-ad9854并行驱动</title>
+    <link href="https://www.drluo.top/posts/48532"/>
+    <id>https://www.drluo.top/posts/48532</id>
+    <published>2025-08-28T09:37:00.000Z</published>
+    <updated>2025-08-28T09:41:46.398Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;通过寄存器配置IO口并行配置a9854的信号输出频率&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;AD9854_SetSine(输出频率, 输出幅度);&lt;/p&gt;
+&lt;p&gt;调用格式：&lt;/p&gt;
+&lt;figure class=&quot;highlight c&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td cl</summary>
+      
+    
+    
+    
+    
+    <category term="C语言" scheme="https://www.drluo.top/tags/C%E8%AF%AD%E8%A8%80/"/>
+    
+    <category term="stm32" scheme="https://www.drluo.top/tags/stm32/"/>
+    
+  </entry>
   
   <entry>
     <title>主动式网站状态监测实现及其应用</title>
@@ -489,11 +515,11 @@ Real Time Simul</summary>
     <category term="我" scheme="https://www.drluo.top/categories/%E6%88%91/"/>
     
     
-    <category term="Python" scheme="https://www.drluo.top/tags/Python/"/>
-    
     <category term="C语言" scheme="https://www.drluo.top/tags/C%E8%AF%AD%E8%A8%80/"/>
     
     <category term="C++" scheme="https://www.drluo.top/tags/C/"/>
+    
+    <category term="Python" scheme="https://www.drluo.top/tags/Python/"/>
     
     <category term="Java" scheme="https://www.drluo.top/tags/Java/"/>
     
@@ -1259,34 +1285,6 @@ Real Time Simul</summary>
     <summary type="html">&lt;h1&gt;前序中序转后序&lt;/h1&gt;
 &lt;h2 id=&quot;输入-1&quot;&gt;输入#1&lt;/h2&gt;
 &lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;</summary>
-      
-    
-    
-    
-    <category term="C++" scheme="https://www.drluo.top/categories/C/"/>
-    
-    
-    <category term="树" scheme="https://www.drluo.top/tags/%E6%A0%91/"/>
-    
-    <category term="二叉树" scheme="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>二叉树的遍历</title>
-    <link href="https://www.drluo.top/posts/63105"/>
-    <id>https://www.drluo.top/posts/63105</id>
-    <published>2023-02-14T11:57:32.000Z</published>
-    <updated>2023-10-09T12:06:33.898Z</updated>
-    
-    
-      
-      
-    <summary type="html">&lt;h1&gt;先序遍历&lt;/h1&gt;
-&lt;blockquote&gt;
-&lt;p&gt;根-&amp;gt;左子树-&amp;gt;右子树&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span cla</summary>
       
     
     
