@@ -133,12 +133,20 @@ document.addEventListener('DOMContentLoaded', function () {
     let startTime = 0
     let lastDrawCount = 0
     let lastProgress = 0
+    let drawOrder = []
     let canvasWidth = 0
     let canvasHeight = 0
     let destroyed = false
     let completed = false
     let mode = 'once'
-    const duration = 3000
+    const getDuration = () => {
+      const config = GLOBAL_CONFIG && GLOBAL_CONFIG.lineAnimation ? GLOBAL_CONFIG.lineAnimation : {}
+      const modeValue = config.mode || 'sequence'
+      const durationValue = modeValue === 'random'
+        ? Number(config.random_duration || config.duration || 3000)
+        : Number(config.duration || 3000)
+      return Number.isFinite(durationValue) && durationValue > 0 ? durationValue : 3000
+    }
     const pointRadius = 0.5
     const pointSprite = createPointSprite(pointRadius)
     const spriteHalfSize = pointSprite ? pointSprite.width / 2 : 0
@@ -209,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const rangeY = Math.max(1, maxY - minY)
       const scale = Math.min((width - padding * 2) / rangeX, (height - padding * 2) / rangeY)
       const offsetX = (width - rangeX * scale) / 2 - minX * scale
-      const offsetY = (height - rangeY * scale) / 2 - minY * scale + 60
+      const offsetY = (height - rangeY * scale) / 2 - minY * scale
 
       const mapped = list.map(point => ({
         x: point.x * scale + offsetX,
@@ -235,6 +243,12 @@ document.addEventListener('DOMContentLoaded', function () {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
       mappedPoints = mapPoints(points, canvasWidth, canvasHeight)
+      const modeValue = GLOBAL_CONFIG && GLOBAL_CONFIG.lineAnimation ? GLOBAL_CONFIG.lineAnimation.mode : 'sequence'
+      if (modeValue === 'random') {
+        drawOrder = buildRandomOrder(mappedPoints.length)
+      } else {
+        drawOrder = Array.from({ length: mappedPoints.length }, (_, index) => index)
+      }
       startTime = 0
       lastDrawCount = 0
       lastProgress = 0
@@ -247,18 +261,40 @@ document.addEventListener('DOMContentLoaded', function () {
     /**
      * 繪製指定區間點集
      */
+    /**
+     * 產生隨機順序索引
+     */
+    const buildRandomOrder = count => {
+      const order = Array.from({ length: count }, (_, index) => index)
+      for (let i = count - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        const temp = order[i]
+        order[i] = order[j]
+        order[j] = temp
+      }
+      return order
+    }
+
+    /**
+     * 繪製指定區間點集
+     */
+    const getPointByOrder = index => {
+      const orderIndex = drawOrder[index]
+      return mappedPoints[orderIndex]
+    }
+
     const drawPointsRange = (fromIndex, toIndex) => {
       if (fromIndex >= toIndex) return
       if (pointSprite) {
         for (let i = fromIndex; i < toIndex; i++) {
-          const point = mappedPoints[i]
+          const point = getPointByOrder(i)
           ctx.drawImage(pointSprite, point.x - spriteHalfSize, point.y - spriteHalfSize)
         }
       } else {
         ctx.fillStyle = 'rgba(255, 255, 255, 0.85)'
         ctx.beginPath()
         for (let i = fromIndex; i < toIndex; i++) {
-          const point = mappedPoints[i]
+          const point = getPointByOrder(i)
           ctx.moveTo(point.x + pointRadius, point.y)
           ctx.arc(point.x, point.y, pointRadius, 0, Math.PI * 2)
         }
@@ -271,6 +307,9 @@ document.addEventListener('DOMContentLoaded', function () {
      */
     const renderFull = () => {
       if (!mappedPoints.length) return
+      if (!drawOrder.length || drawOrder.length !== mappedPoints.length) {
+        drawOrder = Array.from({ length: mappedPoints.length }, (_, index) => index)
+      }
       ctx.clearRect(0, 0, canvasWidth, canvasHeight)
       drawPointsRange(0, mappedPoints.length)
       lastDrawCount = mappedPoints.length
@@ -289,6 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (!startTime) startTime = time
       const elapsed = time - startTime
+      const duration = getDuration()
       const progress = Math.min(1, elapsed / duration)
       const visibleCount = Math.max(1, Math.floor(progress * mappedPoints.length))
       drawPointsRange(lastDrawCount, visibleCount)
