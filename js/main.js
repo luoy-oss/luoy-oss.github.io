@@ -147,6 +147,59 @@ document.addEventListener('DOMContentLoaded', function () {
         : Number(config.duration || 3000)
       return Number.isFinite(durationValue) && durationValue > 0 ? durationValue : 3000
     }
+
+    /**
+     * 取得點集位置配置
+     */
+    const getPositionConfig = () => {
+      const config = GLOBAL_CONFIG && GLOBAL_CONFIG.lineAnimation ? GLOBAL_CONFIG.lineAnimation : {}
+      const modeValue = config.position_mode || 'center'
+      const ratio = config.offset_ratio || {}
+      const ratioX = Number(ratio.x)
+      const ratioY = Number(ratio.y)
+      const scaleValue = Number(config.scale)
+      return {
+        mode: modeValue,
+        offsetXRatio: normalizeRatio(ratioX),
+        offsetYRatio: normalizeRatio(ratioY),
+        scale: normalizeScale(scaleValue)
+      }
+    }
+
+    /**
+     * 正規化偏移占比
+     */
+    const normalizeRatio = value => {
+      if (!Number.isFinite(value)) return 0
+      return Math.max(-1, Math.min(1, value))
+    }
+
+    const normalizeScale = value => {
+      if (!Number.isFinite(value)) return 1
+      return Math.max(0.1, Math.min(2, value))
+    }
+
+    /**
+     * 取得位置錨點
+     */
+    const getPositionAnchor = modeValue => {
+      switch (modeValue) {
+        case 'left_top':
+          return { anchorX: 0, anchorY: 0 }
+        case 'left_bottom':
+          return { anchorX: 0, anchorY: 1 }
+        case 'right_top':
+          return { anchorX: 1, anchorY: 0 }
+        case 'right_bottom':
+          return { anchorX: 1, anchorY: 1 }
+        case 'middle_left':
+          return { anchorX: 0, anchorY: 0.5 }
+        case 'middle_right':
+          return { anchorX: 1, anchorY: 0.5 }
+        default:
+          return { anchorX: 0.5, anchorY: 0.5 }
+      }
+    }
     const pointRadius = 0.5
     const pointSprite = createPointSprite(pointRadius)
     const spriteHalfSize = pointSprite ? pointSprite.width / 2 : 0
@@ -215,13 +268,18 @@ document.addEventListener('DOMContentLoaded', function () {
       const { minX, minY, maxX, maxY } = getBounds(list)
       const rangeX = Math.max(1, maxX - minX)
       const rangeY = Math.max(1, maxY - minY)
-      const scale = Math.min((width - padding * 2) / rangeX, (height - padding * 2) / rangeY)
-      const offsetX = (width - rangeX * scale) / 2 - minX * scale
-      const offsetY = (height - rangeY * scale) / 2 - minY * scale
+      const fitScale = Math.min((width - padding * 2) / rangeX, (height - padding * 2) / rangeY)
+      const { mode, offsetXRatio, offsetYRatio, scale } = getPositionConfig()
+      const appliedScale = fitScale * scale
+      const { anchorX, anchorY } = getPositionAnchor(mode)
+      const availableX = Math.max(0, width - rangeX * appliedScale)
+      const availableY = Math.max(0, height - rangeY * appliedScale)
+      const offsetX = availableX * anchorX - minX * appliedScale + availableX * offsetXRatio
+      const offsetY = availableY * anchorY - minY * appliedScale + availableY * offsetYRatio
 
       const mapped = list.map(point => ({
-        x: point.x * scale + offsetX,
-        y: point.y * scale + offsetY
+        x: point.x * appliedScale + offsetX,
+        y: point.y * appliedScale + offsetY
       }))
 
       return mapped
