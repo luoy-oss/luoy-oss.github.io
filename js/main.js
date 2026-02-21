@@ -63,6 +63,318 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
+   * 首頁線條動畫
+   */
+  const initHomeLineAnimation = () => {
+    if (!GLOBAL_CONFIG_SITE.isHome) {
+      window.__homeLineAnimator && window.__homeLineAnimator.destroy()
+      window.__homeLineAnimator = null
+      return
+    }
+
+    const canvas = document.getElementById('line-canvas')
+    const header = document.getElementById('page-header')
+    if (!canvas || !header) return
+
+    window.__homeLineAnimator && window.__homeLineAnimator.destroy()
+    const animator = createHomeLineAnimator(canvas, header)
+    if (!animator) return
+    window.__homeLineAnimator = animator
+    let hasPlayed = false
+    let shouldForcePlay = false
+    try {
+      hasPlayed = window.sessionStorage && window.sessionStorage.getItem('homeLinePlayed') === '1'
+      const navEntry = window.performance && window.performance.getEntriesByType
+        ? window.performance.getEntriesByType('navigation')[0]
+        : null
+      const navType = navEntry && navEntry.type ? navEntry.type : ''
+      shouldForcePlay = navType === 'reload' || navType === 'navigate'
+    } catch (error) {
+      hasPlayed = false
+      shouldForcePlay = true
+    }
+
+    if (shouldForcePlay) {
+      animator.initOnce(() => {
+        try {
+          window.sessionStorage && window.sessionStorage.setItem('homeLinePlayed', '1')
+        } catch (error) {
+          // ignore
+        }
+      })
+    } else if (hasPlayed) {
+      animator.renderStatic()
+    } else {
+      animator.initOnce(() => {
+        try {
+          window.sessionStorage && window.sessionStorage.setItem('homeLinePlayed', '1')
+        } catch (error) {
+          // ignore
+        }
+      })
+    }
+  }
+
+  /**
+   * 創建首頁線條動畫控制器
+   */
+  const createHomeLineAnimator = (canvas, header) => {
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return null
+
+    const baseRoot = GLOBAL_CONFIG.root.endsWith('/') ? GLOBAL_CONFIG.root : `${GLOBAL_CONFIG.root}/`
+    const dataUrl = `${baseRoot}line.json`
+    const maxPoints = 8000
+    let resizeObserver = null
+    let rafId = 0
+    let resizeHandler = null
+    let points = []
+    let mappedPoints = []
+    let startTime = 0
+    let lastDrawCount = 0
+    let lastProgress = 0
+    let canvasWidth = 0
+    let canvasHeight = 0
+    let destroyed = false
+    let completed = false
+    let mode = 'once'
+    const duration = 3000
+    const pointRadius = 0.5
+    const pointSprite = createPointSprite(pointRadius)
+    const spriteHalfSize = pointSprite ? pointSprite.width / 2 : 0
+
+    /**
+     * 建立點的離屏貼圖
+     */
+    function createPointSprite (radius) {
+      const size = Math.max(4, Math.ceil(radius * 6))
+      const sprite = document.createElement('canvas')
+      sprite.width = size
+      sprite.height = size
+      const spriteCtx = sprite.getContext('2d')
+      if (!spriteCtx) return null
+
+      const center = size / 2
+      const glowRadius = radius * 3
+      const gradient = spriteCtx.createRadialGradient(center, center, 0, center, center, glowRadius)
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 0.95)')
+      gradient.addColorStop(0.45, 'rgba(255, 255, 255, 0.7)')
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
+      spriteCtx.fillStyle = gradient
+      spriteCtx.beginPath()
+      spriteCtx.arc(center, center, glowRadius, 0, Math.PI * 2)
+      spriteCtx.fill()
+      return sprite
+    }
+
+    /**
+     * 下採樣點集
+     */
+    const downsample = list => {
+      if (!list || list.length <= maxPoints) return list || []
+      const step = Math.ceil(list.length / maxPoints)
+      return list.filter((_, index) => index % step === 0)
+    }
+
+    /**
+     * 計算點集邊界
+     */
+    const getBounds = list => {
+      let minX = Infinity
+      let minY = Infinity
+      let maxX = -Infinity
+      let maxY = -Infinity
+
+      list.forEach(item => {
+        minX = Math.min(minX, item.x)
+        minY = Math.min(minY, item.y)
+        maxX = Math.max(maxX, item.x)
+        maxY = Math.max(maxY, item.y)
+      })
+
+      return { minX, minY, maxX, maxY }
+    }
+
+    /**
+     * 映射點集到畫布坐標
+     */
+    const mapPoints = (list, width, height) => {
+      if (!list.length || width === 0 || height === 0) {
+        return []
+      }
+
+      const padding = Math.max(20, Math.min(width, height) * 0.06)
+      const { minX, minY, maxX, maxY } = getBounds(list)
+      const rangeX = Math.max(1, maxX - minX)
+      const rangeY = Math.max(1, maxY - minY)
+      const scale = Math.min((width - padding * 2) / rangeX, (height - padding * 2) / rangeY)
+      const offsetX = (width - rangeX * scale) / 2 - minX * scale
+      const offsetY = (height - rangeY * scale) / 2 - minY * scale + 60
+
+      const mapped = list.map(point => ({
+        x: point.x * scale + offsetX,
+        y: point.y * scale + offsetY
+      }))
+
+      return mapped
+    }
+
+    /**
+     * 重置畫布尺寸並重新映射點集
+     */
+    const resizeCanvas = () => {
+      canvasWidth = header.clientWidth
+      canvasHeight = header.clientHeight
+      if (!canvasWidth || !canvasHeight) return
+
+      const dpr = window.devicePixelRatio || 1
+      canvas.width = Math.round(canvasWidth * dpr)
+      canvas.height = Math.round(canvasHeight * dpr)
+      canvas.style.width = `${canvasWidth}px`
+      canvas.style.height = `${canvasHeight}px`
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+      mappedPoints = mapPoints(points, canvasWidth, canvasHeight)
+      startTime = 0
+      lastDrawCount = 0
+      lastProgress = 0
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+      if (mode === 'static' || completed) {
+        renderFull()
+      }
+    }
+
+    /**
+     * 繪製指定區間點集
+     */
+    const drawPointsRange = (fromIndex, toIndex) => {
+      if (fromIndex >= toIndex) return
+      if (pointSprite) {
+        for (let i = fromIndex; i < toIndex; i++) {
+          const point = mappedPoints[i]
+          ctx.drawImage(pointSprite, point.x - spriteHalfSize, point.y - spriteHalfSize)
+        }
+      } else {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)'
+        ctx.beginPath()
+        for (let i = fromIndex; i < toIndex; i++) {
+          const point = mappedPoints[i]
+          ctx.moveTo(point.x + pointRadius, point.y)
+          ctx.arc(point.x, point.y, pointRadius, 0, Math.PI * 2)
+        }
+        ctx.fill()
+      }
+    }
+
+    /**
+     * 靜態渲染全部點集
+     */
+    const renderFull = () => {
+      if (!mappedPoints.length) return
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+      drawPointsRange(0, mappedPoints.length)
+      lastDrawCount = mappedPoints.length
+      lastProgress = 1
+    }
+
+    /**
+     * 繪製當前動畫幀
+     */
+    const drawOnce = (time, onComplete) => {
+      if (destroyed) return
+      if (!mappedPoints.length) {
+        rafId = requestAnimationFrame(nextTime => drawOnce(nextTime, onComplete))
+        return
+      }
+
+      if (!startTime) startTime = time
+      const elapsed = time - startTime
+      const progress = Math.min(1, elapsed / duration)
+      const visibleCount = Math.max(1, Math.floor(progress * mappedPoints.length))
+      drawPointsRange(lastDrawCount, visibleCount)
+
+      lastDrawCount = visibleCount
+      lastProgress = progress
+      if (progress < 1) {
+        rafId = requestAnimationFrame(nextTime => drawOnce(nextTime, onComplete))
+      } else {
+        completed = true
+        if (typeof onComplete === 'function') onComplete()
+      }
+    }
+
+    /**
+     * 加載點集數據
+     */
+    const loadData = async () => {
+      if (window.__homeLineData) return window.__homeLineData
+      const response = await fetch(dataUrl)
+      const data = await response.json()
+      window.__homeLineData = data
+      return data
+    }
+
+    /**
+     * 初始化動畫（只播放一次）
+     */
+    const initOnce = async onComplete => {
+      try {
+        const data = await loadData()
+        points = downsample(data)
+        completed = false
+        mode = 'once'
+        resizeCanvas()
+        if (window.ResizeObserver) {
+          resizeObserver = new ResizeObserver(resizeCanvas)
+          resizeObserver.observe(header)
+        } else {
+          resizeHandler = () => resizeCanvas()
+          window.addEventListener('resize', resizeHandler)
+        }
+        rafId = requestAnimationFrame(nextTime => drawOnce(nextTime, onComplete))
+      } catch (error) {
+        destroy()
+      }
+    }
+
+    /**
+     * 靜態渲染
+     */
+    const renderStatic = async () => {
+      try {
+        const data = await loadData()
+        points = downsample(data)
+        completed = true
+        mode = 'static'
+        resizeCanvas()
+        if (window.ResizeObserver) {
+          resizeObserver = new ResizeObserver(resizeCanvas)
+          resizeObserver.observe(header)
+        } else {
+          resizeHandler = () => resizeCanvas()
+          window.addEventListener('resize', resizeHandler)
+        }
+        renderFull()
+      } catch (error) {
+        destroy()
+      }
+    }
+
+    /**
+     * 銷毀動畫並清理資源
+     */
+    const destroy = () => {
+      destroyed = true
+      if (rafId) cancelAnimationFrame(rafId)
+      if (resizeObserver) resizeObserver.disconnect()
+      if (resizeHandler) window.removeEventListener('resize', resizeHandler)
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+    }
+
+    return { initOnce, renderStatic, destroy }
+  }
+
+  /**
    * 代碼
    * 只適用於Hexo默認的代碼渲染
    */
@@ -806,6 +1118,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     scrollFnToDo()
     GLOBAL_CONFIG_SITE.isHome && scrollDownInIndex()
+    initHomeLineAnimation()
     addHighlightTool()
     GLOBAL_CONFIG.isPhotoFigcaption && addPhotoFigcaption()
     scrollFn()
