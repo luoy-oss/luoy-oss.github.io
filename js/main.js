@@ -1188,14 +1188,6 @@ document.addEventListener('DOMContentLoaded', function () {
     })
   }
 
-  const runWhenIdle = (fn, timeout = 1200) => {
-    if (typeof requestIdleCallback === 'function') {
-      requestIdleCallback(fn, { timeout })
-      return
-    }
-    setTimeout(fn, 200)
-  }
-
   const unRefreshFn = function () {
     window.addEventListener('resize', () => {
       adjustMenu(false)
@@ -1205,46 +1197,39 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('menu-mask').addEventListener('click', e => { sidebarFn.close() })
 
     clickFnOfSubMenu()
-    runWhenIdle(() => {
-      GLOBAL_CONFIG.islazyload && lazyloadImg()
-      GLOBAL_CONFIG.copyright !== undefined && addCopyright()
-    })
+    GLOBAL_CONFIG.islazyload && lazyloadImg()
+    GLOBAL_CONFIG.copyright !== undefined && addCopyright()
   }
 
   window.refreshFn = function () {
     initAdjust()
 
     if (GLOBAL_CONFIG_SITE.isPost) {
-      runWhenIdle(() => {
-        GLOBAL_CONFIG.noticeOutdate !== undefined && addPostOutdateNotice()
-        GLOBAL_CONFIG.relativeDate.post && relativeDate(document.querySelectorAll('#post-meta time'))
-      })
+      GLOBAL_CONFIG.noticeOutdate !== undefined && addPostOutdateNotice()
+      GLOBAL_CONFIG.relativeDate.post && relativeDate(document.querySelectorAll('#post-meta time'))
     } else {
-      runWhenIdle(() => {
-        GLOBAL_CONFIG.relativeDate.homepage && relativeDate(document.querySelectorAll('#recent-posts time'))
-        GLOBAL_CONFIG.runtime && addRuntime()
-        addLastPushDate()
-        toggleCardCategory()
-      })
+      GLOBAL_CONFIG.relativeDate.homepage && relativeDate(document.querySelectorAll('#recent-posts time'))
+      GLOBAL_CONFIG.runtime && addRuntime()
+      addLastPushDate()
+      toggleCardCategory()
     }
 
     scrollFnToDo()
     GLOBAL_CONFIG_SITE.isHome && scrollDownInIndex()
+    initHomeLineAnimation()
+    addHighlightTool()
+    GLOBAL_CONFIG.isPhotoFigcaption && addPhotoFigcaption()
     scrollFn()
 
-    runWhenIdle(() => {
-      initHomeLineAnimation()
-      addHighlightTool()
-      GLOBAL_CONFIG.isPhotoFigcaption && addPhotoFigcaption()
-      const $jgEle = document.querySelectorAll('#article-container .fj-gallery')
-      $jgEle.length && runJustifiedGallery($jgEle)
-      runLightbox()
-      addTableWrap()
-      clickFnOfTagHide()
-      tabsFn.clickFnOfTabs()
-      tabsFn.backToTop()
-      switchComments()
-    })
+    const $jgEle = document.querySelectorAll('#article-container .fj-gallery')
+    $jgEle.length && runJustifiedGallery($jgEle)
+
+    runLightbox()
+    addTableWrap()
+    clickFnOfTagHide()
+    tabsFn.clickFnOfTabs()
+    tabsFn.backToTop()
+    switchComments()
     document.getElementById('toggle-menu').addEventListener('click', () => { sidebarFn.open() })
   }
 
