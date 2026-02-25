@@ -102,6 +102,19 @@ const IssuesAPI = {
     }
     return groups;
   },
+  /**
+   * 随机打乱数组元素顺序
+   */
+  shuffleArray(arr) {
+    const result = arr.slice();
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = result[i];
+      result[i] = result[j];
+      result[j] = temp;
+    }
+    return result;
+  },
   getIssuesAPIForSites(cfg) {
     const el = $(cfg.el)[0];
     $(el).append('<div class="loading"><i class="fa fa-cog fa-2x fa-spin"></i><p>正在加载</p></div>');
@@ -119,8 +132,9 @@ const IssuesAPI = {
           }
           $(el).append('<div class="site-card-group ' + i + '"></div>');
           // layout items
-          for (j = 0; j < issues.length; j++) {
-            const issue = issues[j];
+          const shuffledIssues = IssuesAPI.shuffleArray(issues);
+          for (j = 0; j < shuffledIssues.length; j++) {
+            const issue = shuffledIssues[j];
             let imgTag = '';
             if (issue.screenshot && issue.screenshot.length > 0) {
               imgTag = '<div class="img"><img src="' + issue.screenshot + '" onerror="javascript:this.src=\'https://image.thum.io/get/width/1024/crop/768/' + issue.url + '\';"/></div>';
