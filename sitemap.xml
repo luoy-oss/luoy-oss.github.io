@@ -776,13 +776,6 @@
 
   
   <url>
-    <loc>https://www.drluo.top/tags/STL/</loc>
-    <lastmod>2026-02-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.drluo.top/tags/PyTorch/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
@@ -798,6 +791,13 @@
   
   <url>
     <loc>https://www.drluo.top/tags/NLP/</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.drluo.top/tags/STL/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -895,6 +895,27 @@
   </url>
   
   <url>
+    <loc>https://www.drluo.top/tags/luo9/</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.drluo.top/tags/luo9-sdk/</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.drluo.top/tags/stm32/</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.drluo.top/tags/msp/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
@@ -903,13 +924,6 @@
   
   <url>
     <loc>https://www.drluo.top/tags/TI/</loc>
-    <lastmod>2026-02-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.drluo.top/tags/stm32/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -959,13 +973,6 @@
   
   <url>
     <loc>https://www.drluo.top/tags/hexo/</loc>
-    <lastmod>2026-02-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.drluo.top/tags/deltaforce/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1028,6 +1035,13 @@
   </url>
   
   <url>
+    <loc>https://www.drluo.top/tags/deltaforce/</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.drluo.top/tags/AIR%E5%AE%9E%E9%AA%8C%E5%AE%A4/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
@@ -1042,13 +1056,6 @@
   </url>
   
   <url>
-    <loc>https://www.drluo.top/tags/%E5%9B%BE/</loc>
-    <lastmod>2026-02-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.drluo.top/tags/Trae/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
@@ -1057,6 +1064,13 @@
   
   <url>
     <loc>https://www.drluo.top/tags/%E6%B3%A8%E5%86%8C%E8%A1%A8/</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.drluo.top/tags/%E5%9B%BE/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1098,21 +1112,7 @@
   </url>
   
   <url>
-    <loc>https://www.drluo.top/tags/luo9/</loc>
-    <lastmod>2026-02-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.drluo.top/tags/gitee/</loc>
-    <lastmod>2026-02-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.drluo.top/tags/luo9-sdk/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1142,14 +1142,7 @@
 
   
   <url>
-    <loc>https://www.drluo.top/categories/CAD/</loc>
-    <lastmod>2026-02-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.drluo.top/categories/C/</loc>
+    <loc>https://www.drluo.top/categories/C-C/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1163,14 +1156,14 @@
   </url>
   
   <url>
-    <loc>https://www.drluo.top/categories/C-C/</loc>
+    <loc>https://www.drluo.top/categories/C/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.drluo.top/categories/%E6%9D%82%E8%B0%88/</loc>
+    <loc>https://www.drluo.top/categories/CAD/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1184,14 +1177,14 @@
   </url>
   
   <url>
-    <loc>https://www.drluo.top/categories/STM32/</loc>
+    <loc>https://www.drluo.top/categories/%E6%9D%82%E8%B0%88/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.drluo.top/categories/KEIL/</loc>
+    <loc>https://www.drluo.top/categories/STM32/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1206,6 +1199,13 @@
   
   <url>
     <loc>https://www.drluo.top/categories/Paddle/</loc>
+    <lastmod>2026-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.drluo.top/categories/KEIL/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

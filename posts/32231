@@ -1,0 +1,102 @@
+﻿@echo off
+chcp 65001 >nul
+
+REM 初始化变量
+set "filename="
+set "date_time="
+
+REM 解析命令行参数
+if "%~1"=="" goto ask_filename
+if "%~1"=="--help" goto show_help
+if "%~1"=="-h" goto show_help
+if "%~1"=="--name" (
+    set "filename=%~2"
+    if "%~3"=="--time" (
+        set "date_time=%~4"
+    ) else if "%~3"=="" (
+        goto ask_datetime
+    ) else (
+        set "date_time=%~3"
+    )
+    goto process
+)
+if "%~1"=="--time" (
+    set "date_time=%~2"
+    if "%~3"=="--name" (
+        set "filename=%~4"
+    ) else if "%~3"=="" (
+        goto ask_filename
+    ) else (
+        set "filename=%~3"
+    )
+    goto process
+)
+
+REM 如果没有指定参数名，第一个参数当作文件名
+set "filename=%~1"
+if "%~2"=="" (
+    goto ask_datetime
+) else (
+    set "date_time=%~2"
+)
+goto process
+
+:ask_filename
+set /p filename="请输入要修改的文件名: "
+if "%filename%"=="" (
+    echo 文件名不能为空！
+    exit /b 1
+)
+
+:ask_datetime
+set /p date_time="请输入要修改的日期时间(格式: 2026-01-01 12:30:00): "
+if "%date_time%"=="" (
+    echo 日期时间不能为空！
+    exit /b 1
+)
+
+:process
+REM 检查文件是否存在
+if not exist "%filename%" (
+    echo 错误: 文件 "%filename%" 不存在！
+    exit /b 1
+)
+
+REM 显示要执行的操作
+echo.
+echo 正在修改文件: %filename%
+echo 目标时间: %date_time%
+echo.
+
+REM 执行PowerShell命令修改时间
+powershell -Command "& { $f = Get-Item '%filename%'; $f.CreationTime = '%date_time%'; $f.LastWriteTime = '%date_time%'; $f.LastAccessTime = '%date_time%'; Write-Host '修改成功!' -ForegroundColor Green; $f | Format-Table Name, CreationTime, LastWriteTime, LastAccessTime -AutoSize }"
+
+if errorlevel 1 (
+    echo.
+    echo 修改失败，请检查日期时间格式是否正确
+    echo 正确格式示例: 2026-01-01 12:30:00
+)
+
+pause
+goto :eof
+
+:show_help
+echo 文件时间修改工具
+echo =================
+echo.
+echo 使用方法:
+echo   %~nx0 [文件名] [日期时间]
+echo   %~nx0 --name "文件名" --time "日期时间"
+echo.
+echo 参数说明:
+echo   文件名     要修改的文件名（支持中文）
+echo   日期时间   目标时间，格式: YYYY-MM-DD HH:MM:SS
+echo.
+echo 示例:
+echo   %~nx0 "你好，2026.md" "2026-01-01 12:30:00"
+echo   %~nx0 --name "2026计划.docx" --time "2026-06-01 08:00:00"
+echo.
+echo 如果不提供参数，程序会交互式询问
+echo.
+pause
+goto :eof
