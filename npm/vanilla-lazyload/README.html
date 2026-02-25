@@ -1,22 +1,15 @@
 <p>LazyLoad is a lightweight (2.4 kB) and flexible script that <strong>speeds up your web application</strong> by deferring the loading of your below-the-fold images, animated SVGs, videos and iframes to <strong>when they will enter the viewport</strong>. It’s written in plain “vanilla” JavaScript, it leverages the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">IntersectionObserver</a> API, it supports <a href="https://alistapart.com/article/responsive-images-in-practice">responsive images</a>, it optimizes your website for slower connections, and can enable native lazy loading. See <a href="#-all-features-compared">all features</a> for more.</p>
-<p><a href="https://www.npmjs.com/package/vanilla-lazyload"><img src="https://img.shields.io/npm/v/vanilla-lazyload/latest.svg" alt="vanilla-lazyload (latest)"></a><br>
-<a href="https://www.npmjs.com/package/vanilla-lazyload"><img src="https://img.shields.io/npm/dy/vanilla-lazyload.svg" alt="vanilla-lazyload (downloads)"></a><br>
-<a href="https://www.jsdelivr.com/package/npm/vanilla-lazyload"><img src="https://data.jsdelivr.com/v1/package/npm/vanilla-lazyload/badge" alt=""></a><br>
-<a href="https://github.com/verlok/vanilla-lazyload/actions/workflows/ci.yml"><img src="https://github.com/verlok/vanilla-lazyload/actions/workflows/ci.yml/badge.svg" alt=""></a></p>
+<p><a href="https://www.npmjs.com/package/vanilla-lazyload"><img src="https://img.shields.io/npm/v/vanilla-lazyload/latest.svg" alt="vanilla-lazyload (latest)"></a><br><a href="https://www.npmjs.com/package/vanilla-lazyload"><img src="https://img.shields.io/npm/dy/vanilla-lazyload.svg" alt="vanilla-lazyload (downloads)"></a><br><a href="https://www.jsdelivr.com/package/npm/vanilla-lazyload"><img src="https://data.jsdelivr.com/v1/package/npm/vanilla-lazyload/badge" alt=""></a><br><a href="https://github.com/verlok/vanilla-lazyload/actions/workflows/ci.yml"><img src="https://github.com/verlok/vanilla-lazyload/actions/workflows/ci.yml/badge.svg" alt=""></a></p>
 <p>➡️ Jump to: <a href="#-getting-started---html">👨‍💻 Getting started - HTML</a> - <a href="#-getting-started---script">👩‍💻 Getting started - Script</a> - <a href="#-recipes">🥧 Recipes</a> - <a href="#-demos">📺 Demos</a> - <a href="#-tips--tricks">😋 Tips &amp; tricks</a> - <a href="#-api">🔌 API</a> - <a href="#-all-features-compared">😯 All features compared</a></p>
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="👨‍💻-Getting-started-HTML">👨‍💻 Getting started - HTML</h2>
-<p>In order to make your content be loaded by LazyLoad, you must use some <code>data-</code> attributes instead of the actual attributes. Examples below.</p>
-<h3 id="Lazy-image">Lazy image:</h3>
-<pre><code class="language-html">&lt;img alt=&quot;A lazy image&quot; class=&quot;lazy&quot; data-src=&quot;lazy.jpg&quot; /&gt;
+<h2 id="👨‍💻-Getting-started-HTML"><a href="#👨‍💻-Getting-started-HTML" class="headerlink" title="👨‍💻 Getting started - HTML"></a>👨‍💻 Getting started - HTML</h2><p>In order to make your content be loaded by LazyLoad, you must use some <code>data-</code> attributes instead of the actual attributes. Examples below.</p>
+<h3 id="Lazy-image"><a href="#Lazy-image" class="headerlink" title="Lazy image:"></a>Lazy image:</h3><pre><code class="lang-html">&lt;img alt=&quot;A lazy image&quot; class=&quot;lazy&quot; data-src=&quot;lazy.jpg&quot; /&gt;
 </code></pre>
-<h3 id="Lazy-image-with-low-quality-placeholder">Lazy image with low quality placeholder:</h3>
-<pre><code class="language-html">&lt;img alt=&quot;A lazy image&quot; class=&quot;lazy&quot; src=&quot;lazy-lowQuality.jpg&quot; data-src=&quot;lazy.jpg&quot; /&gt;
+<h3 id="Lazy-image-with-low-quality-placeholder"><a href="#Lazy-image-with-low-quality-placeholder" class="headerlink" title="Lazy image with low quality placeholder:"></a>Lazy image with low quality placeholder:</h3><pre><code class="lang-html">&lt;img alt=&quot;A lazy image&quot; class=&quot;lazy&quot; src=&quot;lazy-lowQuality.jpg&quot; data-src=&quot;lazy.jpg&quot; /&gt;
 </code></pre>
-<h3 id="Lazy-responsive-image-with-srcset-and-sizes">Lazy responsive image with <code>srcset</code> and <code>sizes</code>:</h3>
-<pre><code class="language-html">&lt;img
+<h3 id="Lazy-responsive-image-with-srcset-and-sizes"><a href="#Lazy-responsive-image-with-srcset-and-sizes" class="headerlink" title="Lazy responsive image with srcset and sizes:"></a>Lazy responsive image with <code>srcset</code> and <code>sizes</code>:</h3><pre><code class="lang-html">&lt;img
   alt=&quot;A lazy image&quot;
   class=&quot;lazy&quot;
   data-src=&quot;lazy.jpg&quot;
@@ -26,16 +19,14 @@
 /&gt;
 </code></pre>
 <p>To have a low quality placeholder, add the <code>src</code> attribute pointing to a very small version of the image. E.g. <code>src=&quot;lazy_10.jpg&quot;</code>.</p>
-<h3 id="Lazy-responsive-image-with-hi-dpi-support-using-the-picture-tag">Lazy responsive image with hi-dpi support using the <code>picture</code> tag:</h3>
-<pre><code class="language-html">&lt;picture&gt;
+<h3 id="Lazy-responsive-image-with-hi-dpi-support-using-the-picture-tag"><a href="#Lazy-responsive-image-with-hi-dpi-support-using-the-picture-tag" class="headerlink" title="Lazy responsive image with hi-dpi support using the picture tag:"></a>Lazy responsive image with hi-dpi support using the <code>picture</code> tag:</h3><pre><code class="lang-html">&lt;picture&gt;
   &lt;source media=&quot;(min-width: 1200px)&quot; data-srcset=&quot;lazy_1200.jpg 1x, lazy_2400.jpg 2x&quot; /&gt;
   &lt;source media=&quot;(min-width: 800px)&quot; data-srcset=&quot;lazy_800.jpg 1x, lazy_1600.jpg 2x&quot; /&gt;
   &lt;img alt=&quot;A lazy image&quot; class=&quot;lazy&quot; data-src=&quot;lazy.jpg&quot; /&gt;
 &lt;/picture&gt;
 </code></pre>
 <p>To have a low quality placeholder, add the <code>src</code> attribute pointing to a very small version of the image to the <code>img</code> tag. E.g. <code>src=&quot;lazy_10.jpg&quot;</code>.</p>
-<h3 id="Lazy-responsive-image-with-automatic-WebP-format-selection-using-the-picture-tag">Lazy responsive image with automatic <em>WebP</em> format selection, using the <code>picture</code> tag:</h3>
-<pre><code class="language-html">&lt;picture&gt;
+<h3 id="Lazy-responsive-image-with-automatic-WebP-format-selection-using-the-picture-tag"><a href="#Lazy-responsive-image-with-automatic-WebP-format-selection-using-the-picture-tag" class="headerlink" title="Lazy responsive image with automatic WebP format selection, using the picture tag:"></a>Lazy responsive image with automatic <em>WebP</em> format selection, using the <code>picture</code> tag:</h3><pre><code class="lang-html">&lt;picture&gt;
   &lt;source
     type=&quot;image/webp&quot;
     data-srcset=&quot;lazy_400.webp 400w, 
@@ -53,16 +44,12 @@
 &lt;/picture&gt;
 </code></pre>
 <p>To have a low quality placeholder, add the <code>src</code> attribute pointing to a very small version of the image to the <code>img</code> tag. E.g. <code>src=&quot;lazy_10.jpg&quot;</code>.</p>
-<h3 id="Lazy-background-image">Lazy background image</h3>
-<p>⚠ <strong>IMPORTANT NOTE</strong>: To display content images on your pages, always use the <code>img</code> tag. This would benefit the SEO and the accessibility of your website. To understand if your images are content or background, ask yourself: “would my website user like to see those images when printing out the page?”. If the answer is “yes”, then your images are content images and you should avoid using background images to display them.</p>
-<h4 id="Single-background-image">Single background image:</h4>
-<pre><code class="language-html">&lt;div class=&quot;lazy&quot; data-bg=&quot;lazy.jpg&quot;&gt;&lt;/div&gt;
+<h3 id="Lazy-background-image"><a href="#Lazy-background-image" class="headerlink" title="Lazy background image"></a>Lazy background image</h3><p>⚠ <strong>IMPORTANT NOTE</strong>: To display content images on your pages, always use the <code>img</code> tag. This would benefit the SEO and the accessibility of your website. To understand if your images are content or background, ask yourself: “would my website user like to see those images when printing out the page?”. If the answer is “yes”, then your images are content images and you should avoid using background images to display them.</p>
+<h4 id="Single-background-image"><a href="#Single-background-image" class="headerlink" title="Single background image:"></a>Single background image:</h4><pre><code class="lang-html">&lt;div class=&quot;lazy&quot; data-bg=&quot;lazy.jpg&quot;&gt;&lt;/div&gt;
 </code></pre>
-<h4 id="Single-background-with-HiDPI-screen-support">Single background, with HiDPI screen support:</h4>
-<pre><code class="language-html">&lt;div class=&quot;lazy&quot; data-bg=&quot;lazy.jpg&quot; data-bg-hidpi=&quot;lazy@2x.jpg&quot;&gt;&lt;/div&gt;
+<h4 id="Single-background-with-HiDPI-screen-support"><a href="#Single-background-with-HiDPI-screen-support" class="headerlink" title="Single background, with HiDPI screen support:"></a>Single background, with HiDPI screen support:</h4><pre><code class="lang-html">&lt;div class=&quot;lazy&quot; data-bg=&quot;lazy.jpg&quot; data-bg-hidpi=&quot;lazy@2x.jpg&quot;&gt;&lt;/div&gt;
 </code></pre>
-<h4 id="Multiple-backgrounds">Multiple backgrounds:</h4>
-<pre><code class="language-html">&lt;div
+<h4 id="Multiple-backgrounds"><a href="#Multiple-backgrounds" class="headerlink" title="Multiple backgrounds:"></a>Multiple backgrounds:</h4><pre><code class="lang-html">&lt;div
   class=&quot;lazy&quot;
   data-bg-multi=&quot;url(lazy-head.jpg), 
     url(lazy-body.jpg), 
@@ -71,8 +58,7 @@
   ...
 &lt;/div&gt;
 </code></pre>
-<h4 id="Multiple-backgrounds-HiDPI-screen-support">Multiple backgrounds, HiDPI screen support:</h4>
-<pre><code class="language-html">&lt;div
+<h4 id="Multiple-backgrounds-HiDPI-screen-support"><a href="#Multiple-backgrounds-HiDPI-screen-support" class="headerlink" title="Multiple backgrounds, HiDPI screen support:"></a>Multiple backgrounds, HiDPI screen support:</h4><pre><code class="lang-html">&lt;div
   class=&quot;lazy&quot;
   data-bg-multi=&quot;url(lazy-head.jpg),
     url(lazy-body.jpg),
@@ -84,67 +70,58 @@
   ...
 &lt;/div&gt;
 </code></pre>
-<h4 id="Backgrounds-with-image-set">Backgrounds with <code>image-set</code>:</h4>
-<pre><code class="language-html">&lt;div class=&quot;lazy&quot; data-bg-set=&quot;url('lazy@1x.jpg') 1x, url('lazy@2x.jpg') 2x&quot;&gt;...&lt;/div&gt;
+<h4 id="Backgrounds-with-image-set"><a href="#Backgrounds-with-image-set" class="headerlink" title="Backgrounds with image-set:"></a>Backgrounds with <code>image-set</code>:</h4><pre><code class="lang-html">&lt;div class=&quot;lazy&quot; data-bg-set=&quot;url(&#39;lazy@1x.jpg&#39;) 1x, url(&#39;lazy@2x.jpg&#39;) 2x&quot;&gt;...&lt;/div&gt;
 </code></pre>
-<h4 id="Multiple-backgrounds-with-image-set">Multiple backgrounds with <code>image-set</code>:</h4>
-<pre><code class="language-html">&lt;div
+<h4 id="Multiple-backgrounds-with-image-set"><a href="#Multiple-backgrounds-with-image-set" class="headerlink" title="Multiple backgrounds with image-set:"></a>Multiple backgrounds with <code>image-set</code>:</h4><pre><code class="lang-html">&lt;div
   class=&quot;lazy&quot;
   data-bg-set=&quot;
-    url('lazy-head@1x.jpg') 1x, url('lazy-head@2x.jpg') 2x | 
-    url('lazy-body@1x.jpg') 1x, url('lazy-body@2x.jpg') 2x
+    url(&#39;lazy-head@1x.jpg&#39;) 1x, url(&#39;lazy-head@2x.jpg&#39;) 2x | 
+    url(&#39;lazy-body@1x.jpg&#39;) 1x, url(&#39;lazy-body@2x.jpg&#39;) 2x
   &quot;
 &gt;
   ...
 &lt;/div&gt;
 </code></pre>
-<h3 id="Lazy-animated-SVG">Lazy animated SVG</h3>
-<pre><code class="language-html">&lt;object class=&quot;lazy&quot; type=&quot;image/svg+xml&quot; data-src=&quot;lazy.svg&quot;&gt;&lt;/object&gt;
+<h3 id="Lazy-animated-SVG"><a href="#Lazy-animated-SVG" class="headerlink" title="Lazy animated SVG"></a>Lazy animated SVG</h3><pre><code class="lang-html">&lt;object class=&quot;lazy&quot; type=&quot;image/svg+xml&quot; data-src=&quot;lazy.svg&quot;&gt;&lt;/object&gt;
 </code></pre>
-<h3 id="Lazy-video">Lazy video</h3>
-<pre><code class="language-html">&lt;video class=&quot;lazy&quot; controls width=&quot;620&quot; data-src=&quot;lazy.mp4&quot; data-poster=&quot;lazy.jpg&quot;&gt;
+<h3 id="Lazy-video"><a href="#Lazy-video" class="headerlink" title="Lazy video"></a>Lazy video</h3><pre><code class="lang-html">&lt;video class=&quot;lazy&quot; controls width=&quot;620&quot; data-src=&quot;lazy.mp4&quot; data-poster=&quot;lazy.jpg&quot;&gt;
   &lt;source type=&quot;video/mp4&quot; data-src=&quot;lazy.mp4&quot; /&gt;
   &lt;source type=&quot;video/ogg&quot; data-src=&quot;lazy.ogg&quot; /&gt;
   &lt;source type=&quot;video/avi&quot; data-src=&quot;lazy.avi&quot; /&gt;
 &lt;/video&gt;
 </code></pre>
 <p>Please note that the video poster can be lazily loaded too.</p>
-<h3 id="Lazy-iframe">Lazy iframe</h3>
-<pre><code class="language-html">&lt;iframe class=&quot;lazy&quot; data-src=&quot;lazyFrame.html&quot;&gt;&lt;/iframe&gt;
+<h3 id="Lazy-iframe"><a href="#Lazy-iframe" class="headerlink" title="Lazy iframe"></a>Lazy iframe</h3><pre><code class="lang-html">&lt;iframe class=&quot;lazy&quot; data-src=&quot;lazyFrame.html&quot;&gt;&lt;/iframe&gt;
 </code></pre>
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="👩‍💻-Getting-started-Script">👩‍💻 Getting started - Script</h2>
-<p>The latest, recommended version of LazyLoad is <strong>19.1.3</strong>.<br>
-Note that if you need to support Internet Explorer 11, you need to use version 17.9.0 or below.</p>
+<h2 id="👩‍💻-Getting-started-Script"><a href="#👩‍💻-Getting-started-Script" class="headerlink" title="👩‍💻 Getting started - Script"></a>👩‍💻 Getting started - Script</h2><p>The latest, recommended version of LazyLoad is <strong>19.1.3</strong>.<br>Note that if you need to support Internet Explorer 11, you need to use version 17.9.0 or below.</p>
 <p>Quickly understand how to upgrade from a previous version reading the <a href="UPGRADE.md">practical upgrade guide</a>.</p>
-<h3 id="The-simple-easiest-way">The simple, easiest way</h3>
-<p>The easiest way to use LazyLoad is to include the script from a CDN.</p>
-<pre><code class="language-html">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js&quot;&gt;&lt;/script&gt;
+<h3 id="The-simple-easiest-way"><a href="#The-simple-easiest-way" class="headerlink" title="The simple, easiest way"></a>The simple, easiest way</h3><p>The easiest way to use LazyLoad is to include the script from a CDN.</p>
+<pre><code class="lang-html">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 <p>OR, if you prefer to import it as an ES module:</p>
-<pre><code class="language-html">&lt;script type=&quot;module&quot;&gt;
-  import LazyLoad from 'https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.3/+esm'
+<pre><code class="lang-html">&lt;script type=&quot;module&quot;&gt;
+  import LazyLoad from &#39;https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.3/+esm&#39;
 &lt;/script&gt;
 </code></pre>
 <p>Then, in your javascript code:</p>
-<pre><code class="language-js">var lazyLoadInstance = new LazyLoad({
+<pre><code class="lang-js">var lazyLoadInstance = new LazyLoad({
   // Your custom settings go here
 });
 </code></pre>
-<p>To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, <strong>place the script tag right before the closing <code>&lt;/body&gt;</code> tag</strong>.</p>
+<p>To be sure that DOM for your lazy content is ready when you instantiate LazyLoad, <strong>place the script tag right before the closing <code>&lt;/body&gt;</code> tag</strong>. </p>
 <p>If more DOM arrives later, e.g. via an AJAX call, you’ll need to call <code>lazyLoadInstance.update();</code> to make LazyLoad check the DOM again.</p>
-<pre><code class="language-js">lazyLoadInstance.update();
+<pre><code class="lang-js">lazyLoadInstance.update();
 </code></pre>
-<h3 id="Using-an-async-script">Using an <code>async</code> script</h3>
-<p>If you prefer, it’s possible to include LazyLoad’s script using <code>async</code> script and initialize it as soon as it’s loaded.</p>
+<h3 id="Using-an-async-script"><a href="#Using-an-async-script" class="headerlink" title="Using an async script"></a>Using an <code>async</code> script</h3><p>If you prefer, it’s possible to include LazyLoad’s script using <code>async</code> script and initialize it as soon as it’s loaded.</p>
 <p>To do so, <strong>you must define the options before including the script</strong>. You can pass:</p>
 <ul>
 <li><code>{}</code> an object to get a single instance of LazyLoad</li>
 <li><code>[{}, {}]</code> an array of objects to get multiple instances of LazyLoad, each one with different options.</li>
 </ul>
-<pre><code class="language-html">&lt;script&gt;
+<pre><code class="lang-html">&lt;script&gt;
   // Set the options globally
   // to make LazyLoad self-initialize
   window.lazyLoadOptions = {
@@ -153,15 +130,14 @@ Note that if you need to support Internet Explorer 11, you need to use version 1
 &lt;/script&gt;
 </code></pre>
 <p>Then include the script.</p>
-<pre><code class="language-html">&lt;script
+<pre><code class="lang-html">&lt;script
   async
   src=&quot;https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js&quot;
 &gt;&lt;/script&gt;
 </code></pre>
 <p><strong>Possibly place the script tag right before the closing <code>&lt;/body&gt;</code> tag</strong>. If you can’t do that, LazyLoad could be executed before the browser has loaded all the DOM, and you’ll need to call its <code>update()</code> method to make it check the DOM again.</p>
-<h3 id="Using-an-async-script-getting-the-instance-reference">Using an <code>async</code> script + getting the instance reference</h3>
-<p>Same as above, but you must put the <code>addEventListener</code> code shown below before including the <code>async</code> script.</p>
-<pre><code class="language-html">&lt;script&gt;
+<h3 id="Using-an-async-script-getting-the-instance-reference"><a href="#Using-an-async-script-getting-the-instance-reference" class="headerlink" title="Using an async script + getting the instance reference"></a>Using an <code>async</code> script + getting the instance reference</h3><p>Same as above, but you must put the <code>addEventListener</code> code shown below before including the <code>async</code> script.</p>
+<pre><code class="lang-html">&lt;script&gt;
   // Set the options globally
   // to make LazyLoad self-initialize
   window.lazyLoadOptions = {
@@ -179,37 +155,29 @@ Note that if you need to support Internet Explorer 11, you need to use version 1
 &lt;/script&gt;
 </code></pre>
 <p>Then include the script.</p>
-<pre><code class="language-html">&lt;script
+<pre><code class="lang-html">&lt;script
   async
   src=&quot;https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js&quot;
 &gt;&lt;/script&gt;
 </code></pre>
 <p>Now you’ll be able to call its methods, like:</p>
-<pre><code class="language-js">lazyLoadInstance.update();
+<pre><code class="lang-js">lazyLoadInstance.update();
 </code></pre>
-<p><a href="https://verlok.github.io/vanilla-lazyload/demos/async.html">DEMO</a> - <a href="https://github.com/verlok/vanilla-lazyload/blob/master/demos/async.html">SOURCE</a> ← for a single LazyLoad instance</p>
-<p><a href="https://verlok.github.io/vanilla-lazyload/demos/async_multiple.html">DEMO</a> - <a href="https://github.com/verlok/vanilla-lazyload/blob/master/demos/async_multiple.html">SOURCE</a> ← for multiple LazyLoad instances</p>
-<h3 id="Local-install">Local install</h3>
-<p>If you prefer to install LazyLoad locally in your project, you can!</p>
-<h4 id="Using-npm">Using npm</h4>
-<pre><code>npm install vanilla-lazyload
-</code></pre>
-<h4 id="Using-bower">Using bower</h4>
-<pre><code>bower install vanilla-lazyload
-</code></pre>
-<h4 id="Manual-download">Manual download</h4>
-<p>Download one the latest <a href="https://github.com/verlok/vanilla-lazyload/releases/">releases</a>. The files you need are inside the <code>dist</code> folder. If you don’t know which one to pick, use <code>lazyload.min.js</code>, or read <a href="#bundles">about bundles</a>.</p>
-<h3 id="Local-usage">Local usage</h3>
-<p>Should you install LazyLoad locally, you can import it as ES module like the following:</p>
-<pre><code class="language-js">import LazyLoad from &quot;vanilla-lazyload&quot;;
+<p><a href="https://verlok.github.io/vanilla-lazyload/demos/async.html">DEMO</a> - <a href="https://github.com/verlok/vanilla-lazyload/blob/master/demos/async.html">SOURCE</a> &larr; for a single LazyLoad instance</p>
+<p><a href="https://verlok.github.io/vanilla-lazyload/demos/async_multiple.html">DEMO</a> - <a href="https://github.com/verlok/vanilla-lazyload/blob/master/demos/async_multiple.html">SOURCE</a> &larr; for multiple LazyLoad instances</p>
+<h3 id="Local-install"><a href="#Local-install" class="headerlink" title="Local install"></a>Local install</h3><p>If you prefer to install LazyLoad locally in your project, you can!</p>
+<h4 id="Using-npm"><a href="#Using-npm" class="headerlink" title="Using npm"></a>Using npm</h4><pre><code>npm install vanilla-lazyload
+</code></pre><h4 id="Using-bower"><a href="#Using-bower" class="headerlink" title="Using bower"></a>Using bower</h4><pre><code>bower install vanilla-lazyload
+</code></pre><h4 id="Manual-download"><a href="#Manual-download" class="headerlink" title="Manual download"></a>Manual download</h4><p>Download one the latest <a href="https://github.com/verlok/vanilla-lazyload/releases/">releases</a>. The files you need are inside the <code>dist</code> folder. If you don’t know which one to pick, use <code>lazyload.min.js</code>, or read <a href="#bundles">about bundles</a>.</p>
+<h3 id="Local-usage"><a href="#Local-usage" class="headerlink" title="Local usage"></a>Local usage</h3><p>Should you install LazyLoad locally, you can import it as ES module like the following:</p>
+<pre><code class="lang-js">import LazyLoad from &quot;vanilla-lazyload&quot;;
 </code></pre>
 <p>It’s also possible (but unadvised) to use the <code>require</code> commonJS syntax.</p>
 <p>More information about bundling LazyLoad with WebPack are available on <a href="https://github.com/verlok/lazyload-es2015-webpack-test">this specific repo</a>.</p>
-<h3 id="Usage-with-React">Usage with React</h3>
-<p>Take a look at this example of <a href="https://codesandbox.io/s/20306yk96p">usage of React with LazyLoad</a> on Sandbox.</p>
+<h3 id="Usage-with-React"><a href="#Usage-with-React" class="headerlink" title="Usage with React"></a>Usage with React</h3><p>Take a look at this example of <a href="https://codesandbox.io/s/20306yk96p">usage of React with LazyLoad</a> on Sandbox.</p>
 <p>This implementation takes the same props that you would normally pass to the <code>img</code> tag, but it renders a lazy image. Feel free to fork and improve it!</p>
-<h3 id="Bundles">Bundles</h3>
-<p>Inside the <code>dist</code> folder you will find different bundles.</p>
+<h3 id="Bundles"><a href="#Bundles" class="headerlink" title="Bundles"></a>Bundles</h3><p>Inside the <code>dist</code> folder you will find different bundles.</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -236,27 +204,25 @@ Note that if you need to support Internet Explorer 11, you need to use version 1
 </tr>
 </tbody>
 </table>
+</div>
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="🥧-Recipes">🥧 Recipes</h2>
-<p>This is the section where you can find <em>ready to copy &amp; paste</em> code for your convenience.</p>
-<h3 id="Hide-alt-text-and-empty-image">Hide alt text and empty image</h3>
-<blockquote>
+<h2 id="🥧-Recipes"><a href="#🥧-Recipes" class="headerlink" title="🥧 Recipes"></a>🥧 Recipes</h2><p>This is the section where you can find <em>ready to copy &amp; paste</em> code for your convenience.</p>
+<h3 id="Hide-alt-text-and-empty-image"><a href="#Hide-alt-text-and-empty-image" class="headerlink" title="Hide alt text and empty image"></a>Hide alt text and empty image</h3><blockquote>
 <p>💡 <strong>Use case</strong>: when your lazily loaded images show their <code>alt</code> text and the empty image icon before loading.</p>
 </blockquote>
 <p>CSS</p>
-<pre><code class="language-css">img:not([src]):not([srcset]) {
+<pre><code class="lang-css">img:not([src]):not([srcset]) {
   visibility: hidden;
 }
 </code></pre>
 <p>Just that, really.</p>
-<h3 id="Image-errors-handling">Image errors handling</h3>
-<blockquote>
+<h3 id="Image-errors-handling"><a href="#Image-errors-handling" class="headerlink" title="Image errors handling"></a>Image errors handling</h3><blockquote>
 <p>💡 <strong>Use case</strong>: when you want to prevent showing unexisting/broken images on your website.</p>
 </blockquote>
 <p>Javascript</p>
-<pre><code class="language-js">var myLazyLoad = new LazyLoad({
+<pre><code class="lang-js">var myLazyLoad = new LazyLoad({
   // Other options here...
   callback_error: (img) =&gt; {
     // Use the following line only if your images have the `srcset` attribute
@@ -267,57 +233,54 @@ Note that if you need to support Internet Explorer 11, you need to use version 1
 </code></pre>
 <p>NOTE: if the error was generated by a network down (navigator if temporarily offline), vanilla-lazyload will try and load the images again when the network becomes available again.</p>
 <p><a href="https://codepen.io/verlok/pen/mdwYbGq">EXAMPLE</a> - <a href="#-api">API</a></p>
-<h3 id="Dynamic-content">Dynamic content</h3>
-<blockquote>
+<h3 id="Dynamic-content"><a href="#Dynamic-content" class="headerlink" title="Dynamic content"></a>Dynamic content</h3><blockquote>
 <p>💡 <strong>Use case</strong>: when you want to lazily load images, but the number of images change in the scrolling area changes, maybe because they are added asynchronously.</p>
 </blockquote>
 <p>Javascript</p>
-<pre><code class="language-js">var myLazyLoad = new LazyLoad();
+<pre><code class="lang-js">var myLazyLoad = new LazyLoad();
 // After your content has changed...
 myLazyLoad.update();
 </code></pre>
 <p><a href="https://verlok.github.io/vanilla-lazyload/demos/dynamic_content.html">DEMO</a> - <a href="https://github.com/verlok/vanilla-lazyload/blob/master/demos/dynamic_content.html">SOURCE</a> - <a href="#-api">API</a></p>
-<h3 id="Mixed-native-and-JS-based-lazy-loading">Mixed native and JS-based lazy loading</h3>
-<blockquote>
+<h3 id="Mixed-native-and-JS-based-lazy-loading"><a href="#Mixed-native-and-JS-based-lazy-loading" class="headerlink" title="Mixed native and JS-based lazy loading"></a>Mixed native and JS-based lazy loading</h3><blockquote>
 <p>💡 <strong>Use case</strong>: you want to use the <code>use_native</code> option to delegate the loading of images, iframes and videos to the browsers engine where supported, but you also want to lazily load background images.</p>
 </blockquote>
 <p>HTML</p>
-<pre><code class="language-html">&lt;img class=&quot;lazy&quot; alt=&quot;A lazy image&quot; data-src=&quot;lazy.jpg&quot; /&gt;
+<pre><code class="lang-html">&lt;img class=&quot;lazy&quot; alt=&quot;A lazy image&quot; data-src=&quot;lazy.jpg&quot; /&gt;
 &lt;iframe class=&quot;lazy&quot; data-src=&quot;lazyFrame.html&quot;&gt;&lt;/iframe&gt;
 &lt;video class=&quot;lazy&quot; controls data-src=&quot;lazy.mp4&quot; data-poster=&quot;lazy.jpg&quot;&gt;...&lt;/video&gt;
 &lt;object class=&quot;lazy&quot; type=&quot;image/svg+xml&quot; data-src=&quot;lazy.svg&quot;&gt;&lt;/object&gt;
 &lt;div class=&quot;lazy&quot; data-bg=&quot;lazy.jpg&quot;&gt;&lt;/div&gt;
 </code></pre>
 <p>Javascript</p>
-<pre><code class="language-js">// Instance using native lazy loading
+<pre><code class="lang-js">// Instance using native lazy loading
 const lazyContent = new LazyLoad({
   use_native: true // &lt;-- there you go
 });
 
 // Instance without native lazy loading
 const lazyBackground = new LazyLoad({
-  // DON'T PASS use_native: true HERE
+  // DON&#39;T PASS use_native: true HERE
 });
 </code></pre>
 <p><a href="https://verlok.github.io/vanilla-lazyload/demos/native_lazyload_conditional.html">DEMO</a> - <a href="https://github.com/verlok/vanilla-lazyload/blob/master/demos/native_lazyload_conditional.html">SOURCE</a> - <a href="#-api">API</a></p>
-<h3 id="Scrolling-panel-s">Scrolling panel(s)</h3>
-<blockquote>
+<h3 id="Scrolling-panel-s"><a href="#Scrolling-panel-s" class="headerlink" title="Scrolling panel(s)"></a>Scrolling panel(s)</h3><blockquote>
 <p>💡 <strong>Use case</strong>: when your scrolling container is not the main browser window, but a scrolling container.</p>
 </blockquote>
 <p>HTML</p>
-<pre><code class="language-html">&lt;div class=&quot;scrollingPanel&quot;&gt;
+<pre><code class="lang-html">&lt;div class=&quot;scrollingPanel&quot;&gt;
   &lt;!-- Set of images --&gt;
 &lt;/div&gt;
 </code></pre>
 <p>Javascript</p>
-<pre><code class="language-js">var myLazyLoad = new LazyLoad({
+<pre><code class="lang-js">var myLazyLoad = new LazyLoad({
   container: document.querySelector(&quot;.scrollingPanel&quot;)
 });
 </code></pre>
 <p><a href="https://verlok.github.io/vanilla-lazyload/demos/container_single.html">DEMO</a> - <a href="https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_single.html">SOURCE</a> - <a href="#-api">API</a></p>
 <p>If you have <em>multiple</em> scrolling panels, you can use the following markup and code.</p>
 <p>HTML</p>
-<pre><code class="language-html">&lt;div id=&quot;scrollingPanel1&quot; class=&quot;scrollingPanel&quot;&gt;
+<pre><code class="lang-html">&lt;div id=&quot;scrollingPanel1&quot; class=&quot;scrollingPanel&quot;&gt;
   &lt;!-- Set of images --&gt;
 &lt;/div&gt;
 &lt;div id=&quot;scrollingPanel2&quot; class=&quot;scrollingPanel&quot;&gt;
@@ -325,7 +288,7 @@ const lazyBackground = new LazyLoad({
 &lt;/div&gt;
 </code></pre>
 <p>Javascript</p>
-<pre><code class="language-js">var myLazyLoad1 = new LazyLoad({
+<pre><code class="lang-js">var myLazyLoad1 = new LazyLoad({
   container: document.getElementById(&quot;scrollingPanel1&quot;)
 });
 var myLazyLoad2 = new LazyLoad({
@@ -333,18 +296,17 @@ var myLazyLoad2 = new LazyLoad({
 });
 </code></pre>
 <p><a href="https://verlok.github.io/vanilla-lazyload/demos/container_multiple.html">DEMO</a> - <a href="https://github.com/verlok/vanilla-lazyload/blob/master/demos/container_multiple.html">SOURCE</a> - <a href="#-api">API</a></p>
-<h3 id="Lazy-functions">Lazy functions</h3>
-<blockquote>
+<h3 id="Lazy-functions"><a href="#Lazy-functions" class="headerlink" title="Lazy functions"></a>Lazy functions</h3><blockquote>
 <p>💡 <strong>Use case</strong>: when you want to execute arbitrary scripts or functions when given elements enter the viewport</p>
 </blockquote>
 <p>HTML</p>
-<pre><code class="language-html">&lt;div class=&quot;lazy&quot; data-lazy-function=&quot;foo&quot;&gt;...&lt;/div&gt;
+<pre><code class="lang-html">&lt;div class=&quot;lazy&quot; data-lazy-function=&quot;foo&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;lazy&quot; data-lazy-function=&quot;bar&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;lazy&quot; data-lazy-function=&quot;buzz&quot;&gt;...&lt;/div&gt;
 &lt;div class=&quot;lazy&quot; data-lazy-function=&quot;booya&quot;&gt;...&lt;/div&gt;
 </code></pre>
 <p>JS</p>
-<pre><code class="language-js">// It's a best practice to scope the function names inside a namespace like `lazyFunctions`.
+<pre><code class="lang-js">// It&#39;s a best practice to scope the function names inside a namespace like `lazyFunctions`.
 window.lazyFunctions = {
   foo: function (element) {
     element.style.color = &quot;red&quot;;
@@ -366,7 +328,7 @@ window.lazyFunctions = {
   }
 };
 </code></pre>
-<pre><code class="language-js">function executeLazyFunction(element) {
+<pre><code class="lang-js">function executeLazyFunction(element) {
   var lazyFunctionName = element.getAttribute(&quot;data-lazy-function&quot;);
   var lazyFunction = window.lazyFunctions[lazyFunctionName];
   if (!lazyFunction) return;
@@ -381,12 +343,11 @@ var ll = new LazyLoad({
 <p>Use <code>unobserve_entered</code> to avoid executing the function multiple times.</p>
 <p>That’s it. Whenever an element with the <code>data-lazy-function</code> attribute enters the viewport, LazyLoad calls the <code>executeLazyScript</code> function, which gets the function name from the <code>data-lazy-function</code> attribute itself and executes it.</p>
 <p><a href="https://verlok.github.io/vanilla-lazyload/demos/lazy_functions.html">DEMO</a> - <a href="https://github.com/verlok/vanilla-lazyload/blob/master/demos/lazy_functions.html">SOURCE</a> - <a href="#-api">API</a></p>
-<h3 id="Lazy-initialization-of-multiple-LazyLoad-instances">Lazy initialization of multiple LazyLoad instances</h3>
-<blockquote>
+<h3 id="Lazy-initialization-of-multiple-LazyLoad-instances"><a href="#Lazy-initialization-of-multiple-LazyLoad-instances" class="headerlink" title="Lazy initialization of multiple LazyLoad instances"></a>Lazy initialization of multiple LazyLoad instances</h3><blockquote>
 <p>💡 <strong>Use case</strong>: when you have a lot of horizontally scrolling containers and you want to instantiate a LazyLoad instance on them, but only when they entered the viewport.</p>
 </blockquote>
 <p>HTML</p>
-<pre><code class="language-html">&lt;div class=&quot;horizContainer&quot;&gt;
+<pre><code class="lang-html">&lt;div class=&quot;horizContainer&quot;&gt;
   &lt;img
     src=&quot;&quot;
     alt=&quot;Row 01, col 01&quot;
@@ -414,7 +375,7 @@ var ll = new LazyLoad({
 &lt;/div&gt;
 </code></pre>
 <p>Javascript</p>
-<pre><code class="language-js">var lazyLoadInstances = [];
+<pre><code class="lang-js">var lazyLoadInstances = [];
 
 var initOneLazyLoad = function (horizContainerElement) {
   // When the .horizContainer element enters the viewport,
@@ -440,9 +401,9 @@ var lazyLazy = new LazyLoad({
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="📺-Demos">📺 Demos</h2>
-<p>Didn’t find the <a href="#-recipes">recipe</a> that exactly matches your case? We have demos!</p>
+<h2 id="📺-Demos"><a href="#📺-Demos" class="headerlink" title="📺 Demos"></a>📺 Demos</h2><p>Didn’t find the <a href="#-recipes">recipe</a> that exactly matches your case? We have demos!</p>
 <p>The <a href="https://github.com/verlok/vanilla-lazyload/tree/master/demos">demos</a> folder contains 30+ use cases of vanilla-lazyload. You might find there what you’re looking for.</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -677,20 +638,18 @@ var lazyLazy = new LazyLoad({
 </tr>
 </tbody>
 </table>
+</div>
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="😋-Tips-tricks">😋 Tips &amp; tricks</h2>
-<h3 id="Minimize-CLS-by-occupy-space-beforehand">Minimize <a href="https://web.dev/cls">CLS</a> by occupy space beforehand</h3>
-<p>It’s very important to make sure that your lazy images occupy some space even <strong>before they are loaded</strong>, otherwise the <code>img</code> elements will be shrinked to zero-height, causing your layout to shift and making lazyload inefficient.</p>
+<h2 id="😋-Tips-amp-tricks"><a href="#😋-Tips-amp-tricks" class="headerlink" title="😋 Tips &amp; tricks"></a>😋 Tips &amp; tricks</h2><h3 id="Minimize-CLS-by-occupy-space-beforehand"><a href="#Minimize-CLS-by-occupy-space-beforehand" class="headerlink" title="Minimize CLS by occupy space beforehand"></a>Minimize <a href="https://web.dev/cls">CLS</a> by occupy space beforehand</h3><p>It’s very important to make sure that your lazy images occupy some space even <strong>before they are loaded</strong>, otherwise the <code>img</code> elements will be shrinked to zero-height, causing your layout to shift and making lazyload inefficient.</p>
 <p>The best way to do that is to set both <code>width</code> and <code>height</code> attributes to <code>img</code> and <code>video</code> elements and, if you choose not to use a placeholder image, apply the <code>display: block</code> CSS rule to every image.</p>
 <p>You can find more details and demos in my article <a href="https://www.andreaverlicchi.eu/blog/aspect-ratio-modern-reserve-space-lazy-images-async-content-responsive-design/">aspect-ratio: A modern way to reserve space for images and async content in responsive design</a>.</p>
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="🔌-API">🔌 API</h2>
-<h3 id="Constructor-arguments">Constructor arguments</h3>
-<p>The <code>new LazyLoad()</code> instruction you execute on your page can take two parameters:</p>
+<h2 id="🔌-API"><a href="#🔌-API" class="headerlink" title="🔌 API"></a>🔌 API</h2><h3 id="Constructor-arguments"><a href="#Constructor-arguments" class="headerlink" title="Constructor arguments"></a>Constructor arguments</h3><p>The <code>new LazyLoad()</code> instruction you execute on your page can take two parameters:</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -718,13 +677,14 @@ var lazyLazy = new LazyLoad({
 </tr>
 </tbody>
 </table>
+</div>
 <p>The most common usage of LazyLoad constructor is to pass only the options object (see “options” in the next section). For example:</p>
-<pre><code class="language-js">var aLazyLoad = new LazyLoad({
+<pre><code class="lang-js">var aLazyLoad = new LazyLoad({
   /* options here */
 });
 </code></pre>
 <p>In the unusual cases when you can’t select the elements using <code>elements_selector</code>, you could pass the elements set as a second parameter. It can be either a NodeSet or an array of DOM elements.</p>
-<pre><code class="language-js">var elementsToLazyLoad = getElementSetFromSomewhere();
+<pre><code class="lang-js">var elementsToLazyLoad = getElementSetFromSomewhere();
 var aLazyLoad = new LazyLoad(
   {
     /* options here */
@@ -732,9 +692,8 @@ var aLazyLoad = new LazyLoad(
   elementsToLazyLoad
 );
 </code></pre>
-<h3 id="Options">Options</h3>
-<p>For every instance of <em>LazyLoad</em> you can pass in some options, to alter its default behaviour.<br>
-Here’s the list of the options.</p>
+<h3 id="Options"><a href="#Options" class="headerlink" title="Options"></a>Options</h3><p>For every instance of <em>LazyLoad</em> you can pass in some options, to alter its default behaviour.<br>Here’s the list of the options.</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -749,7 +708,7 @@ Here’s the list of the options.</p>
 <td><code>container</code></td>
 <td>The scrolling container of the elements in the <code>elements_selector</code> option.</td>
 <td><code>document</code></td>
-<td><code>document.querySelector('.scrollPanel')</code></td>
+<td><code>document.querySelector(&#39;.scrollPanel&#39;)</code></td>
 </tr>
 <tr>
 <td><code>elements_selector</code></td>
@@ -813,7 +772,8 @@ Here’s the list of the options.</p>
 </tr>
 <tr>
 <td><code>data_bg_set</code></td>
-<td>The name of the data attribute containing the value of the background to be applied with image-set, excluding the <code>&quot;data-&quot;</code> part. E.g. if your data attribute is named <code>&quot;data-bg-set&quot;</code>, just pass <code>&quot;bg-set&quot;</code>. The attribute value must be what goes inside the <code>image-set</code> CSS function. You can separate values with a pipe (<code>|</code>) character to have multiple backgrounds.</td>
+<td>The name of the data attribute containing the value of the background to be applied with image-set, excluding the <code>&quot;data-&quot;</code> part. E.g. if your data attribute is named <code>&quot;data-bg-set&quot;</code>, just pass <code>&quot;bg-set&quot;</code>. The attribute value must be what goes inside the <code>image-set</code> CSS function. You can separate values with a pipe (`\</td>
+<td>`) character to have multiple backgrounds.</td>
 <td><code>&quot;bg-set&quot;</code></td>
 <td><code>&quot;lazy-bg-set&quot;</code></td>
 </tr>
@@ -939,9 +899,10 @@ Here’s the list of the options.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="Methods">Methods</h3>
-<p><strong>Instance methods</strong></p>
+</div>
+<h3 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h3><p><strong>Instance methods</strong></p>
 <p>You can call the following methods on any instance of LazyLoad.</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -973,8 +934,10 @@ Here’s the list of the options.</p>
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>Static methods</strong></p>
 <p>You can call the following static methods on the LazyLoad class itself (e.g. <code>LazyLoad.load(element, settings)</code>).</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -996,8 +959,9 @@ Here’s the list of the options.</p>
 </tr>
 </tbody>
 </table>
-<h3 id="Properties">Properties</h3>
-<p>You can use the following properties on any instance of LazyLoad.</p>
+</div>
+<h3 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h3><p>You can use the following properties on any instance of LazyLoad.</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1016,12 +980,12 @@ Here’s the list of the options.</p>
 </tr>
 </tbody>
 </table>
+</div>
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="😯-All-features-compared">😯 All features, compared</h2>
-<p>A list of all vanilla-lazyload features, compared with other popular lazy loading libraries.</p>
-<h3 id="vanilla-lazyload-VS-lazysizes">vanilla-lazyload VS lazysizes</h3>
+<h2 id="😯-All-features-compared"><a href="#😯-All-features-compared" class="headerlink" title="😯 All features, compared"></a>😯 All features, compared</h2><p>A list of all vanilla-lazyload features, compared with other popular lazy loading libraries.</p>
+<h3 id="vanilla-lazyload-VS-lazysizes"><a href="#vanilla-lazyload-VS-lazysizes" class="headerlink" title="vanilla-lazyload VS lazysizes"></a>vanilla-lazyload VS lazysizes</h3><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -1104,43 +1068,27 @@ Here’s the list of the options.</p>
 <tr>
 <td>Can restore DOM to its original state</td>
 <td>✔</td>
-<td></td>
 </tr>
 </tbody>
 </table>
+</div>
 <p>Weights source: <a href="https://bundlephobia.com/">bundlephobia</a>. Find others table rows explanation below.</p>
-<h4 id="Is-extendable">Is extendable</h4>
-<p>Both scripts are extendable, check out the <a href="#-api">API</a>.</p>
-<h4 id="Is-SEO-friendly">Is SEO friendly</h4>
-<p>Both scripts <strong>don’t hide images/assets from search engines</strong>. No matter what markup pattern you use. Search engines don’t scroll/interact with your website. These scripts detects whether or not the user agent is capable to scroll. If not, they reveal all images instantly.</p>
-<h4 id="Optimizes-performance-by-cancelling-downloads-of-images-that-already-exited-the-viewport">Optimizes performance by cancelling downloads of images that already exited the viewport</h4>
-<p>If your mobile users are on slow connections and scrolls down fast, vanilla-lazyload cancels the download of images that are still loading but already exited the viewport.</p>
-<h4 id="Retries-loading-after-network-connection-went-off-and-on">Retries loading after network connection went off and on</h4>
-<p>If your mobile users are on flaky connections and go offline and back online, vanilla-lazyload retries downloading the images that errored.</p>
-<h4 id="Supports-conditional-usage-of-native-lazyloading">Supports conditional usage of native lazyloading</h4>
-<p>If your users are on a browser supporting native lazyloading and you want to use it, just set the <code>use_native</code> option to <code>true</code>.</p>
-<h4 id="Works-with-your-DOM-your-own-classes-and-data-attributes">Works with your DOM, your own classes and data-attributes</h4>
-<p>Both scripts work by default with the <code>data-src</code> attribute and the <code>lazy</code> class in your DOM, but on LazyLoad you can change it, e.g. using <code>data-origin</code> to migrate from other lazy loading script.</p>
-<h4 id="Can-lazyload-responsive-images">Can lazyload responsive images</h4>
-<p>Both scripts can lazyload images and responsive images by all kinds, e.g. <code>&lt;img src=&quot;...&quot; srcset=&quot;...&quot; sizes=&quot;...&quot;&gt;</code> and <code>&lt;picture&gt;&lt;source media=&quot;...&quot; srcset=&quot;&quot; ...&gt;&lt;img ...&gt;&lt;/picture&gt;</code>.</p>
-<h4 id="…and-automatically-calculate-the-value-of-the-sizes-attribute">…and automatically calculate the value of the <code>sizes</code> attribute</h4>
-<p>lazysizes is it can derive the value of the <code>sizes</code> attribute from your CSS by using Javascript.<br>
-vanilla-lazyload doesn’t have this feature because of performance optimization reasons (the <code>sizes</code> attribute is useful to eagerly load responsive images when it’s expressed in the markup, not when it’s set by javascript).</p>
-<h4 id="Can-lazyload-iframes">Can lazyload iframes</h4>
-<p>Both scripts can lazyload the <code>iframe</code> tag.</p>
-<h4 id="Can-lazyload-animated-SVGs">Can lazyload animated SVGs</h4>
-<p>Only vanilla-lazyload can load animated SVGs via the <code>object</code> tag.</p>
-<h4 id="Can-lazyload-videos">Can lazyload videos</h4>
-<p>Only vanilla-lazyload can lazyload the <code>video</code> tag, even with multiple <code>source</code>s.</p>
-<h4 id="Can-lazyload-background-images">Can lazyload background images</h4>
-<p>Only vanilla-lazyload can lazyload background images. And also multiple background images. And supporting HiDPI such as Retina and Super Retina display.</p>
-<h4 id="Can-lazily-execute-code-when-given-elements-enter-the-viewport">Can lazily execute code, when given elements enter the viewport</h4>
-<p>Check out the <a href="#lazy-functions">lazy functions</a> section and learn how to execute code only when given elements enter the viewport.</p>
-<h4 id="Can-restore-DOM-to-its-original-state">Can restore DOM to its original state</h4>
-<p>Using the <code>restoreAll()</code> method, you can make LazyLoad restore all DOM manipulated from LazyLoad to how it was when the page was loaded the first time.</p>
+<h4 id="Is-extendable"><a href="#Is-extendable" class="headerlink" title="Is extendable"></a>Is extendable</h4><p>Both scripts are extendable, check out the <a href="#-api">API</a>.</p>
+<h4 id="Is-SEO-friendly"><a href="#Is-SEO-friendly" class="headerlink" title="Is SEO friendly"></a>Is SEO friendly</h4><p>Both scripts <strong>don’t hide images/assets from search engines</strong>. No matter what markup pattern you use. Search engines don’t scroll/interact with your website. These scripts detects whether or not the user agent is capable to scroll. If not, they reveal all images instantly.</p>
+<h4 id="Optimizes-performance-by-cancelling-downloads-of-images-that-already-exited-the-viewport"><a href="#Optimizes-performance-by-cancelling-downloads-of-images-that-already-exited-the-viewport" class="headerlink" title="Optimizes performance by cancelling downloads of images that already exited the viewport"></a>Optimizes performance by cancelling downloads of images that already exited the viewport</h4><p>If your mobile users are on slow connections and scrolls down fast, vanilla-lazyload cancels the download of images that are still loading but already exited the viewport.</p>
+<h4 id="Retries-loading-after-network-connection-went-off-and-on"><a href="#Retries-loading-after-network-connection-went-off-and-on" class="headerlink" title="Retries loading after network connection went off and on"></a>Retries loading after network connection went off and on</h4><p>If your mobile users are on flaky connections and go offline and back online, vanilla-lazyload retries downloading the images that errored.</p>
+<h4 id="Supports-conditional-usage-of-native-lazyloading"><a href="#Supports-conditional-usage-of-native-lazyloading" class="headerlink" title="Supports conditional usage of native lazyloading"></a>Supports conditional usage of native lazyloading</h4><p>If your users are on a browser supporting native lazyloading and you want to use it, just set the <code>use_native</code> option to <code>true</code>.</p>
+<h4 id="Works-with-your-DOM-your-own-classes-and-data-attributes"><a href="#Works-with-your-DOM-your-own-classes-and-data-attributes" class="headerlink" title="Works with your DOM, your own classes and data-attributes"></a>Works with your DOM, your own classes and data-attributes</h4><p>Both scripts work by default with the <code>data-src</code> attribute and the <code>lazy</code> class in your DOM, but on LazyLoad you can change it, e.g. using <code>data-origin</code> to migrate from other lazy loading script.</p>
+<h4 id="Can-lazyload-responsive-images"><a href="#Can-lazyload-responsive-images" class="headerlink" title="Can lazyload responsive images"></a>Can lazyload responsive images</h4><p>Both scripts can lazyload images and responsive images by all kinds, e.g. <code>&lt;img src=&quot;...&quot; srcset=&quot;...&quot; sizes=&quot;...&quot;&gt;</code> and <code>&lt;picture&gt;&lt;source media=&quot;...&quot; srcset=&quot;&quot; ...&gt;&lt;img ...&gt;&lt;/picture&gt;</code>.</p>
+<h4 id="…and-automatically-calculate-the-value-of-the-sizes-attribute"><a href="#…and-automatically-calculate-the-value-of-the-sizes-attribute" class="headerlink" title="…and automatically calculate the value of the sizes attribute"></a>…and automatically calculate the value of the <code>sizes</code> attribute</h4><p>lazysizes is it can derive the value of the <code>sizes</code> attribute from your CSS by using Javascript.<br>vanilla-lazyload doesn’t have this feature because of performance optimization reasons (the <code>sizes</code> attribute is useful to eagerly load responsive images when it’s expressed in the markup, not when it’s set by javascript).</p>
+<h4 id="Can-lazyload-iframes"><a href="#Can-lazyload-iframes" class="headerlink" title="Can lazyload iframes"></a>Can lazyload iframes</h4><p>Both scripts can lazyload the <code>iframe</code> tag.</p>
+<h4 id="Can-lazyload-animated-SVGs"><a href="#Can-lazyload-animated-SVGs" class="headerlink" title="Can lazyload animated SVGs"></a>Can lazyload animated SVGs</h4><p>Only vanilla-lazyload can load animated SVGs via the <code>object</code> tag.</p>
+<h4 id="Can-lazyload-videos"><a href="#Can-lazyload-videos" class="headerlink" title="Can lazyload videos"></a>Can lazyload videos</h4><p>Only vanilla-lazyload can lazyload the <code>video</code> tag, even with multiple <code>source</code>s.</p>
+<h4 id="Can-lazyload-background-images"><a href="#Can-lazyload-background-images" class="headerlink" title="Can lazyload background images"></a>Can lazyload background images</h4><p>Only vanilla-lazyload can lazyload background images. And also multiple background images. And supporting HiDPI such as Retina and Super Retina display.</p>
+<h4 id="Can-lazily-execute-code-when-given-elements-enter-the-viewport"><a href="#Can-lazily-execute-code-when-given-elements-enter-the-viewport" class="headerlink" title="Can lazily execute code, when given elements enter the viewport"></a>Can lazily execute code, when given elements enter the viewport</h4><p>Check out the <a href="#lazy-functions">lazy functions</a> section and learn how to execute code only when given elements enter the viewport.</p>
+<h4 id="Can-restore-DOM-to-its-original-state"><a href="#Can-restore-DOM-to-its-original-state" class="headerlink" title="Can restore DOM to its original state"></a>Can restore DOM to its original state</h4><p>Using the <code>restoreAll()</code> method, you can make LazyLoad restore all DOM manipulated from LazyLoad to how it was when the page was loaded the first time.</p>
 <hr>
 <p><strong>Love this project? 😍 <a href="https://ko-fi.com/verlok">Buy me a coffee!</a></strong></p>
 <hr>
-<h2 id="Tested-on-real-browsers">Tested on real browsers</h2>
-<p>This script is tested in every browser before every release using <a href="http://browserstack.com/">BrowserStack</a> live, thanks to the BrowserStack Open Source initiative.</p>
+<h2 id="Tested-on-real-browsers"><a href="#Tested-on-real-browsers" class="headerlink" title="Tested on real browsers"></a>Tested on real browsers</h2><p>This script is tested in every browser before every release using <a href="http://browserstack.com/">BrowserStack</a> live, thanks to the BrowserStack Open Source initiative.</p>
 <p><a href="http://browserstack.com/"><img alt="BrowserStack Logo" src="./img/browserstack-logo-600x315.png"  width="300" height="158"/></a></p>

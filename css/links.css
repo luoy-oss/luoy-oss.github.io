@@ -1,0 +1,226 @@
+/* Links Page Styling based on Monitoring Page */
+
+/* --------------------------------------
+ * 基础布局与标题
+ * -------------------------------------- */
+
+/* 覆盖主题默认的布局限制，使页面更宽 */
+.layout.hide-aside {
+  /* 最大宽度调整 */
+  max-width: 1200px !important;
+}
+
+#links-page {
+  /* 确保内容区域宽度占满 */
+  width: 100%;
+  /* 增加左右内边距，避免内容紧贴屏幕边缘 */
+  padding: 0 20px;
+}
+
+#links-page .page-title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  font-weight: 700;
+  /* 渐变色标题，与监控页一致 */
+  background: linear-gradient(120deg, #1890ff, #36cfc9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+
+/* --------------------------------------
+ * 站点卡片 Flex 布局
+ * 基于 hexo-butterfly-tag-plugins-plus 原生配置调整
+ * -------------------------------------- */
+
+.site-card-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: -8px; /* 抵消子元素的 margin，实现四周无额外间距 */
+  align-items: stretch; /* 确保同一行的卡片高度一致 */
+}
+
+/* 
+ * 响应式宽度计算 
+ * 公式: calc(100% / 列数 - 间距*2)
+ * 间距为 8px，左右各一个，所以减去 16px
+ */
+
+/* 默认移动端：1列 */
+.site-card {
+  margin: 8px;
+  width: calc(100% - 16px); 
+}
+
+/* 平板/小屏幕 (>= 576px)：2列 */
+@media (min-width: 576px) {
+  .site-card {
+    width: calc(100% / 2 - 16px);
+  }
+}
+
+/* 中等屏幕 (>= 768px)：3列 */
+@media (min-width: 768px) {
+  .site-card {
+    width: calc(100% / 3 - 16px);
+  }
+}
+
+/* 大屏幕 (>= 1024px)：4列 (插件默认配置) */
+@media (min-width: 1024px) {
+  .site-card {
+    width: calc(100% / 4 - 16px);
+  }
+}
+
+/* 超大屏幕 (>= 1400px)：5列 */
+@media (min-width: 1400px) {
+  .site-card {
+    width: calc(100% / 5 - 16px);
+  }
+}
+
+/* --------------------------------------
+ * 卡片样式 (参考 .monitor-item)
+ * -------------------------------------- */
+
+.site-card {
+  display: flex; /* 使用 flex column 布局内部元素 */
+  flex-direction: column;
+  background-color: var(--card-bg, #fff); /* 确保有底色 */
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  border: 1px solid transparent;
+  text-decoration: none !important;
+  color: var(--font-color) !important;
+  /* height 由 align-items: stretch 控制，这里不再强制固定 height: 100% */
+  position: relative;
+  box-sizing: border-box; /* 确保 padding 不会撑大 width */
+}
+
+.site-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-color: rgba(0,0,0,0.1);
+}
+
+/* 截图区域 (参考 .site-screenshot) */
+.site-card .img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  background-color: #f5f5f5;
+  border: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.site-card .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  pointer-events: none;
+}
+
+.site-card:hover .img img {
+  transform: scale(1.05);
+}
+
+/* 信息区域 */
+.site-card .info {
+  display: grid;
+  grid-template-columns: 48px 1fr; /* 头像宽 + 间距 */
+  grid-template-rows: auto auto;
+  align-items: center;
+  margin-top: auto; /* 底部对齐（虽然高度是100%） */
+}
+
+/* 头像 (参考 .site-avatar) */
+.site-card .info img {
+  grid-row: 1 / 3;
+  grid-column: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  border: 1px solid rgba(0,0,0,0.05);
+  margin: 0 !important;
+  object-fit: cover;
+}
+
+/* 标题 (参考 .site-title) */
+.site-card .info .title {
+  grid-row: 1;
+  grid-column: 2;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--font-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+/* 描述/链接 (参考 .site-url) */
+.site-card .info .desc {
+  grid-row: 2;
+  grid-column: 2;
+  font-size: 12px;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0.8;
+}
+
+/* --------------------------------------
+ * 深色模式适配
+ * -------------------------------------- */
+
+[data-theme="dark"] .site-card {
+  background-color: var(--card-bg, #2c2c2c);
+  border-color: rgba(255,255,255,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .site-card:hover {
+  background-color: var(--card-bg, #333);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .site-card .img {
+  background-color: #1f1f1f;
+  border-color: rgba(255,255,255,0.05);
+}
+
+[data-theme="dark"] .site-card .info img {
+  background-color: #333;
+  border-color: rgba(255,255,255,0.1);
+}
+
+[data-theme="dark"] .site-card .info .title {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] .site-card .info .desc {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* --------------------------------------
+ * 修复其他可能存在的样式冲突
+ * -------------------------------------- */
+
+/* 隐藏可能存在的加载动画（如果还有遗留的HTML） */
+.loading {
+  display: none;
+}
