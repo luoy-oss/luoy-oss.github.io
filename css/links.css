@@ -55,33 +55,24 @@
   width: calc(100% - 16px); 
 }
 
-/* 平板/小屏幕 (>= 576px)：2列 */
-@media (min-width: 576px) {
+@media (min-width: 600px) {
   .site-card {
     width: calc(100% / 2 - 16px);
   }
 }
 
-/* 中等屏幕 (>= 768px)：3列 */
-@media (min-width: 768px) {
+@media (min-width: 800px) {
   .site-card {
     width: calc(100% / 3 - 16px);
   }
 }
 
-/* 大屏幕 (>= 1024px)：4列 (插件默认配置) */
-@media (min-width: 1024px) {
+@media (min-width: 1300px) {
   .site-card {
     width: calc(100% / 4 - 16px);
   }
 }
 
-/* 超大屏幕 (>= 1400px)：5列 */
-@media (min-width: 1400px) {
-  .site-card {
-    width: calc(100% / 5 - 16px);
-  }
-}
 
 /* --------------------------------------
  * 卡片样式 (参考 .monitor-item)
