@@ -235,6 +235,11 @@
             if (translate.ignore && translate.ignore.class) {
                 translate.ignore.class.push('ignore');
             }
+
+            // 禁用默认的语言切换下拉框
+            if (translate.selectLanguageTag) {
+                translate.selectLanguageTag.show = false;
+            }
             
             // 初始化
             translate.execute();

@@ -71,5 +71,8 @@
 .swiper-slide:hover {
 	color: #1fc7b6;
 }
-  
-  
+
+/* Hide default translate select element just in case JS config fails */
+#translate {
+  display: none !important;
+}
