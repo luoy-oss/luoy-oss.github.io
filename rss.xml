@@ -15,8 +15,31 @@
     <atom:link href="https://www.drluo.top/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description>洛屿的小站 - 一个分享编程技术、博客部署教程和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。</description>
-    <pubDate>Wed, 25 Feb 2026 02:22:57 GMT</pubDate>
+    <pubDate>Sat, 07 Mar 2026 15:36:25 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>你好，2026</title>
+      <link>https://www.drluo.top/posts/55882</link>
+      <guid>https://www.drluo.top/posts/55882</guid>
+      <pubDate>Wed, 31 Dec 2025 16:00:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;好快啊，其实感觉什么都没有准备好来着，就又是一年了。&lt;/p&gt;
+&lt;p&gt;这一年里洛玖的项目写了又咕，咕了又写，零零碎碎的。&lt;/p&gt;
+&lt;p&gt;时不时写的ai_chat功能，因为太懒，记忆功能一直没有往上加。&lt;/p&gt;
+&lt;p&gt;这一年里发生的事情又想不起来了，哦对，话说这是我第一次写年度</description>
+        
+      
+      
+      
+      
+      
+      
+      <comments>https://www.drluo.top/posts/55882#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>stm32f4xx-ads1256驱动</title>
@@ -1393,34 +1416,6 @@ Real Time Simul</description>
       
       
       <comments>https://www.drluo.top/posts/45841#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>二叉树的遍历序列转换</title>
-      <link>https://www.drluo.top/posts/57450</link>
-      <guid>https://www.drluo.top/posts/57450</guid>
-      <pubDate>Sat, 18 Feb 2023 03:23:01 GMT</pubDate>
-      
-        
-        
-      <description>&lt;h1&gt;前序中序转后序&lt;/h1&gt;
-&lt;h2 id=&quot;输入-1&quot;&gt;输入#1&lt;/h2&gt;
-&lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;</description>
-        
-      
-      
-      
-      
-      <category domain="https://www.drluo.top/categories/C/">C++</category>
-      
-      
-      <category domain="https://www.drluo.top/tags/%E6%A0%91/">树</category>
-      
-      <category domain="https://www.drluo.top/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</category>
-      
-      
-      <comments>https://www.drluo.top/posts/57450#disqus_thread</comments>
       
     </item>
     
