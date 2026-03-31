@@ -15,7 +15,7 @@
     <atom:link href="https://www.drluo.top/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description>洛屿的小站 - 一个分享编程技术、博客部署教程和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。</description>
-    <pubDate>Tue, 10 Mar 2026 06:03:32 GMT</pubDate>
+    <pubDate>Thu, 26 Mar 2026 08:07:05 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -214,9 +214,11 @@
       
         
         
-      <description>&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/luoy-oss/luo9_sdk&quot;&gt;洛玖SDK&lt;/a&gt;是一个用于开发洛玖机器人插件的综合性开发工具包。本文档将详细介绍SDK的核心功能、事件处理机制以及API接口的使用方法。&lt;/p&gt;
-&lt;/b</description>
+      <description>&lt;p&gt;2026年3月28日&lt;/p&gt;
+&lt;p&gt;写在前面：&lt;/p&gt;
+&lt;p&gt;随着rust的学习推进，发现旧版本的rust实现较为劣质，现阶段正在进行重构&lt;/p&gt;
+&lt;p&gt;本项目不作为核心项目开发，项目的迭代时间并不确定&lt;/p&gt;
+&lt;p&gt;请不要使用以下sdk，当前页面仅作保留，后续将继续使用该</description>
         
       
       

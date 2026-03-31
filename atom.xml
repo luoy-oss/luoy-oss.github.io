@@ -6,7 +6,7 @@
   <link href="https://www.drluo.top/atom.xml" rel="self"/>
   
   <link href="https://www.drluo.top/"/>
-  <updated>2026-03-10T06:03:32.980Z</updated>
+  <updated>2026-03-26T08:07:05.045Z</updated>
   <id>https://www.drluo.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://www.drluo.top/posts/58812"/>
     <id>https://www.drluo.top/posts/58812</id>
     <published>2026-03-10T03:56:32.000Z</published>
-    <updated>2026-03-10T06:03:32.980Z</updated>
+    <updated>2026-03-26T08:07:05.045Z</updated>
     
     
       
@@ -195,14 +195,16 @@
     <link href="https://www.drluo.top/posts/luo9_sdk"/>
     <id>https://www.drluo.top/posts/luo9_sdk</id>
     <published>2025-03-31T15:22:23.000Z</published>
-    <updated>2025-04-02T15:31:06.668Z</updated>
+    <updated>2026-03-31T14:26:07.375Z</updated>
     
     
       
       
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/luoy-oss/luo9_sdk&quot;&gt;洛玖SDK&lt;/a&gt;是一个用于开发洛玖机器人插件的综合性开发工具包。本文档将详细介绍SDK的核心功能、事件处理机制以及API接口的使用方法。&lt;/p&gt;
-&lt;/b</summary>
+    <summary type="html">&lt;p&gt;2026年3月28日&lt;/p&gt;
+&lt;p&gt;写在前面：&lt;/p&gt;
+&lt;p&gt;随着rust的学习推进，发现旧版本的rust实现较为劣质，现阶段正在进行重构&lt;/p&gt;
+&lt;p&gt;本项目不作为核心项目开发，项目的迭代时间并不确定&lt;/p&gt;
+&lt;p&gt;请不要使用以下sdk，当前页面仅作保留，后续将继续使用该</summary>
       
     
     
@@ -319,7 +321,7 @@ Real Time Simul</summary>
     <link href="https://www.drluo.top/posts/luo9"/>
     <id>https://www.drluo.top/posts/luo9</id>
     <published>2025-02-09T05:14:00.000Z</published>
-    <updated>2025-05-24T09:08:04.440Z</updated>
+    <updated>2026-03-31T14:23:33.338Z</updated>
     
     
       
