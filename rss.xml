@@ -214,11 +214,8 @@
       
         
         
-      <description>&lt;p&gt;2026年3月28日&lt;/p&gt;
-&lt;p&gt;写在前面：&lt;/p&gt;
-&lt;p&gt;随着rust的学习推进，发现旧版本的rust实现较为劣质，现阶段正在进行重构&lt;/p&gt;
-&lt;p&gt;本项目不作为核心项目开发，项目的迭代时间并不确定&lt;/p&gt;
-&lt;p&gt;请不要使用以下sdk，当前页面仅作保留，后续将继续使用该</description>
+      <description>&lt;div class=&quot;timeline  blue&quot;&gt;&lt;div class=&#39;timeline-item headline&#39;&gt;&lt;div class=&#39;timeline-item-title&#39;&gt;&lt;div class=&#39;item-circle&#39;&gt;&lt;h1&gt;写在前面&lt;/h1&gt;
+&lt;/di</description>
         
       
       
