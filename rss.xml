@@ -15,8 +15,35 @@
     <atom:link href="https://www.drluo.top/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description>洛屿的小站 - 一个分享编程技术、博客部署教程和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。</description>
-    <pubDate>Thu, 26 Mar 2026 08:07:05 GMT</pubDate>
+    <pubDate>Fri, 01 May 2026 10:06:20 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>洛玖定时任务系统</title>
+      <link>https://www.drluo.top/posts/32608</link>
+      <guid>https://www.drluo.top/posts/32608</guid>
+      <pubDate>Thu, 30 Apr 2026 16:00:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;h2 id=&quot;概述&quot;&gt;概述&lt;/h2&gt;
+&lt;p&gt;洛玖采用基于 FFI 消息总线的定时任务系统。插件通过向 &lt;code&gt;luo9_task&lt;/code&gt; topic 发布请求来注册定时任务，luo9_bot内含轻量级 Cron 调度器，到期后通过同一 topic 向插件推送事件。&lt;/</description>
+        
+      
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/tags/luo9/">luo9</category>
+      
+      <category domain="https://www.drluo.top/tags/task/">task</category>
+      
+      <category domain="https://www.drluo.top/tags/cron/">cron</category>
+      
+      
+      <comments>https://www.drluo.top/posts/32608#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>在 butterfly 主题中添加首页点集动画（基于p2line项目）</title>
@@ -1385,35 +1412,6 @@ Real Time Simul</description>
       
       
       <comments>https://www.drluo.top/posts/3155#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>AutoCAD</title>
-      <link>https://www.drluo.top/posts/51510</link>
-      <guid>https://www.drluo.top/posts/51510</guid>
-      <pubDate>Thu, 02 Mar 2023 12:37:32 GMT</pubDate>
-      
-        
-        
-      <description>&lt;p&gt;[TOC]&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;CAD是先设置相关样式，后绘制&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1&gt;命令&lt;/h1&gt;
-&lt;h2 id=&quot;MENUBAR-菜单模式&quot;&gt;MENUBAR(菜单模式)&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;0 非标准菜单模</description>
-        
-      
-      
-      
-      
-      <category domain="https://www.drluo.top/categories/CAD/">CAD</category>
-      
-      
-      
-      <comments>https://www.drluo.top/posts/51510#disqus_thread</comments>
       
     </item>
     
