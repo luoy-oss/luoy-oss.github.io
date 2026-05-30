@@ -740,48 +740,124 @@ document.addEventListener('DOMContentLoaded', function () {
     let initTop = 0
     let isChatShow = true
     const $header = document.getElementById('page-header')
+    const $dockMenu = document.getElementById('dock-menu')
+    const $dockSearch = document.getElementById('dock-search')
     const isChatBtnHide = typeof chatBtnHide === 'function'
     const isChatBtnShow = typeof chatBtnShow === 'function'
     const isShowPercent = GLOBAL_CONFIG.percent.rightside
+    const hasDockMenu = !!$dockMenu
 
-    const scrollTask = btf.throttle(() => {
+    // dock-menu 模式
+    let dockThreshold = 0
+    let isDockHovered = false
+    const updateDockOpacity = () => {
+      const currentTop = window.scrollY || document.documentElement.scrollTop
+      if (currentTop >= dockThreshold) {
+        if ($dockMenu) $dockMenu.style.opacity = 0
+        if ($dockSearch) $dockSearch.style.opacity = 0
+      } else {
+        const progress = currentTop / dockThreshold
+        const dockOpacity = Math.max(0, 1 - progress * 1.5)
+        if ($dockMenu) $dockMenu.style.opacity = dockOpacity
+        if ($dockSearch) $dockSearch.style.opacity = dockOpacity
+      }
+    }
+
+    if (hasDockMenu && $header) {
+      dockThreshold = $header.offsetHeight * 0.5
+      $header.classList.add('dock-mode')
+
+      // 悬停恢复透明度，离开时恢复滚动状态
+      const $dockEls = [$dockMenu, $dockSearch].filter(Boolean)
+      $dockEls.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          isDockHovered = true
+          el.style.opacity = 1
+        })
+        el.addEventListener('mouseleave', () => {
+          isDockHovered = false
+          updateDockOpacity()
+        })
+      })
+
+      // resize 时重新计算阈值
+      window.addEventListener('resize', btf.debounce(() => {
+        dockThreshold = $header.offsetHeight * 0.5
+      }, 200))
+    }
+
+    // 使用 rAF 代替 throttle，更流畅
+    let ticking = false
+    const scrollTask = () => {
       const currentTop = window.scrollY || document.documentElement.scrollTop
       const isDown = scrollDirection(currentTop)
-      if (currentTop > 56) {
-        if (isDown) {
-          if ($header.classList.contains('nav-visible')) $header.classList.remove('nav-visible')
-          if (isChatBtnShow && isChatShow === true) {
-            chatBtnHide()
-            isChatShow = false
+
+      // dock-menu 渐变逻辑（仅首页）
+      if (hasDockMenu) {
+        if (currentTop < dockThreshold) {
+          if (!isDockHovered) {
+            updateDockOpacity()
           }
+          $header.classList.add('dock-mode')
+          $header.classList.remove('nav-fixed', 'nav-visible')
         } else {
-          if (!$header.classList.contains('nav-visible')) $header.classList.add('nav-visible')
-          if (isChatBtnHide && isChatShow === false) {
-            chatBtnShow()
-            isChatShow = true
+          if (!isDockHovered) {
+            if ($dockMenu) $dockMenu.style.opacity = 0
+            if ($dockSearch) $dockSearch.style.opacity = 0
           }
+          $header.classList.remove('dock-mode')
+          if (isDown) {
+            $header.classList.remove('nav-visible')
+            if (isChatBtnShow && isChatShow) { chatBtnHide(); isChatShow = false }
+          } else {
+            $header.classList.add('nav-visible')
+            if (isChatBtnHide && !isChatShow) { chatBtnShow(); isChatShow = true }
+          }
+          $header.classList.add('nav-fixed')
         }
-        $header.classList.add('nav-fixed')
+      } else {
+        // 非 dock-menu 模式：原有逻辑
+        if (currentTop > 56) {
+          if (isDown) {
+            $header.classList.remove('nav-visible')
+            if (isChatBtnShow && isChatShow) { chatBtnHide(); isChatShow = false }
+          } else {
+            $header.classList.add('nav-visible')
+            if (isChatBtnHide && !isChatShow) { chatBtnShow(); isChatShow = true }
+          }
+          $header.classList.add('nav-fixed')
+        } else {
+          if (currentTop === 0) $header.classList.remove('nav-fixed', 'nav-visible')
+        }
+      }
+
+      // rightside
+      if (currentTop > 56) {
         if (window.getComputedStyle($rightside).getPropertyValue('opacity') === '0') {
           $rightside.style.cssText = 'opacity: 0.8; transform: translateX(-58px)'
         }
       } else {
-        if (currentTop === 0) {
-          $header.classList.remove('nav-fixed', 'nav-visible')
-        }
         $rightside.style.cssText = "opacity: ''; transform: ''"
       }
 
       isShowPercent && rightsideScrollPercent(currentTop)
 
+      const innerHeight = window.innerHeight + 56
       if (document.body.scrollHeight <= innerHeight) {
         $rightside.style.cssText = 'opacity: 0.8; transform: translateX(-58px)'
       }
-    }, 200)
 
-    window.scrollCollect = scrollTask
+      ticking = false
+    }
 
-    window.addEventListener('scroll', scrollCollect)
+    window.scrollCollect = () => {
+      if (!ticking) {
+        requestAnimationFrame(scrollTask)
+        ticking = true
+      }
+    }
+
+    window.addEventListener('scroll', scrollCollect, { passive: true })
   }
 
   /**
@@ -1188,6 +1264,43 @@ document.addEventListener('DOMContentLoaded', function () {
     })
   }
 
+  /**
+   * dock-menu 搜索框功能
+   */
+  const initDockSearch = () => {
+    const $dockSearchForm = document.getElementById('dock-search-form')
+    const $dockSearchInput = document.getElementById('dock-search-input')
+    if (!$dockSearchForm || !$dockSearchInput) return
+
+    $dockSearchForm.addEventListener('submit', (e) => {
+      e.preventDefault()
+      const query = $dockSearchInput.value.trim()
+      if (!query) return
+
+      // 触发本地搜索
+      const $searchButton = document.querySelector('#search-button > .search')
+      if ($searchButton) {
+        $searchButton.click()
+        // 等待搜索框打开后填入查询内容
+        setTimeout(() => {
+          const $localSearchInput = document.querySelector('#local-search-input input')
+          if ($localSearchInput) {
+            $localSearchInput.value = query
+            $localSearchInput.dispatchEvent(new Event('input'))
+          }
+        }, 300)
+      }
+    })
+
+    // 回车提交
+    $dockSearchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        $dockSearchForm.dispatchEvent(new Event('submit'))
+      }
+    })
+  }
+
   const unRefreshFn = function () {
     window.addEventListener('resize', () => {
       adjustMenu(false)
@@ -1216,6 +1329,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     scrollFnToDo()
     GLOBAL_CONFIG_SITE.isHome && scrollDownInIndex()
+    GLOBAL_CONFIG_SITE.isHome && initDockSearch()
     initHomeLineAnimation()
     addHighlightTool()
     GLOBAL_CONFIG.isPhotoFigcaption && addPhotoFigcaption()
