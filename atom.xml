@@ -6,7 +6,7 @@
   <link href="https://www.drluo.top/atom.xml" rel="self"/>
   
   <link href="https://www.drluo.top/"/>
-  <updated>2026-07-09T09:16:14.095Z</updated>
+  <updated>2026-07-23T08:29:42.181Z</updated>
   <id>https://www.drluo.top/</id>
   
   <author>
@@ -17,11 +17,45 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>STM32 UCOS3+HAL库集成中的FPU HardFault问题</title>
+    <link href="https://www.drluo.top/posts/41548"/>
+    <id>https://www.drluo.top/posts/41548</id>
+    <published>2026-07-23T08:00:00.000Z</published>
+    <updated>2026-07-23T08:29:42.181Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;hr&gt;
+&lt;h2 id=&quot;环境&quot;&gt;环境&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;MCU：STM32F407IGT6&lt;/li&gt;
+&lt;li&gt;IDE：IAR EWARM V8.32&lt;/li&gt;
+&lt;li&gt;RTOS：uC/OS-III V3.04.04&lt;/li&gt;
+&lt;li&gt;HAL库：STM32Cube FW</summary>
+      
+    
+    
+    
+    
+    <category term="STM32" scheme="https://www.drluo.top/tags/STM32/"/>
+    
+    <category term="UCOS3" scheme="https://www.drluo.top/tags/UCOS3/"/>
+    
+    <category term="IAR" scheme="https://www.drluo.top/tags/IAR/"/>
+    
+    <category term="RTOS" scheme="https://www.drluo.top/tags/RTOS/"/>
+    
+    <category term="HardFault" scheme="https://www.drluo.top/tags/HardFault/"/>
+    
+  </entry>
+  
+  <entry>
     <title>一种简单的卡尔曼滤波器设计</title>
     <link href="https://www.drluo.top/posts/25773"/>
     <id>https://www.drluo.top/posts/25773</id>
     <published>2026-06-03T16:58:21.000Z</published>
-    <updated>2026-07-09T09:16:14.095Z</updated>
+    <updated>2026-07-13T07:28:23.176Z</updated>
     
     
       
@@ -1286,27 +1320,6 @@ Real Time Simul</summary>
     
     
     <category term="C++" scheme="https://www.drluo.top/categories/C/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>STM32阵列按键</title>
-    <link href="https://www.drluo.top/posts/47966"/>
-    <id>https://www.drluo.top/posts/47966</id>
-    <published>2023-03-11T16:37:23.000Z</published>
-    <updated>2023-10-09T12:06:33.892Z</updated>
-    
-    
-      
-      
-    <summary type="html">&lt;h1&gt;阵列按键&lt;/h1&gt;
-&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br</summary>
-      
-    
-    
-    
-    <category term="STM32" scheme="https://www.drluo.top/categories/STM32/"/>
     
     
   </entry>

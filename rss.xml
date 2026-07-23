@@ -15,8 +15,44 @@
     <atom:link href="https://www.drluo.top/rss.xml" rel="self" type="application/rss+xml"/>
     
     <description>洛屿的小站 - 一个分享编程技术、博客部署教程和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。</description>
-    <pubDate>Thu, 09 Jul 2026 09:16:14 GMT</pubDate>
+    <pubDate>Thu, 23 Jul 2026 08:29:42 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>STM32 UCOS3+HAL库集成中的FPU HardFault问题</title>
+      <link>https://www.drluo.top/posts/41548</link>
+      <guid>https://www.drluo.top/posts/41548</guid>
+      <pubDate>Thu, 23 Jul 2026 08:00:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;hr&gt;
+&lt;h2 id=&quot;环境&quot;&gt;环境&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;MCU：STM32F407IGT6&lt;/li&gt;
+&lt;li&gt;IDE：IAR EWARM V8.32&lt;/li&gt;
+&lt;li&gt;RTOS：uC/OS-III V3.04.04&lt;/li&gt;
+&lt;li&gt;HAL库：STM32Cube FW</description>
+        
+      
+      
+      
+      
+      
+      <category domain="https://www.drluo.top/tags/STM32/">STM32</category>
+      
+      <category domain="https://www.drluo.top/tags/UCOS3/">UCOS3</category>
+      
+      <category domain="https://www.drluo.top/tags/IAR/">IAR</category>
+      
+      <category domain="https://www.drluo.top/tags/RTOS/">RTOS</category>
+      
+      <category domain="https://www.drluo.top/tags/HardFault/">HardFault</category>
+      
+      
+      <comments>https://www.drluo.top/posts/41548#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>一种简单的卡尔曼滤波器设计</title>
@@ -1387,29 +1423,6 @@ Real Time Simul</description>
       
       
       <comments>https://www.drluo.top/posts/27662#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>STM32阵列按键</title>
-      <link>https://www.drluo.top/posts/47966</link>
-      <guid>https://www.drluo.top/posts/47966</guid>
-      <pubDate>Sat, 11 Mar 2023 16:37:23 GMT</pubDate>
-      
-        
-        
-      <description>&lt;h1&gt;阵列按键&lt;/h1&gt;
-&lt;figure class=&quot;highlight c++&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br</description>
-        
-      
-      
-      
-      
-      <category domain="https://www.drluo.top/categories/STM32/">STM32</category>
-      
-      
-      
-      <comments>https://www.drluo.top/posts/47966#disqus_thread</comments>
       
     </item>
     
