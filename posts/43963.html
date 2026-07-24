@@ -1,0 +1,524 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>STM32F407 IAR环境下uC/OS-III移植完整指南 | 洛屿的小站</title><meta name="author" content="洛屿"><meta name="copyright" content="洛屿"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="环境说明    项目 版本     MCU STM32F407IGT6   IDE IAR EWARM V8.32   RTOS uC&#x2F;OS-III V3.04.04 (Micrium)   HAL库 STM32Cube FW_F4 V1.28.3   CubeMX 6.15.0    本文基于一个由 CubeMX 生成的 STM32F407 HAL 库工程，详细记录如何将 uC&#x2F;OS-III">
+<meta property="og:type" content="article">
+<meta property="og:title" content="STM32F407 IAR环境下uC&#x2F;OS-III移植完整指南">
+<meta property="og:url" content="https://www.drluo.top/posts/43963">
+<meta property="og:site_name" content="洛屿的小站">
+<meta property="og:description" content="环境说明    项目 版本     MCU STM32F407IGT6   IDE IAR EWARM V8.32   RTOS uC&#x2F;OS-III V3.04.04 (Micrium)   HAL库 STM32Cube FW_F4 V1.28.3   CubeMX 6.15.0    本文基于一个由 CubeMX 生成的 STM32F407 HAL 库工程，详细记录如何将 uC&#x2F;OS-III">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.drluo.top/img/cover/luoy.jpg">
+<meta property="article:published_time" content="2026-07-23T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-24T02:05:09.772Z">
+<meta property="article:author" content="洛屿">
+<meta property="article:tag" content="STM32">
+<meta property="article:tag" content="UCOS3">
+<meta property="article:tag" content="IAR">
+<meta property="article:tag" content="RTOS">
+<meta property="article:tag" content="移植">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.drluo.top/img/cover/luoy.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.drluo.top/posts/43963"><link rel="preconnect" href="//hm.baidu.com"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?7f5ed61079146933544dc4627400aaf0";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  lineAnimation: {
+    mode: 'random',
+    duration: 2600,
+    random_duration: 2600,
+    position_mode: 'right_bottom',
+    offset_ratio: {"x":0,"y":0},
+    scale: 0.73
+  },
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"好像没有关于 “${query}” 的内容呢"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功！',
+    error: '复制错误❌',
+    noSupport: '浏览器好像不支持复制呢，换一个浏览器试试吧'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: '/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: '/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'STM32F407 IAR环境下uC/OS-III移植完整指南',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-07-24 10时05分09秒 10:05:09'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><script src="/translate/translate.js" defer></script><meta name='description' content='洛屿的小站 - 一个分享编程技术和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。'><meta name="keywords" content="博客,技术博客,Hexo,Kotlin,Java,Python,CPP,Rust,前端开发,后端开发,博客部署,洛屿"><meta name="author" content="洛屿"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"洛屿的小站","url":"https://www.drluo.top","description":"一个分享编程技术和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。","author":{"@type":"Person","name":"洛屿"}}</script><meta name="baidu-site-verification" content="codeva-xcBMtLpeAm" /><meta name="360-site-verification" content="7b329f1879d4438fcf4d8d4ee4ac26c4" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/css/self/heimu.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/self/user.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/self/androidstudio.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiper-bundle.min.css" media="print" onload="this.media='all'"><link rel="alternate" href="/atom.xml" title="洛屿的小站" type="application/atom+xml"><link rel="preload" href="/css/index.css" as="style" fetchpriority="high"><link rel="preload" href="/js/main.js" as="script" fetchpriority="low"><link rel="preconnect" href="//cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="//res.zvo.cn" crossorigin><link rel="dns-prefetch" href="//cdn.jsdelivr.net"><link rel="dns-prefetch" href="//res.zvo.cn"><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/swiper/swiper.min.css"><link rel="stylesheet" href="/css/swiper/swiperstyle.css"><link rel="stylesheet" href="/css/self/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="/npm/hexo-butterfly-tag-plugins-plus/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/npm/hexo-butterfly-tag-plugins-plus/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script defer src="/npm/hexo-butterfly-tag-plugins-plus/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><link rel="stylesheet" href="/css/self/pager-load-progress-bar.css" media="print" onload="this.media='all'"/><script src="/npm/pace-js/pace.min.js" defer="defer"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.webp" onerror="onerror=null;src='/img/err_img404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">84</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">69</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 状态监测</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/monitoring"><i class="fa-fw fas fa-link"></i><span> 友链监测</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://uptime-status.drluo.top/"><i class="fa-fw fas fa-link"></i><span> 主站及API</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-language"></i><span> 语言/Language</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="javascript:translate.changeLanguage('chinese_simplified');"><i class="fa-fw fas fa-language"></i><span> 简体中文</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('chinese_traditional');"><i class="fa-fw fas fa-language"></i><span> 繁體中文</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('english');"><i class="fa-fw fas fa-globe"></i><span> English</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('japanese');"><i class="fa-fw fas fa-globe"></i><span> 日本語</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('korean');"><i class="fa-fw fas fa-globe"></i><span> 한국어</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('french');"><i class="fa-fw fas fa-globe"></i><span> Français</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('german');"><i class="fa-fw fas fa-globe"></i><span> Deutsch</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover/luoy.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="洛屿的小站"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/drluoLogo.png"/></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 状态监测</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/monitoring"><i class="fa-fw fas fa-link"></i><span> 友链监测</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://uptime-status.drluo.top/"><i class="fa-fw fas fa-link"></i><span> 主站及API</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-language"></i><span> 语言/Language</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="javascript:translate.changeLanguage('chinese_simplified');"><i class="fa-fw fas fa-language"></i><span> 简体中文</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('chinese_traditional');"><i class="fa-fw fas fa-language"></i><span> 繁體中文</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('english');"><i class="fa-fw fas fa-globe"></i><span> English</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('japanese');"><i class="fa-fw fas fa-globe"></i><span> 日本語</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('korean');"><i class="fa-fw fas fa-globe"></i><span> 한국어</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('french');"><i class="fa-fw fas fa-globe"></i><span> Français</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('german');"><i class="fa-fw fas fa-globe"></i><span> Deutsch</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">STM32F407 IAR环境下uC/OS-III移植完整指南</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-07-23T10:00:00.000Z" title="发表于 2026-07-23 18时00分00秒 18:00:00">2026-07-23 18时00分00秒</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-07-24T02:05:09.772Z" title="更新于 2026-07-24 10时05分09秒 10:05:09">2026-07-24 10时05分09秒</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">预计阅读时长:</span><span>11分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><div class="post-copyright-link"><div class="post-copyright-link-divider"><div class="divider-line-fancy"></div></div><div class="post-copyright-link-content"><span>原文链接：</span><a href="https://www.drluo.top/posts/43963" target="_blank">STM32F407 IAR环境下uC/OS-III移植完整指南 | 洛屿的小站</a></div><div class="post-copyright-link-divider"><div class="divider-line-fancy"></div></div></div><article class="post-content" id="article-container"><hr>
+<h2 id="环境说明">环境说明</h2>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCU</td>
+<td>STM32F407IGT6</td>
+</tr>
+<tr>
+<td>IDE</td>
+<td>IAR EWARM V8.32</td>
+</tr>
+<tr>
+<td>RTOS</td>
+<td>uC/OS-III V3.04.04 (Micrium)</td>
+</tr>
+<tr>
+<td>HAL库</td>
+<td>STM32Cube FW_F4 V1.28.3</td>
+</tr>
+<tr>
+<td>CubeMX</td>
+<td>6.15.0</td>
+</tr>
+</tbody>
+</table>
+<p>本文基于一个由 CubeMX 生成的 STM32F407 HAL 库工程，详细记录如何将 uC/OS-III 移植进去。</p>
+<h2 id="一、工程目录结构">一、工程目录结构</h2>
+<p>移植前的工程结构（CubeMX 生成）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">TrainCamp_wangjunjie_Modbus/<br>├── Core/<br>│   ├── Inc/                    ← HAL 头文件（main.h, stm32f4xx_hal_conf.h 等）<br>│   └── Src/                    ← HAL 源码（main.c, stm32f4xx_it.c 等）<br>├── Drivers/<br>│   ├── CMSIS/<br>│   └── STM32F4xx_HAL_Driver/<br>├── EWARM/                      ← IAR 工程目录（.ewp 文件所在位置）<br>│   ├── XDM-60T4-E.ewp<br>│   └── startup_stm32f407xx.s<br>└── XDM-60T4-E.ioc<br></code></pre></td></tr></table></figure>
+<p>移植后新增的目录和文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">TrainCamp_wangjunjie_Modbus/<br>├── Core/Inc/                   ← 新增 4 个配置头文件<br>│   ├── os_cfg.h<br>│   ├── os_cfg_app.h<br>│   ├── cpu_cfg.h<br>│   └── lib_cfg.h<br>├── EWARM/<br>│   ├── startup_stm32f407xx.s   ← 修改（FPU 使能 + PendSV 重定向）<br>│   └── XDM-60T4-E.ewp         ← 修改（include 路径 + 源文件分组）<br>├── uCOS3/                      ← 新增，从 Micrium 源码复制<br>│   ├── uC-CPU/<br>│   │   ├── cpu_core.c, cpu_core.h, cpu_def.h<br>│   │   └── ARM-Cortex-M4/IAR/<br>│   │       ├── cpu_a.asm<br>│   │       ├── cpu_c.c<br>│   │       └── cpu.h<br>│   ├── uC-LIB/<br>│   │   ├── lib_ascii.c/.h, lib_math.c/.h, lib_mem.c/.h, lib_str.c/.h, lib_def.h<br>│   │   └── Ports/ARM-Cortex-M4/IAR/<br>│   │       └── lib_mem_a.asm<br>│   └── uCOS-III/<br>│       ├── Source/              ← 内核源码（20 个 .c 和 .h）<br>│       └── Ports/ARM-Cortex-M4/Generic/IAR/<br>│           ├── os_cpu_a.asm<br>│           ├── os_cpu_c.c<br>│           └── os_cpu.h<br>└── Core/Src/<br>    ├── main.c                  ← 修改（UCOS3 初始化 + 任务）<br>    └── stm32f4xx_it.c          ← 修改（SysTick_Handler）<br></code></pre></td></tr></table></figure>
+<h2 id="二、源码获取">二、源码获取</h2>
+<p>Micrium 官方源码可从 <a target="_blank" rel="noopener" href="https://github.com/Micrium">Micrium GitHub</a> 或官网下载。下载后的目录结构为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">Micrium/Software/<br>├── uC-CPU/<br>├── uC-LIB/<br>└── uCOS-III/<br></code></pre></td></tr></table></figure>
+<p>将这三个文件夹直接复制到工程根目录下的 <code>uCOS3/</code> 文件夹中。</p>
+<h2 id="三、创建配置头文件">三、创建配置头文件</h2>
+<p>uC/OS-III 需要 4 个用户配置头文件。放在 <code>Core/Inc/</code> 下，因为 IAR 工程已有的 include 路径 <code>$PROJ_DIR$/../Core/Inc</code> 能覆盖到。</p>
+<blockquote>
+<p><strong>路径说明</strong>：IAR 的 <code>$PROJ_DIR$</code> 指向 <code>.ewp</code> 文件所在的目录，即 <code>EWARM/</code>。<code>$PROJ_DIR$/../</code> 即工程根目录 <code>TrainCamp_wangjunjie_Modbus/</code>。</p>
+</blockquote>
+<h3 id="3-1-os-cfg-h-—-内核功能开关">3.1 os_cfg.h — 内核功能开关</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> OS_CFG_H</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_H</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_APP_HOOKS_EN             1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_ARG_CHK_EN               1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_CALLED_FROM_ISR_CHK_EN   0u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_DBG_EN                   1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_ISR_POST_DEFERRED_EN     0u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_OBJ_TYPE_CHK_EN          1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TS_EN                    1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_PEND_MULTI_EN            0u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_PRIO_MAX                64u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_SCHED_LOCK_TIME_MEAS_EN  1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_SCHED_ROUND_ROBIN_EN     0u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_STK_SIZE_MIN            64u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_FLAG_EN                  1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_FLAG_DEL_EN              1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_FLAG_MODE_CLR_EN         1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_FLAG_PEND_ABORT_EN       1u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_MEM_EN                   1u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_MUTEX_EN                 1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_MUTEX_DEL_EN             1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_MUTEX_PEND_ABORT_EN      1u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_Q_EN                     1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_Q_DEL_EN                 1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_Q_FLUSH_EN               1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_Q_PEND_ABORT_EN          1u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_SEM_EN                   1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_SEM_DEL_EN               1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_SEM_PEND_ABORT_EN        1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_SEM_SET_EN               1u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_STAT_TASK_EN             1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_STAT_TASK_STK_CHK_EN     1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TASK_CHANGE_PRIO_EN      1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TASK_DEL_EN              1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TASK_Q_EN                1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TASK_Q_PEND_ABORT_EN     1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TASK_PROFILE_EN          1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TASK_REG_TBL_SIZE        1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TASK_SEM_PEND_ABORT_EN   1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TASK_SUSPEND_EN          1u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TIME_DLY_HMSM_EN         1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TIME_DLY_RESUME_EN       1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TLS_TBL_SIZE             0u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TMR_EN                   1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_TMR_DEL_EN               1u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> TRACE_CFG_EN                    0u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+<h3 id="3-2-os-cfg-app-h-—-应用层配置">3.2 os_cfg_app.h — 应用层配置</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> OS_CFG_APP_H</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> OS_CFG_APP_H</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_MSG_POOL_SIZE            100u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_ISR_STK_SIZE             128u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_TASK_STK_LIMIT_PCT_EMPTY  10u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_IDLE_TASK_STK_SIZE        64u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_INT_Q_SIZE                10u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_INT_Q_TASK_STK_SIZE      100u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_STAT_TASK_PRIO            11u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_STAT_TASK_RATE_HZ         10u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_STAT_TASK_STK_SIZE       100u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_TICK_RATE_HZ            1000u   <span class="hljs-comment">// 1ms tick</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_TICK_TASK_PRIO             1u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_TICK_TASK_STK_SIZE       100u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_TMR_TASK_PRIO             11u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_TMR_TASK_RATE_HZ          10u</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  OS_CFG_TMR_TASK_STK_SIZE        100u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+<h3 id="3-3-cpu-cfg-h-—-CPU-层配置">3.3 cpu_cfg.h — CPU 层配置</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span>  CPU_CFG_MODULE_PRESENT</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  CPU_CFG_MODULE_PRESENT</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  CPU_CFG_NAME_EN                        DEF_ENABLED</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  CPU_CFG_NAME_SIZE                                16</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  CPU_CFG_TS_32_EN                       DEF_ENABLED</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  CPU_CFG_TS_64_EN                       DEF_DISABLED</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  CPU_CFG_TS_TMR_SIZE                    CPU_WORD_SIZE_32</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">if</span> 0</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  CPU_CFG_INT_DIS_MEAS_EN</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  CPU_CFG_INT_DIS_MEAS_OVRHD_NBR                    1u</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">if</span> 1</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  CPU_CFG_LEAD_ZEROS_ASM_PRESENT</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">if</span> 0</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  CPU_CFG_TRAIL_ZEROS_ASM_PRESENT</span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  CPU_CFG_CACHE_MGMT_EN            DEF_DISABLED</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+<h3 id="3-4-lib-cfg-h-—-库配置">3.4 lib_cfg.h — 库配置</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span>  LIB_CFG_MODULE_PRESENT</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  LIB_CFG_MODULE_PRESENT</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  LIB_MEM_CFG_ARG_CHK_EXT_EN     DEF_DISABLED</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  LIB_MEM_CFG_OPTIMIZE_ASM_EN    DEF_ENABLED</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  LIB_MEM_CFG_DBG_INFO_EN        DEF_DISABLED</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  LIB_MEM_CFG_HEAP_SIZE            (3u * 1024u)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  LIB_MEM_CFG_HEAP_PADDING_ALIGN    LIB_MEM_PADDING_ALIGN_NONE</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  LIB_STR_CFG_FP_EN                      DEF_DISABLED</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  LIB_STR_CFG_FP_MAX_NBR_DIG_SIG         LIB_STR_FP_MAX_NBR_DIG_SIG_DFLT</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br></code></pre></td></tr></table></figure>
+<h2 id="四、修改-IAR-工程配置（XDM-60T4-E-ewp）">四、修改 IAR 工程配置（XDM-60T4-E.ewp）</h2>
+<h3 id="4-1-添加-Include-路径">4.1 添加 Include 路径</h3>
+<p>在 IAR 工程选项 <code>C/C++ Compiler → Additional include directories</code> 中，原有路径保持不变，追加以下 6 条：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">$PROJ_DIR$/../uCOS3/uCOS-III/Source<br>$PROJ_DIR$/../uCOS3/uCOS-III/Ports/ARM-Cortex-M4/Generic/IAR<br>$PROJ_DIR$/../uCOS3/uC-CPU<br>$PROJ_DIR$/../uCOS3/uC-CPU/ARM-Cortex-M4/IAR<br>$PROJ_DIR$/../uCOS3/uC-LIB<br>$PROJ_DIR$/../uCOS3/uC-LIB/Ports/ARM-Cortex-M4/IAR<br></code></pre></td></tr></table></figure>
+<p>其中 <code>$PROJ_DIR$</code> 是 IAR 的内置变量，指向 <code>.ewp</code> 文件所在目录（即 <code>EWARM/</code>），<code>$PROJ_DIR$/../</code> 即工程根目录。以上路径展开后分别对应：</p>
+<table>
+<thead>
+<tr>
+<th>IAR 路径</th>
+<th>实际文件系统路径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>$PROJ_DIR$/../uCOS3/uCOS-III/Source</code></td>
+<td><code>TrainCamp_wangjunjie_Modbus/uCOS3/uCOS-III/Source/</code></td>
+</tr>
+<tr>
+<td><code>$PROJ_DIR$/../uCOS3/uCOS-III/Ports/ARM-Cortex-M4/Generic/IAR</code></td>
+<td><code>TrainCamp_wangjunjie_Modbus/uCOS3/uCOS-III/Ports/ARM-Cortex-M4/Generic/IAR/</code></td>
+</tr>
+<tr>
+<td><code>$PROJ_DIR$/../uCOS3/uC-CPU</code></td>
+<td><code>TrainCamp_wangjunjie_Modbus/uCOS3/uC-CPU/</code></td>
+</tr>
+<tr>
+<td><code>$PROJ_DIR$/../uCOS3/uC-CPU/ARM-Cortex-M4/IAR</code></td>
+<td><code>TrainCamp_wangjunjie_Modbus/uCOS3/uC-CPU/ARM-Cortex-M4/IAR/</code></td>
+</tr>
+<tr>
+<td><code>$PROJ_DIR$/../uCOS3/uC-LIB</code></td>
+<td><code>TrainCamp_wangjunjie_Modbus/uCOS3/uC-LIB/</code></td>
+</tr>
+<tr>
+<td><code>$PROJ_DIR$/../uCOS3/uC-LIB/Ports/ARM-Cortex-M4/IAR</code></td>
+<td><code>TrainCamp_wangjunjie_Modbus/uCOS3/uC-LIB/Ports/ARM-Cortex-M4/IAR/</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-2-添加源文件到工程">4.2 添加源文件到工程</h3>
+<p>在 IAR 工程面板中创建以下分组，添加对应源文件。路径均相对于 <code>$PROJ_DIR$/../uCOS3/</code>：</p>
+<p><strong>UCOS-III → Source 组</strong>（文件位于 <code>uCOS3/uCOS-III/Source/</code>）：</p>
+<ul>
+<li><code>os_core.c</code>, <code>os_flag.c</code>, <code>os_int.c</code>, <code>os_mem.c</code>, <code>os_msg.c</code></li>
+<li><code>os_mutex.c</code>, <code>os_pend_multi.c</code>, <code>os_prio.c</code>, <code>os_q.c</code>, <code>os_sem.c</code></li>
+<li><code>os_stat.c</code>, <code>os_task.c</code>, <code>os_tick.c</code>, <code>os_time.c</code>, <code>os_tmr.c</code></li>
+<li><code>os_var.c</code>, <code>os_dbg.c</code>, <code>os_cfg_app.c</code></li>
+</ul>
+<p><strong>UCOS-III → Ports 组</strong>（文件位于 <code>uCOS3/uCOS-III/Ports/ARM-Cortex-M4/Generic/IAR/</code>）：</p>
+<ul>
+<li><code>os_cpu_a.asm</code></li>
+<li><code>os_cpu_c.c</code></li>
+</ul>
+<p><strong>uC-CPU 组</strong>：</p>
+<ul>
+<li><code>uCOS3/uC-CPU/cpu_core.c</code></li>
+<li><code>uCOS3/uC-CPU/ARM-Cortex-M4/IAR/cpu_a.asm</code></li>
+<li><code>uCOS3/uC-CPU/ARM-Cortex-M4/IAR/cpu_c.c</code></li>
+</ul>
+<p><strong>uC-LIB 组</strong>：</p>
+<ul>
+<li><code>uCOS3/uC-LIB/lib_ascii.c</code>, <code>lib_math.c</code>, <code>lib_mem.c</code>, <code>lib_str.c</code></li>
+<li><code>uCOS3/uC-LIB/Ports/ARM-Cortex-M4/IAR/lib_mem_a.asm</code></li>
+</ul>
+<h2 id="五、修改启动文件（EWARM-startup-stm32f407xx-s）">五、修改启动文件（EWARM/startup_stm32f407xx.s）</h2>
+<p>这是移植中最关键的一步，需要修改两处。</p>
+<h3 id="5-1-在-Reset-Handler-中使能-FPU">5.1 在 Reset_Handler 中使能 FPU</h3>
+<p>Cortex-M4 复位后 FPU 默认禁用。如果 IAR 工程开启了 FPU（<code>General Options → FPU → FPUv4-SP</code>），必须在 <code>Reset_Handler</code> 中、调用 <code>SystemInit</code> 之前使能 CP10/CP11 协处理器：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs asm">Reset_Handler<br><br>        ;; 使能 FPU（CP10 和 CP11 协处理器）<br>        LDR     R0, =0xE000ED88         ; CPACR 寄存器地址<br>        LDR     R1, [R0]                ; 读取 CPACR<br>        ORR     R1, R1, #(0xF &lt;&lt; 20)   ; 设置 bits 20-23<br>        STR     R1, [R0]                ; 写回<br>        DSB<br>        ;; 禁用 FPU 上下文自动保存（UCOS3 自己管理）<br>        LDR     R0, =0xE000EF34         ; FPCCR 寄存器地址<br>        LDR     R1, [R0]<br>        BIC     R1, R1, #0xC0000000    ; 清除 ASPEN 和 LSPEN<br>        STR     R1, [R0]<br>        ISB<br><br>        LDR     R0, =SystemInit<br>        BLX     R0<br>        LDR     R0, =__iar_program_start<br>        BX      R0<br></code></pre></td></tr></table></figure>
+<p><strong>为什么必须这样做？</strong></p>
+<ul>
+<li><strong>CPACR (0xE000ED88)</strong>：不使能 CP10/CP11 的话，UCOS3 上下文切换中的 FPU 指令（<code>VMRS</code>/<code>VSTMDB</code>）会触发 UsageFault → HardFault</li>
+<li><strong>FPCCR (0xE000EF34)</strong>：UCOS3 在 <code>OSTaskSwHook</code> 中手动管理 FPU 寄存器（S0-S31）的保存/恢复，必须禁用硬件自动保存</li>
+</ul>
+<h3 id="5-2-重定向-PendSV-Handler">5.2 重定向 PendSV_Handler</h3>
+<p>UCOS3 的上下文切换通过 PendSV 异常实现。需要将 startup 文件中的默认 <code>PendSV_Handler</code> 替换为跳转到 UCOS3 的 <code>OS_CPU_PendSVHandler</code>：</p>
+<p>找到原文件中的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs asm">        PUBWEAK PendSV_Handler<br>        SECTION .text:CODE:REORDER:NOROOT(1)<br>PendSV_Handler<br>        B PendSV_Handler<br></code></pre></td></tr></table></figure>
+<p>替换为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs asm">        EXTERN  OS_CPU_PendSVHandler<br>        PUBWEAK PendSV_Handler<br>        SECTION .text:CODE:REORDER:NOROOT(2)<br>PendSV_Handler<br>        LDR     R0, =OS_CPU_PendSVHandler<br>        BX      R0<br></code></pre></td></tr></table></figure>
+<p><strong>注意点：</strong></p>
+<ul>
+<li><code>NOROOT(2)</code> 而非 <code>NOROOT(1)</code>：<code>LDR R0, =label</code> 生成的字面量池需要 4 字节对齐，<code>NOROOT(1)</code> 只保证 2 字节对齐，会产生 Warning[440]</li>
+<li><strong>不能</strong>用 C 函数包装 <code>PendSV_Handler</code> 来调用 <code>OS_CPU_PendSVHandler</code>：PendSV 处理函数修改栈指针后通过异常返回退出，C 函数的返回流程会破坏这个机制</li>
+</ul>
+<h2 id="六、修改中断处理文件（Core-Src-stm32f4xx-it-c）">六、修改中断处理文件（Core/Src/stm32f4xx_it.c）</h2>
+<h3 id="6-1-添加-UCOS3-头文件">6.1 添加 UCOS3 头文件</h3>
+<p>在文件顶部的 USER CODE Includes 区域加入：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* USER CODE BEGIN Includes */</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;os.h&quot;</span></span><br><span class="hljs-comment">/* USER CODE END Includes */</span><br></code></pre></td></tr></table></figure>
+<h3 id="6-2-实现-SysTick-Handler">6.2 实现 SysTick_Handler</h3>
+<p>HAL 和 UCOS3 共享 SysTick 定时器。<code>SysTick_Handler</code> 需要同时服务两者。该函数定义在 <code>stm32f4xx_it.c</code> 的 USER CODE 区域，会覆盖 startup 文件中的 weak 默认实现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">SysTick_Handler</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    HAL_IncTick();              <span class="hljs-comment">// HAL 超时计数（HAL_Delay 等依赖此函数）</span><br>    OS_CPU_SysTickHandler();    <span class="hljs-comment">// UCOS3 tick（任务延时、时间片轮转等）</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="七、实现-CPU-TS-TmrRd（Core-Src-main-c）">七、实现 CPU_TS_TmrRd（Core/Src/main.c）</h2>
+<p>UCOS3 的时间戳功能（用于测量调度锁时间等）需要 <code>CPU_TS_TmrRd()</code> 函数。使用 Cortex-M4 内置的 DWT 周期计数器实现。</p>
+<p>在 <code>main.c</code> 的 USER CODE 0 区域添加函数定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* USER CODE BEGIN 0 */</span><br>CPU_TS_TMR  <span class="hljs-title function_">CPU_TS_TmrRd</span> <span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> ((CPU_TS_TMR)DWT-&gt;CYCCNT);<br>&#125;<br><span class="hljs-comment">/* USER CODE END 0 */</span><br></code></pre></td></tr></table></figure>
+<p>在 <code>main()</code> 的 USER CODE Init 区域初始化 DWT：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">/* USER CODE BEGIN Init */</span><br>CoreDebug-&gt;DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;   <span class="hljs-comment">// 使能 DWT 跟踪</span><br>DWT-&gt;CYCCNT = <span class="hljs-number">0</span>;                                    <span class="hljs-comment">// 清零周期计数器</span><br>DWT-&gt;CTRL |= DWT_CTRL_CYCCNTENA_Msk;               <span class="hljs-comment">// 启动计数</span><br><span class="hljs-comment">/* USER CODE END Init */</span><br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>DWT 是 ARM Cortex-M 核心调试组件，STM32CubeMX 没有对应的配置入口，只能手动初始化。这是标准做法，Micrium 官方 BSP 也是如此。</p>
+</blockquote>
+<h2 id="八、编写-main-c-框架">八、编写 main.c 框架</h2>
+<h3 id="8-1-完整的关键代码">8.1 完整的关键代码</h3>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;main.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;os.h&quot;</span></span><br><br><span class="hljs-comment">/* 任务栈和 TCB */</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  APP_TASK_START_STK_SIZE    256u</span><br><span class="hljs-type">static</span>  OS_TCB   AppTaskStartTCB;<br><span class="hljs-type">static</span>  CPU_STK  AppTaskStartStk[APP_TASK_START_STK_SIZE];<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span>  APP_TASK_GPIO_STK_SIZE    256u</span><br><span class="hljs-type">static</span>  OS_TCB   AppTaskGPIOTCB;<br><span class="hljs-type">static</span>  CPU_STK  AppTaskGPIOStk[APP_TASK_GPIO_STK_SIZE];<br><br><span class="hljs-comment">/* 函数声明 */</span><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">AppTaskStart</span><span class="hljs-params">(<span class="hljs-type">void</span> *p_arg)</span>;<br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">AppTaskGPIO</span><span class="hljs-params">(<span class="hljs-type">void</span> *p_arg)</span>;<br><br><span class="hljs-comment">/* DWT 时间戳读取 */</span><br>CPU_TS_TMR <span class="hljs-title function_">CPU_TS_TmrRd</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    <span class="hljs-keyword">return</span> ((CPU_TS_TMR)DWT-&gt;CYCCNT);<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>    OS_ERR err;<br><br>    HAL_Init();<br><br>    <span class="hljs-comment">/* DWT 初始化 */</span><br>    CoreDebug-&gt;DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;<br>    DWT-&gt;CYCCNT = <span class="hljs-number">0</span>;<br>    DWT-&gt;CTRL |= DWT_CTRL_CYCCNTENA_Msk;<br><br>    SystemClock_Config();<br>    MX_GPIO_Init();<br>    MX_USART1_UART_Init();<br><br>    <span class="hljs-comment">/* UCOS3 初始化 */</span><br>    OSInit(&amp;err);<br><br>    <span class="hljs-comment">/* 创建启动任务 */</span><br>    OSTaskCreate((OS_TCB     *)&amp;AppTaskStartTCB,<br>                 (CPU_CHAR   *)<span class="hljs-string">&quot;App Task Start&quot;</span>,<br>                 (OS_TASK_PTR ) AppTaskStart,<br>                 (<span class="hljs-type">void</span>       *) <span class="hljs-number">0</span>,<br>                 (OS_PRIO     ) <span class="hljs-number">3</span>,<br>                 (CPU_STK    *)&amp;AppTaskStartStk[<span class="hljs-number">0</span>],<br>                 (CPU_STK_SIZE) APP_TASK_START_STK_SIZE / <span class="hljs-number">10</span>,<br>                 (CPU_STK_SIZE) APP_TASK_START_STK_SIZE,<br>                 (OS_MSG_QTY  ) <span class="hljs-number">0</span>,<br>                 (OS_TICK     ) <span class="hljs-number">0</span>,<br>                 (<span class="hljs-type">void</span>       *) <span class="hljs-number">0</span>,<br>                 (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),<br>                 (OS_ERR     *)&amp;err);<br><br>    <span class="hljs-comment">/* 启动多任务调度 */</span><br>    OSStart(&amp;err);<br><br>    <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;&#125;  <span class="hljs-comment">// 不应到达此处</span><br>&#125;<br><br><span class="hljs-comment">/* 启动任务：创建其他任务后自删除 */</span><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">AppTaskStart</span><span class="hljs-params">(<span class="hljs-type">void</span> *p_arg)</span><br>&#123;<br>    OS_ERR err;<br>    (<span class="hljs-type">void</span>)p_arg;<br><br>    OSTaskCreate((OS_TCB     *)&amp;AppTaskGPIOTCB,<br>                 (CPU_CHAR   *)<span class="hljs-string">&quot;App Task GPIO&quot;</span>,<br>                 (OS_TASK_PTR ) AppTaskGPIO,<br>                 (<span class="hljs-type">void</span>       *) <span class="hljs-number">0</span>,<br>                 (OS_PRIO     ) <span class="hljs-number">4</span>,<br>                 (CPU_STK    *)&amp;AppTaskGPIOStk[<span class="hljs-number">0</span>],<br>                 (CPU_STK_SIZE) APP_TASK_GPIO_STK_SIZE / <span class="hljs-number">10</span>,<br>                 (CPU_STK_SIZE) APP_TASK_GPIO_STK_SIZE,<br>                 (OS_MSG_QTY  ) <span class="hljs-number">0</span>,<br>                 (OS_TICK     ) <span class="hljs-number">0</span>,<br>                 (<span class="hljs-type">void</span>       *) <span class="hljs-number">0</span>,<br>                 (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),<br>                 (OS_ERR     *)&amp;err);<br><br>    OSTaskDel((OS_TCB *)<span class="hljs-number">0</span>, &amp;err);<br>&#125;<br><br><span class="hljs-comment">/* GPIO 切换任务 */</span><br><span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">AppTaskGPIO</span><span class="hljs-params">(<span class="hljs-type">void</span> *p_arg)</span><br>&#123;<br>    OS_ERR err;<br>    (<span class="hljs-type">void</span>)p_arg;<br><br>    <span class="hljs-keyword">while</span> (DEF_TRUE) &#123;<br>        HAL_GPIO_WritePin(Y0_GPIO_Port, Y0_Pin, GPIO_PIN_RESET);<br>        HAL_GPIO_WritePin(Y2_GPIO_Port, Y2_Pin, GPIO_PIN_SET);<br>        OSTimeDlyHMSM(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">500</span>, OS_OPT_TIME_HMSM_STRICT, &amp;err);<br><br>        HAL_GPIO_WritePin(Y0_GPIO_Port, Y0_Pin, GPIO_PIN_SET);<br>        HAL_GPIO_WritePin(Y2_GPIO_Port, Y2_Pin, GPIO_PIN_RESET);<br>        OSTimeDlyHMSM(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">500</span>, OS_OPT_TIME_HMSM_STRICT, &amp;err);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="8-2-关于-disable-irq">8.2 关于 <code>__disable_irq()</code></h3>
+<p><code>HAL_Init()</code> 内部会调用 <code>HAL_InitTick()</code> 配置 SysTick 并使能其中断。理论上如果 SysTick 中断在 <code>OSInit()</code> 之前触发，<code>OS_CPU_SysTickHandler()</code> 会访问未初始化的 UCOS3 变量导致 HardFault。</p>
+<p>实际测试中，从 <code>HAL_Init()</code> 到 <code>OSInit()</code> 之间的执行时间极短（微秒级），SysTick 的首次中断（1ms 后）几乎不可能在这个窗口触发，因此不加 <code>__disable_irq()</code> 通常也能正常运行。</p>
+<p>作为防御性编程，可以在 <code>main()</code> 最开头加 <code>__disable_irq()</code>，<code>OSStart()</code> → <code>OSStartHighRdy()</code> 会在启动第一个任务时执行 <code>CPSIE I</code> 开中断。这不是必须的，但推荐加上。</p>
+<h2 id="九、踩坑总结">九、踩坑总结</h2>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>现象</th>
+<th>原因</th>
+<th>解决</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FPU 未使能</td>
+<td>PendSV 上下文切换时 HardFault</td>
+<td>IAR 开启了 FPU 但 startup 文件没有使能 CPACR</td>
+<td><code>Reset_Handler</code> 中写 CPACR 使能 CP10/CP11</td>
+</tr>
+<tr>
+<td>PendSV_Handler 链接错误</td>
+<td>上下文切换异常</td>
+<td>C 包装函数破坏异常返回流程</td>
+<td>用汇编重定向，<code>NOROOT(2)</code> 对齐</td>
+</tr>
+<tr>
+<td>CPU_TS_TmrRd 未定义</td>
+<td>链接报错 <code>Error[Li005]</code></td>
+<td>时间戳功能需要该函数</td>
+<td>用 DWT CYCCNT 实现</td>
+</tr>
+<tr>
+<td>字面量池对齐警告</td>
+<td><code>Warning[440]</code> / <code>Warning[22]</code></td>
+<td><code>LDR =label</code> 需要 4 字节对齐</td>
+<td><code>NOROOT(1)</code> 改为 <code>NOROOT(2)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://doc.micrium.com">Micrium uC/OS-III 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Micrium">Micrium GitHub</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.arm.com/documentation/ddi0439/latest">ARM Cortex-M4 Technical Reference Manual</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.st.com/resource/en/reference_manual/rm0090-stm32f405415-stm32f407417-stm32f427437-and-stm32f429439-advanced-armbased-32bit-mcus-stmicroelectronics.pdf">STM32F407 参考手册 (RM0090)</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://www.drluo.top">洛屿</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.drluo.top/posts/43963">https://www.drluo.top/posts/43963</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.drluo.top" target="_blank">洛屿的小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/STM32/">STM32</a><a class="post-meta__tags" href="/tags/UCOS3/">UCOS3</a><a class="post-meta__tags" href="/tags/IAR/">IAR</a><a class="post-meta__tags" href="/tags/RTOS/">RTOS</a><a class="post-meta__tags" href="/tags/%E7%A7%BB%E6%A4%8D/">移植</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/luoy.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/41548" title="STM32 UCOS3+HAL库集成中的FPU HardFault问题"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/luoy.jpg" onerror="onerror=null;src='/img/err_img404.webp'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">STM32 UCOS3+HAL库集成中的FPU HardFault问题</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/41548" title="STM32 UCOS3+HAL库集成中的FPU HardFault问题"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/luoy.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-23 16时00分00秒</div><div class="title">STM32 UCOS3+HAL库集成中的FPU HardFault问题</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/err_img404.gif'" alt="avatar"/></div><div class="author-info__name">洛屿</div><div class="author-info__description">洛屿的小站 - 一个分享编程技术、博客部署教程和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">84</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">69</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/luoy-oss"><i class="fab fa-github"></i><span>送上星星</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/luoy-oss" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2557657882@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E8%AF%B4%E6%98%8E"><span class="toc-number">1.</span> <span class="toc-text">环境说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">2.</span> <span class="toc-text">一、工程目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%BA%90%E7%A0%81%E8%8E%B7%E5%8F%96"><span class="toc-number">3.</span> <span class="toc-text">二、源码获取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">三、创建配置头文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-os-cfg-h-%E2%80%94-%E5%86%85%E6%A0%B8%E5%8A%9F%E8%83%BD%E5%BC%80%E5%85%B3"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 os_cfg.h — 内核功能开关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-os-cfg-app-h-%E2%80%94-%E5%BA%94%E7%94%A8%E5%B1%82%E9%85%8D%E7%BD%AE"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 os_cfg_app.h — 应用层配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-cpu-cfg-h-%E2%80%94-CPU-%E5%B1%82%E9%85%8D%E7%BD%AE"><span class="toc-number">4.3.</span> <span class="toc-text">3.3 cpu_cfg.h — CPU 层配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-lib-cfg-h-%E2%80%94-%E5%BA%93%E9%85%8D%E7%BD%AE"><span class="toc-number">4.4.</span> <span class="toc-text">3.4 lib_cfg.h — 库配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%BF%AE%E6%94%B9-IAR-%E5%B7%A5%E7%A8%8B%E9%85%8D%E7%BD%AE%EF%BC%88XDM-60T4-E-ewp%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">四、修改 IAR 工程配置（XDM-60T4-E.ewp）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E6%B7%BB%E5%8A%A0-Include-%E8%B7%AF%E5%BE%84"><span class="toc-number">5.1.</span> <span class="toc-text">4.1 添加 Include 路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%B7%BB%E5%8A%A0%E6%BA%90%E6%96%87%E4%BB%B6%E5%88%B0%E5%B7%A5%E7%A8%8B"><span class="toc-number">5.2.</span> <span class="toc-text">4.2 添加源文件到工程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E4%BF%AE%E6%94%B9%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%EF%BC%88EWARM-startup-stm32f407xx-s%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">五、修改启动文件（EWARM&#x2F;startup_stm32f407xx.s）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E5%9C%A8-Reset-Handler-%E4%B8%AD%E4%BD%BF%E8%83%BD-FPU"><span class="toc-number">6.1.</span> <span class="toc-text">5.1 在 Reset_Handler 中使能 FPU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E9%87%8D%E5%AE%9A%E5%90%91-PendSV-Handler"><span class="toc-number">6.2.</span> <span class="toc-text">5.2 重定向 PendSV_Handler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E4%BF%AE%E6%94%B9%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6%EF%BC%88Core-Src-stm32f4xx-it-c%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">六、修改中断处理文件（Core&#x2F;Src&#x2F;stm32f4xx_it.c）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E6%B7%BB%E5%8A%A0-UCOS3-%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">7.1.</span> <span class="toc-text">6.1 添加 UCOS3 头文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E5%AE%9E%E7%8E%B0-SysTick-Handler"><span class="toc-number">7.2.</span> <span class="toc-text">6.2 实现 SysTick_Handler</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%AE%9E%E7%8E%B0-CPU-TS-TmrRd%EF%BC%88Core-Src-main-c%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">七、实现 CPU_TS_TmrRd（Core&#x2F;Src&#x2F;main.c）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E7%BC%96%E5%86%99-main-c-%E6%A1%86%E6%9E%B6"><span class="toc-number">9.</span> <span class="toc-text">八、编写 main.c 框架</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-%E5%AE%8C%E6%95%B4%E7%9A%84%E5%85%B3%E9%94%AE%E4%BB%A3%E7%A0%81"><span class="toc-number">9.1.</span> <span class="toc-text">8.1 完整的关键代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-%E5%85%B3%E4%BA%8E-disable-irq"><span class="toc-number">9.2.</span> <span class="toc-text">8.2 关于 __disable_irq()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E8%B8%A9%E5%9D%91%E6%80%BB%E7%BB%93"><span class="toc-number">10.</span> <span class="toc-text">九、踩坑总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">11.</span> <span class="toc-text">参考</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/img/cover/luoy.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2026 By 洛屿</div><div class="footer-site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">84</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">69</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">你好啊, 欢迎来到 <a href="https://www.drluo.top/">洛屿的小站</a>!</div><div class="footer-webinfo"><div class="footer-webinfo-items"><div class="footer-webinfo-item"><i class="fas fa-file-alt"></i><span class="label">文章数目</span><span class="value">84</span></div><div class="footer-webinfo-item"><i class="fas fa-clock"></i><span class="label">网站运行时间</span><span class="value" id="runtimeshow" data-publishDate="2021-04-03T10:23:22.000Z"><i class="fa-solid fa-spinner fa-spin"></i></span></div><div class="footer-webinfo-item"><i class="fas fa-font"></i><span class="label">本站总字数</span><span class="value">131.1k</span></div><div class="footer-webinfo-item"><i class="fas fa-upload"></i><span class="label">上次更新还是在</span><span class="value" id="last-push-date" data-lastPushDate="2026-07-24T02:05:23.537Z"><i class="fa-solid fa-spinner fa-spin"></i></span></div></div></div><div class="footer_add_wrap"><div class="footer_add_item"><a href="https://icp.gov.moe/?keyword=20252501" target="_blank">萌备20252501</a></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="要试着换一下颜色模式吗？"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="我会变胖变瘦哦！"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js" defer></script><script src="/js/main.js" defer></script><script src="/npm/@fancyapps/ui/dist/fancybox.umd.min.js" defer></script><script src="/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="/npm/vanilla-lazyload/dist/lazyload.iife.min.js" defer></script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo-api.drluo.top',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo-api.drluo.top',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="/js/self/translate-init.js" defer></script><script src="/js/self/img-alt.js" defer></script><script src="/js/swiper/swiper-bundle.min.js" defer></script><script id="click-show-text" src="/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="富强,民主,文明,和谐,自由,平等,公正,法制,爱国,敬业,诚信,友善" data-fontsize="10px" data-random="false" async="async"></script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="万能的全站搜索助手，参上。" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js" defer="defer"></script></div><!-- hexo injector body_end start -->
+  <script data-pjax>
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://github-calendar.drluo.top/api?user=luoy-oss";
+            var git_color =['#ebedf0', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f'];
+            var git_user ="luoy-oss";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log("已挂载hexo-github-calendar https://github.com/Barry-Flynn/hexo-github-calendar");
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        function GithubCalendarLoadScript(){
+            if(window.__githubCalendarScriptLoaded){
+                GithubCalendarConfig();
+                return;
+            }
+            window.__githubCalendarScriptLoaded = true;
+            var script = document.createElement('script');
+            script.src = "/js/hexo_githubcalendar.js";
+            script.setAttribute('data-pjax','');
+            script.onload = function(){ GithubCalendarConfig(); };
+            document.body.appendChild(script);
+        }
+        function GithubCalendarSchedule(){
+            if('requestIdleCallback' in window){
+                requestIdleCallback(function(){ GithubCalendarLoadScript(); }, { timeout: 2000 });
+            }else{
+                setTimeout(function(){ GithubCalendarLoadScript(); }, 2000);
+            }
+        }
+        function GithubCalendarInit(){
+            var target = document.getElementById('recent-posts');
+            if(!target){ return; }
+            if('IntersectionObserver' in window){
+                var observer = new IntersectionObserver(function(entries){
+                    for(var i = 0; i < entries.length; i++){
+                        if(entries[i].isIntersecting){
+                            observer.disconnect();
+                            GithubCalendarSchedule();
+                            break;
+                        }
+                    }
+                }, { rootMargin: '200px' });
+                observer.observe(target);
+            }else{
+                GithubCalendarSchedule();
+            }
+        }
+        GithubCalendarInit();
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/luo9.webp" alt="/img/cover/luo9.webp"/></div><div class="blog-slider__content"><span class="blog-slider__code">2025-02-09</span><a class="blog-slider__title" href="posts/luo9.html">洛玖开发日记</a><div class="blog-slider__text">洛玖很高兴为您服务！</div><a class="blog-slider__button" href="posts/luo9.html">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/luo9.webp" alt="/img/cover/luo9.webp"/></div><div class="blog-slider__content"><span class="blog-slider__code">2025-03-31</span><a class="blog-slider__title" href="posts/luo9_sdk.html">洛玖SDK说明</a><div class="blog-slider__text">多了解一下洛玖，好吗...</div><a class="blog-slider__button" href="posts/luo9_sdk.html">详情</a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="/js/swiper/swiper.min.js"></script>
+<script data-pjax src="/js/swiper/swiperindex.js"></script>
+<style></style><script defer src="/npm/jquery/dist/jquery.min.js"></script><script defer src="/npm/hexo-butterfly-tag-plugins-plus/lib/assets/issues.js"></script><script async src="/alicdn/font_4875323_122zkecuuq7o.js"></script><!-- hexo injector body_end end --></body></html>

@@ -6,7 +6,7 @@
   <link href="https://www.drluo.top/atom.xml" rel="self"/>
   
   <link href="https://www.drluo.top/"/>
-  <updated>2026-07-23T08:29:42.181Z</updated>
+  <updated>2026-07-24T02:05:09.772Z</updated>
   <id>https://www.drluo.top/</id>
   
   <author>
@@ -17,11 +17,54 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>STM32F407 IAR环境下uC/OS-III移植完整指南</title>
+    <link href="https://www.drluo.top/posts/43963"/>
+    <id>https://www.drluo.top/posts/43963</id>
+    <published>2026-07-23T10:00:00.000Z</published>
+    <updated>2026-07-24T02:05:09.772Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;hr&gt;
+&lt;h2 id=&quot;环境说明&quot;&gt;环境说明&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;项目&lt;/th&gt;
+&lt;th&gt;版本&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;MCU&lt;/td&gt;
+&lt;td&gt;STM32F407IGT6&lt;/td&gt;
+&lt;/</summary>
+      
+    
+    
+    
+    <category term="嵌入式" scheme="https://www.drluo.top/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    
+    <category term="STM32" scheme="https://www.drluo.top/tags/STM32/"/>
+    
+    <category term="UCOS3" scheme="https://www.drluo.top/tags/UCOS3/"/>
+    
+    <category term="IAR" scheme="https://www.drluo.top/tags/IAR/"/>
+    
+    <category term="RTOS" scheme="https://www.drluo.top/tags/RTOS/"/>
+    
+    <category term="移植" scheme="https://www.drluo.top/tags/%E7%A7%BB%E6%A4%8D/"/>
+    
+  </entry>
+  
+  <entry>
     <title>STM32 UCOS3+HAL库集成中的FPU HardFault问题</title>
     <link href="https://www.drluo.top/posts/41548"/>
     <id>https://www.drluo.top/posts/41548</id>
     <published>2026-07-23T08:00:00.000Z</published>
-    <updated>2026-07-23T08:29:42.181Z</updated>
+    <updated>2026-07-23T08:29:51.403Z</updated>
     
     
       
@@ -1296,31 +1339,6 @@ Real Time Simul</summary>
     <category term="回溯" scheme="https://www.drluo.top/tags/%E5%9B%9E%E6%BA%AF/"/>
     
     <category term="枚举" scheme="https://www.drluo.top/tags/%E6%9E%9A%E4%B8%BE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C语言学习相关</title>
-    <link href="https://www.drluo.top/posts/27662"/>
-    <id>https://www.drluo.top/posts/27662</id>
-    <published>2023-03-12T04:39:23.000Z</published>
-    <updated>2023-10-12T09:46:30.789Z</updated>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;函数递归&quot;&gt;函数递归&lt;/h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;函数递归，简单的理解就是，自己调用自己，直到遇到边界条件，停止递归&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;比如我们想实现一个阶乘函数&lt;/p&gt;
-&lt;figure class=&quot;highlight c+</summary>
-      
-    
-    
-    
-    <category term="C++" scheme="https://www.drluo.top/categories/C/"/>
-    
     
   </entry>
   
