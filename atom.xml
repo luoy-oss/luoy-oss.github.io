@@ -6,7 +6,7 @@
   <link href="https://www.drluo.top/atom.xml" rel="self"/>
   
   <link href="https://www.drluo.top/"/>
-  <updated>2026-07-24T02:05:23.249Z</updated>
+  <updated>2026-08-10T04:29:29.878Z</updated>
   <id>https://www.drluo.top/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>脉冲线性加减速曲线的DDA实现</title>
+    <link href="https://www.drluo.top/posts/plsr-profile-dda"/>
+    <id>https://www.drluo.top/posts/plsr-profile-dda</id>
+    <published>2026-08-10T04:29:00.000Z</published>
+    <updated>2026-08-10T04:29:29.878Z</updated>
+    
+    
+      
+      
+    <summary type="html">&lt;span id=&quot;more&quot;&gt;&lt;/span&gt;
+&lt;h2 id=&quot;从一个简单的问题说起&quot;&gt;从一个简单的问题说起&lt;/h2&gt;
+&lt;p&gt;假设我要让电机从1000Hz加速到2000Hz，分3步完成。频率总变化量是1000Hz，除以3步，得到每步变化333Hz。&lt;/p&gt;
+&lt;figure cla</summary>
+      
+    
+    
+    
+    
+    <category term="嵌入式" scheme="https://www.drluo.top/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
+    
+    <category term="运动控制" scheme="https://www.drluo.top/tags/%E8%BF%90%E5%8A%A8%E6%8E%A7%E5%88%B6/"/>
+    
+    <category term="DDA" scheme="https://www.drluo.top/tags/DDA/"/>
+    
+    <category term="脉冲控制" scheme="https://www.drluo.top/tags/%E8%84%89%E5%86%B2%E6%8E%A7%E5%88%B6/"/>
+    
+    <category term="加减速曲线" scheme="https://www.drluo.top/tags/%E5%8A%A0%E5%87%8F%E9%80%9F%E6%9B%B2%E7%BA%BF/"/>
+    
+  </entry>
   
   <entry>
     <title>STM32F407 IAR环境下uC/OS-III移植完整指南</title>
@@ -1312,33 +1343,6 @@ Real Time Simul</summary>
     
     <category term="STM32" scheme="https://www.drluo.top/categories/STM32/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>【LeetCode 1617】统计子树中城市之间最大距离</title>
-    <link href="https://www.drluo.top/posts/5491"/>
-    <id>https://www.drluo.top/posts/5491</id>
-    <published>2023-03-12T09:08:27.000Z</published>
-    <updated>2023-10-09T12:06:33.901Z</updated>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;题目描述&quot;&gt;题目描述&lt;/h2&gt;
-&lt;p&gt;给你 n 个城市，编号为从 1 到 n 。同时给你一个大小为 n-1 的数组 edges ，其中 edges[i] = [ui, vi] 表示城市 ui 和 vi 之间有一条双向边。题目保证任意城市之间只有唯一的一条路径。换句</summary>
-      
-    
-    
-    
-    <category term="C++" scheme="https://www.drluo.top/categories/C/"/>
-    
-    
-    <category term="树" scheme="https://www.drluo.top/tags/%E6%A0%91/"/>
-    
-    <category term="回溯" scheme="https://www.drluo.top/tags/%E5%9B%9E%E6%BA%AF/"/>
-    
-    <category term="枚举" scheme="https://www.drluo.top/tags/%E6%9E%9A%E4%B8%BE/"/>
     
   </entry>
   

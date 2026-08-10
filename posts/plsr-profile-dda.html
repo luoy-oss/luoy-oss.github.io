@@ -1,0 +1,383 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>脉冲线性加减速曲线的DDA实现 | 洛屿的小站</title><meta name="author" content="洛屿"><meta name="copyright" content="洛屿"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="从一个简单的问题说起 假设我要让电机从1000Hz加速到2000Hz，分3步完成。频率总变化量是1000Hz，除以3步，得到每步变化333Hz。 123脉冲1：1000 → 1333脉冲2：1333 → 1666脉冲3：1666 → 1999 最终频率停在了1999Hz，而不是目标2000Hz。差了1Hz。 这1Hz的误差，就是整数除法截断带来的。在嵌入式MCU上，我们不能用浮点数来计算频率——">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脉冲线性加减速曲线的DDA实现">
+<meta property="og:url" content="https://www.drluo.top/posts/plsr-profile-dda">
+<meta property="og:site_name" content="洛屿的小站">
+<meta property="og:description" content="从一个简单的问题说起 假设我要让电机从1000Hz加速到2000Hz，分3步完成。频率总变化量是1000Hz，除以3步，得到每步变化333Hz。 123脉冲1：1000 → 1333脉冲2：1333 → 1666脉冲3：1666 → 1999 最终频率停在了1999Hz，而不是目标2000Hz。差了1Hz。 这1Hz的误差，就是整数除法截断带来的。在嵌入式MCU上，我们不能用浮点数来计算频率——">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.drluo.top/img/cover/luoy.jpg">
+<meta property="article:published_time" content="2026-08-10T04:29:00.000Z">
+<meta property="article:modified_time" content="2026-08-10T04:29:29.878Z">
+<meta property="article:author" content="洛屿">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="运动控制">
+<meta property="article:tag" content="DDA">
+<meta property="article:tag" content="脉冲控制">
+<meta property="article:tag" content="加减速曲线">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.drluo.top/img/cover/luoy.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.drluo.top/posts/plsr-profile-dda"><link rel="preconnect" href="//hm.baidu.com"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?7f5ed61079146933544dc4627400aaf0";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  lineAnimation: {
+    mode: 'random',
+    duration: 2600,
+    random_duration: 2600,
+    position_mode: 'right_bottom',
+    offset_ratio: {"x":0,"y":0},
+    scale: 0.73
+  },
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"好像没有关于 “${query}” 的内容呢"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功！',
+    error: '复制错误❌',
+    noSupport: '浏览器好像不支持复制呢，换一个浏览器试试吧'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: '/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: '/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '脉冲线性加减速曲线的DDA实现',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-08-10 12时29分29秒 12:29:29'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><script src="/translate/translate.js" defer></script><meta name='description' content='洛屿的小站 - 一个分享编程技术和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。'><meta name="keywords" content="博客,技术博客,Hexo,Kotlin,Java,Python,CPP,Rust,前端开发,后端开发,博客部署,洛屿"><meta name="author" content="洛屿"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"洛屿的小站","url":"https://www.drluo.top","description":"一个分享编程技术和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。","author":{"@type":"Person","name":"洛屿"}}</script><meta name="baidu-site-verification" content="codeva-xcBMtLpeAm" /><meta name="360-site-verification" content="7b329f1879d4438fcf4d8d4ee4ac26c4" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><link rel="stylesheet" href="/css/self/heimu.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/self/user.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/self/androidstudio.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/css/swiper/swiper-bundle.min.css" media="print" onload="this.media='all'"><link rel="alternate" href="/atom.xml" title="洛屿的小站" type="application/atom+xml"><link rel="preload" href="/css/index.css" as="style" fetchpriority="high"><link rel="preload" href="/js/main.js" as="script" fetchpriority="low"><link rel="preconnect" href="//cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="//res.zvo.cn" crossorigin><link rel="dns-prefetch" href="//cdn.jsdelivr.net"><link rel="dns-prefetch" href="//res.zvo.cn"><!-- hexo injector head_end start --><link rel="stylesheet" href="/css/swiper/swiper.min.css"><link rel="stylesheet" href="/css/swiper/swiperstyle.css"><link rel="stylesheet" href="/css/self/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="/npm/hexo-butterfly-tag-plugins-plus/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/npm/hexo-butterfly-tag-plugins-plus/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script defer src="/npm/hexo-butterfly-tag-plugins-plus/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><link rel="stylesheet" href="/css/self/pager-load-progress-bar.css" media="print" onload="this.media='all'"/><script src="/npm/pace-js/pace.min.js" defer="defer"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.webp" onerror="onerror=null;src='/img/err_img404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">85</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">74</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 状态监测</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/monitoring"><i class="fa-fw fas fa-link"></i><span> 友链监测</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://uptime-status.drluo.top/"><i class="fa-fw fas fa-link"></i><span> 主站及API</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-language"></i><span> 语言/Language</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="javascript:translate.changeLanguage('chinese_simplified');"><i class="fa-fw fas fa-language"></i><span> 简体中文</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('chinese_traditional');"><i class="fa-fw fas fa-language"></i><span> 繁體中文</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('english');"><i class="fa-fw fas fa-globe"></i><span> English</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('japanese');"><i class="fa-fw fas fa-globe"></i><span> 日本語</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('korean');"><i class="fa-fw fas fa-globe"></i><span> 한국어</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('french');"><i class="fa-fw fas fa-globe"></i><span> Français</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('german');"><i class="fa-fw fas fa-globe"></i><span> Deutsch</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/cover/luoy.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="洛屿的小站"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/drluoLogo.png"/></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 状态监测</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/monitoring"><i class="fa-fw fas fa-link"></i><span> 友链监测</span></a></li><li><a class="site-page child" target="_blank" rel="noopener" href="https://uptime-status.drluo.top/"><i class="fa-fw fas fa-link"></i><span> 主站及API</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div><div class="menus_item"><a class="site-page" href="/message/"><i class="fa-fw fas fa-comment"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-language"></i><span> 语言/Language</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="javascript:translate.changeLanguage('chinese_simplified');"><i class="fa-fw fas fa-language"></i><span> 简体中文</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('chinese_traditional');"><i class="fa-fw fas fa-language"></i><span> 繁體中文</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('english');"><i class="fa-fw fas fa-globe"></i><span> English</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('japanese');"><i class="fa-fw fas fa-globe"></i><span> 日本語</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('korean');"><i class="fa-fw fas fa-globe"></i><span> 한국어</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('french');"><i class="fa-fw fas fa-globe"></i><span> Français</span></a></li><li><a class="site-page child" href="javascript:translate.changeLanguage('german');"><i class="fa-fw fas fa-globe"></i><span> Deutsch</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">脉冲线性加减速曲线的DDA实现</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-10T04:29:00.000Z" title="发表于 2026-08-10 12时29分00秒 12:29:00">2026-08-10 12时29分00秒</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-10T04:29:29.878Z" title="更新于 2026-08-10 12时29分29秒 12:29:29">2026-08-10 12时29分29秒</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">预计阅读时长:</span><span>6分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><div class="post-copyright-link"><div class="post-copyright-link-divider"><div class="divider-line-fancy"></div></div><div class="post-copyright-link-content"><span>原文链接：</span><a href="https://www.drluo.top/posts/plsr-profile-dda" target="_blank">脉冲线性加减速曲线的DDA实现 | 洛屿的小站</a></div><div class="post-copyright-link-divider"><div class="divider-line-fancy"></div></div></div><article class="post-content" id="article-container"><span id="more"></span>
+<h2 id="从一个简单的问题说起">从一个简单的问题说起</h2>
+<p>假设我要让电机从1000Hz加速到2000Hz，分3步完成。频率总变化量是1000Hz，除以3步，得到每步变化333Hz。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">脉冲1：1000 → 1333<br>脉冲2：1333 → 1666<br>脉冲3：1666 → 1999<br></code></pre></td></tr></table></figure>
+<p>最终频率停在了1999Hz，而不是目标2000Hz。差了1Hz。</p>
+<p>这1Hz的误差，就是整数除法截断带来的。在嵌入式MCU上，我们不能用浮点数来计算频率——定时器要求频率是整数，浮点运算又慢，而且浮点截断误差会随着脉冲数累积。那怎么办？</p>
+<p>答案是：用DDA算法，把这1Hz的&quot;余数&quot;均匀地分散到每一步中去。</p>
+<h2 id="remainderStep：那个让人困惑的变量">remainderStep：那个让人困惑的变量</h2>
+<p>DDA算法的核心在于三个变量：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c">integerStep   = freqDiff / steps;    <span class="hljs-comment">// 每步固定的频率变化量</span><br>remainderStep = freqDiff % steps;    <span class="hljs-comment">// 无法整除的余数</span><br>remainderAcc  = <span class="hljs-number">0</span>;                   <span class="hljs-comment">// 余数累加器</span><br></code></pre></td></tr></table></figure>
+<p><code>integerStep</code>很好理解，就是每步&quot;必定&quot;增加的频率。但<code>remainderStep</code>呢？它到底是什么？为什么要存在？</p>
+<p>我花了很长时间才真正理解这个问题。最初我以为它只是一个简单的补丁——余数嘛，最后加一下就好了。但实际的实现远比这精妙：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c">remainderAcc += remainderStep;<br><span class="hljs-keyword">if</span> (remainderAcc &gt;= steps)<br>&#123;<br>    currentFreq++;<br>    remainderAcc -= steps;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>每一步都累加<code>remainderStep</code>，当累加器&quot;满&quot;了（超过<code>steps</code>），就额外补偿1Hz，然后累加器减去<code>steps</code>。</p>
+<p>这看起来很反直觉——<code>steps</code>是步数，<code>remainderStep</code>是频率余数，它们的单位不同，怎么能直接比较和相减？</p>
+<h2 id="相位累加器的视角">相位累加器的视角</h2>
+<p>后来我意识到，不能用&quot;频率&quot;的视角来看这段代码，而要用&quot;相位&quot;的视角。</p>
+<p>DDA本质上是一个相位累加器。想象一个时钟的表盘，表盘上有<code>steps</code>个刻度。每走一步，指针前进<code>remainderStep</code>个刻度。当指针转满一整圈（超过<code>steps</code>个刻度），就触发一次1Hz的频率补偿。</p>
+<p>用数学语言来说：</p>
+<ul>
+<li>每步的物理相位增量 = <code>remainderStep / steps</code>（一个无量纲的分数）</li>
+<li>累加器每步加的是这个分数的&quot;分子&quot; <code>remainderStep</code></li>
+<li>满溢阈值是这个分数的&quot;分母&quot; <code>steps</code></li>
+<li>每次溢出，意味着相位走满了&quot;1圈&quot;</li>
+</ul>
+<p>这样理解之后，<code>remainderAcc -= steps</code>就不再是&quot;减掉一个不同单位的量&quot;，而是标准的取模操作——把累加器拉回到 <code>[0, steps-1]</code> 的有效范围内。</p>
+<h2 id="一个具体的例子">一个具体的例子</h2>
+<p>假设 <code>freqDiff = 2000</code>，<code>steps = 3</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">integerStep   = 2000 / 3 = 666<br>remainderStep = 2000 % 3 = 2<br></code></pre></td></tr></table></figure>
+<p>执行过程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">脉冲1：基础+666，Acc=0→2，不溢出，频率=1666<br>脉冲2：基础+666，Acc=2→4，溢出，Acc=1，补偿+1，频率=2333<br>脉冲3：基础+666，Acc=1→3，溢出，Acc=0，补偿+1，频率=3000<br></code></pre></td></tr></table></figure>
+<p>总补偿次数 = 2次，恰好等于<code>remainderStep</code>。而且补偿点在时间轴上均匀分布——第2、3个脉冲各补偿一次，而不是集中在最后一个脉冲。</p>
+<p>这就是DDA的精妙之处：它用整数运算，实现了浮点级别的精确频率线性插值，而且保证误差不超过1Hz。</p>
+<h2 id="为什么每步加的是remainderStep而不是1？">为什么每步加的是remainderStep而不是1？</h2>
+<p>这是另一个让我困惑了很久的问题。如果每步只加1：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">脉冲1：Acc=1，不溢出<br>脉冲2：Acc=2，不溢出<br>脉冲3：Acc=3，溢出，补偿1次<br></code></pre></td></tr></table></figure>
+<p>总补偿只有1次，但需要补偿2次。频率偏差1Hz。</p>
+<p>原因在于：<code>remainderStep</code>表示的是&quot;在<code>steps</code>步内需要额外补偿的次数&quot;。如果每步只加1，走满一圈只能触发1次补偿；但我们需要触发<code>remainderStep</code>次补偿。所以每步必须加<code>remainderStep</code>，才能保证在<code>steps</code>步内恰好补偿<code>remainderStep</code>次。</p>
+<p>用分糖果的比喻：有3个小朋友（<code>steps=3</code>），要分2颗糖（<code>remainderStep=2</code>）。每个小朋友来的时候计数器+2，当计数器≥3时，这个小朋友多拿1颗糖，然后计数器-3。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">小朋友1：Acc=2，不拿<br>小朋友2：Acc=4，拿糖，Acc=1<br>小朋友3：Acc=3，拿糖，Acc=0<br></code></pre></td></tr></table></figure>
+<p>第2、3个小朋友各拿1颗，均匀分配。完美。</p>
+<h2 id="0Hz起步的特殊处理">0Hz起步的特殊处理</h2>
+<p>代码中有一个看似不起眼的细节：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">if</span> ((startFreq == <span class="hljs-number">0u</span>) &amp;&amp; (endFreq != <span class="hljs-number">0u</span>)<br>    &amp;&amp; (integerStep == <span class="hljs-number">0u</span>) &amp;&amp; (remainderStep != <span class="hljs-number">0u</span>))<br>&#123;<br>    remainderAcc = steps - remainderStep;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>当起始频率为0Hz时，如果<code>integerStep</code>为0（意味着频率变化量小于步数），第一个脉冲的频率仍然是0Hz——而0Hz意味着&quot;没有脉冲&quot;，电机不会动。这个初始化把累加器预设为一个&quot;快要溢出&quot;的值，让第一个脉冲立即推进到正频率，避免了死锁。</p>
+<p>这种边界处理，不看代码很难想到，看了代码才能理解设计者的用心。</p>
+<h2 id="步数收敛：从时间到脉冲的映射">步数收敛：从时间到脉冲的映射</h2>
+<p>DDA解决了&quot;如何均匀分配频率变化&quot;的问题，但还有一个前置问题：给定加减速时间，应该用多少步来完成？</p>
+<p><code>PlsrProfileGetTransitionSteps</code>函数用了一个迭代收敛的方法：</p>
+<ol>
+<li>用连续模型估算初始步数：<code>expectedPulses = (startFreq + endFreq) * rampTimeMs / 2000</code></li>
+<li>用DDA模拟计算这组步数下的实际耗时</li>
+<li>按时间比例修正步数：<code>adjustedSteps = steps * targetTime / actualTime</code></li>
+<li>重复2-3步，直到步数收敛（最多迭代4次）</li>
+</ol>
+<p>这个方法的巧妙之处在于：它不需要解析求解DDA的精确步数（那几乎不可能），而是用&quot;模拟+反馈&quot;的方式逐步逼近目标时间。4次迭代对于工程精度来说已经足够。</p>
+<h2 id="三角形曲线：当资源不够时">三角形曲线：当资源不够时</h2>
+<p>如果总脉冲数不足以完成完整的&quot;加速-匀速-减速&quot;梯形曲线，算法会自动降级为三角形曲线——没有匀速段，只有加速和减速。</p>
+<p><code>PlsrProfileFindTriangleFreq</code>用二分搜索找到三角形曲线的峰值频率：在可用脉冲数的约束下，找到一个最高的频率，使得加速段和减速段的总步数恰好等于可用步数。</p>
+<p>这里有一个细节：二分搜索的上下界不是随便选的。如果是加速场景（峰值频率高于起止频率），下界取起止频率中的较大者，上界取目标频率；如果是减速场景，反过来。这保证了搜索空间的合理性。</p>
+<h2 id="最后的状态机">最后的状态机</h2>
+<p>整个曲线发生器的状态机很简单：<code>ACCEL → CRUISE → DECEL → COMPLETE</code>。每个状态推进一步，更新当前频率，然后检查是否应该切换到下一个状态。</p>
+<p><code>PlsrProfileAdvance</code>函数是对外的接口，每次调用输出一个频率值。调用者只需要按这个频率设置定时器，就能产生平滑的加减速脉冲序列。</p>
+<h2 id="写在最后">写在最后</h2>
+<p>这段代码不长，但每一个函数、每一个变量都有它存在的理由。DDA算法用最朴素的整数运算，实现了精确的频率插值；迭代收敛方法用&quot;模拟+反馈&quot;绕过了不可能的解析求解；三角形曲线检测用二分搜索在约束空间里找到了最优解。</p>
+<p>最让我感慨的是，这些算法都不是什么新发明——DDA是上世纪60年代Bresenham画线算法的推广，迭代收敛是数值分析的基本套路，二分搜索更是教科书级的经典。但把它们组合在一起，解决一个具体的工程问题，就需要对每一个细节都有深入的理解。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://www.drluo.top">洛屿</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.drluo.top/posts/plsr-profile-dda">https://www.drluo.top/posts/plsr-profile-dda</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.drluo.top" target="_blank">洛屿的小站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式</a><a class="post-meta__tags" href="/tags/%E8%BF%90%E5%8A%A8%E6%8E%A7%E5%88%B6/">运动控制</a><a class="post-meta__tags" href="/tags/DDA/">DDA</a><a class="post-meta__tags" href="/tags/%E8%84%89%E5%86%B2%E6%8E%A7%E5%88%B6/">脉冲控制</a><a class="post-meta__tags" href="/tags/%E5%8A%A0%E5%87%8F%E9%80%9F%E6%9B%B2%E7%BA%BF/">加减速曲线</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/luoy.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/43963" title="STM32F407 IAR环境下uC/OS-III移植完整指南"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/luoy.jpg" onerror="onerror=null;src='/img/err_img404.webp'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">STM32F407 IAR环境下uC/OS-III移植完整指南</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/avatar.webp" onerror="this.onerror=null;this.src='/img/err_img404.gif'" alt="avatar"/></div><div class="author-info__name">洛屿</div><div class="author-info__description">洛屿的小站 - 一个分享编程技术、博客部署教程和个人随笔的技术博客。涵盖CPP、Python、Rust、Kotlin、Java、前后端开发等多种技术内容，同时提供Hexo博客搭建与优化的详细教程。</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">85</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">74</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/luoy-oss"><i class="fab fa-github"></i><span>送上星星</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/luoy-oss" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2557657882@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E9%97%AE%E9%A2%98%E8%AF%B4%E8%B5%B7"><span class="toc-number">1.</span> <span class="toc-text">从一个简单的问题说起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#remainderStep%EF%BC%9A%E9%82%A3%E4%B8%AA%E8%AE%A9%E4%BA%BA%E5%9B%B0%E6%83%91%E7%9A%84%E5%8F%98%E9%87%8F"><span class="toc-number">2.</span> <span class="toc-text">remainderStep：那个让人困惑的变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E4%BD%8D%E7%B4%AF%E5%8A%A0%E5%99%A8%E7%9A%84%E8%A7%86%E8%A7%92"><span class="toc-number">3.</span> <span class="toc-text">相位累加器的视角</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%85%B7%E4%BD%93%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="toc-number">4.</span> <span class="toc-text">一个具体的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AF%8F%E6%AD%A5%E5%8A%A0%E7%9A%84%E6%98%AFremainderStep%E8%80%8C%E4%B8%8D%E6%98%AF1%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">为什么每步加的是remainderStep而不是1？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0Hz%E8%B5%B7%E6%AD%A5%E7%9A%84%E7%89%B9%E6%AE%8A%E5%A4%84%E7%90%86"><span class="toc-number">6.</span> <span class="toc-text">0Hz起步的特殊处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E6%95%B0%E6%94%B6%E6%95%9B%EF%BC%9A%E4%BB%8E%E6%97%B6%E9%97%B4%E5%88%B0%E8%84%89%E5%86%B2%E7%9A%84%E6%98%A0%E5%B0%84"><span class="toc-number">7.</span> <span class="toc-text">步数收敛：从时间到脉冲的映射</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E8%A7%92%E5%BD%A2%E6%9B%B2%E7%BA%BF%EF%BC%9A%E5%BD%93%E8%B5%84%E6%BA%90%E4%B8%8D%E5%A4%9F%E6%97%B6"><span class="toc-number">8.</span> <span class="toc-text">三角形曲线：当资源不够时</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E7%9A%84%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="toc-number">9.</span> <span class="toc-text">最后的状态机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="toc-number">10.</span> <span class="toc-text">写在最后</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/img/cover/luoy.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2026 By 洛屿</div><div class="footer-site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">85</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">74</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">21</div></a></div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">你好啊, 欢迎来到 <a href="https://www.drluo.top/">洛屿的小站</a>!</div><div class="footer-webinfo"><div class="footer-webinfo-items"><div class="footer-webinfo-item"><i class="fas fa-file-alt"></i><span class="label">文章数目</span><span class="value">85</span></div><div class="footer-webinfo-item"><i class="fas fa-clock"></i><span class="label">网站运行时间</span><span class="value" id="runtimeshow" data-publishDate="2021-04-03T10:23:22.000Z"><i class="fa-solid fa-spinner fa-spin"></i></span></div><div class="footer-webinfo-item"><i class="fas fa-font"></i><span class="label">本站总字数</span><span class="value">133k</span></div><div class="footer-webinfo-item"><i class="fas fa-upload"></i><span class="label">上次更新还是在</span><span class="value" id="last-push-date" data-lastPushDate="2026-08-10T04:29:45.530Z"><i class="fa-solid fa-spinner fa-spin"></i></span></div></div></div><div class="footer_add_wrap"><div class="footer_add_item"><a href="https://icp.gov.moe/?keyword=20252501" target="_blank">萌备20252501</a></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="要试着换一下颜色模式吗？"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="我会变胖变瘦哦！"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js" defer></script><script src="/js/main.js" defer></script><script src="/npm/@fancyapps/ui/dist/fancybox.umd.min.js" defer></script><script src="/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="/npm/vanilla-lazyload/dist/lazyload.iife.min.js" defer></script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://twikoo-api.drluo.top',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://twikoo-api.drluo.top',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !false) {
+    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script src="/js/self/translate-init.js" defer></script><script src="/js/self/img-alt.js" defer></script><script src="/js/swiper/swiper-bundle.min.js" defer></script><script id="click-show-text" src="/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="富强,民主,文明,和谐,自由,平等,公正,法制,爱国,敬业,诚信,友善" data-fontsize="10px" data-random="false" async="async"></script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="万能的全站搜索助手，参上。" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js" defer="defer"></script></div><!-- hexo injector body_end start -->
+  <script data-pjax>
+        function GithubCalendarConfig(){
+            var git_githubapiurl ="https://github-calendar.drluo.top/api?user=luoy-oss";
+            var git_color =['#ebedf0', '#fdcdec', '#fc9bd9', '#fa6ac5', '#f838b2', '#f5089f', '#c4067e', '#92055e', '#540336', '#48022f', '#30021f'];
+            var git_user ="luoy-oss";
+            var parent_div_git = document.getElementById('recent-posts');
+            var git_div_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><div id="github_loading" style="width:10%;height:100%;margin:0 auto;display: block"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animateTransform></path></svg></div><div id="github_container"></div></div>';
+            if(parent_div_git && location.pathname =='/'){
+                console.log("已挂载hexo-github-calendar https://github.com/Barry-Flynn/hexo-github-calendar");
+                // parent_div_git.innerHTML=git_div_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",git_div_html) // 有报错，但不影响使用(支持pjax跳转)
+            };
+            GithubCalendar(git_githubapiurl,git_color,git_user)
+        }
+        function GithubCalendarLoadScript(){
+            if(window.__githubCalendarScriptLoaded){
+                GithubCalendarConfig();
+                return;
+            }
+            window.__githubCalendarScriptLoaded = true;
+            var script = document.createElement('script');
+            script.src = "/js/hexo_githubcalendar.js";
+            script.setAttribute('data-pjax','');
+            script.onload = function(){ GithubCalendarConfig(); };
+            document.body.appendChild(script);
+        }
+        function GithubCalendarSchedule(){
+            if('requestIdleCallback' in window){
+                requestIdleCallback(function(){ GithubCalendarLoadScript(); }, { timeout: 2000 });
+            }else{
+                setTimeout(function(){ GithubCalendarLoadScript(); }, 2000);
+            }
+        }
+        function GithubCalendarInit(){
+            var target = document.getElementById('recent-posts');
+            if(!target){ return; }
+            if('IntersectionObserver' in window){
+                var observer = new IntersectionObserver(function(entries){
+                    for(var i = 0; i < entries.length; i++){
+                        if(entries[i].isIntersecting){
+                            observer.disconnect();
+                            GithubCalendarSchedule();
+                            break;
+                        }
+                    }
+                }, { rootMargin: '200px' });
+                observer.observe(target);
+            }else{
+                GithubCalendarSchedule();
+            }
+        }
+        GithubCalendarInit();
+    </script>
+    <style>#github_container{min-height:280px}@media screen and (max-width:650px) {#github_container{background-image:;min-height:0px}}</style>
+    <style></style> <script data-pjax>if(document.getElementById('recent-posts') && location.pathname =='/'){
+    
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/luo9.webp" alt="/img/cover/luo9.webp"/></div><div class="blog-slider__content"><span class="blog-slider__code">2025-02-09</span><a class="blog-slider__title" href="posts/luo9.html">洛玖开发日记</a><div class="blog-slider__text">洛玖很高兴为您服务！</div><a class="blog-slider__button" href="posts/luo9.html">详情</a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms"><div class="blog-slider__img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/cover/luo9.webp" alt="/img/cover/luo9.webp"/></div><div class="blog-slider__content"><span class="blog-slider__code">2025-03-31</span><a class="blog-slider__title" href="posts/luo9_sdk.html">洛玖SDK说明</a><div class="blog-slider__text">多了解一下洛玖，好吗...</div><a class="blog-slider__button" href="posts/luo9_sdk.html">详情</a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载swiper')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script>
+<script data-pjax src="/js/swiper/swiper.min.js"></script>
+<script data-pjax src="/js/swiper/swiperindex.js"></script>
+<style></style><script defer src="/npm/jquery/dist/jquery.min.js"></script><script defer src="/npm/hexo-butterfly-tag-plugins-plus/lib/assets/issues.js"></script><script async src="/alicdn/font_4875323_122zkecuuq7o.js"></script><!-- hexo injector body_end end --></body></html>
